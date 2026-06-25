@@ -1,0 +1,301 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$brand-second-base;
+  padding: 120px 0 t.$margin-vertical-small;
+
+  @include t.tablet {
+    padding: 100px 0 t.$margin-vertical-small;
+  }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+  }
+}
+
+// ── Header row ───────────────────────────────────────────────
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: t.$gap-normal;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: t.$gap-normal;
+  }
+}
+
+.sectionTitle {
+  @include t.text-h2;
+  color: t.$black-solid;
+  white-space: nowrap;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── Tabs ─────────────────────────────────────────────────────
+.tabsBar {
+  background: t.$white-solid;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  justify-self: center; // do not stretch to fill 1fr
+
+  @include t.tablet {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  @include t.mobile {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.tab {
+  height: 40px;
+  padding: 8px t.$gap-normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include t.text-body-m;
+  color: t.$black-solid;
+  cursor: pointer;
+  white-space: nowrap;
+  background: transparent;
+  transition: background 0.2s;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    flex: 1;
+  }
+
+  @include t.mobile {
+    flex: 0 0 auto;
+  }
+
+  &.active {
+    background: t.$brand-second-base;
+    backdrop-filter: blur(15px);
+  }
+}
+
+// ── Nav arrows (desktop only) ────────────────────────────────
+.navButtons {
+  display: flex;
+  gap: t.$gap-xs;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.navBtn {
+  width: 48px;
+  height: 48px;
+  background: t.$white-solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  color: t.$black-solid;
+  transition: background 0.2s;
+
+  &:hover {
+    background: darken(t.$white-solid, 6%);
+  }
+}
+
+// ── Swiper overrides ─────────────────────────────────────────
+.swiper {
+  width: 100%;
+  overflow: visible;
+
+  // Show pagination dots on tablet/mobile
+  :global(.swiper-pagination) {
+    position: static;
+    margin-top: t.$gap-normal;
+    display: flex;
+    justify-content: center;
+    gap: t.$gap-xs;
+
+    @media (min-width: 1200px) {
+      display: none;
+    }
+  }
+
+  :global(.swiper-pagination-bullet) {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(31, 31, 31, 0.2);
+    opacity: 1;
+    margin: 0;
+  }
+
+  :global(.swiper-pagination-bullet-active) {
+    background: t.$brand-main-base;
+  }
+}
+
+.slide {
+  height: auto;
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  background: t.$white-solid;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+  height: 100%;
+
+  @include t.mobile {
+    padding: t.$gap-small;
+    gap: t.$gap-small;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: flex-start;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 8px;
+
+  @include t.mobile {
+    margin-top: 4px;
+  }
+}
+
+.cardInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  @include t.text-body-xl;
+  color: t.$black-solid;
+
+  @include t.mobile {
+    font-size: 18px;
+    letter-spacing: -0.36px;
+  }
+}
+
+.cardType {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  padding: 6px 4px 6px 12px;
+  background: t.$brand-main-strong;
+  flex-shrink: 0;
+  gap: 2px;
+
+  span {
+    @include t.text-body-m;
+    color: t.$white-solid;
+    white-space: nowrap;
+  }
+
+  svg {
+    color: t.$white-solid;
+    flex-shrink: 0;
+  }
+}
+
+// ── Floor plan image ─────────────────────────────────────────
+.floorPlan {
+  height: 320px;
+  padding: t.$gap-small;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @include t.mobile {
+    height: 240px;
+  }
+}
+
+// ── Stats ────────────────────────────────────────────────────
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  overflow: hidden;
+
+  @include t.mobile {
+    gap: t.$gap-normal;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.statLabel {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+.statValue {
+  @include t.text-body-m;
+  color: t.$black-solid;
+}
+
+// ── Check button ─────────────────────────────────────────────
+.checkBtn {
+  width: 100%;
+  height: t.$control-height-large;
+  background: t.$brand-second-base;
+  @include t.text-body-m;
+  color: t.$black-solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: auto;
+
+  &:hover {
+    background: darken(t.$brand-second-base, 6%);
+  }
+}

@@ -1,0 +1,276 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$brand-second-base;
+  padding: t.$margin-vertical-small 0;
+
+  @include t.tablet {
+    padding: t.$gap-large 0;
+  }
+}
+
+// ── Two-column row ──────────────────────────────────────────
+.row {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: stretch;
+
+  @include t.tablet {
+    flex-direction: column;
+  }
+}
+
+// ── Left column ─────────────────────────────────────────────
+.leftCol {
+  width: 540px;
+  flex-shrink: 0;
+  background: t.$white-solid;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 60px;
+
+  @include t.tablet {
+    order: 1;
+    width: 100%;
+    gap: 100px;
+  }
+
+  @include t.mobile {
+    gap: 80px;
+    padding: t.$gap-small;
+  }
+}
+
+.overviewBlock {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.title {
+  @include t.text-h3;
+  color: t.$black-solid;
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+// ── Details ─────────────────────────────────────────────────
+.detailsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid t.$black-fade-2;
+
+  &:first-child {
+    border-top: 1px solid t.$black-fade-2;
+  }
+
+  @include t.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+.detailLabel {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  white-space: nowrap;
+}
+
+.detailValue {
+  @include t.text-body-m;
+  color: t.$black-solid;
+  text-align: right;
+
+  @include t.mobile {
+    text-align: left;
+  }
+}
+
+.detailLink {
+  @include t.text-body-m;
+  color: t.$brand-main-base;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  @include t.mobile {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.detailValueInfo {
+  @include t.text-body-m;
+  color: t.$black-solid;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  svg {
+    color: t.$black-fade-4;
+    flex-shrink: 0;
+  }
+
+  @include t.mobile {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.downloadBtn {
+  width: 100%;
+  height: t.$control-height-large;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: darken(t.$brand-main-base, 8%);
+  }
+}
+
+// ── Right column ─────────────────────────────────────────────
+.rightCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+
+  @include t.tablet {
+    order: 0;
+  }
+}
+
+// ── Main image ───────────────────────────────────────────────
+.mainImageWrap {
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+
+  @include t.tablet {
+    flex: none;
+    height: 365px;
+    min-height: unset;
+  }
+  @include t.mobile {
+    height: 300px;
+  }
+}
+
+.coverImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: t.$gap-xs;
+  height: t.$control-height-large;
+  padding: 12px t.$gap-small;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(48px);
+  color: t.$black-solid;
+  @include t.text-body-m;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: t.$white-solid;
+  }
+}
+
+// ── Additional images row ────────────────────────────────────
+.additionalRow {
+  height: 50%;
+  display: flex;
+  gap: t.$gap-small;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    height: 363px;
+  }
+  @include t.mobile {
+    height: 150px;
+  }
+}
+
+.additionalImg {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.photosBtn {
+  position: absolute;
+  bottom: t.$gap-normal;
+  right: t.$gap-normal;
+  display: flex;
+  align-items: center;
+  gap: t.$gap-xs;
+  height: t.$control-height-large;
+  padding: 12px t.$gap-small;
+  background: rgba(31, 31, 31, 0.3);
+  backdrop-filter: blur(48px);
+  color: t.$white-solid;
+  @include t.text-body-m;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(31, 31, 31, 0.5);
+  }
+}

@@ -1,0 +1,162 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────
+.section {
+  position: relative;
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+  overflow: hidden;
+
+  @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
+  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+}
+
+// ── Decorative ellipse ────────────────────────────────────
+.ellipse {
+  position: absolute;
+  left: 88px;    // 128px (Figma) - 40px (container padding)
+  top: -38px;
+  width: 860px;
+  height: 860px;
+  border-radius: 50%;
+  border: 1px solid rgba(193, 153, 98, 0.18);
+  pointer-events: none;
+  z-index: 0;
+
+  @include t.tablet {
+    left: auto;
+    right: -430px;
+    top: -532px;
+  }
+
+  @include t.mobile {
+    left: auto;
+    right: -430px;
+    top: -532px;
+  }
+}
+
+// ── Inner row ─────────────────────────────────────────────
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: t.$gap-normal;
+  align-items: flex-start;
+
+  @include t.tablet {
+    flex-direction: column;
+    gap: t.$gap-normal;
+  }
+
+  @include t.mobile {
+    flex-direction: column;
+    gap: t.$gap-small;
+  }
+}
+
+// ── Left column ───────────────────────────────────────────
+.leftCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  margin: 0;
+}
+
+// ── Right column ──────────────────────────────────────────
+.rightCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+// ── Feature card ──────────────────────────────────────────
+.card {
+  background: t.$brand-second-base;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+
+  @include t.tablet { gap: t.$gap-large; }  // 32px
+  @include t.mobile { gap: t.$gap-normal; } // 24px
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$gap-small;
+}
+
+// ── Gold dot ──────────────────────────────────────────────
+.dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 8px; // aligns dot to cap height of title
+
+  @include t.tablet { margin-top: 4px; }
+  @include t.mobile { margin-top: 4px; }
+}
+
+// ── Card title ────────────────────────────────────────────
+.cardTitle {
+  @include t.text-body-xl; // Prata 28px, lh 1.3
+  color: t.$black-solid;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+
+  @include t.tablet {
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.36px;
+  }
+
+  @include t.mobile {
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.36px;
+  }
+}
+
+// ── Card description ──────────────────────────────────────
+.cardDesc {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  margin: 0;
+}

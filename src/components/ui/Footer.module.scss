@@ -1,0 +1,333 @@
+@use "@/styles/tokens" as t;
+
+// ── Footer wrapper ─────────────────────────────────────────
+.footer {
+  background: t.$black-solid;
+  padding: t.$margin-vertical-small 0;
+}
+
+// ── Inner container ────────────────────────────────────────
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+
+  @include t.mobile { gap: 80px; }
+}
+
+// ── Top block ──────────────────────────────────────────────
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+
+  @include t.tablet { gap: 48px; }
+  @include t.mobile { gap: 40px; }
+}
+
+// ── Logo ───────────────────────────────────────────────────
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logoSvg {
+  width: 240px;
+  height: auto;
+
+  @include t.tablet { width: 200px; }
+  @include t.mobile { width: 180px; }
+}
+
+// ── Body (social | nav) ────────────────────────────────────
+.body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @include t.tablet {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  @include t.mobile {
+    flex-direction: column;
+    gap: 40px;
+  }
+}
+
+// ── Social section ─────────────────────────────────────────
+.socialSection {
+  width: 261px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+
+  // Mobile: appears AFTER navSection
+  @include t.mobile { order: 2; width: 100%; }
+
+  // Tablet: 3-column grid (social links in row 1, address in col-1 row-2)
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: t.$gap-small;
+    row-gap: 20px;
+  }
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  padding: t.$gap-small 0;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  text-decoration: none;
+  border-top: 1px solid t.$white-fade-2;
+  transition: opacity 0.15s;
+
+  // Desktop + Mobile: only last link gets border-bottom
+  &:last-of-type {
+    border-bottom: 1px solid t.$white-fade-2;
+  }
+
+  &:hover { opacity: 0.7; }
+
+  // Tablet: each item is in its own grid cell → all get border-bottom
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    border-bottom: 1px solid t.$white-fade-2;
+    padding: t.$gap-small 0;
+    align-self: start;
+  }
+}
+
+.address {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  margin-top: 80px;
+
+  @include t.mobile { margin-top: 40px; }
+
+  // Tablet: address auto-placed in grid col-1 row-2
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    margin-top: 0;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+}
+
+// ── Nav section ────────────────────────────────────────────
+.navSection {
+  width: 744px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+
+  @include t.tablet { width: 100%; gap: 48px; }
+  @include t.mobile { order: 1; width: 100%; gap: 40px; }
+}
+
+// Desktop + Tablet: 3-column nav grid
+.navGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: t.$gap-small;
+
+  @include t.mobile { display: none; }
+}
+
+.navCol {
+  display: flex;
+  flex-direction: column;
+}
+
+// Mobile: flat single-column list
+.mobileNav {
+  display: none;
+
+  @include t.mobile {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: t.$gap-small 0;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  text-decoration: none;
+  border-top: 1px solid t.$white-fade-2;
+  transition: opacity 0.15s;
+
+  &:last-child { border-bottom: 1px solid t.$white-fade-2; }
+  &:hover { opacity: 0.7; }
+}
+
+// ── Newsletter ─────────────────────────────────────────────
+.newsletter {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid t.$white-fade-2;
+
+  // Tablet: 3-col grid (label in col1, form in col2-3)
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: t.$gap-small;
+  }
+
+  // Mobile: vertical stack
+  @include t.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: t.$gap-large;
+    border-bottom: 1px solid t.$white-fade-2;
+    padding-bottom: t.$gap-small;
+  }
+}
+
+.newsletterLabel {
+  flex-shrink: 0;
+  margin-right: 184px;
+  padding: t.$gap-small 0;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    margin-right: 0;
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  @include t.mobile {
+    margin-right: 0;
+    padding: t.$gap-small 0 0;
+  }
+}
+
+.newsletterForm {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid t.$white-fade-2;
+  padding: t.$gap-small 0;
+
+  @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
+    grid-column: 2 / span 2;
+  }
+
+  @include t.mobile {
+    width: 100%;
+    border-bottom: none;
+    padding: 0;
+  }
+}
+
+.newsletterInput {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  caret-color: t.$white-solid;
+
+  &::placeholder { color: t.$white-solid; }
+}
+
+.newsletterBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  padding: 0;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.7; }
+}
+
+// ── Bottom bar ─────────────────────────────────────────────
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  @include t.mobile {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 480px;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    width: auto;
+    justify-content: flex-start;
+    gap: t.$gap-large;
+  }
+
+  @include t.mobile {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.legalLink {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.7; }
+}
+
+.copyright {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  text-align: right;
+
+  @include t.mobile {
+    text-align: left;
+  }
+}

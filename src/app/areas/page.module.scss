@@ -1,0 +1,200 @@
+@use "@/styles/tokens" as t;
+
+// ── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+  background: t.$white-solid;
+  padding: 80px 32px 32px;
+
+  @include t.tablet {
+    padding: t.$gap-normal;
+  }
+
+  @include t.mobile {
+    padding: t.$gap-small;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: t.$gap-large;
+}
+
+.breadcrumbHome {
+  display: flex;
+  align-items: center;
+  color: t.$black-solid;
+  flex-shrink: 0;
+}
+
+.breadcrumbCurrent {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.title {
+  @include t.text-h1;
+  color: t.$black-solid;
+}
+
+.titleCount {
+  color: t.$brand-main-base;
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  max-width: 480px;
+}
+
+// ── Listing ───────────────────────────────────────────────────────────────────
+
+.listing {
+  background: t.$white-solid;
+  padding: t.$gap-large 0 80px;
+
+  @include t.tablet {
+    padding: t.$gap-normal 0 60px;
+  }
+
+  @include t.mobile {
+    padding: t.$gap-small 0 40px;
+  }
+}
+
+// ── Grid ─────────────────────────────────────────────────────────────────────
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: t.$gap-small;
+
+  @include t.tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include t.mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────────────────────
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid t.$black-fade-2;
+  background: t.$white-solid;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 24px rgba(31, 31, 31, 0.08);
+  }
+}
+
+// ── Card media ───────────────────────────────────────────────────────────────
+
+.cardMedia {
+  position: relative;
+  height: 340px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: t.$brand-second-base;
+
+  @include t.mobile {
+    height: 240px;
+  }
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.cardOverlay {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: t.$gap-small;
+}
+
+.cityBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 t.$gap-small;
+  background: rgba(31, 31, 31, 0.5);
+  backdrop-filter: blur(12px);
+  color: t.$white-solid;
+  @include t.text-body-m;
+  align-self: flex-start;
+}
+
+// ── Card bottom ──────────────────────────────────────────────────────────────
+
+.cardCart {
+  padding: t.$gap-small;
+  border-top: 1px solid t.$black-fade-2;
+  background: t.$white-solid;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xxs;
+  flex: 1;
+}
+
+.cardTitleRow {
+  display: flex;
+  gap: t.$gap-xs;
+  align-items: flex-start;
+}
+
+.cardDot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.cardName {
+  font-family: t.$font-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.56px;
+  color: t.$black-solid;
+  flex: 1;
+  min-width: 0;
+
+  @include t.mobile {
+    font-size: 22px;
+  }
+}
+
+.cardDesc {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

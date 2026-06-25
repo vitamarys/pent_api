@@ -1,0 +1,140 @@
+@use '@/styles/tokens' as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: t.$margin-vertical-small 0;
+  overflow: hidden;
+}
+
+// ── Header ───────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: t.$gap-normal;
+}
+
+.sectionLabel {
+  @include t.text-body-m;
+  color: rgba(31, 31, 31, 0.70);
+}
+
+// ── Nav buttons (desktop only) ───────────────────────────────
+.navBtns {
+  display: flex;
+  gap: t.$gap-xs;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: t.$brand-second-base;
+  border: none;
+  cursor: pointer;
+  color: t.$black-solid;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: darken(#f0ece8, 5%);
+  }
+}
+
+// ── Track ────────────────────────────────────────────────────
+.trackContainer {
+  overflow: visible;
+}
+
+.track {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: t.$gap-normal;
+  background: t.$brand-second-base;
+  padding: 48px 32px;
+  width: 332px;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    width: 269px;
+    gap: 20px;
+  }
+
+  @include t.mobile {
+    width: 240px;
+    padding: 32px 16px;
+    gap: t.$gap-small;
+  }
+}
+
+// ── Award image area ─────────────────────────────────────────
+.awardImgWrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.awardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.awardMain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+// ── Card info ────────────────────────────────────────────────
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  text-align: center;
+  width: 194px;
+}
+
+.cardValue {
+  @include t.text-body-xl;
+  color: t.$black-solid;
+  width: 100%;
+}
+
+.cardLabel {
+  @include t.text-body-m;
+  color: rgba(31, 31, 31, 0.70);
+  width: 100%;
+}

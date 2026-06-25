@@ -1,0 +1,112 @@
+// ============================================================
+// Design tokens — auto-generated from Figma
+// File: Penthouse.ae (Hhk1Gg1zDbtkMsaSBTh8VK)
+// ============================================================
+
+// ── Colors: Brand ───────────────────────────────────────────
+$brand-main-base:    #c19962;   // Brand/main/base — кнопки, акценти
+$brand-main-mid:     #e1bc88;   // Brand/main/mid
+$brand-main-strong:  #836234;   // Brand/main/strong — бейдж опцій
+$brand-second-base:  #f0ece8;   // Brand/second/base — значення статистики
+
+// ── Colors: White ───────────────────────────────────────────
+$white-solid:        #ffffff;
+$white-fade-4:       rgba(255, 255, 255, 0.70); // White/fade-4
+$white-fade-2:       rgba(255, 255, 255, 0.16); // White/fade-2
+$white-extra-low:    rgba(255, 255, 255, 0.10); // colors/white/extra-low — розділювачі
+
+// ── Colors: Black ───────────────────────────────────────────
+$black-solid:        #1f1f1f;                // Black/solid
+$black-fade-2:       rgba(31, 31, 31, 0.10); // Black/fade-2 — borders
+$black-fade-4:       rgba(31, 31, 31, 0.70); // Black/fade-4 — панель
+
+// ── Typography: Font families ───────────────────────────────
+$font-serif:         var(--font-prata), 'Prata', serif;
+$font-sans:          'SF Pro Display', sans-serif;
+
+// ── Typography: Sizes ───────────────────────────────────────
+$size-h1:            48px;   // size/headings/h1
+$size-h2:            44px;   // size/headings/h2
+$size-h3:            32px;   // size/headings/h3
+$size-body-xl:       28px;   // size/body/xl — serif card titles
+$size-body-l:        24px;   // size/body/l_sans-serif
+$size-body-m:        16px;   // size/body/m
+
+// ── Typography: Styles ──────────────────────────────────────
+// Headings/h1 — Prata Regular 48px, lh 1.14, ls -3
+@mixin text-h1 {
+  font-family: $font-serif;
+  font-size: $size-h1;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -1.44px; // -3 Figma units @ 48px
+}
+
+// Body/xl — Prata Regular 28px, lh 1.3, ls -2
+@mixin text-body-xl {
+  font-family: $font-serif;
+  font-size: $size-body-xl;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.56px; // -2 Figma units @ 28px
+}
+
+// Headings/h3 — Prata Regular 32px, lh 1.14, ls -3
+@mixin text-h3 {
+  font-family: $font-serif;
+  font-size: $size-h3;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -0.96px; // -3 Figma units @ 32px
+}
+
+// Headings/h2 — Prata Regular 44px, lh 1.2, ls -3
+@mixin text-h2 {
+  font-family: $font-serif;
+  font-size: $size-h2;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.32px; // -3 Figma units @ 44px
+}
+
+// Body/l_sans-serif — 24px, lh 1.3
+@mixin text-body-l {
+  font-family: $font-sans;
+  font-size: $size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+// Body/m — 16px, lh 1.4
+@mixin text-body-m {
+  font-family: $font-sans;
+  font-size: $size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+// ── Spacing / Gap ───────────────────────────────────────────
+$gap-xxs:    4px;   // gap/xxs
+$gap-xs:     8px;   // gap/xs
+$gap-small:  16px;  // Gap/small
+$gap-normal: 24px;  // Gap/normal
+$gap-large:  32px;  // Gap/large
+
+// ── Margin / Section ────────────────────────────────────────
+$margin-horizontal:       32px;  // Margin/section/horizontal → але Container вже має 40px
+$margin-vertical-small:   32px;  // Margin/section/vertical/small
+
+// ── Controls ────────────────────────────────────────────────
+$control-height-large:   48px;   // Control/height/large — висота кнопок, інпутів
+$icon-stroke-width:      1.5;    // Icon/stroke-width/base
+
+// ── Layout ──────────────────────────────────────────────────
+$max-width-lg:   620px;    // layout/max-width/lg
+$page-width:     1440px;   // width
+
+// ── Breakpoints ─────────────────────────────────────────────
+$bp-tablet: 1199px;  // max-width for tablet
+$bp-mobile:  767px;  // max-width for mobile
+
+@mixin tablet { @media (max-width: #{$bp-tablet}) { @content; } }
+@mixin mobile { @media (max-width: #{$bp-mobile})  { @content; } }

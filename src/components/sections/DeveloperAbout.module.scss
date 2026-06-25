@@ -1,0 +1,170 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ──────────────────────────────────────────────────
+.section {
+  position: relative;
+  background: t.$white-solid;
+  padding: 120px 0 t.$gap-large;
+  overflow: hidden;
+
+  // Decorative ellipse
+  &::before {
+    content: "";
+    position: absolute;
+    width: 860px;
+    height: 860px;
+    background: url("/images/ellipse-bg.png") center / contain no-repeat;
+    top: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  @include t.tablet {
+    padding: 100px 0 t.$gap-large;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  @include t.mobile {
+    padding: 80px 0 t.$gap-large;
+  }
+}
+
+// ── Inner layout ─────────────────────────────────────────────
+.inner {
+  display: flex;
+  gap: t.$gap-normal;
+  align-items: flex-start;
+
+  @include t.tablet {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+// ── Left column ──────────────────────────────────────────────
+.left {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+// ── Image (when left col has image) ──────────────────────────
+.imageWrap {
+  position: relative;
+  width: 100%;
+  height: 480px;
+
+  @include t.tablet { height: 360px; }
+  @include t.mobile { height: 260px; }
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+// ── Right header (title + desc when image is present) ────────
+.right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.rightHeader {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+// ── Right column ─────────────────────────────────────────────
+.featuresList {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+// ── Feature card ─────────────────────────────────────────────
+.featureCard {
+  position: relative;
+  z-index: 1;
+  background: t.$brand-second-base;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+
+  @include t.tablet {
+    gap: t.$gap-large;
+    padding: t.$gap-small;
+  }
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$gap-small;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 8px;
+
+  @include t.tablet {
+    margin-top: 4px;
+  }
+}
+
+.featureTitle {
+  @include t.text-body-xl;
+  color: t.$black-solid;
+  flex: 1;
+
+  @include t.tablet {
+    font-size: 18px;
+    letter-spacing: -0.36px;
+  }
+}
+
+.featureDesc {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}

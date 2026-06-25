@@ -1,0 +1,319 @@
+@use "@/styles/tokens" as t;
+
+$header-height: 80px;
+
+// ── Hero wrapper ─────────────────────────────────────────────
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  @include t.tablet {
+    min-height: unset;
+  }
+}
+
+// ── Full-bleed bg (desktop only) ─────────────────────────────
+.bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Image area ───────────────────────────────────────────────
+.imageArea {
+  flex: 1;
+  position: relative;
+  padding-top: $header-height;
+  display: flex;
+  flex-direction: column;
+
+  @include t.tablet {
+    flex: none;
+    height: 380px;
+    padding-top: 0;
+  }
+
+  @include t.mobile {
+    height: 234px;
+  }
+}
+
+// ── Stacked image (tablet/mobile only) ──────────────────────
+.bgImg {
+  display: none;
+
+  @include t.tablet {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+// ── Gradient overlay ─────────────────────────────────────────
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 75%;
+  background: linear-gradient(
+    to bottom,
+    rgba(9, 24, 48, 0.5) 0%,
+    rgba(9, 24, 48, 0) 100%
+  );
+  pointer-events: none;
+
+  @include t.tablet {
+    bottom: 49%;
+  }
+
+  @include t.mobile {
+    bottom: 67%;
+  }
+}
+
+// ── Breadcrumb ───────────────────────────────────────────────
+.breadcrumb {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: t.$gap-xxs;
+  padding: t.$gap-small 0;
+
+  a,
+  span {
+    display: flex;
+    align-items: center;
+    @include t.text-body-m;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+      color: t.$white-solid;
+    }
+  }
+
+  .separator {
+    color: t.$white-fade-2;
+    display: flex;
+    align-items: center;
+  }
+
+  .current {
+    color: t.$white-fade-4;
+    pointer-events: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ── Content area ─────────────────────────────────────────────
+.contentArea {
+  position: relative;
+  padding: t.$gap-large 0;
+
+  @include t.tablet {
+    padding: 0;
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  width: 488px;
+  min-height: 648px;
+  background: t.$black-fade-4;
+  backdrop-filter: blur(49px);
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: t.$gap-normal;
+
+  @include t.tablet {
+    width: 100%;
+    min-height: unset;
+    background: t.$black-solid;
+    backdrop-filter: none;
+    padding: 20px;
+  }
+
+  @include t.mobile {
+    padding: t.$gap-small;
+  }
+}
+
+// ── Logo ─────────────────────────────────────────────────────
+.logoWrap {
+  width: 136px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$white-extra-low;
+  padding: t.$gap-xs;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    width: 112px;
+    height: 55px;
+  }
+
+  @include t.mobile {
+    width: 102px;
+    height: 46px;
+  }
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+// ── Info ─────────────────────────────────────────────────────
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+  width: 100%;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+
+  @include t.tablet {
+    gap: 12px;
+  }
+}
+
+.name {
+  @include t.text-h2;
+  color: t.$white-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$white-fade-4;
+}
+
+// ── Stats ─────────────────────────────────────────────────────
+.statsRow {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+  width: 100%;
+  overflow: hidden;
+}
+
+.divider {
+  width: 1px;
+  align-self: stretch;
+  background: t.$white-fade-2;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    background: t.$white-extra-low;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  font-family: t.$font-sans;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 t.$gap-small;
+
+  &:first-of-type {
+    padding-left: 0;
+  }
+
+  @include t.tablet {
+    gap: t.$gap-large;
+    padding: 0 t.$gap-xs;
+
+    &:first-of-type {
+      padding-left: 0;
+    }
+  }
+}
+
+.statLabel {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: t.$white-fade-4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statValue {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$brand-second-base;
+
+  @include t.tablet {
+    font-size: 20px;
+  }
+
+  @include t.mobile {
+    font-size: 18px;
+  }
+}
+
+// ── CTA ──────────────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 12px t.$gap-small;
+  width: 100%;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: t.$brand-main-mid;
+  }
+}

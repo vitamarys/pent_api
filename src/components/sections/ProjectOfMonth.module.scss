@@ -1,0 +1,420 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: 120px 0;
+
+  @include t.tablet {
+    padding: 80px 0;
+  }
+
+  @include t.mobile {
+    padding: 60px 0;
+  }
+}
+
+// ── Header ────────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: t.$gap-normal;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── Nav group (arrows + dots) ─────────────────────────────────
+.navGroup {
+  display: flex;
+  align-items: center;
+  gap: t.$gap-xs;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$control-height-large;
+  height: t.$control-height-large;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+.navDots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: t.$black-fade-2;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: t.$black-fade-4;
+  }
+}
+
+.navDotActive {
+  background: t.$black-solid;
+}
+
+// ══════════════════════════════════════════════════════════════
+// DESKTOP — featured side-by-side
+// ══════════════════════════════════════════════════════════════
+.featured {
+  display: flex;
+  width: 100%;
+  height: 540px;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Image wrap + Swiper ───────────────────────────────────────
+.imageWrap {
+  position: relative;
+  flex: 0 0 58%;
+  overflow: hidden;
+}
+
+.swiper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.swiperSlide {
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imgPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: t.$brand-second-base;
+}
+
+// ── Image slider arrows ───────────────────────────────────────
+.imgArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(31, 31, 31, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: t.$white-solid;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: rgba(31, 31, 31, 0.6);
+  }
+}
+
+.imgArrowPrev {
+  left: t.$gap-small;
+}
+.imgArrowNext {
+  right: t.$gap-small;
+}
+
+// ── Image pagination bars (full width) ───────────────────────
+.imgPagination {
+  position: absolute;
+  bottom: t.$gap-small;
+  left: t.$gap-small;
+  right: t.$gap-small;
+  z-index: 2;
+  display: flex;
+  gap: t.$gap-xxs;
+}
+
+.imgDot {
+  flex: 1;
+  height: 3px;
+  background: t.$white-fade-4;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: t.$white-solid;
+  }
+}
+
+.imgDotActive {
+  background: t.$white-solid;
+}
+
+// ── Content panel ─────────────────────────────────────────────
+.panel {
+  flex: 1;
+  background: t.$black-solid;
+  padding: t.$gap-large;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.panelTop {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+
+.panelBottom {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+}
+
+// ── Shared: text styles ───────────────────────────────────────
+.projectTitle {
+  font-family: t.$font-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  color: t.$white-solid;
+  @include t.tablet {
+    font-size: 22px;
+    letter-spacing: -0.44px;
+  }
+}
+
+.location {
+  @include t.text-body-m;
+  margin-bottom: 24px;
+  color: t.$white-fade-4;
+  @include t.tablet {
+    margin-bottom: 20px;
+  }
+
+  @include t.mobile {
+    margin-bottom: 16px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$white-fade-4;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @include t.tablet {
+    -webkit-line-clamp: 4;
+  }
+
+  @include t.mobile {
+    -webkit-line-clamp: 5;
+  }
+}
+
+// ── Stats divider ─────────────────────────────────────────────
+
+// ── Stats: desktop row (label top, value bottom) ──────────────
+.statsRow {
+  display: flex;
+  gap: t.$gap-large;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  &:not(:last-child) {
+    &::after {
+      content: "";
+      background-color: t.$white-extra-low;
+      width: 1px;
+      height: 100%;
+      position: absolute;
+      right: -12px;
+      top: 0;
+    }
+  }
+}
+
+.statLabel {
+  font-family: t.$font-sans;
+  font-size: 16px;
+  font-weight: 400;
+  color: t.$white-fade-4;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.statValue {
+  font-family: t.$font-sans;
+  font-size: 24px;
+  font-weight: 400;
+  color: t.$white-solid;
+  line-height: 1.2;
+}
+
+// ── Stats: mobile stacked (label left, value right) ───────────
+.statsMobile {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+
+.statRowItem {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: t.$gap-small;
+
+  .statLabel {
+    white-space: nowrap;
+  }
+
+  .statValue {
+    font-size: 16px;
+    text-align: right;
+  }
+}
+
+// ── CTA button ────────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: t.$control-height-large;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: darken(t.$brand-main-base, 8%);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// TABLET / MOBILE — horizontal scroll of vertical cards
+// ══════════════════════════════════════════════════════════════
+.scrollTrack {
+  display: none;
+
+  @include t.tablet {
+    display: flex;
+    gap: t.$gap-small;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.scrollCard {
+  flex: 0 0 calc(100% - 56px);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  scroll-snap-align: start;
+
+  @include t.mobile {
+    flex: 0 0 calc(100% - 40px);
+  }
+}
+
+.scrollCardImage {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @include t.mobile {
+    height: 220px;
+  }
+}
+
+.scrollCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.scrollCardPanel {
+  flex: 1;
+  background: t.$black-solid;
+  padding: t.$gap-small;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.scrollCardTop {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+  margin-bottom: t.$gap-small;
+}
+
+.scrollCardBottom {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}

@@ -1,0 +1,128 @@
+@use '@/styles/tokens' as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+
+  @include t.tablet {
+    padding: 100px 0 t.$margin-vertical-small;
+  }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+  }
+}
+
+// ── Inner ────────────────────────────────────────────────────
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+
+  @include t.tablet {
+    gap: 20px;
+  }
+  @include t.mobile {
+    gap: t.$gap-small;
+  }
+}
+
+// ── Title ────────────────────────────────────────────────────
+.sectionTitle {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── List ─────────────────────────────────────────────────────
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+// ── Item ─────────────────────────────────────────────────────
+.item {
+  border-bottom: 1px solid t.$black-fade-2;
+  padding: t.$gap-normal 0;
+
+  @include t.tablet {
+    padding: 20px 0;
+  }
+  @include t.mobile {
+    padding: t.$gap-small 0;
+  }
+}
+
+// ── Trigger ──────────────────────────────────────────────────
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$gap-normal;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.question {
+  @include t.text-body-l;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 20px;
+  }
+  @include t.mobile {
+    font-size: 18px;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: t.$black-solid;
+  width: 24px;
+  height: 24px;
+}
+
+// ── Animated body ────────────────────────────────────────────
+.body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+
+  &.bodyOpen {
+    grid-template-rows: 1fr;
+  }
+}
+
+// ── Answer ───────────────────────────────────────────────────
+.answer {
+  overflow: hidden;
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  max-width: 870px;
+  padding-top: 0;
+  transition: padding-top 0.35s ease;
+
+  .bodyOpen & {
+    padding-top: t.$gap-normal;
+
+    @include t.tablet {
+      padding-top: 20px;
+    }
+    @include t.mobile {
+      padding-top: t.$gap-small;
+    }
+  }
+}

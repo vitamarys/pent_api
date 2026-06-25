@@ -1,0 +1,233 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  position: relative;
+
+  @include t.tablet {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// ── Background image — desktop only ─────────────────────────
+.bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Stacked image — tablet/mobile only ──────────────────────
+.imageStack {
+  display: none;
+
+  @include t.tablet {
+    display: block;
+    height: 380px;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  @include t.mobile {
+    height: 234px;
+  }
+}
+
+// ── Card wrapper ─────────────────────────────────────────────
+.cardWrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: t.$gap-large 0;
+  min-height: 700px;
+
+  @include t.tablet {
+    position: static;
+    padding: 0;
+    min-height: auto;
+    justify-content: stretch;
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  width: 487px;
+  align-self: stretch;
+  background: t.$black-fade-4;
+  backdrop-filter: blur(49px);
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: t.$gap-normal;
+
+  @include t.tablet {
+    width: 100%;
+    background: t.$black-solid;
+    backdrop-filter: none;
+    padding: 20px;
+    gap: t.$gap-large;
+  }
+
+  @include t.mobile {
+    padding: t.$gap-small;
+  }
+}
+
+// ── Logo ─────────────────────────────────────────────────────
+.logoWrap {
+  width: 137px;
+  height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    width: 112px;
+    height: 55px;
+  }
+
+  @include t.mobile {
+    width: 102px;
+    height: 46px;
+  }
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+// ── Info container ───────────────────────────────────────────
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+  width: 100%;
+}
+
+// ── Text ─────────────────────────────────────────────────────
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+
+.devName {
+  @include t.text-h2;
+  color: t.$white-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$white-fade-4;
+}
+
+// ── Stats row ────────────────────────────────────────────────
+.statsRow {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.divider {
+  width: 1px;
+  align-self: stretch;
+  background: t.$white-fade-2;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    background: t.$white-extra-low;
+  }
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  font-family: t.$font-sans;
+  font-style: normal;
+  white-space: nowrap;
+
+  @include t.tablet {
+    gap: t.$gap-large;
+    flex: 1 0 0;
+    min-width: 0;
+    white-space: normal;
+  }
+}
+
+.statLabel {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: t.$white-fade-4;
+}
+
+.statValue {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$brand-second-base;
+
+  @include t.tablet {
+    font-size: 20px;
+  }
+
+  @include t.mobile {
+    font-size: 18px;
+  }
+}
+
+// ── CTA Button ───────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 12px 16px;
+  width: 100%;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: t.$brand-main-mid;
+  }
+}

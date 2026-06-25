@@ -1,0 +1,387 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  overflow: hidden;
+}
+
+// ── Two-column layout ─────────────────────────────────────────────────────────
+.layout {
+  display: grid;
+  grid-template-columns: 469px 1fr;
+
+  @include t.tablet {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Left panel (beige) ────────────────────────────────────────────────────────
+.leftPanel {
+  background: t.$brand-second-base;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: t.$gap-large;
+
+  @include t.tablet {
+    order: 2;
+    padding: 32px 24px;
+    gap: t.$gap-normal;
+  }
+
+  @include t.mobile {
+    padding: 32px 16px;
+    gap: t.$gap-normal;
+  }
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  justify-content: space-between;
+  height: 100%;
+  @include t.tablet {
+    gap: t.$gap-large;
+  }
+
+  @include t.mobile {
+    gap: t.$gap-large;
+  }
+}
+
+.infoWrap {
+  display: flex;
+  flex-direction: column;
+}
+// ── Text block ────────────────────────────────────────────────────────────────
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  margin: 0;
+}
+
+// ── Proximity table ───────────────────────────────────────────────────────────
+.proximityTable {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid t.$black-fade-2;
+}
+
+.proximityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid t.$black-fade-2;
+  gap: t.$gap-xs;
+}
+
+.proximityLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  white-space: nowrap;
+}
+
+.proximityValue {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  white-space: nowrap;
+}
+
+// ── CTA button ────────────────────────────────────────────────────────────────
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 12px t.$gap-small;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  align-self: stretch;
+  text-align: center;
+  width: 100%;
+  &:hover {
+    background: t.$brand-main-mid;
+    color: t.$black-solid;
+  }
+}
+
+// ── Map wrap + Google Maps overlay globals ────────────────────────────────────
+.mapWrap {
+  position: relative;
+
+  @include t.tablet {
+    order: 1;
+  }
+
+  :global {
+    // ── Place popup ─────────────────────────────────────────────────────────────
+    .gm-popup {
+      width: 280px;
+      background: t.$white-solid;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+      pointer-events: all;
+      transition: opacity 0.15s ease;
+      font-family: t.$font-sans;
+    }
+
+    .gm-popup__slider {
+      position: relative;
+      height: 160px;
+      overflow: hidden;
+      background: t.$brand-second-base;
+    }
+
+    .gm-popup__slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.25s ease;
+      will-change: transform;
+    }
+
+    .gm-popup__slide {
+      flex: 0 0 280px;
+      width: 280px;
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &--empty {
+        background-color: t.$brand-second-base;
+      }
+    }
+
+    .gm-popup__prev,
+    .gm-popup__next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      color: t.$black-solid;
+      padding: 0;
+
+      &:hover {
+        background: t.$white-solid;
+      }
+    }
+
+    .gm-popup__prev {
+      left: 6px;
+    }
+    .gm-popup__next {
+      right: 6px;
+    }
+
+    .gm-popup__dots {
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 4px;
+
+      span {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transition: background 0.2s;
+
+        &.active {
+          background: t.$white-solid;
+        }
+      }
+    }
+
+    .gm-popup__close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(8px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: t.$black-solid;
+
+      &:hover {
+        background: t.$white-solid;
+      }
+    }
+
+    .gm-popup__info {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+
+    .gm-popup__name {
+      font-size: t.$size-body-m;
+      font-weight: 400;
+      line-height: 1.4;
+      color: t.$black-solid;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .gm-popup__desc {
+      font-size: 14px;
+      line-height: 1.4;
+      color: t.$black-solid;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gm-popup__addr {
+      font-size: 14px;
+      line-height: 1.4;
+      color: t.$black-fade-4;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // ── ETA bubble ──────────────────────────────────────────────────────────────
+    .gm-eta {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: t.$white-solid;
+      padding: 6px 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+      white-space: nowrap;
+      transform: translateX(-50%);
+    }
+
+    .gm-eta__icon {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      svg {
+        display: block;
+      }
+    }
+
+    .gm-eta__text {
+      font-family: t.$font-sans;
+      font-size: 14px;
+      line-height: 1.4;
+      color: t.$black-solid;
+    }
+
+    // ── Hide default Google Maps UI chrome ───────────────────────────────────────
+    .gm-style-cc,
+    .gmnoprint,
+    .gm-bundled-control {
+      display: none !important;
+    }
+  } // end :global
+} // end .mapWrap
+
+// ── Map canvas ────────────────────────────────────────────────────────────────
+.mapCanvas {
+  height: 720px;
+
+  @include t.tablet {
+    height: 576px;
+  }
+  @include t.mobile {
+    height: 439px;
+  }
+}
+
+// ── Zoom controls (React JSX buttons) ─────────────────────────────────────────
+.zoomControls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+}
+
+.zoomBtn {
+  width: 48px;
+  height: 48px;
+  background: t.$white-solid;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  & + & {
+    border-top: 1px solid rgba(31, 31, 31, 0.04);
+  }
+
+  &:hover {
+    background: t.$brand-second-base;
+  }
+}

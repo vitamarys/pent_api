@@ -1,0 +1,200 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  overflow: hidden;
+}
+
+// ── Two-column layout ─────────────────────────────────────────────────────────
+.layout {
+  display: grid;
+  grid-template-columns: 469px 1fr;
+  min-height: 560px;
+
+  @include t.tablet {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+// ── Left panel (beige) ────────────────────────────────────────────────────────
+.leftPanel {
+  background: t.$brand-second-base;
+  padding: 48px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+
+  @include t.tablet {
+    padding: 40px 24px 32px;
+  }
+
+  @include t.mobile {
+    padding: 32px 16px 24px;
+    gap: 24px;
+  }
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @include t.mobile {
+    gap: 24px;
+  }
+}
+
+// ── Text block ────────────────────────────────────────────────────────────────
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 36px;
+    letter-spacing: -1.08px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(31, 31, 31, 0.75);
+  margin: 0;
+}
+
+// ── Proximity table ───────────────────────────────────────────────────────────
+.proximityTable {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(31, 31, 31, 0.12);
+}
+
+.proximityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(31, 31, 31, 0.12);
+  gap: 8px;
+}
+
+.proximityLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+}
+
+.proximityValue {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.55);
+}
+
+// ── Address ───────────────────────────────────────────────────────────────────
+.address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: t.$font-sans;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.55);
+}
+
+.addressIcon {
+  flex-shrink: 0;
+  color: rgba(31, 31, 31, 0.40);
+}
+
+// ── CTA button ────────────────────────────────────────────────────────────────
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 12px 24px;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  align-self: stretch;
+  text-align: center;
+
+  &:hover {
+    background: t.$brand-main-mid;
+    color: t.$black-solid;
+  }
+}
+
+// ── Map ───────────────────────────────────────────────────────────────────────
+.mapWrap {
+  height: 100%;
+  min-height: 420px;
+  overflow: hidden;
+
+  @include t.tablet {
+    min-height: 360px;
+  }
+
+  @include t.mobile {
+    min-height: 280px;
+  }
+}
+
+.mapIframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.mapPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: t.$brand-second-base;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.mapPlaceholderIcon {
+  color: rgba(31, 31, 31, 0.30);
+}
+
+.mapPlaceholderText {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.50);
+  text-align: center;
+  padding: 0 20px;
+}

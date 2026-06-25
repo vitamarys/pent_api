@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "buy": "Buy",
+    "rent": "Rent",
+    "agents": "Agents",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero_title": "Find Your Dream Property",
+    "hero_subtitle": "Thousands of listings across UAE"
+  },
+  "property": {
+    "for_sale": "For Sale",
+    "for_rent": "For Rent",
+    "beds": "Beds",
+    "baths": "Baths",
+    "featured": "Featured"
+  }
+}

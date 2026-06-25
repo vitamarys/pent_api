@@ -1,0 +1,93 @@
+@use '@/styles/tokens' as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+
+  @include t.tablet {
+    padding: 100px 0 t.$margin-vertical-small;
+  }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+  }
+}
+
+// ── Banner ───────────────────────────────────────────────────
+.banner {
+  position: relative;
+  height: 462px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(31, 31, 31, 0.3);
+  pointer-events: none;
+
+  @include t.mobile {
+    background: rgba(31, 31, 31, 0.7);
+  }
+}
+
+// ── Content ──────────────────────────────────────────────────
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 0 t.$gap-normal;
+  width: 100%;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$white-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$white-solid;
+  max-width: 444px;
+
+  @include t.mobile {
+    max-width: 280px;
+  }
+}
+
+// ── Button ───────────────────────────────────────────────────
+.btn {
+  height: t.$control-height-large;
+  padding: 12px 16px;
+  background: t.$brand-main-base;
+  @include t.text-body-m;
+  color: t.$white-solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 190px;
+  margin-top: 0;
+  transition: background 0.2s;
+
+  &:hover {
+    background: darken(t.$brand-main-base, 6%);
+  }
+}

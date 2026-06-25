@@ -1,0 +1,89 @@
+@use '@/styles/tokens' as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+
+  @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
+  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+}
+
+// ── Section title ────────────────────────────────────────────
+.sectionTitle {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── Cards row ───────────────────────────────────────────────
+.cards {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: stretch;
+
+  @include t.tablet {
+    flex-direction: column;
+  }
+}
+
+// ── Card ────────────────────────────────────────────────────
+.card {
+  flex: 1;
+  background: t.$brand-second-base;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 340px;
+
+  @include t.tablet {
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: t.$gap-small;
+    gap: t.$gap-large;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  gap: t.$gap-small;
+  align-items: flex-start;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 8px;
+
+  @include t.tablet { margin-top: 4px; }
+}
+
+.cardTitle {
+  @include t.text-body-xl;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 18px;
+    letter-spacing: -0.36px;
+  }
+}
+
+.cardDescription {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}

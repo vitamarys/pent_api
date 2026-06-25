@@ -1,0 +1,295 @@
+@use '@/styles/tokens' as t;
+
+// ── Section ─────────────────────────────────────────────────
+.section {
+  background: t.$brand-second-base;
+  overflow: hidden;
+}
+
+.inner {
+  display: flex;
+  align-items: stretch;
+
+  @include t.tablet {
+    flex-direction: column;
+  }
+}
+
+// ── Form panel ───────────────────────────────────────────────
+.formPanel {
+  flex: 0 0 600px;
+  max-width: 600px;
+  padding: 120px t.$gap-large t.$margin-vertical-small;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+
+  @include t.tablet {
+    flex: none;
+    max-width: 100%;
+    padding: t.$margin-vertical-small t.$gap-small;
+    gap: 48px;
+    order: 1;
+  }
+
+  @include t.mobile {
+    padding: t.$margin-vertical-small t.$gap-small;
+    gap: 40px;
+  }
+}
+
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.sectionTitle {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  max-width: 540px;
+}
+
+// ── Form ─────────────────────────────────────────────────────
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.fieldWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input {
+  width: 100%;
+  height: t.$control-height-large;
+  border: none;
+  border-bottom: 1px solid t.$black-fade-2;
+  background: transparent;
+  @include t.text-body-m;
+  color: t.$black-solid;
+  outline: none;
+  padding: 0;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: rgba(31, 31, 31, 0.5);
+  }
+
+  &:focus {
+    border-bottom-color: t.$brand-main-base;
+  }
+
+  &.inputError {
+    border-bottom-color: #e53e3e;
+  }
+}
+
+.error {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #e53e3e;
+}
+
+// ── Checkbox ─────────────────────────────────────────────────
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border: 1px solid t.$black-fade-2;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 1px;
+
+  &.checkboxChecked {
+    background: t.$brand-main-base;
+    border-color: t.$brand-main-base;
+    color: t.$white-solid;
+  }
+}
+
+.consentText {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  line-height: 1.6;
+  color: t.$black-solid;
+  flex: 1;
+}
+
+// ── Submit ───────────────────────────────────────────────────
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.submitBtn {
+  width: 100%;
+  height: t.$control-height-large;
+  background: t.$brand-main-base;
+  @include t.text-body-m;
+  color: t.$white-solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: darken(t.$brand-main-base, 6%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.privacyNote {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  line-height: 1.6;
+  color: t.$black-solid;
+  opacity: 0.7;
+}
+
+// ── Agent panel ──────────────────────────────────────────────
+.agentPanel {
+  flex: 1;
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  @include t.tablet {
+    order: 0;
+    min-height: 457px;
+    border-bottom: 1px solid t.$black-fade-2;
+  }
+
+  @include t.mobile {
+    min-height: 369px;
+  }
+}
+
+.agentCircle {
+  position: absolute;
+  width: 505px;
+  height: 505px;
+  border-radius: 50%;
+  background: t.$brand-second-base;
+  // slightly darker ring effect using box-shadow
+  box-shadow: 0 0 0 1px rgba(193, 153, 98, 0.15);
+  left: 50%;
+  top: 50%;
+  transform: translate(-40%, -60%);
+  pointer-events: none;
+
+  @include t.tablet {
+    width: 346px;
+    height: 346px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -40%);
+  }
+
+  @include t.mobile {
+    width: 280px;
+    height: 280px;
+  }
+}
+
+.agentImage {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 446px;
+  height: 597px;
+  object-fit: cover;
+  object-position: top center;
+  pointer-events: none;
+
+  @include t.tablet {
+    width: 432px;
+    height: 577px;
+    bottom: -80px;
+  }
+
+  @include t.mobile {
+    width: 294px;
+    height: 391px;
+    bottom: -62px;
+  }
+}
+
+.agentInfo {
+  position: absolute;
+  top: t.$gap-large;
+  left: t.$gap-large;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+
+  @include t.tablet {
+    top: t.$margin-vertical-small;
+    left: t.$gap-small;
+  }
+}
+
+.agentName {
+  @include t.text-body-m;
+  color: t.$black-solid;
+}
+
+.agentRole {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 14px;
+  color: t.$brand-main-base;
+  line-height: 1;
+}

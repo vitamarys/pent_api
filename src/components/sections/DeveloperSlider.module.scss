@@ -1,0 +1,288 @@
+@use "@/styles/tokens" as t;
+
+$black-fade-3: rgba(31, 31, 31, 0.30);
+
+// ── Section ──────────────────────────────────────────────────
+.section {
+  position: relative;
+  background: t.$white-solid;
+  padding: 120px 0 t.$gap-large;
+  overflow: hidden;
+
+  @include t.tablet {
+    padding: 100px 0 t.$gap-large;
+  }
+
+  @include t.mobile {
+    padding: 80px 0 t.$gap-large;
+  }
+}
+
+// ── Header ───────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: flex-end;
+  gap: t.$gap-small;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    margin-bottom: t.$gap-small;
+  }
+}
+
+.titleWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── CTA button ───────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 0 t.$gap-small;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.ctaBtnDesktop {
+  width: 200px;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.ctaBtnBottom {
+  display: none;
+  width: 100%;
+  margin-top: t.$gap-small;
+
+  @include t.tablet {
+    display: flex;
+  }
+}
+
+// ── Navigation arrows ────────────────────────────────────────
+.navArrows {
+  display: flex;
+  gap: t.$gap-xs;
+  flex-shrink: 0;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$control-height-large;
+  height: t.$control-height-large;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// ── Scroll track ─────────────────────────────────────────────
+.scrollTrack {
+  display: flex;
+  gap: t.$gap-small;
+  overflow-x: hidden;
+
+  @include t.tablet {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  @include t.mobile {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  flex: 0 0 428px;
+  min-width: 340px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid t.$black-fade-2;
+  background: t.$white-solid;
+
+  @include t.tablet {
+    flex: 1 0 340px;
+  }
+
+  @include t.mobile {
+    flex: 0 0 300px;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
+// ── Card media ───────────────────────────────────────────────
+.cardMedia {
+  position: relative;
+  height: 340px;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  @include t.mobile {
+    height: 270px;
+  }
+}
+
+.cardBg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.cardOverlay {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: t.$gap-small;
+}
+
+// ── Logo panel ───────────────────────────────────────────────
+.logoPanel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 138px;
+  height: 138px;
+  background: rgba(31, 31, 31, 0.60);
+  backdrop-filter: blur(32px);
+  flex-shrink: 0;
+
+  @include t.mobile {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+.logoImg {
+  width: 90px;
+  height: auto;
+  object-fit: contain;
+
+  @include t.mobile {
+    width: 72px;
+  }
+}
+
+// ── Fav button ───────────────────────────────────────────────
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.favBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 40px;
+  background: $black-fade-3;
+  backdrop-filter: blur(48px);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+// ── Card cart ────────────────────────────────────────────────
+.cardCart {
+  padding: t.$gap-small;
+  border-top: 1px solid t.$black-fade-2;
+  background: t.$white-solid;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xxs;
+}
+
+.cardTitleRow {
+  display: flex;
+  gap: t.$gap-xs;
+  align-items: flex-start;
+}
+
+.cardDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.cardTitle {
+  font-family: t.$font-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$black-solid;
+  flex: 1;
+  min-width: 0;
+
+  @include t.mobile {
+    font-size: 18px;
+  }
+}
+
+.cardDesc {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

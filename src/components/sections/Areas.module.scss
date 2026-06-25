@@ -1,0 +1,188 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ────────────────────────────────────────────────────
+.section {
+  background: t.$white-solid;
+  padding: 120px 0 32px;
+
+  @include t.tablet {
+    padding: 100px 0 32px;
+  }
+
+  @include t.mobile {
+    padding: 80px 0 32px;
+  }
+}
+
+// ── Header ─────────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: t.$gap-normal;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── CTA Button ─────────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  text-decoration: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+  padding: 0 16px;
+
+  &:hover {
+    background: darken(t.$brand-main-base, 8%);
+  }
+}
+
+.ctaBtnDesktop {
+  flex-shrink: 0;
+  width: 200px;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.ctaBtnMobile {
+  display: none;
+  width: 100%;
+  margin-top: t.$gap-small;
+
+  @include t.tablet {
+    display: flex;
+  }
+}
+
+// ── Desktop Bento Grid ─────────────────────────────────────────
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 309px);
+  gap: 16px;
+  width: 100%;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// Bento placement: wide-narrow / narrow-wide / wide-narrow
+.gridItem1 { grid-column: 1 / span 2; grid-row: 1; }
+.gridItem2 { grid-column: 3;           grid-row: 1; }
+.gridItem3 { grid-column: 1;           grid-row: 2; }
+.gridItem4 { grid-column: 2 / span 2; grid-row: 2; }
+.gridItem5 { grid-column: 3;           grid-row: 3; }
+.gridItem6 { grid-column: 1 / span 2; grid-row: 3; }
+
+// ── Card ────────────────────────────────────────────────────────
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+
+  &:hover .cardImage {
+    transform: scale(1.04);
+  }
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.cardLabel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 32px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(31, 31, 31, 0.04);
+  align-self: flex-start;
+  margin: 24px;
+
+  @include t.tablet {
+    padding: 24px 20px;
+    margin: 16px;
+  }
+
+  @include t.mobile {
+    padding: 24px 20px;
+    margin: 16px;
+  }
+}
+
+.cardName {
+  @include t.text-body-l;
+  color: t.$white-solid;
+  white-space: nowrap;
+
+  @include t.tablet {
+    font-size: 18px;
+  }
+
+  @include t.mobile {
+    font-size: 18px;
+  }
+}
+
+// ── Tablet / Mobile: horizontal scroll ─────────────────────────
+.scrollTrack {
+  display: none;
+
+  @include t.tablet {
+    display: flex;
+    gap: t.$gap-small;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.scrollItem {
+  flex: 0 0 334px;
+  height: 412px;
+  scroll-snap-align: start;
+
+  @include t.mobile {
+    flex: 0 0 calc(80vw - 32px);
+  }
+}
