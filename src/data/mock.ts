@@ -426,7 +426,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -715,7 +715,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -1014,7 +1014,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -1303,7 +1303,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -1592,7 +1592,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -1871,7 +1871,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -2160,7 +2160,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -2449,7 +2449,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -2738,7 +2738,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -3017,7 +3017,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -3296,7 +3296,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -3585,7 +3585,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -3874,7 +3874,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -4163,7 +4163,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -4442,7 +4442,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -4731,7 +4731,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -5020,7 +5020,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -5309,7 +5309,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -5598,7 +5598,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -5887,7 +5887,7 @@ export const MOCK_PROJECTS: StrapiProject[] = [
         __component: "sections.project-team",
         id: nextId(),
         visible: true,
-        title: "Why Choose OPR Real Estate",
+        title: "Why Choose PentTest",
         description: "Our team of dedicated professionals is committed to finding you the perfect property. With deep market knowledge and a client-first approach, we guide you through every step.",
         image: img("1600880292203-757bb62b4baf"),
         stats: [
@@ -6237,7 +6237,7 @@ export const MOCK_AREAS_FULL: StrapiArea[] = [
       },
     ],
     seo: {
-      metaTitle: 'Dubai Marina — Luxury Waterfront Living | OPR Real Estate',
+      metaTitle: 'Dubai Marina — Luxury Waterfront Living | PentTest',
       metaDescription:
         'Explore Dubai Marina properties — apartments, penthouses, and luxury residences with stunning marina and sea views. Find your perfect home today.',
       keywords: 'Dubai Marina, apartments Dubai, waterfront Dubai, buy property Dubai Marina',
@@ -6349,7 +6349,7 @@ export const MOCK_AREAS_FULL: StrapiArea[] = [
       },
     ],
     seo: {
-      metaTitle: 'Downtown Dubai — Iconic Luxury Living | OPR Real Estate',
+      metaTitle: 'Downtown Dubai — Iconic Luxury Living | PentTest',
       metaDescription:
         'Discover property in Downtown Dubai — apartments and penthouses with Burj Khalifa and fountain views. Buy or invest in the most iconic address in the world.',
       keywords: 'Downtown Dubai property, Burj Khalifa view apartments, buy property Downtown Dubai',
@@ -6461,7 +6461,7 @@ export const MOCK_AREAS_FULL: StrapiArea[] = [
       },
     ],
     seo: {
-      metaTitle: 'Palm Jumeirah — Ultra-Luxury Island Living | OPR Real Estate',
+      metaTitle: 'Palm Jumeirah — Ultra-Luxury Island Living | PentTest',
       metaDescription:
         "Explore exclusive properties on Palm Jumeirah — villas with private beaches, luxury apartments, and branded residences on Dubai's iconic palm-shaped island.",
       keywords: 'Palm Jumeirah property, Palm Jumeirah villas, buy property Palm Jumeirah Dubai',
@@ -6573,7 +6573,7 @@ export const MOCK_AREAS_FULL: StrapiArea[] = [
       },
     ],
     seo: {
-      metaTitle: 'Business Bay — Prime Urban Living in Dubai | OPR Real Estate',
+      metaTitle: 'Business Bay — Prime Urban Living in Dubai | PentTest',
       metaDescription:
         'Find apartments and luxury residences in Business Bay, Dubai. Waterfront living meets corporate excellence in the heart of the city.',
       keywords: 'Business Bay property, Business Bay apartments Dubai, buy property Business Bay',

@@ -14,13 +14,13 @@ const prata = Prata({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | OPR Real Estate',
-    default: 'OPR Real Estate — Buy, Rent & Sell Properties',
+    template: '%s | PentTest',
+    default: 'PentTest — Buy, Rent & Sell Properties',
   },
   description: 'Find your dream property. Apartments, villas, townhouses for sale and rent.',
   openGraph: {
     type: 'website',
-    siteName: 'OPR Real Estate',
+    siteName: 'PentTest',
   },
 }
 

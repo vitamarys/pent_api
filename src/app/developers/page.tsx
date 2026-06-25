@@ -6,7 +6,7 @@ import DeveloperCard from './DeveloperCard'
 import s from './page.module.scss'
 
 export const metadata: Metadata = {
-  title: 'Top Developers — OPR Real Estate',
+  title: 'Top Developers — PentTest',
   description:
     'Explore our curated list of trusted developers — offering exceptional real estate projects, premium standards, and long-term reliability.',
 }
