@@ -20,7 +20,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
     "mapbox-gl": "^3.10.0",
-    "next": "15.2.4",
+    "next": "15.5.19",
     "next-auth": "^4.24.11",
     "nuqs": "^2.3.2",
     "qs": "^6.13.1",
@@ -40,7 +40,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.2.4",
+    "eslint-config-next": "15.5.19",
     "sass": "^1.99.0",
     "typescript": "^5"
   }
