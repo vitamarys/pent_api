@@ -1,4 +1,5 @@
 @use '@/styles/tokens' as t;
+@use 'sass:color';
 
 // ── Section ─────────────────────────────────────────────────
 .section {
@@ -44,7 +45,7 @@
   transition: background 0.2s ease;
 
   &:hover {
-    background: darken(#f0ece8, 5%);
+    background: color.adjust(#f0ece8, $lightness: -5%);
   }
 }
 

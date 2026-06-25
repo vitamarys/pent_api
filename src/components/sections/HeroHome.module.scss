@@ -1,4 +1,5 @@
 @use "@/styles/tokens" as t;
+@use 'sass:color';
 
 // ── Hero ─────────────────────────────────────────────────────
 .hero {
@@ -86,7 +87,7 @@
   cursor: pointer;
   transition: background 0.2s;
 
-  &:hover { background: darken(t.$brand-main-base, 8%); }
+  &:hover { background: color.adjust(t.$brand-main-base, $lightness: -8%); }
 
   @include t.tablet { display: inline-flex; align-self: flex-start; }
   @include t.mobile  { display: flex; width: 100%; }
@@ -336,7 +337,7 @@
   align-items: center;
   justify-content: center;
 
-  &:hover { background: darken(t.$brand-main-base, 8%); }
+  &:hover { background: color.adjust(t.$brand-main-base, $lightness: -8%); }
 }
 
 // ── Modal ─────────────────────────────────────────────────────
@@ -487,5 +488,5 @@
   justify-content: center;
   transition: background 0.2s;
 
-  &:hover { background: darken(t.$brand-main-base, 8%); }
+  &:hover { background: color.adjust(t.$brand-main-base, $lightness: -8%); }
 }
