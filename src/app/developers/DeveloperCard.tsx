@@ -35,7 +35,7 @@ export default function DeveloperCard({
   const logoSrc = logo ? getStrapiImageUrl(logo.url) : ''
 
   return (
-    <Link href={`/developer/${slug}`} className={s.card}>
+    <Link href={`/developers/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {bgSrc && <img src={bgSrc} alt={name} className={s.cardBg} />}
         <div className={s.cardOverlay}>

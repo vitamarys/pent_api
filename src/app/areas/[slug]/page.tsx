@@ -65,8 +65,7 @@ function imgUrl(file: unknown): string {
 function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) {
   if (block.visible === false) return null
   const area = getAreaEntity(page)
-  console.log(block);
-  
+
   switch (block.__component) {
     case 'block.hero': {
       const b = block as { title?: string; subtitle?: string; imageFile?: { url?: string } }
@@ -376,7 +375,14 @@ export default async function AreaPage({ params }: Props) {
 
   return (
     <main>
-      {visibleBlocks.map((block, index) => renderBlock(block, index, page))}
+      {visibleBlocks.map((block, index) => {
+        try {
+          return renderBlock(block, index, page)
+        } catch (err) {
+          console.error(`Failed to render ${block.__component}`, err)
+          return null
+        }
+      })}
     </main>
   )
 }

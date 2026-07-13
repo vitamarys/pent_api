@@ -1,32 +1,35 @@
-import qs from 'qs'
 import strapiClient from '@/lib/axios'
 
-interface RawDeveloper {
+export interface CatalogDeveloperItem {
   id: number
-  attributes: {
-    pageUrl?: { data: { attributes: { url: string } } | null }
-  }
+  name: string
+  pageUrl?: { url: string; isExternal?: boolean } | null
+  imageFile?: { url: string } | null
 }
 
-interface RawListResponse {
-  data: RawDeveloper[]
+export interface CatalogDevelopersResponse {
+  data: CatalogDeveloperItem[]
+  meta: { page: number; pageSize: number; total: number; pageCount: number }
+}
+
+const EMPTY_DEVELOPERS: CatalogDevelopersResponse = { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
+
+export async function getDevelopers(
+  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
+): Promise<CatalogDevelopersResponse> {
+  try {
+    const { data } = await strapiClient.get<CatalogDevelopersResponse>('/api/catalog/developers', {
+      params,
+    })
+    return data
+  } catch {
+    return EMPTY_DEVELOPERS
+  }
 }
 
 export async function getDeveloperSlugs(): Promise<{ slug: string }[]> {
-  const query = qs.stringify(
-    { fields: ['id'], populate: { pageUrl: true }, pagination: { pageSize: 100 } },
-    { encodeValuesOnly: true },
-  )
-
-  try {
-    const { data } = await strapiClient.get<RawListResponse>(`/api/developers?${query}`)
-    return data.data
-      .map((raw) => {
-        const url = raw.attributes.pageUrl?.data?.attributes?.url ?? ''
-        return { slug: url.replace(/^\/developers\//, '').replace(/\/$/, '') }
-      })
-      .filter((s) => s.slug)
-  } catch {
-    return []
-  }
+  const result = await getDevelopers({ pageSize: 100 })
+  return result.data
+    .map((dev) => ({ slug: dev.pageUrl?.url?.replace(/^\/developers\//, '').replace(/\/$/, '') ?? '' }))
+    .filter((s) => s.slug)
 }

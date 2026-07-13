@@ -75,8 +75,7 @@ function parseHighlight(text: string): { highlight: string; rest: string } {
 
 function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) {
   if (block.visible === false) return null
-  console.log(block);
-  
+
   const project = getProject(page)
   switch (block.__component) {
     case 'block.hero': {
@@ -553,7 +552,14 @@ export default async function ProjectsPage({ params }: Props) {
 
   return (
     <main>
-      {visibleBlocks.map((block, index) => renderBlock(block, index, page))}
+      {visibleBlocks.map((block, index) => {
+        try {
+          return renderBlock(block, index, page)
+        } catch (err) {
+          console.error(`Failed to render ${block.__component}`, err)
+          return null
+        }
+      })}
     </main>
   )
 }

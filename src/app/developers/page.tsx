@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { MOCK_DEVELOPERS } from '@/data/mock'
+import { getDevelopers } from '@/api/developers'
 import Container from '@/components/ui/Container'
 import DeveloperCard from './DeveloperCard'
 import s from './page.module.scss'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Top Developers — PentTest',
@@ -33,8 +35,8 @@ function ChevronIcon() {
   )
 }
 
-export default function DevelopersPage() {
-  const developers = MOCK_DEVELOPERS
+export default async function DevelopersPage() {
+  const { data: developers } = await getDevelopers({ pageSize: 100 })
 
   return (
     <main>
@@ -66,16 +68,17 @@ export default function DevelopersPage() {
       <section className={s.listing}>
         <Container>
           <div className={s.grid}>
-            {developers.map((dev) => (
-              <DeveloperCard
-                key={dev.slug}
-                name={dev.name}
-                slug={dev.slug}
-                description={dev.description}
-                logo={dev.logo}
-                imageBg={dev.imageBg}
-              />
-            ))}
+            {developers.map((dev) => {
+              const slug = dev.pageUrl?.url?.replace(/^\/developers\//, '').replace(/\/$/, '') ?? String(dev.id)
+              return (
+                <DeveloperCard
+                  key={dev.id}
+                  name={dev.name}
+                  slug={slug}
+                  imageBg={dev.imageFile ?? undefined}
+                />
+              )
+            })}
           </div>
         </Container>
       </section>

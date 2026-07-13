@@ -117,8 +117,52 @@ export interface PenthouseProjectItem {
   [key: string]: unknown
 }
 
+export interface OffPlanProjectCard {
+  id: number
+  title: string | null
+  price: number | null
+  priceFrom: string | null
+  minPrice: number | null
+  maxPrice: number | null
+  currency: string | null
+  handover: string | null
+  handoverValue: string | null
+  paymentPlan: string | null
+  roi: string | null
+  completion: 'COMPLETED' | 'UNDER_CONSTRUCTION' | null
+  saleType: 'DEVELOPER' | 'RESALE' | null
+  featured: boolean
+  floorArea: string | null
+  areaValue: number | null
+  areaUnit: 'SQ_FT' | 'METERS' | null
+  numberOfUnits: number | null
+  floors: string | null
+  previewImage: unknown | null
+  previewImageFile: PenthouseImage | null
+  videoURL: string | null
+  brochureURL: string | null
+  titleLevel: number
+  leadEntity: string
+  leadProjectId: string | null
+  mapLocation: string | null
+  brandCollaboration: string | null
+  pageUrl: { url: string; isExternal: boolean } | null
+  projectTypes: Array<{ name: string }>
+  area: { title: string } | null
+  developer: {
+    name: string
+    image: unknown | null
+    pageUrl: { url: string; isExternal: boolean } | null
+  } | null
+  agent: {
+    pageUrl: { url: string; isExternal: boolean } | null
+  } | null
+  coordinates: { lat: number; lng: number } | null
+  beds: { title: string; values: string[] } | null
+}
+
 export interface PenthouseListingsProjectsResponse {
-  result: { data: PenthouseProjectItem[]; meta: PenthouseMeta }
+  result: { data: OffPlanProjectCard[]; meta: PenthouseMeta }
   areaResult: PenthouseFacetResult
   propertyTypeResult: PenthouseFacetResult
   developerResult: PenthouseFacetResult

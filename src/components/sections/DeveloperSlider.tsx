@@ -105,7 +105,6 @@ export default function DeveloperSlider({
     trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
   const scrollNext = () =>
     trackRef.current?.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' })
-console.log(developers)
   if (developers.length === 0) return null
 
   const title = sectionTitle || 'Other Developers'

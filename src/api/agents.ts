@@ -20,7 +20,7 @@ export async function searchAgents(
     if (params.search) queryParams.search = params.search
     if (params.sort) queryParams.sort = params.sort
 
-    const { data } = await strapiClient.get<PenthouseAgentsResponse>('/api/search-agents', {
+    const { data } = await strapiClient.get<PenthouseAgentsResponse>('/api/catalog/agents', {
       params: queryParams,
     })
     return data

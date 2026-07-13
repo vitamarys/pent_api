@@ -1,32 +1,36 @@
-import qs from 'qs'
 import strapiClient from '@/lib/axios'
 
-interface RawArea {
+export interface CatalogAreaItem {
   id: number
-  attributes: {
-    pageUrl?: { data: { attributes: { url: string } } | null }
-  }
+  title: string
+  subtitle?: string
+  pageUrl?: { url: string; isExternal?: boolean } | null
+  previewImageFile?: { url: string } | null
 }
 
-interface RawListResponse {
-  data: RawArea[]
+export interface CatalogAreasResponse {
+  data: CatalogAreaItem[]
+  meta: { page: number; pageSize: number; total: number; pageCount: number }
+}
+
+const EMPTY_AREAS: CatalogAreasResponse = { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
+
+export async function getAreas(
+  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
+): Promise<CatalogAreasResponse> {
+  try {
+    const { data } = await strapiClient.get<CatalogAreasResponse>('/api/catalog/areas', {
+      params,
+    })
+    return data
+  } catch {
+    return EMPTY_AREAS
+  }
 }
 
 export async function getAreaSlugs(): Promise<{ slug: string }[]> {
-  const query = qs.stringify(
-    { fields: ['id'], populate: { pageUrl: true }, pagination: { pageSize: 100 } },
-    { encodeValuesOnly: true },
-  )
-
-  try {
-    const { data } = await strapiClient.get<RawListResponse>(`/api/districts?${query}`)
-    return data.data
-      .map((raw) => {
-        const url = raw.attributes.pageUrl?.data?.attributes?.url ?? ''
-        return { slug: url.replace(/^\/areas\//, '').replace(/\/$/, '') }
-      })
-      .filter((s) => s.slug)
-  } catch {
-    return []
-  }
+  const result = await getAreas({ pageSize: 100 })
+  return result.data
+    .map((area) => ({ slug: area.pageUrl?.url?.replace(/^\/areas\//, '').replace(/\/$/, '') ?? '' }))
+    .filter((s) => s.slug)
 }

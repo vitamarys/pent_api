@@ -399,7 +399,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) 
         <ProjectAccordion
           key={index}
           sectionTitle={b.title ?? undefined}
-          items={b.questions ?? []}
+          items={(b.questions ?? []).map((q) => ({ title: q.question, answer: q.answer }))}
         />
       )
     }
@@ -486,7 +486,14 @@ export default async function OffPlanPage({ params }: Props) {
 
   return (
     <main>
-      {visibleBlocks.map((block, index) => renderBlock(block, index, page))}
+      {visibleBlocks.map((block, index) => {
+        try {
+          return renderBlock(block, index, page)
+        } catch (err) {
+          console.error(`Failed to render ${block.__component}`, err)
+          return null
+        }
+      })}
     </main>
   )
 }

@@ -18,8 +18,8 @@ export interface FloorPlanCard {
   optionsLabel?: string;
   bedroomsLabel?: string;
   image: string;
-  startingPrice: string;
-  livingArea: string;
+  startingPrice: string | number;
+  livingArea: string | number;
 
 }
 
@@ -34,8 +34,8 @@ export interface ProjectFloorPlanProps {
   cards: FloorPlanCard[];
 }
 
-function parsePrice(price: string): number {
-  const s = price.trim().toUpperCase()
+function parsePrice(price: string | number): number {
+  const s = String(price).trim().toUpperCase()
   const num = parseFloat(s.replace(/[^\d.]/g, ''))
   if (!num) return 0
   if (s.includes('KK')) return num * 1_000_000
@@ -44,9 +44,9 @@ function parsePrice(price: string): number {
   return num
 }
 
-function calcCostPerSqm(price: string, livingArea: string): string | null {
+function calcCostPerSqm(price: string | number, livingArea: string | number): string | null {
   const priceNum = parsePrice(price)
-  const areaNum = parseFloat(livingArea.replace(/[^\d.]/g, ''))
+  const areaNum = parseFloat(String(livingArea).replace(/[^\d.]/g, ''))
   if (!priceNum || !areaNum) return null
   const areaM2 = areaNum * 0.0929
   return formatCompactPrice(Math.round(priceNum / areaM2))

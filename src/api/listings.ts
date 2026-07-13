@@ -29,7 +29,7 @@ export async function getProjects(
   params: PenthouseListingsProjectsParams = {},
 ): Promise<PenthouseListingsProjectsResponse> {
   const { data } = await strapiClient.get<PenthouseListingsProjectsResponse>(
-    '/api/listings/projects',
+    '/api/catalog/projects',
     { params: buildListingsParams(params) },
   )
   return data
@@ -44,7 +44,7 @@ export async function searchProjects(
   if (options.filters) params.filters = JSON.stringify(options.filters)
 
   const { data } = await strapiClient.get<PenthouseSearchResponse>(
-    '/api/listings/projects/search',
+    '/api/catalog/projects/search',
     { params },
   )
   return data
@@ -54,7 +54,7 @@ export async function getProperty(
   params: PenthouseListingsPropertyParams = {},
 ): Promise<PenthouseListingsPropertyResponse> {
   const { data } = await strapiClient.get<PenthouseListingsPropertyResponse>(
-    '/api/listings/property',
+    '/api/catalog/property',
     { params: buildListingsParams(params) },
   )
   return data
@@ -69,7 +69,7 @@ export async function searchProperty(
   if (options.filters) params.filters = JSON.stringify(options.filters)
 
   const { data } = await strapiClient.get<PenthouseSearchResponse>(
-    '/api/listings/property/search',
+    '/api/catalog/property/search',
     { params },
   )
   return data
@@ -86,7 +86,7 @@ export async function getSimilar(
   if (params.currency) queryParams.currency = params.currency
 
   const { data } = await strapiClient.get<PenthouseSimilarResponse>(
-    '/api/listings/similar',
+    '/api/catalog/similar',
     { params: queryParams },
   )
   return data

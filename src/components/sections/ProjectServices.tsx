@@ -22,6 +22,8 @@ export default function ProjectServices({
   const [active, setActive] = useState(0);
   const total = services.length;
 
+  if (total === 0) return null;
+
   const prev = () => setActive(a => (a - 1 + total) % total);
   const next = () => setActive(a => (a + 1) % total);
 

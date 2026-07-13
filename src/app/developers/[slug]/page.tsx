@@ -65,7 +65,6 @@ function imgUrl(file: unknown): string {
 
 function renderBlock(block: PenthouseBlock, index: number) {
   if (block.visible === false) return null
-  console.log(block)
   switch (block.__component) {
     case 'block.key-points': {
       const b = block as {
@@ -305,7 +304,14 @@ export default async function DeveloperPage({ params }: Props) {
           ]}
         />
       )}
-      {visibleBlocks.map((block, index) => renderBlock(block, index))}
+      {visibleBlocks.map((block, index) => {
+        try {
+          return renderBlock(block, index)
+        } catch (err) {
+          console.error(`Failed to render ${block.__component}`, err)
+          return null
+        }
+      })}
     </main>
   )
 }

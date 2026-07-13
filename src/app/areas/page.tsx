@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { MOCK_AREAS_FULL } from '@/data/mock'
+import { getAreas } from '@/api/areas'
 import { getStrapiImageUrl } from '@/lib/utils'
 import Container from '@/components/ui/Container'
 import AreaCard from './AreaCard'
 import s from './page.module.scss'
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Top Areas in Dubai — PentTest',
@@ -34,8 +36,8 @@ function ChevronIcon() {
   )
 }
 
-export default function AreasPage() {
-  const areas = MOCK_AREAS_FULL
+export default async function AreasPage() {
+  const { data: areas } = await getAreas({ pageSize: 100 })
 
   return (
     <main>
@@ -67,16 +69,18 @@ export default function AreasPage() {
       <section className={s.listing}>
         <Container>
           <div className={s.grid}>
-            {areas.map((area) => (
-              <AreaCard
-                key={area.slug}
-                name={area.name}
-                slug={area.slug}
-                city={area.city}
-                description={area.description}
-                image={area.heroImage ? getStrapiImageUrl(area.heroImage.url) : undefined}
-              />
-            ))}
+            {areas.map((area) => {
+              const slug = area.pageUrl?.url?.replace(/^\/areas\//, '').replace(/\/$/, '') ?? String(area.id)
+              return (
+                <AreaCard
+                  key={area.id}
+                  name={area.title}
+                  slug={slug}
+                  description={area.subtitle}
+                  image={area.previewImageFile ? getStrapiImageUrl(area.previewImageFile.url) : undefined}
+                />
+              )
+            })}
           </div>
         </Container>
       </section>

@@ -177,7 +177,12 @@ export default async function ArticlePage({ params }: Props) {
   )
 
   const renderedBlocks = await Promise.all(
-    visibleBlocks.map((block, i) => renderBlock(block, i)),
+    visibleBlocks.map((block, i) =>
+      renderBlock(block, i).catch((err) => {
+        console.error(`Failed to render ${block.__component}`, err)
+        return null
+      }),
+    ),
   )
 
   return (
