@@ -1,9 +1,12 @@
 'use client';
 
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from 'react';
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check } from "lucide-react";
+import PhoneInput, { type Country } from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 import Container from "@/components/ui/Container";
 import s from "./ProjectForm.module.scss";
 
@@ -41,7 +44,18 @@ export default function ProjectForm({
   agent,
   onSubmit,
 }: ProjectFormProps) {
-  const { register, handleSubmit, watch, setValue, formState: { errors, isSubmitting } } =
+  const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
+
+  useEffect(() => {
+    fetch('https://api.country.is/')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.country) setDefaultCountry(data.country as Country);
+      })
+      .catch(() => {/* fallback to AE */});
+  }, []);
+
+  const { register, handleSubmit, watch, setValue, control, formState: { errors, isSubmitting } } =
     useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const consent = watch("consent");
@@ -84,11 +98,21 @@ export default function ProjectForm({
             </div>
 
             <div className={s.fieldWrap}>
-              <input
-                className={`${s.input} ${errors.phone ? s.inputError : ""}`}
-                placeholder="+1 (000) 000-00-00"
-                type="tel"
-                {...register("phone")}
+              <Controller
+                name="phone"
+                control={control}
+                render={({ field }) => (
+                  <PhoneInput
+                    international
+                    defaultCountry={defaultCountry}
+                    value={field.value}
+                    onChange={field.onChange}
+                    className={`${s.phoneInput} ${errors.phone ? s.phoneInputError : ""}`}
+                    numberInputProps={{
+                      placeholder: '+1 (000) 000-00-00',
+                    }}
+                  />
+                )}
               />
               {errors.phone && <span className={s.error}>{errors.phone.message}</span>}
             </div>
@@ -115,13 +139,14 @@ export default function ProjectForm({
             <p className={s.privacyNote}>{privacyNote}</p>
           </div>
         </form>
+
       </div>
 
       {/* Right: agent panel */}
       {agent && (
         <div className={s.agentPanel}>
           <div className={s.agentCircle} />
-          <img className={s.agentImage} src={agent.image} alt={agent.name} />
+          {agent.image && <img className={s.agentImage} src={agent.image} alt={agent.name} />}
           <div className={s.agentInfo}>
             <p className={s.agentName}>{agent.name}</p>
             <p className={s.agentRole}>{agent.role}</p>

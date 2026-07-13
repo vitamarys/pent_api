@@ -1,11 +1,15 @@
-@use '@/styles/tokens' as t;
+@use "@/styles/tokens" as t;
 
 .container {
   width: 100%;
   max-width: t.$page-width;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 t.$gap-large;
 
-  @include t.tablet { padding: 0 20px; }
-  @include t.mobile { padding: 0 16px; }
+  @include t.tablet {
+    padding: 0 20px;
+  }
+  @include t.mobile {
+    padding: 0 16px;
+  }
 }

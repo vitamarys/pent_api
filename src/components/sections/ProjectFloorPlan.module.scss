@@ -100,9 +100,17 @@
 .navButtons {
   display: flex;
   gap: t.$gap-xs;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.2s;
 
   @include t.tablet {
     display: none;
+  }
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 }
 

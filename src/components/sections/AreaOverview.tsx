@@ -7,21 +7,21 @@ import s from './AreaOverview.module.scss'
 export interface OverviewTab {
   label: string
   content: string
+  image?: string
 }
 
 export interface AreaOverviewProps {
   sectionTitle?: string
-  image: string
   tabs?: OverviewTab[]
 }
 
 export default function AreaOverview({
   sectionTitle = 'Area Overview',
-  image,
   tabs = [],
 }: AreaOverviewProps) {
   const [activeTab, setActiveTab] = useState(0)
   const activeContent = tabs[activeTab]?.content ?? ''
+  const activeImage = tabs[activeTab]?.image ?? ''
 
   return (
     <section className={s.section}>
@@ -60,9 +60,9 @@ export default function AreaOverview({
           </div>
 
           {/* ── Image ── */}
-          {image && (
+          {activeImage && (
             <div className={s.imageWrap}>
-              <img src={image} alt={sectionTitle} className={s.img} />
+              <img src={activeImage} alt={sectionTitle} className={s.img} />
             </div>
           )}
 

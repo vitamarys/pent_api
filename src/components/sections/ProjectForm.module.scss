@@ -116,6 +116,83 @@
   color: #e53e3e;
 }
 
+// ── Phone input ──────────────────────────────────────────────
+.phoneInput {
+  width: 100%;
+  height: t.$control-height-large;
+  border-bottom: 1px solid t.$black-fade-2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-bottom-color: t.$brand-main-base;
+  }
+
+  &.phoneInputError {
+    border-bottom-color: #e53e3e;
+  }
+
+  // country select button
+  :global(.PhoneInputCountry) {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  :global(.PhoneInputCountrySelect) {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  :global(.PhoneInputCountryIcon) {
+    width: 20px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+    background: none;
+    border: none;
+  }
+
+  :global(.PhoneInputCountryIconImg) {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border-radius: 1px;
+  }
+
+  :global(.PhoneInputCountrySelectArrow) {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid t.$black-fade-4;
+    border-bottom: 1.5px solid t.$black-fade-4;
+    transform: rotate(45deg) translateY(-2px);
+    opacity: 0.6;
+  }
+
+  // number input
+  :global(.PhoneInputInput) {
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    @include t.text-body-m;
+    color: t.$black-solid;
+    outline: none;
+    padding: 0;
+
+    &::placeholder {
+      color: rgba(31, 31, 31, 0.5);
+    }
+  }
+}
+
 // ── Checkbox ─────────────────────────────────────────────────
 .checkboxRow {
   display: flex;

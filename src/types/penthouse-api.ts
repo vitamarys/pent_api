@@ -1,0 +1,400 @@
+// ── Shared ────────────────────────────────────────────────────────────────────
+
+export interface PenthouseMeta {
+  page: number
+  pageSize: number
+  total: number
+  pageCount: number
+}
+
+export interface PenthouseImage {
+  url: string
+  alternativeText?: string
+  width?: number
+  height?: number
+}
+
+// ── GET /get-pages ────────────────────────────────────────────────────────────
+
+export type PenthousePageType =
+  | 'MAIN'
+  | 'SECONDARY'
+  | 'OFF_PLAN'
+  | 'AREA'
+  | 'AGENT'
+  | 'ARTICLE'
+  | 'DEVELOPER'
+  | 'STATIC'
+
+export interface PenthouseBlock {
+  __component: string
+  id?: number
+  [key: string]: unknown
+}
+
+export interface PenthousePage {
+  id: number
+  title: string
+  type: PenthousePageType
+  pageStatus: 'PUBLISH' | string
+  locale?: string
+  deleted?: boolean
+  indexing?: boolean
+  following?: boolean
+  leadBitrixId?: string | null
+  propCRMName?: string | null
+  url: { id: number; url: string; isExternal?: boolean }
+  seo?: {
+    title?: string
+    metaDescription?: string
+    previewImage?: PenthouseImage
+  }
+  blocks: PenthouseBlock[]
+  associatedEntity?: Array<{
+    __component: string
+    id?: number
+    [key: string]: unknown
+  }>
+  localizations?: unknown[]
+}
+
+export interface PenthouseGetPageResponse {
+  page: PenthousePage
+}
+
+export interface PenthouseGetPagesResponse {
+  pages: PenthousePage[]
+  scripts: Array<{ name: string; content: string; rank: number }>
+  globalSettings: {
+    favicon?: PenthouseImage
+    formData: Array<{ key: string; value: string }>
+    notificationsTexts: Array<{ key: string; value: string }>
+  }
+  course: {
+    rates: Record<string, number>
+    availableCurrencies: string[]
+    lastUpdated: string
+  }
+}
+
+// ── GET /listings/projects ────────────────────────────────────────────────────
+
+export interface PenthouseProjectFilters {
+  ids?: number[]
+  areas?: number[]
+  propertyTypes?: number[]
+  price?: [number, number]
+  handover?: string[]
+  developers?: number[]
+  categories?: string[]
+}
+
+export interface PenthouseListingsProjectsParams {
+  locale?: string
+  currency?: string
+  page?: number
+  pageSize?: number
+  sort?: 'newest' | 'price_asc' | 'price_desc'
+  search?: string
+  filters?: PenthouseProjectFilters
+}
+
+export interface PenthouseFacetItem {
+  id: number
+  label: string
+  count: number
+}
+
+export interface PenthouseFacetResult {
+  data: PenthouseFacetItem[]
+  meta: PenthouseMeta
+}
+
+export interface PenthouseProjectItem {
+  id: number
+  title?: string
+  slug?: string
+  [key: string]: unknown
+}
+
+export interface PenthouseListingsProjectsResponse {
+  result: { data: PenthouseProjectItem[]; meta: PenthouseMeta }
+  areaResult: PenthouseFacetResult
+  propertyTypeResult: PenthouseFacetResult
+  developerResult: PenthouseFacetResult
+  agentResult: PenthouseFacetResult
+  handoverResult: PenthouseFacetResult
+  categoryResult: PenthouseFacetResult
+  priceResult: { min: number; max: number }
+}
+
+// ── GET /listings/property ────────────────────────────────────────────────────
+
+export interface PenthousePropertyFilters {
+  search?: string[]
+  propertyType?: number
+  price?: [number, number]
+  beds?: string[]
+  baths?: string[]
+  completion?: 'COMPLETED' | 'UNDER_CONSTRUCTION'
+  furnishing?: 'FURNISHED' | 'UNFURNISHED' | 'PARTLY_FURNISHED'
+}
+
+export interface PenthouseListingsPropertyParams {
+  locale?: string
+  currency?: string
+  page?: number
+  pageSize?: number
+  sort?: 'newest' | 'price_asc' | 'price_desc'
+  filters?: PenthousePropertyFilters
+}
+
+export interface PenthousePropertyItem {
+  id: number
+  title?: string
+  slug?: string
+  [key: string]: unknown
+}
+
+export interface PenthouseListingsPropertyResponse {
+  result: { data: PenthousePropertyItem[]; meta: PenthouseMeta }
+  propertyTypeResult: PenthouseFacetResult
+  bedsResult: PenthouseFacetResult
+  bathsResult: PenthouseFacetResult
+  completionResult: PenthouseFacetResult
+  furnishingResult: PenthouseFacetResult
+  priceResult: { min: number; max: number }
+}
+
+// ── GET /listings/*/search ────────────────────────────────────────────────────
+
+export interface PenthouseSearchResponse {
+  data: Array<{ id: number; label: string }>
+  meta: { total: number; pageSize: number; hasMatches: boolean }
+}
+
+// ── GET /listings/similar ─────────────────────────────────────────────────────
+
+export interface PenthouseSimilarParams {
+  type: 'projects' | 'property'
+  id: number
+  locale?: string
+  currency?: string
+}
+
+export interface PenthouseSimilarResponse {
+  data: unknown[]
+  meta: {
+    total: number
+    minTarget: number
+    maxAllowed: number
+    tiersUsed: number[]
+  }
+}
+
+// ── POST /leads ───────────────────────────────────────────────────────────────
+
+export interface PenthouseLeadData {
+  name: string
+  email: string
+  phone: string
+  message?: string
+  area?: string
+  projectId?: string
+  entity?: 'off_plan' | 'secondary'
+  agentId?: string
+  pageBitrixId?: string
+  extraData?: Record<string, unknown>
+  recaptcha_response?: string
+}
+
+// ── GET /get-areas ────────────────────────────────────────────────────────────
+
+export interface PenthouseAreaItem {
+  id: number
+  title: string
+  subtitle?: string
+  description?: string
+  previewImage?: PenthouseImage
+  pageUrl?: { url: string }
+}
+
+export interface PenthouseAreasResponse {
+  data: PenthouseAreaItem[]
+  meta: PenthouseMeta
+}
+
+// ── GET /get-articles ─────────────────────────────────────────────────────────
+
+export interface PenthouseArticleItem {
+  id: number
+  title: string
+  date: string
+  summary?: string
+  category?: string
+  timeToRead?: string
+  previewImage?: PenthouseImage
+  pageUrl?: { url: string }
+}
+
+export interface PenthouseArticlesResponse {
+  data: PenthouseArticleItem[]
+  meta: PenthouseMeta
+}
+
+// ── Article detail (associatedEntity.article) ─────────────────────────────────
+
+export interface ArticleTextSegment {
+  type: 'text'
+  text: string
+  styles?: Record<string, unknown>
+}
+
+export interface ArticleTableCell {
+  type: 'tableCell'
+  props?: Record<string, unknown>
+  content?: ArticleTextSegment[]
+}
+
+export interface ArticleTableRow {
+  cells: ArticleTableCell[]
+}
+
+export interface ArticleTableContent {
+  type: 'tableContent'
+  rows: ArticleTableRow[]
+  columnWidths?: (number | null)[]
+}
+
+export interface ArticleContentBlock {
+  id: string
+  type: string
+  props?: Record<string, unknown>
+  content?: ArticleTextSegment[] | ArticleTableContent
+  children?: ArticleContentBlock[]
+}
+
+export interface PenthouseArticleAuthor {
+  id: number
+  name: string
+  position?: string
+  image?: PenthouseImage
+}
+
+export interface PenthouseArticleCategory {
+  id: number
+  name: string
+}
+
+export interface PenthouseArticleDetail {
+  id: number
+  title: string
+  date: string
+  summary?: string
+  timeToRead?: string
+  content: ArticleContentBlock[]
+  author?: PenthouseArticleAuthor
+  editor?: PenthouseArticleAuthor
+  category?: PenthouseArticleCategory
+  previewImage?: PenthouseImage
+  pinned?: boolean
+  order?: number
+  point?: string | null
+}
+
+// ── GET /get-developers ───────────────────────────────────────────────────────
+
+export interface PenthouseDeveloperItem {
+  id: number
+  name: string
+  image?: PenthouseImage
+  projectCount: number
+  minPrice?: number
+  pageUrl?: { url: string }
+  offPlanProjects?: unknown[]
+  secondaryProjects?: unknown[]
+}
+
+export interface PenthouseDevelopersResponse {
+  results: PenthouseDeveloperItem[]
+  pagination: PenthouseMeta
+}
+
+// ── GET /search-agents ────────────────────────────────────────────────────────
+
+export interface PenthouseAgentItem {
+  id: number
+  name: string
+  position?: string
+  cardImage?: PenthouseImage
+  whatsapp?: string
+  phoneNumber?: string
+}
+
+export interface PenthouseAgentsResponse {
+  data: PenthouseAgentItem[]
+  meta: PenthouseMeta
+}
+
+// ── GET /favourites ───────────────────────────────────────────────────────────
+
+export type PenthouseFavouritesType = 'off_plan_projects' | 'secondary_projects' | 'areas'
+
+export interface PenthouseFavouritesParams {
+  ids: string
+  type?: PenthouseFavouritesType
+  page?: number
+  pageSize?: number
+  sort?: 'createdAt:asc' | 'createdAt:desc'
+}
+
+export interface PenthouseFavouritesResponse {
+  data: unknown[]
+  meta: PenthouseMeta
+}
+
+// ── GET /global-settings ──────────────────────────────────────────────────────
+
+export interface PenthouseGlobalSettings {
+  favicon?: PenthouseImage
+  recaptchaPublicKey?: string
+  isActiveRecaptcha?: boolean
+  defaultWhatsapp?: string
+  formData: Array<{ key: string; value: string }>
+  notificationsTexts: Array<{ key: string; value: string }>
+}
+
+export interface PenthouseGlobalSettingsResponse {
+  data: PenthouseGlobalSettings
+}
+
+// ── GET /currency-rates ───────────────────────────────────────────────────────
+
+export interface PenthouseCurrencyRatesResponse {
+  data: {
+    rates: Record<string, number>
+    availableCurrencies: string[]
+    lastUpdated: string
+  }
+}
+
+// ── GET /redirects ────────────────────────────────────────────────────────────
+
+export interface PenthouseRedirectItem {
+  id: number
+  from: string
+  to: string
+}
+
+export interface PenthouseRedirectsResponse {
+  data: PenthouseRedirectItem[]
+}
+
+// ── GET /robots-txts ──────────────────────────────────────────────────────────
+
+export interface PenthouseRobotsTxtResponse {
+  data: {
+    id: number
+    Content: string
+  }
+}

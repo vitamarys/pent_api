@@ -19,7 +19,7 @@ export default function ProjectPromo({
       <Container>
         <div className={s.inner}>
           <h2 className={s.title}>
-            <span className={s.highlight}>{titleHighlight}</span>
+            <span className={s.highlight}>{titleHighlight} </span>
             {titleRest}
           </h2>
           <p className={s.description}>{description}</p>

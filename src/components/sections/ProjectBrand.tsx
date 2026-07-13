@@ -30,7 +30,7 @@ export default function ProjectBrand({
       </div>
 
       {/* Card */}
-      <Container>
+      <Container className={s.container}>
         <div className={s.cardWrap}>
         <div className={s.card}>
           {(logo || logoText) && (

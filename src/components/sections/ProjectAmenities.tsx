@@ -89,16 +89,15 @@ export default function ProjectAmenities({
       {open && (
         <div className={s.modalOverlay} onClick={() => setOpen(false)}>
           <div className={s.modal} onClick={(e) => e.stopPropagation()}>
-            <div className={s.modalHeader}>
+            <div className={s.modalTitleArea}>
               <h3 className={s.modalTitle}>{sectionTitle}</h3>
-              <button className={s.modalClose} onClick={() => setOpen(false)}>
-                <X size={20} />
-              </button>
             </div>
-            <div className={s.modalGrid}>
+            <button className={s.modalClose} onClick={() => setOpen(false)}>
+              <X size={24} />
+            </button>
+            <div className={s.modalList}>
               {items.map((item, i) => (
                 <div key={i} className={s.modalItem}>
-                  <span className={s.dot} />
                   <span className={s.modalItemLabel}>{item.label}</span>
                 </div>
               ))}

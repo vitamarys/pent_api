@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { formatCompactPrice } from "@/lib/utils";
 import s from "./ProjectFloorPlan.module.scss";
 
 import "swiper/css";
@@ -15,10 +16,11 @@ export interface FloorPlanCard {
   title: string;
   type: string;
   optionsLabel?: string;
+  bedroomsLabel?: string;
   image: string;
   startingPrice: string;
   livingArea: string;
-  costPerSqm?: string;
+
 }
 
 export interface FloorPlanTab {
@@ -30,6 +32,24 @@ export interface ProjectFloorPlanProps {
   sectionTitle?: string;
   tabs: FloorPlanTab[];
   cards: FloorPlanCard[];
+}
+
+function parsePrice(price: string): number {
+  const s = price.trim().toUpperCase()
+  const num = parseFloat(s.replace(/[^\d.]/g, ''))
+  if (!num) return 0
+  if (s.includes('KK')) return num * 1_000_000
+  if (s.includes('M')) return num * 1_000_000
+  if (s.includes('K')) return num * 1_000
+  return num
+}
+
+function calcCostPerSqm(price: string, livingArea: string): string | null {
+  const priceNum = parsePrice(price)
+  const areaNum = parseFloat(livingArea.replace(/[^\d.]/g, ''))
+  if (!priceNum || !areaNum) return null
+  const areaM2 = areaNum * 0.0929
+  return formatCompactPrice(Math.round(priceNum / areaM2))
 }
 
 export default function ProjectFloorPlan({
@@ -79,24 +99,22 @@ export default function ProjectFloorPlan({
             </div>
           )}
 
-          {showNav && (
-            <div className={s.navButtons}>
-              <button
-                className={s.navBtn}
-                onClick={() => swiperRef.current?.slidePrev()}
-                aria-label="Previous"
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button
-                className={s.navBtn}
-                onClick={() => swiperRef.current?.slideNext()}
-                aria-label="Next"
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )}
+          <div className={`${s.navButtons} ${!showNav ? s.hidden : ''}`}>
+            <button
+              className={s.navBtn}
+              onClick={() => swiperRef.current?.slidePrev()}
+              aria-label="Previous"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              className={s.navBtn}
+              onClick={() => swiperRef.current?.slideNext()}
+              aria-label="Next"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
 
         <Swiper
@@ -118,8 +136,15 @@ export default function ProjectFloorPlan({
                 {/* Card header */}
                 <div className={s.cardHeader}>
                   <span className={s.dot} />
+                  
                   <div className={s.cardInfo}>
-                    <p className={s.cardTitle}>{card.title}</p>
+                    <p className={s.cardTitle}>
+                      {card.bedroomsLabel
+                        ? card.bedroomsLabel.toLowerCase() === 'studio'
+                          ? card.bedroomsLabel
+                          : `${card.bedroomsLabel} Bedrooms`
+                        : card.title}
+                    </p>
                     <p className={s.cardType}>{card.type}</p>
                   </div>
                   {card.optionsLabel && (
@@ -145,10 +170,10 @@ export default function ProjectFloorPlan({
                     <span className={s.statLabel}>Living area:</span>
                     <span className={s.statValue}>{card.livingArea}</span>
                   </div>
-                  {card.costPerSqm && (
+                  {calcCostPerSqm(card.startingPrice, card.livingArea) && (
                     <div className={s.statItem}>
                       <span className={s.statLabel}>Cost per m²:</span>
-                      <span className={s.statValue}>{card.costPerSqm}</span>
+                      <span className={s.statValue}>{calcCostPerSqm(card.startingPrice, card.livingArea)}</span>
                     </div>
                   )}
                 </div>

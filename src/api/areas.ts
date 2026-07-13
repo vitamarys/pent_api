@@ -1,51 +1,32 @@
 import qs from 'qs'
 import strapiClient from '@/lib/axios'
-import type { StrapiArea, StrapiListResponse } from '@/types/strapi'
-import { MOCK_AREAS_FULL } from '@/data/mock'
 
-export async function getAreaBySlug(slug: string): Promise<StrapiArea | null> {
-  const query = qs.stringify(
-    {
-      filters: { slug: { $eq: slug } },
-      populate: {
-        heroImage: true,
-        features: true,
-        overviewImage: true,
-        overviewTabs: true,
-        mapProximity: true,
-        faqItems: true,
-        seo: { populate: { ogImage: true } },
-      },
-    },
-    { encodeValuesOnly: true },
-  )
-
-  try {
-    const { data } = await strapiClient.get<StrapiListResponse<StrapiArea>>(
-      `/api/districts?${query}`,
-    )
-    if (data.data[0]) return data.data[0]
-  } catch {
-    // fall through to mock data
+interface RawArea {
+  id: number
+  attributes: {
+    pageUrl?: { data: { attributes: { url: string } } | null }
   }
+}
 
-  return MOCK_AREAS_FULL.find((a) => a.slug === slug) ?? null
+interface RawListResponse {
+  data: RawArea[]
 }
 
 export async function getAreaSlugs(): Promise<{ slug: string }[]> {
   const query = qs.stringify(
-    { fields: ['slug'] },
+    { fields: ['id'], populate: { pageUrl: true }, pagination: { pageSize: 100 } },
     { encodeValuesOnly: true },
   )
 
   try {
-    const { data } = await strapiClient.get<StrapiListResponse<StrapiArea>>(
-      `/api/districts?${query}`,
-    )
-    if (data.data.length > 0) return data.data.map((d) => ({ slug: d.slug }))
+    const { data } = await strapiClient.get<RawListResponse>(`/api/districts?${query}`)
+    return data.data
+      .map((raw) => {
+        const url = raw.attributes.pageUrl?.data?.attributes?.url ?? ''
+        return { slug: url.replace(/^\/areas\//, '').replace(/\/$/, '') }
+      })
+      .filter((s) => s.slug)
   } catch {
-    // fall through to mock data
+    return []
   }
-
-  return MOCK_AREAS_FULL.map((a) => ({ slug: a.slug }))
 }

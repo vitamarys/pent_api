@@ -4,6 +4,7 @@
 .section {
   background: t.$white-solid;
   overflow: hidden;
+  padding: 32px 0;
 }
 
 // ── Two-column layout ─────────────────────────────────────────────────────────
@@ -102,6 +103,9 @@
   padding: 12px 0;
   border-bottom: 1px solid t.$black-fade-2;
   gap: t.$gap-xs;
+  &:nth-last-child(1) {
+    border-bottom: none;
+  }
 }
 
 .proximityLabel {

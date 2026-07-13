@@ -29,3 +29,6 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
+api.md
+CLAUDE.md
+exsample.json

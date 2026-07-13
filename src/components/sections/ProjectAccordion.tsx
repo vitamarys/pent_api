@@ -6,7 +6,7 @@ import Container from "@/components/ui/Container";
 import s from "./ProjectAccordion.module.scss";
 
 export interface AccordionItem {
-  question: string;
+  title: string;
   answer: string;
 }
 
@@ -35,7 +35,7 @@ export default function ProjectAccordion({
               return (
                 <div key={i} className={`${s.item} ${isOpen ? s.itemOpen : ""}`}>
                   <button className={s.trigger} onClick={() => toggle(i)} aria-expanded={isOpen}>
-                    <span className={s.question}>{item.question}</span>
+                    <span className={s.question}>{item.title}</span>
                     <span className={s.icon}>
                       {isOpen ? <X size={16} strokeWidth={1.5} /> : <Plus size={16} strokeWidth={1.5} />}
                     </span>

@@ -14,6 +14,7 @@ export interface NewsItem {
   date: string
   readTime: string
   image: string
+  href?: string
 }
 
 interface NewsSliderProps {
@@ -25,7 +26,7 @@ interface NewsSliderProps {
 
 function NewsCard({ item }: { item: NewsItem }) {
   return (
-    <Link href={`/news/${item.slug}`} className={s.card}>
+    <Link href={item.href ?? `/news/${item.slug}`} className={s.card}>
       <div className={s.cardImage}>
         <img src={item.image} alt={item.title} className={s.cardImg} />
         <div className={s.cardTag}>{item.tag}</div>

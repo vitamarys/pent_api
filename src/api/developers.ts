@@ -1,14 +1,32 @@
-import { MOCK_DEVELOPERS } from '@/data/mock'
-import type { StrapiDeveloper } from '@/types/strapi'
+import qs from 'qs'
+import strapiClient from '@/lib/axios'
 
-export async function getDeveloperBySlug(slug: string): Promise<StrapiDeveloper | null> {
-  return MOCK_DEVELOPERS.find((d) => d.slug === slug) ?? null
+interface RawDeveloper {
+  id: number
+  attributes: {
+    pageUrl?: { data: { attributes: { url: string } } | null }
+  }
 }
 
-export async function getOtherDevelopers(excludeSlug: string): Promise<StrapiDeveloper[]> {
-  return MOCK_DEVELOPERS.filter((d) => d.slug !== excludeSlug)
+interface RawListResponse {
+  data: RawDeveloper[]
 }
 
 export async function getDeveloperSlugs(): Promise<{ slug: string }[]> {
-  return MOCK_DEVELOPERS.map((d) => ({ slug: d.slug }))
+  const query = qs.stringify(
+    { fields: ['id'], populate: { pageUrl: true }, pagination: { pageSize: 100 } },
+    { encodeValuesOnly: true },
+  )
+
+  try {
+    const { data } = await strapiClient.get<RawListResponse>(`/api/developers?${query}`)
+    return data.data
+      .map((raw) => {
+        const url = raw.attributes.pageUrl?.data?.attributes?.url ?? ''
+        return { slug: url.replace(/^\/developers\//, '').replace(/\/$/, '') }
+      })
+      .filter((s) => s.slug)
+  } catch {
+    return []
+  }
 }

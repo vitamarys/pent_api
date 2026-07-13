@@ -69,7 +69,7 @@ export default function ProjectPaymentPlan({
                   <p className={s.stageSubtitle}>{stage.subtitle}</p>
                 </div>
                 <div className={s.bottomWrap}>
-                  <p className={s.percentage}>{stage.percentage}</p>
+                  <p className={s.percentage}>{stage.percentage} %</p>
                   {stage.paymentsLabel && (
                     <div className={s.badge}>
                       <span>{stage.paymentsLabel}</span>
@@ -100,7 +100,7 @@ export default function ProjectPaymentPlan({
                   </div>
                 )}
               </div>
-              <p className={s.percentage}>{stage.percentage}</p>
+              <p className={s.percentage}>{stage.percentage} %</p>
             </div>
           ))}
 

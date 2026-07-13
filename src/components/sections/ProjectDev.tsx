@@ -37,7 +37,7 @@ export default function ProjectDev({
         {image && <img src={image} alt={devName} />}
       </div>
 
-      <Container>
+      <Container className={s.container}>
         <div className={s.cardWrap}>
           <div className={s.card}>
 

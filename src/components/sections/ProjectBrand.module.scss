@@ -1,5 +1,11 @@
 @use "@/styles/tokens" as t;
 
+// ── Container override: no padding on tablet/mobile ─────────
+.container {
+  @include t.tablet { padding: 0; }
+  @include t.mobile { padding: 0; }
+}
+
 // ── Section ─────────────────────────────────────────────────
 .section {
   position: relative;

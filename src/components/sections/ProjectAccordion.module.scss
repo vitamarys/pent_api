@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as t;
+@use "@/styles/tokens" as t;
 
 // ── Section ─────────────────────────────────────────────────
 .section {
@@ -52,7 +52,9 @@
 .item {
   border-bottom: 1px solid t.$black-fade-2;
   padding: t.$gap-normal 0;
-
+  &:nth-last-child(1) {
+    border-bottom: none;
+  }
   @include t.tablet {
     padding: 20px 0;
   }

@@ -7,7 +7,9 @@
   left: 0;
   right: 0;
   z-index: 100;
-  transition: background 0.25s ease, border-color 0.25s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .transparent {
@@ -49,7 +51,9 @@
   display: flex;
   align-items: center;
 
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .navLink {
@@ -65,10 +69,16 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
+  &:hover {
+    opacity: 0.7;
+  }
 
-  &.light { color: t.$white-solid; }
-  &.dark  { color: t.$black-solid; }
+  &.light {
+    color: t.$white-solid;
+  }
+  &.dark {
+    color: t.$black-solid;
+  }
 }
 
 // ── Utilities ─────────────────────────────────────────────────
@@ -77,7 +87,9 @@
   align-items: center;
   gap: 0;
 
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .utilBtn {
@@ -97,10 +109,16 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
+  &:hover {
+    opacity: 0.7;
+  }
 
-  &.light { color: t.$white-solid; }
-  &.dark  { color: t.$black-solid; }
+  &.light {
+    color: t.$white-solid;
+  }
+  &.dark {
+    color: t.$black-solid;
+  }
 }
 
 .divider {
@@ -118,7 +136,9 @@
   align-items: center;
   gap: t.$gap-small;
 
-  @include t.tablet { display: flex; }
+  @include t.tablet {
+    display: flex;
+  }
 }
 
 .iconBtn {
@@ -172,7 +192,9 @@
   text-decoration: none;
   border-bottom: 1px solid t.$black-fade-2;
 
-  &:hover { background: t.$brand-second-base; }
+  &:hover {
+    background: t.$brand-second-base;
+  }
 }
 
 .drawerUtils {

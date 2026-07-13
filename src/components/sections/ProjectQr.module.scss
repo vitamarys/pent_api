@@ -1,0 +1,59 @@
+@use '@/styles/tokens' as t;
+
+.section {
+  background: t.$brand-second-base;
+  padding-bottom: t.$margin-vertical-small;
+}
+
+.card {
+  width: 100%;
+  background: t.$white-solid;
+  border: 1px solid t.$black-fade-2;
+  padding: t.$gap-normal;
+  display: flex;
+  align-items: flex-start;
+  gap: t.$gap-small;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  background: rgba(193, 153, 98, 0.05);
+  @include t.text-body-m;
+  color: t.$brand-main-strong;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.description {
+  @include t.text-body-m;
+  color: t.$black-fade-4;
+  line-height: 1.4;
+}
+
+.qrWrap {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  background: t.$white-solid;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

@@ -3,6 +3,14 @@
 // ── Section ───────────────────────────────────────────────────────────────────
 .section {
   background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+
+  @include t.tablet {
+    padding: 100px 0 t.$margin-vertical-small;
+  }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+  }
 }
 
 // ── Banner ────────────────────────────────────────────────────────────────────

@@ -173,6 +173,96 @@
   }
 }
 
+// ── Fixed desktop dots/labels: hidden on tablet & mobile ─────
+.neighborDot {
+  @include t.tablet { display: none !important; }
+  @include t.mobile { display: none !important; }
+}
+
+// ── Ring neighbor dots: hidden on desktop (fixed dots replace), visible elsewhere ─
+.neighborRingDot {
+  opacity: 0;
+  pointer-events: none;
+
+  @include t.tablet { opacity: 1; pointer-events: auto; }
+  @include t.mobile { opacity: 1; pointer-events: auto; }
+}
+
+// ── Desktop/tablet shared neighbor label ─────────────────────
+.neighborLabel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: translate(-100%, -50%);
+  padding-right: 8px;
+  opacity: 0.2;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+
+  @include t.mobile { display: none; }
+}
+
+.neighborText {
+  @include t.text-body-m;
+  color: t.$white-solid;
+  font-size: 14px;
+}
+
+// ── Tablet: dot exactly on ring ──────────────────────────────
+// Ring at y=83:  x = 300 - sqrt(300²-217²) ≈ 93
+// Ring at y=488: x = 300 - sqrt(300²-188²) ≈ 66
+.tabletRingDot {
+  display: none;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  @include t.tablet { display: block; }
+  @include t.mobile { display: none; }
+}
+
+.tabletRingDotUpper { left: 93px;  top: 83px; }
+.tabletRingDotLower { left: 66px;  top: 488px; }
+
+// ── Tablet: text to the left of each dot ─────────────────────
+.tabletLabelText {
+  display: none;
+  position: absolute;
+  @include t.text-body-m;
+  color: t.$white-solid;
+  opacity: 0.5;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateY(-50%);
+
+  @include t.tablet { display: block; }
+  @include t.mobile { display: none; }
+}
+
+// right = wrap_width - dot_x + gap
+.tabletLabelTextUpper {
+  right: calc(600px - 93px + 8px);  // right edge 8px from dot center
+  top: 83px;
+}
+
+.tabletLabelTextLower {
+  right: calc(600px - 66px + 8px);
+  top: 488px;
+}
+
+// ── Mobile dots: two fixed dots visible in the mobile viewport ─
+.mobileDot {
+  display: none;
+  @include t.mobile { display: block; }
+}
+
+
 // ── Counter badge (desktop only, above image) ────────────────
 .counter {
   position: absolute;
