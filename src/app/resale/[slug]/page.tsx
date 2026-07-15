@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import type React from 'react'
 import { getPageBySlug, getPageSlugs } from '@/api/pages'
+import s from './page.module.scss'
 import type { PenthousePage, PenthouseBlock, SecondaryProperty } from '@/types/penthouse-api'
 import SecondaryHero from '@/components/sections/SecondaryHero'
 import SecondarySidebar from '@/components/sections/SecondarySidebar'
@@ -87,6 +88,7 @@ function renderBlock(
         readMoreText?: string
         readLessText?: string
         locationLabel?: string
+        developerLabel?: string
         typeOfPropertyLabel?: string
         furnishingLabel?: string
         floorsLabel?: string
@@ -94,12 +96,14 @@ function renderBlock(
       }
       if (!property) return null
       const location = [property.subCommunity, property.community].filter(Boolean).join(', ')
+      const developerName = property.project?.developer?.name ?? undefined
       return (
         <SecondaryDetails
           key={index}
           readMoreText={b.readMoreText}
           readLessText={b.readLessText}
           locationLabel={b.locationLabel}
+          developerLabel={b.developerLabel}
           typeOfPropertyLabel={b.typeOfPropertyLabel}
           furnishingLabel={b.furnishingLabel}
           floorsLabel={b.floorsLabel}
@@ -107,6 +111,7 @@ function renderBlock(
           title={property.propertyTitle ?? undefined}
           descriptionHtml={property.webRemarks ?? undefined}
           location={location || undefined}
+          developer={developerName}
           propertyType={property.unitType ?? undefined}
           furnishing={property.primaryView ?? undefined}
           propertyStatus={property.completionStatus ?? undefined}
@@ -487,6 +492,9 @@ export default async function ResalePage({ params }: Props) {
   const innerBlocks = visibleBlocks.filter((b) => INNER_BLOCKS.has(b.__component))
   const outerBlocks = visibleBlocks.filter((b) => !INNER_BLOCKS.has(b.__component))
 
+  const heroBlock = innerBlocks.filter((b) => b.__component === 'block.secondary-hero')
+  const sectionBlocks = innerBlocks.filter((b) => b.__component !== 'block.secondary-hero')
+
   const pricePerSqft =
     property?.price && property?.unitBuiltupArea
       ? Math.round(property.price / property.unitBuiltupArea)
@@ -494,9 +502,9 @@ export default async function ResalePage({ params }: Props) {
 
   return (
     <main>
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '80px 40px 0', display: 'grid', gridTemplateColumns: '1fr 380px', gap: '32px', alignItems: 'start' }}>
-        <div>
-          {innerBlocks.map((block, index) => {
+      <div className={s.layout}>
+        <div className={s.heroArea}>
+          {heroBlock.map((block, index) => {
             try {
               return renderBlock(block, index, property)
             } catch (err) {
@@ -505,15 +513,27 @@ export default async function ResalePage({ params }: Props) {
             }
           })}
         </div>
-        <SecondarySidebar
-          price={property?.price ?? undefined}
-          pricePerSqft={pricePerSqft}
-          area={property?.unitBuiltupArea ?? undefined}
-          bedrooms={property?.bedrooms ? Number(property.bedrooms) : undefined}
-          bathrooms={property?.noOfBathroom ?? undefined}
-          parking={property?.parking ? Number(property.parking) : undefined}
-          agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined } : undefined}
-        />
+        <div className={s.sidebarArea}>
+          <SecondarySidebar
+            price={property?.price ?? undefined}
+            pricePerSqft={pricePerSqft}
+            area={property?.unitBuiltupArea ?? undefined}
+            bedrooms={property?.bedrooms ? Number(property.bedrooms) : undefined}
+            bathrooms={property?.noOfBathroom ?? undefined}
+            parking={property?.parking ? Number(property.parking) : undefined}
+            agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined } : undefined}
+          />
+        </div>
+        <div className={s.sectionsArea}>
+          {sectionBlocks.map((block, index) => {
+            try {
+              return renderBlock(block, heroBlock.length + index, property)
+            } catch (err) {
+              console.error(`Failed to render ${block.__component}`, err)
+              return null
+            }
+          })}
+        </div>
       </div>
       {outerBlocks.map((block, index) => {
         try {

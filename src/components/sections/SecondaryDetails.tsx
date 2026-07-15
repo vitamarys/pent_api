@@ -8,6 +8,7 @@ interface Props {
   readMoreText?: string
   readLessText?: string
   locationLabel?: string
+  developerLabel?: string
   typeOfPropertyLabel?: string
   furnishingLabel?: string
   floorsLabel?: string
@@ -15,6 +16,7 @@ interface Props {
   title?: string
   descriptionHtml?: string
   location?: string
+  developer?: string
   propertyType?: string
   furnishing?: string
   floor?: string
@@ -25,6 +27,7 @@ export default function SecondaryDetails({
   readMoreText = 'Read more',
   readLessText = 'Read less',
   locationLabel = 'Location',
+  developerLabel = 'Developer',
   typeOfPropertyLabel = 'Type of property',
   furnishingLabel = 'Furnishing',
   floorsLabel = 'Floors',
@@ -32,6 +35,7 @@ export default function SecondaryDetails({
   title,
   descriptionHtml,
   location,
+  developer,
   propertyType,
   furnishing,
   floor,
@@ -41,6 +45,7 @@ export default function SecondaryDetails({
 
   const rows: { label: string; value: string; isLink?: boolean }[] = [
     ...(location ? [{ label: locationLabel, value: location, isLink: true }] : []),
+    ...(developer ? [{ label: developerLabel, value: developer, isLink: true }] : []),
     ...(propertyType ? [{ label: typeOfPropertyLabel, value: propertyType }] : []),
     ...(furnishing ? [{ label: furnishingLabel, value: furnishing }] : []),
     ...(floor ? [{ label: floorsLabel, value: floor }] : []),

@@ -4,7 +4,6 @@
 .sidebar {
   position: sticky;
   top: 84px;
-  align-self: start;
   background: t.$brand-second-base;
   padding: 24px;
   display: flex;
@@ -17,6 +16,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1fr auto;
     gap: 24px;
+    padding: 24px;
   }
 
   @include t.mobile {

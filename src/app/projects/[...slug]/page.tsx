@@ -280,7 +280,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       )
     }
 
-    case 'block.developers': {
+    case 'block.developers': {     
       const dev = project?.developer as {
         name?: string
         description?: string

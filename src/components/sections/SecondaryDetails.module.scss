@@ -22,11 +22,6 @@
   @include t.text-h3;
   color: t.$black-solid;
   margin: 0;
-
-  @include t.mobile {
-    font-size: 26px;
-    letter-spacing: -0.78px;
-  }
 }
 
 // ── Details table ─────────────────────────────────────────────────────────────
@@ -37,17 +32,11 @@
 
 .row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 12px 0;
   border-bottom: 1px solid rgba(31, 31, 31, 0.1);
   gap: 12px;
-
-  @include t.mobile {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
 }
 
 .rowFirst {
@@ -65,10 +54,6 @@
   @include t.text-body-m;
   color: t.$black-solid;
   text-align: right;
-
-  @include t.mobile {
-    text-align: left;
-  }
 }
 
 .rowValueLink {

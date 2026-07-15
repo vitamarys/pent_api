@@ -31,6 +31,8 @@ export default function SecondaryAmenities({
   if (!features.length && !title) return null
 
   const imgSrc = image?.url || '/images/Image.png'
+  const VISIBLE = 7
+  const visibleFeatures = features.slice(0, VISIBLE)
 
   return (
     <>
@@ -40,12 +42,12 @@ export default function SecondaryAmenities({
         <div className={s.body}>
           {/* Left: list + button */}
           <div className={s.listCol}>
-            {features.length > 0 && (
+            {visibleFeatures.length > 0 && (
               <ul className={s.list}>
-                {features.map((feat, i) => (
+                {visibleFeatures.map((feat, i) => (
                   <li
                     key={i}
-                    className={`${s.item} ${i === features.length - 1 ? s.itemLast : ''}`}
+                    className={`${s.item} ${i === visibleFeatures.length - 1 ? s.itemLast : ''}`}
                   >
                     <span className={s.dot} aria-hidden="true" />
                     <span className={s.itemText}>{feat.value}</span>
@@ -54,9 +56,11 @@ export default function SecondaryAmenities({
               </ul>
             )}
 
-            <button className={s.seeMoreBtn} onClick={() => setOpen(true)}>
-              {seeMoreButton}
-            </button>
+            {features.length > VISIBLE && (
+              <button className={s.seeMoreBtn} onClick={() => setOpen(true)}>
+                {seeMoreButton}
+              </button>
+            )}
           </div>
 
           {/* Right: image */}
