@@ -8,8 +8,7 @@ import AreaHighlights from '@/components/sections/AreaHighlights'
 import HeroArea from '@/components/sections/HeroArea'
 import AboutArea from '@/components/sections/AboutArea'
 import AreaOverview from '@/components/sections/AreaOverview'
-import DeveloperProjects from '@/components/sections/DeveloperProjects'
-import DeveloperSlider from '@/components/sections/DeveloperSlider'
+import AnotherContent from '@/components/sections/AnotherContent'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
 import ProjectBanner from '@/components/sections/ProjectBanner'
 import ProjectForm from '@/components/sections/ProjectForm'
@@ -62,9 +61,8 @@ function imgUrl(file: unknown): string {
 
 // ── block renderer ────────────────────────────────────────────────────────────
 
-function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) {
+function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, entityId?: number) {
   if (block.visible === false) return null
-  const area = getAreaEntity(page)
 
   switch (block.__component) {
     case 'block.hero': {
@@ -287,73 +285,18 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) 
     }
 
     case 'block.another-content': {
-      const b = block as {
-        title?: string
-        contentType?: string
-        seeAllButton?: string | null
-        projects?: Array<{
-          id: number
-          name?: string
-          title?: string
-          pageUrl?: { url?: string } | null
-          area?: { title?: string } | null
-          developer?: { name?: string } | null
-          handoverValue?: string
-          minPrice?: number
-          imagesFile?: Array<{ url?: string }>
-          projectTypes?: Array<{ name?: string }>
-        }>
-        developers?: Array<{
-          id: number
-          name: string
-          description?: string
-          pageUrl?: { url?: string } | null
-          imageFile?: { url?: string } | null
-          imagesFile?: Array<{ url?: string }>
-        }>
-      }
-
-      if (b.contentType === 'projects') {
-        const projects = (b.projects ?? []).map((p) => ({
-          title: p.title ?? p.name ?? '',
-          slug: (p.pageUrl?.url ?? '').replace(/^\/projects\//, '').replace(/\/$/, '') || String(p.id),
-          location: p.area?.title ?? '',
-          developerName: p.developer?.name ?? '',
-          handover: p.handoverValue,
-          priceFrom: p.minPrice,
-          images: (p.imagesFile ?? []).map((f) => ({ url: f.url ?? '' })),
-          propertyTypes: p.projectTypes?.map((t) => t.name ?? '').filter(Boolean),
-        }))
-        return (
-          <DeveloperProjects
-            key={index}
-            developerName={area?.name ?? ''}
-            sectionTitle={b.title ?? undefined}
-            ctaLabel={b.seeAllButton ?? undefined}
-            projects={projects}
-          />
-        )
-      }
-
-      if (b.contentType === 'developers') {
-        const developers = (b.developers ?? []).map((d) => ({
-          name: d.name,
-          slug: (d.pageUrl?.url ?? '').replace(/^\/developers\//, '').replace(/\/$/, '') || String(d.id),
-          description: d.description,
-          logo: d.imageFile?.url ? { url: d.imageFile.url } : undefined,
-          imageBg: d.imagesFile?.[0]?.url ? { url: d.imagesFile[0].url } : undefined,
-        }))
-        return (
-          <DeveloperSlider
-            key={index}
-            developers={developers}
-            sectionTitle={b.title ?? undefined}
-            ctaLabel={b.seeAllButton ?? undefined}
-          />
-        )
-      }
-
-      return null
+      const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
+      if (!b.contentType) return null
+      return (
+        <AnotherContent
+          key={index}
+          contentType={b.contentType}
+          title={b.title}
+          seeAllButton={b.seeAllButton ?? undefined}
+          entityType="area"
+          entityId={entityId}
+        />
+      )
     }
 
     default:
@@ -373,11 +316,14 @@ export default async function AreaPage({ params }: Props) {
     (b) => !['block.header', 'block.footer'].includes(b.__component),
   )
 
+  const ae = page.associatedEntity?.[0] as { area?: { id?: number } } | undefined
+  const entityId = ae?.area?.id
+
   return (
     <main>
       {visibleBlocks.map((block, index) => {
         try {
-          return renderBlock(block, index, page)
+          return renderBlock(block, index, page, entityId)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null

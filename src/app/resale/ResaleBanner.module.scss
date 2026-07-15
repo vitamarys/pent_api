@@ -1,0 +1,140 @@
+@use "@/styles/tokens" as t;
+
+// ── Banner ────────────────────────────────────────────────────────────────────
+
+.banner {
+  grid-column: span 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 490px;
+  overflow: hidden;
+
+  @include t.tablet {
+    grid-column: span 2;
+    min-height: 440px;
+  }
+
+  @include t.mobile {
+    grid-column: span 1;
+    min-height: 420px;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+}
+
+// Right-aligned variant (text panel on the right)
+.bannerRight {
+  align-items: flex-end;
+
+  @include t.mobile {
+    align-items: stretch;
+  }
+}
+
+// ── Background image ──────────────────────────────────────────────────────────
+
+.bannerImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Text panel (left side on desktop/tablet, bottom on mobile) ─────────────────
+
+.textPanel {
+  position: relative;
+  z-index: 1;
+  width: 449px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0;
+  padding: 24px;
+  background: rgba(31, 31, 31, 0.7);
+  backdrop-filter: blur(49px);
+
+  @include t.tablet {
+    width: 360px;
+    padding: 20px 16px;
+  }
+
+  @include t.mobile {
+    width: 100%;
+    flex: none;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+}
+
+// ── Text content ──────────────────────────────────────────────────────────────
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: t.$white-solid;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$white-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  margin: 0;
+}
+
+// ── Button ────────────────────────────────────────────────────────────────────
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 12px 16px;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+  margin-top: auto;
+
+  &:hover {
+    background: t.$brand-main-mid;
+  }
+
+  @include t.mobile {
+    margin-top: 0;
+    width: 100%;
+  }
+}

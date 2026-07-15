@@ -1,0 +1,237 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────────────────────────
+.section {
+  padding: 80px 0 32px;
+  background: t.$white-solid;
+
+  @include t.tablet {
+    padding: 60px 0 24px;
+  }
+
+  @include t.mobile {
+    padding: 40px 0 20px;
+  }
+}
+
+.title {
+  @include t.text-h3;
+  color: t.$black-solid;
+  margin: 0 0 24px;
+
+  @include t.mobile {
+    font-size: 26px;
+    letter-spacing: -0.78px;
+    margin-bottom: 20px;
+  }
+}
+
+// ── Body: list + image ────────────────────────────────────────────────────────
+.body {
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
+
+  @include t.mobile {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+// ── Left column: list + button ────────────────────────────────────────────────
+.listCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(31, 31, 31, 0.1);
+}
+
+.itemLast {
+  border-bottom: 1px solid rgba(31, 31, 31, 0.1);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.itemText {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.7);
+}
+
+.seeMoreBtn {
+  width: 200px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: darken(#f0ece8, 5%);
+  }
+
+  @include t.mobile {
+    width: 100%;
+  }
+}
+
+// ── Right column: image ───────────────────────────────────────────────────────
+.imageCol {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  min-height: 300px;
+
+  @include t.mobile {
+    display: none;
+  }
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 31, 31, 0.7);
+  backdrop-filter: blur(32px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+
+  @include t.tablet {
+    padding: 0 16px;
+  }
+
+  @include t.mobile {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+.modal {
+  background: t.$black-solid;
+  width: 480px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 16px 24px 24px;
+  position: relative;
+  overflow: hidden;
+
+  @include t.tablet {
+    flex: 1;
+    max-width: 480px;
+    min-width: 0;
+  }
+
+  @include t.mobile {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+  }
+}
+
+.modalTitleArea {
+  padding-right: 48px;
+}
+
+.modalTitle {
+  @include t.text-h3;
+  color: t.$white-solid;
+  margin: 0;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: none;
+  cursor: pointer;
+  color: t.$white-solid;
+  flex-shrink: 0;
+}
+
+.modalList {
+  display: flex;
+  flex-direction: column;
+  max-height: 440px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.7) rgba(255, 255, 255, 0.04);
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.modalItem {
+  display: flex;
+  align-items: center;
+  min-height: 63px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.modalItemLabel {
+  @include t.text-body-m;
+  color: t.$white-solid;
+}

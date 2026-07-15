@@ -89,5 +89,7 @@ export async function getSimilar(
     '/api/catalog/similar',
     { params: queryParams },
   )
+  console.log(queryParams);
+  
   return data
 }

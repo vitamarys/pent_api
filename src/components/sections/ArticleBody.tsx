@@ -126,10 +126,25 @@ function renderBlock(block: ArticleContentBlock, index: number): React.ReactNode
 
     case 'projectBlock': {
       const props = block.props as { projectId?: string; title?: string }
-      const href = props?.projectId || '#'
+      const project = block.content as {
+        title?: string
+        url?: string
+        areaTitle?: string
+        developerName?: string
+        minPrice?: number
+      } | null | undefined
+      const href = project?.url ?? props?.projectId ?? '#'
+      const title = project?.title ?? props?.title ?? 'View Project'
       return (
         <a key={index} href={href} className={s.projectCard}>
-          <span className={s.projectCardLabel}>View Project</span>
+          <div className={s.projectCardInfo}>
+            <span className={s.projectCardTitle}>{title}</span>
+            {(project?.developerName || project?.areaTitle) && (
+              <span className={s.projectCardMeta}>
+                {[project.developerName, project.areaTitle].filter(Boolean).join(' · ')}
+              </span>
+            )}
+          </div>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#1f1f1f" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -166,8 +181,8 @@ function AuthorCard({
   return (
     <div className={s.authorCard}>
       <div className={s.authorAvatar}>
-        {person.image?.url ? (
-          <img src={person.image.url} alt={person.name} className={s.authorImg} />
+        {(person.imageFile?.url ?? person.image?.url) ? (
+          <img src={person.imageFile?.url ?? person.image?.url} alt={person.name} className={s.authorImg} />
         ) : (
           <div className={s.authorImgFallback} aria-hidden="true" />
         )}

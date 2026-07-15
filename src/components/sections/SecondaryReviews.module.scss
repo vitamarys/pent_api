@@ -1,0 +1,16 @@
+@use "@/styles/tokens" as t;
+
+.section {
+  background: t.$white-solid;
+  padding: 64px 0;
+
+  @include t.mobile {
+    padding: 40px 0;
+  }
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+}

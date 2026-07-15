@@ -243,10 +243,22 @@
   }
 }
 
-.projectCardLabel {
+.projectCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.projectCardTitle {
   font-size: 16px;
   line-height: 1.4;
   color: #1f1f1f;
+}
+
+.projectCardMeta {
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.5);
 }
 
 // Authors

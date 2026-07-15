@@ -310,11 +310,21 @@ export interface ArticleTableContent {
   columnWidths?: (number | null)[]
 }
 
+export interface ArticleProjectContent {
+  id: number
+  title?: string
+  url?: string
+  areaTitle?: string
+  developerName?: string
+  minPrice?: number
+  maxPrice?: number
+}
+
 export interface ArticleContentBlock {
   id: string
   type: string
   props?: Record<string, unknown>
-  content?: ArticleTextSegment[] | ArticleTableContent
+  content?: ArticleTextSegment[] | ArticleTableContent | ArticleProjectContent
   children?: ArticleContentBlock[]
 }
 
@@ -323,6 +333,7 @@ export interface PenthouseArticleAuthor {
   name: string
   position?: string
   image?: PenthouseImage
+  imageFile?: PenthouseImage
 }
 
 export interface PenthouseArticleCategory {
@@ -441,4 +452,85 @@ export interface PenthouseRobotsTxtResponse {
     id: number
     Content: string
   }
+}
+
+// ── Secondary property (associatedEntity.secondary) ────────────────────────────
+
+export interface SecondaryPropertyImage {
+  id: number
+  url: string
+  alternativeText?: string | null
+  formats?: {
+    xl_webp?: { url: string; width: number; height: number }
+    thumbnail?: { url: string; width: number; height: number }
+  }
+}
+
+export interface SecondaryPropertyFeature {
+  id: number
+  value: string
+}
+
+export interface SecondaryPropertyDld {
+  id: number
+  status: string
+  start: string
+  end: string
+  qrcodeUrl: string
+}
+
+export interface SecondaryPropertyProject {
+  id: number
+  title: string | null
+  handoverValue: string | null
+  paymentPlan: string | null
+  floors: string | null
+  brandCollaboration: string | null
+  videoURL: string | null
+  projectTypes: Array<{ id: number; name: string }>
+  beds: { multiValue: string[] } | null
+  developer: {
+    name: string
+    pageUrl: { url: string } | null
+  } | null
+  area: {
+    title: string
+    pageUrl: { url: string } | null
+  } | null
+  coordinates: { id: number; lat: number; lng: number } | null
+}
+
+export interface SecondaryProperty {
+  id: number
+  price: number | null
+  propertyRefNo: string | null
+  unitReferenceNo: string | null
+  adType: string | null
+  unitType: string | null
+  primaryView: string | null
+  unitBuiltupArea: number | null
+  noOfBathroom: number | null
+  propertyTitle: string | null
+  webRemarks: string | null
+  country: string | null
+  emirate: string | null
+  community: string | null
+  subCommunity: string | null
+  propertyName: string | null
+  listingAgent: string | null
+  listingAgentPhone: string | null
+  listingAgentEmail: string | null
+  listingDate: string | null
+  lastUpdated: string | null
+  bedrooms: string | null
+  latitude: string | null
+  longitude: string | null
+  parking: string | null
+  permitNumber: string | null
+  completionStatus: string | null
+  images: SecondaryPropertyImage[]
+  features: SecondaryPropertyFeature[]
+  dld: SecondaryPropertyDld | null
+  pageUrl: { url: string; isExternal: boolean } | null
+  project: SecondaryPropertyProject | null
 }

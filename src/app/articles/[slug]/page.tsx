@@ -66,7 +66,8 @@ function findHeroImage(article: PenthouseArticleDetail): string | undefined {
       if (url) return url
     }
   }
-  return article.previewImage?.url
+  const a = article as typeof article & { previewImageFile?: { url?: string } }
+  return a.previewImageFile?.url ?? article.previewImage?.url
 }
 
 // Map a raw article object from block.another-content.articles[] to ArticleCardItem

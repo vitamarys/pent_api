@@ -1,0 +1,150 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────────────────────────
+.section {
+  padding: 80px 0 32px;
+  background: t.$white-solid;
+
+  @include t.tablet {
+    padding: 60px 0 24px;
+  }
+
+  @include t.mobile {
+    padding: 40px 0 20px;
+  }
+}
+
+.title {
+  @include t.text-h3;
+  color: t.$black-solid;
+  margin: 0 0 24px;
+
+  @include t.mobile {
+    font-size: 26px;
+    letter-spacing: -0.78px;
+    margin-bottom: 20px;
+  }
+}
+
+// ── Card (border wrapper) ─────────────────────────────────────────────────────
+.card {
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  padding: 32px;
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  min-height: 375px;
+
+  @include t.mobile {
+    flex-direction: column;
+    padding: 20px;
+    min-height: 0;
+    gap: 24px;
+  }
+}
+
+// ── When real image is available ──────────────────────────────────────────────
+.floorImage {
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  display: block;
+}
+
+// ── Locked: left image col ────────────────────────────────────────────────────
+.imageCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  @include t.mobile {
+    height: 189px;
+    flex: none;
+    width: 100%;
+  }
+}
+
+.placeholderImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+
+  @include t.mobile {
+    object-fit: contain;
+    max-height: 189px;
+  }
+}
+
+// ── Vertical divider ──────────────────────────────────────────────────────────
+.divider {
+  width: 1px;
+  background: rgba(207, 207, 207, 0.3);
+  align-self: stretch;
+  flex-shrink: 0;
+
+  @include t.mobile {
+    display: none;
+  }
+}
+
+// ── Locked: right text col ────────────────────────────────────────────────────
+.textCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+
+  @include t.mobile {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.layoutTitle {
+  font-family: t.$font-serif;
+  font-size: t.$size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$black-solid;
+  margin: 0;
+}
+
+.layoutDescription {
+  @include t.text-body-m;
+  color: rgba(31, 31, 31, 0.7);
+  margin: 0;
+}
+
+.requestBtn {
+  width: 100%;
+  height: 48px;
+  padding: 12px 16px;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: t.$brand-main-mid;
+  }
+}

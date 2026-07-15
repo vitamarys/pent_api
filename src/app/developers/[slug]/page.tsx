@@ -4,9 +4,8 @@ import { getPageBySlug } from '@/api/pages'
 import { getDeveloperSlugs } from '@/api/developers'
 import type { PenthouseBlock } from '@/types/penthouse-api'
 
+import AnotherContent from '@/components/sections/AnotherContent'
 import DeveloperAbout from '@/components/sections/DeveloperAbout'
-import DeveloperProjects from '@/components/sections/DeveloperProjects'
-import DeveloperSlider from '@/components/sections/DeveloperSlider'
 import HeroDeveloper from '@/components/sections/HeroDeveloper'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
 import ProjectBanner from '@/components/sections/ProjectBanner'
@@ -63,7 +62,7 @@ function imgUrl(file: unknown): string {
 
 // ── block renderer ────────────────────────────────────────────────────────────
 
-function renderBlock(block: PenthouseBlock, index: number) {
+function renderBlock(block: PenthouseBlock, index: number, entityId?: number) {
   if (block.visible === false) return null
   switch (block.__component) {
     case 'block.key-points': {
@@ -199,68 +198,16 @@ function renderBlock(block: PenthouseBlock, index: number) {
     }
 
     case 'block.another-content': {
-      const b = block as {
-        title?: string
-        contentType?: string
-        seeAllButton?: string | null
-        developers?: Array<{
-          id: number
-          name: string
-          description?: string
-          pageUrl?: { url?: string } | null
-          imageFile?: { url?: string } | null
-          imagesFile?: Array<{ url?: string }>
-        }>
-        projects?: Array<{
-          id: number
-          name?: string
-          title?: string
-          pageUrl?: { url?: string } | null
-          area?: { title?: string } | null
-          developer?: { name?: string } | null
-          handoverValue?: string
-          minPrice?: number
-          imagesFile?: Array<{ url?: string }>
-          projectTypes?: Array<{ name?: string }>
-        }>
-      }
-
-      if (b.contentType === 'projects') {
-        const projects = (b.projects ?? []).map((p) => ({
-          title: p.title ?? p.name ?? '',
-          slug: (p.pageUrl?.url ?? '').replace(/^\/projects\//, '').replace(/\/$/, '') || String(p.id),
-          location: p.area?.title ?? '',
-          developerName: p.developer?.name ?? '',
-          handover: p.handoverValue,
-          priceFrom: p.minPrice,
-          images: (p.imagesFile ?? []).map((f) => ({ url: f.url ?? '' })),
-          propertyTypes: p.projectTypes?.map((t) => t.name ?? '').filter(Boolean),
-        }))
-        return (
-          <DeveloperProjects
-            key={index}
-            developerName={''}
-            sectionTitle={b.title ?? undefined}
-            ctaLabel={b.seeAllButton ?? undefined}
-            projects={projects}
-          />
-        )
-      }
-
-      if (b.contentType !== 'developers') return null
-      const developers = (b.developers ?? []).map((d) => ({
-        name: d.name,
-        slug: (d.pageUrl?.url ?? '').replace(/^\/developers\//, '').replace(/\/$/, '') || String(d.id),
-        description: d.description,
-        logo: d.imageFile?.url ? { url: d.imageFile.url } : undefined,
-        imageBg: d.imagesFile?.[0]?.url ? { url: d.imagesFile[0].url } : undefined,
-      }))
+      const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
+      if (!b.contentType) return null
       return (
-        <DeveloperSlider
+        <AnotherContent
           key={index}
-          developers={developers}
-          sectionTitle={b.title ?? undefined}
-          ctaLabel={b.seeAllButton ?? undefined}
+          contentType={b.contentType}
+          title={b.title}
+          seeAllButton={b.seeAllButton ?? undefined}
+          entityType="developer"
+          entityId={entityId}
         />
       )
     }
@@ -284,6 +231,9 @@ export default async function DeveloperPage({ params }: Props) {
 
   const dev = getDeveloperEntity(page as { associatedEntity?: Array<{ __component: string; developer?: DeveloperEntity }> })
 
+  const devAe = page.associatedEntity?.[0] as { developer?: { id?: number } } | undefined
+  const entityId = devAe?.developer?.id
+
   const stats = []
   if (dev?.foundedIn) stats.push({ label: 'Founded in', value: String(dev.foundedIn).slice(0, 4) })
   if (dev?.completedProjectsCount) stats.push({ label: 'Completed', value: String(dev.completedProjectsCount) })
@@ -306,7 +256,7 @@ export default async function DeveloperPage({ params }: Props) {
       )}
       {visibleBlocks.map((block, index) => {
         try {
-          return renderBlock(block, index)
+          return renderBlock(block, index, entityId)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null

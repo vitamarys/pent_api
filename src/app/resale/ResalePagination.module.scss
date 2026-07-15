@@ -1,0 +1,87 @@
+@use "@/styles/tokens" as t;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px 0 80px;
+}
+
+// ── Arrow buttons ─────────────────────────────────────────────────────────────
+
+.arrow {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-second-base;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: background 0.15s ease;
+
+  &:hover:not(.arrowDisabled) {
+    background: darken(#f0ece8, 5%);
+  }
+}
+
+.arrowDisabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+// ── Page number container ─────────────────────────────────────────────────────
+
+.numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// ── Individual page buttons ───────────────────────────────────────────────────
+
+.btn {
+  height: 48px;
+  min-width: 48px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-second-base;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+
+  &:hover:not(.btnActive) {
+    background: darken(#f0ece8, 5%);
+  }
+}
+
+.btnActive {
+  background: t.$brand-main-mid;
+  border-color: t.$brand-main-mid;
+  color: t.$white-solid;
+}
+
+// ── Ellipsis ──────────────────────────────────────────────────────────────────
+
+.ellipsis {
+  height: 48px;
+  min-width: 48px;
+  padding: 12px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  color: rgba(31, 31, 31, 0.4);
+}

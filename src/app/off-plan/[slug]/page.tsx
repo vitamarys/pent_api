@@ -16,6 +16,7 @@ import ProjectAmenities from '@/components/sections/ProjectAmenities'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
 import ProjectTeam from '@/components/sections/ProjectTeam'
 import ProjectAwards from '@/components/sections/ProjectAwards'
+import AnotherContent from '@/components/sections/AnotherContent'
 import ProjectBanner from '@/components/sections/ProjectBanner'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectServices from '@/components/sections/ProjectServices'
@@ -68,7 +69,7 @@ function parseHighlight(text: string): { highlight: string; rest: string } {
 
 // ── block renderer ────────────────────────────────────────────────────────────
 
-function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) {
+function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, entityId?: number) {
   if (block.visible === false) return null
 
   const project = getProject(page)
@@ -467,6 +468,21 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage) 
       )
     }
 
+    case 'block.another-content': {
+      const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
+      if (!b.contentType) return null
+      return (
+        <AnotherContent
+          key={index}
+          contentType={b.contentType}
+          title={b.title}
+          seeAllButton={b.seeAllButton ?? undefined}
+          entityType="project"
+          entityId={entityId}
+        />
+      )
+    }
+
     default:
       return null
   }
@@ -484,11 +500,13 @@ export default async function OffPlanPage({ params }: Props) {
     (b) => !['block.header', 'block.footer'].includes(b.__component),
   )
 
+  const entityId = page.id
+
   return (
     <main>
       {visibleBlocks.map((block, index) => {
         try {
-          return renderBlock(block, index, page)
+          return renderBlock(block, index, page, entityId)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null
