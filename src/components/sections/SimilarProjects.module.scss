@@ -1,5 +1,5 @@
 @use "@/styles/tokens" as t;
-@use 'sass:color';
+@use "sass:color";
 
 $black-fade-3: rgba(31, 31, 31, 0.3);
 
@@ -120,32 +120,31 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
 .scrollTrack {
   display: flex;
   gap: t.$gap-small;
-  overflow-x: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Desktop: extend to right viewport edge (removes the white Container padding clip)
+  width: calc(100% + t.$gap-large);
 
   @include t.tablet {
-    overflow-x: auto;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    width: 100%;
+    scroll-snap-type: x mandatory;
   }
 
   @include t.mobile {
-    overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 }
 
 // ── Card ──────────────────────────────────────────────────────
 .card {
-  flex: 0 0 428px;
-  min-width: 340px;
+  // Fluid width: always ~3 cards + 20% peek regardless of viewport
+  flex: 0 0 calc((100% - 3 * t.$gap-small) / 3.2);
+  min-width: 280px;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -154,11 +153,13 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   background: t.$white-solid;
 
   @include t.tablet {
-    flex: 1 0 340px;
+    flex: 0 0 340px;
+    min-width: 0;
+    scroll-snap-align: start;
   }
 
   @include t.mobile {
-    flex: 0 0 300px;
+    flex: 0 0 calc(100% - 24px);
     min-width: 0;
     scroll-snap-align: start;
   }

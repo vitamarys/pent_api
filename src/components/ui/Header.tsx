@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import s from './Header.module.scss'
 
@@ -16,25 +17,22 @@ const NAV_LINKS = [
   { label: 'About',             href: '/about' },
 ]
 
+const CURRENCIES = ['AED', 'EUR', 'USD'] as const
+const METRICS    = ['ft²', 'm²']                as const
+
+type Currency = typeof CURRENCIES[number]
+type Metric   = typeof METRICS[number]
+
 function Logo({ dark }: { dark: boolean }) {
   return (
     <Link href="/" className={s.logo}>
-      <svg width="161" height="24" viewBox="0 0 161 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Ellipse / dot */}
-        <ellipse cx="8.4" cy="13.6" rx="8.4" ry="8.4" fill="#C19962"/>
-        {/* Wordmark */}
-        <text
-          x="25"
-          y="19"
-          fontFamily="var(--font-inter), SF Pro Display, sans-serif"
-          fontSize="16"
-          fontWeight="400"
-          fill={dark ? '#1f1f1f' : '#ffffff'}
-          letterSpacing="0.5"
-        >
-          penthouse.ae
-        </text>
-      </svg>
+      <Image
+        src={dark ? '/icons/Logo.svg' : '/icons/Logo-w.svg'}
+        alt="Penthouse"
+        width={160}
+        height={24}
+        priority
+      />
     </Link>
   )
 }
@@ -84,29 +82,101 @@ function IconClose() {
   )
 }
 
+// ── Shared currency/metric selector ──────────────────────────
+function CurrencySelector({
+  currency,
+  metric,
+  onCurrency,
+  onMetric,
+}: {
+  currency: Currency
+  metric:   Metric
+  onCurrency: (c: Currency) => void
+  onMetric:   (m: Metric)   => void
+}) {
+  return (
+    <div className={s.selectorWrap}>
+      <div className={s.selectorGroup}>
+        <p className={s.selectorLabel}>Select currency</p>
+        <div className={s.selectorTags}>
+          {CURRENCIES.map(c => (
+            <button
+              key={c}
+              className={`${s.selectorTag} ${c === currency ? s.selectorTagActive : ''}`}
+              onClick={() => onCurrency(c)}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className={s.selectorGroup}>
+        <p className={s.selectorLabel}>Select metric</p>
+        <div className={s.selectorTags}>
+          {METRICS.map(m => (
+            <button
+              key={m}
+              className={`${s.selectorTag} ${m === metric ? s.selectorTagActive : ''}`}
+              onClick={() => onMetric(m)}
+            >
+              {m}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function Header() {
   const pathname = usePathname()
-  const [scrolled, setScrolled]       = useState(false)
-  const [menuOpen, setMenuOpen]       = useState(false)
+  const [scrolled,      setScrolled]      = useState(false)
+  const [hidden,        setHidden]        = useState(false)
+  const [menuOpen,      setMenuOpen]      = useState(false)
+  const [currency,      setCurrency]      = useState<Currency>('AED')
+  const [metric,        setMetric]        = useState<Metric>('ft²')
+  const [currencyOpen,  setCurrencyOpen]  = useState(false)
+  const currencyRef = useRef<HTMLDivElement>(null)
 
+  // Scroll hide/show
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10)
+    let lastY = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 10)
+      if (y > lastY && y > 80) setHidden(true)
+      else if (y < lastY)       setHidden(false)
+      lastY = y
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Body scroll lock for menu
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
-  const forceDark = DARK_HEADER_PATHS.some((p) => pathname === p || pathname.startsWith(p + '/'))
+  // Close currency dropdown on outside click
+  useEffect(() => {
+    if (!currencyOpen) return
+    const handleClick = (e: MouseEvent) => {
+      if (currencyRef.current && !currencyRef.current.contains(e.target as Node)) {
+        setCurrencyOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [currencyOpen])
+
+  const forceDark = DARK_HEADER_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))
   const dark = forceDark || scrolled || menuOpen
 
   return (
     <>
-      <header className={`${s.header} ${dark ? s.scrolled : s.transparent}`}>
+      <header className={`${s.header} ${dark ? s.scrolled : s.transparent} ${hidden && !menuOpen ? s.hidden : ''}`}>
         <div className={s.inner}>
 
           {/* Logo */}
@@ -114,7 +184,7 @@ export default function Header() {
 
           {/* Desktop nav */}
           <nav className={s.nav}>
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map(link => (
               <Link key={link.href} href={link.href} className={`${s.navLink} ${dark ? s.dark : s.light}`}>
                 {link.label}
               </Link>
@@ -130,10 +200,27 @@ export default function Header() {
 
             <span className={s.divider} />
 
-            <button className={`${s.utilBtn} ${dark ? s.dark : s.light}`}>
-              <span>AED / Sq. Ft</span>
-              <IconChevron dark={dark} />
-            </button>
+            {/* Currency / metric dropdown */}
+            <div className={s.currencyWrap} ref={currencyRef}>
+              <button
+                className={`${s.utilBtn} ${dark ? s.dark : s.light}`}
+                onClick={() => setCurrencyOpen(v => !v)}
+              >
+                <span>{currency} / Sq. {metric}</span>
+                <IconChevron dark={dark} />
+              </button>
+
+              {currencyOpen && (
+                <div className={s.currencyPanel}>
+                  <CurrencySelector
+                    currency={currency}
+                    metric={metric}
+                    onCurrency={setCurrency}
+                    onMetric={setMetric}
+                  />
+                </div>
+              )}
+            </div>
 
             <span className={s.divider} />
 
@@ -168,20 +255,29 @@ export default function Header() {
               <IconClose />
             </button>
           </div>
-          <nav className={s.drawerNav}>
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={s.drawerLink}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <div className={s.drawerUtils}>
-            <button className={s.drawerUtilBtn}>AED / Sq. Ft <IconChevron dark /></button>
+
+          <div className={s.drawerBody}>
+            <nav className={s.drawerNav}>
+              {NAV_LINKS.map(link => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={s.drawerLink}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <div className={s.drawerSelectors}>
+              <CurrencySelector
+                currency={currency}
+                metric={metric}
+                onCurrency={setCurrency}
+                onMetric={setMetric}
+              />
+            </div>
           </div>
         </div>
       )}

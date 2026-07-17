@@ -92,14 +92,50 @@
 // ══════════════════════════════════════════════════════════════
 // DESKTOP — featured side-by-side
 // ══════════════════════════════════════════════════════════════
-.featured {
-  display: flex;
-  width: 100%;
+.featuredOuter {
+  position: relative;
+  overflow: hidden;
   height: 540px;
 
   @include t.tablet {
     display: none;
   }
+}
+
+.featured {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes slideOutLeft {
+  to { transform: translateX(-100%); }
+}
+@keyframes slideOutRight {
+  to { transform: translateX(100%); }
+}
+@keyframes slideInFromRight {
+  from { transform: translateX(100%); }
+}
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); }
+}
+
+.exitLeft {
+  position: absolute;
+  inset: 0;
+  animation: slideOutLeft 0.38s ease forwards;
+}
+.exitRight {
+  position: absolute;
+  inset: 0;
+  animation: slideOutRight 0.38s ease forwards;
+}
+.enterFromRight {
+  animation: slideInFromRight 0.38s ease forwards;
+}
+.enterFromLeft {
+  animation: slideInFromLeft 0.38s ease forwards;
 }
 
 // ── Image wrap + Swiper ───────────────────────────────────────
@@ -368,7 +404,7 @@
 }
 
 .scrollCard {
-  flex: 0 0 calc(100% - 56px);
+  flex: 0 0 calc(100% - 24px);
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -376,7 +412,7 @@
   scroll-snap-align: start;
 
   @include t.mobile {
-    flex: 0 0 calc(100% - 40px);
+    flex: 0 0 calc(100% - 24px);
   }
 }
 

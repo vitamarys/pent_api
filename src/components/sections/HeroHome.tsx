@@ -86,6 +86,55 @@ function DropdownFilter({
   );
 }
 
+// ── Editable price input ──────────────────────────────────────
+function PriceInput({
+  value,
+  onCommit,
+  min,
+  max,
+  showCurrency,
+}: {
+  value: number;
+  onCommit: (n: number) => void;
+  min: number;
+  max: number;
+  showCurrency?: boolean;
+}) {
+  const [draft, setDraft] = useState(formatPrice(value));
+  const focused = useRef(false);
+
+  useEffect(() => {
+    if (!focused.current) setDraft(formatPrice(value));
+  }, [value]);
+
+  return (
+    <div className={s.priceValWrap}>
+      <input
+        className={s.priceInput}
+        value={draft}
+        onFocus={() => {
+          focused.current = true;
+          setDraft(String(value));
+        }}
+        onChange={e => setDraft(e.target.value)}
+        onBlur={() => {
+          focused.current = false;
+          const parsed = parseInt(draft.replace(/\D/g, ''), 10);
+          if (!isNaN(parsed)) {
+            const clamped = Math.min(Math.max(parsed, min), max);
+            onCommit(clamped);
+            setDraft(formatPrice(clamped));
+          } else {
+            setDraft(formatPrice(value));
+          }
+        }}
+        onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); }}
+      />
+      {showCurrency && <span className={s.priceCurrency}>AED</span>}
+    </div>
+  );
+}
+
 // ── Price slider component ────────────────────────────────────
 function PriceSlider({
   value,
@@ -101,17 +150,22 @@ function PriceSlider({
   variant?: 'desktop' | 'mobile';
 }) {
   return (
-    
     <div className={`${s.priceBox} ${variant === 'mobile' ? s.priceBoxMobile : s.priceBoxDesktop}`}>
       <div className={s.priceRow}>
-        <div className={s.priceValWrap}>
-          <span className={s.priceVal}>{formatPrice(value[0])}</span>
-        </div>
+        <PriceInput
+          value={value[0]}
+          onCommit={n => onChange([Math.min(n, value[1] - 50_000), value[1]])}
+          min={min}
+          max={value[1] - 50_000}
+        />
         <span className={s.priceSep} />
-        <div className={s.priceValWrap}>
-          <span className={s.priceVal}>{formatPrice(value[1])}</span>
-          <span className={s.priceCurrency}>AED</span>
-        </div>
+        <PriceInput
+          value={value[1]}
+          onCommit={n => onChange([value[0], Math.max(n, value[0] + 50_000)])}
+          min={value[0] + 50_000}
+          max={max}
+          showCurrency
+        />
       </div>
       <Slider.Root
         className={s.sliderRoot}
@@ -145,6 +199,15 @@ export default function HeroHome({
 }: HeroHomeProps) {
   const [activeTab, setActiveTab] = useState<'off-plan' | 'secondary'>('off-plan');
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isModalOpen]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>([]);
   const [price, setPrice] = useState<[number, number]>(priceInitial);

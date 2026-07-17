@@ -228,6 +228,13 @@
   background: t.$brand-main-strong;
   flex-shrink: 0;
   gap: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: color.adjust(t.$brand-main-strong, $lightness: -6%);
+  }
 
   span {
     @include t.text-body-m;

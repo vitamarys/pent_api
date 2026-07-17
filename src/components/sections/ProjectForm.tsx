@@ -26,13 +26,14 @@ export interface AgentInfo {
 }
 
 export interface ProjectFormProps {
-  sectionTitle?:  string;
-  description?:   string;
-  submitLabel?:   string;
-  privacyNote?:   string;
-  consentLabel?:  string;
-  agent?:         AgentInfo;
-  onSubmit?:      (data: FormValues) => Promise<void> | void;
+  sectionTitle?:        string;
+  description?:         string;
+  submitLabel?:         string;
+  privacyNote?:         string;
+  consentLabel?:        string;
+  agent?:               AgentInfo;
+  onSubmit?:            (data: FormValues) => Promise<void> | void;
+  onConsultationOpen?:  () => void;
 }
 
 export default function ProjectForm({

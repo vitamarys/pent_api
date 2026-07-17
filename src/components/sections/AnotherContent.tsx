@@ -18,7 +18,7 @@ interface Props {
 export default async function AnotherContent({ contentType, title, seeAllButton, entityType, entityId }: Props) {
   if (contentType === 'projects') {
     let projectData: OffPlanProjectCard[] = []
-    
+      
     if (entityType === 'project' && entityId != null) {
       const res = await getSimilar({ type: 'projects', id: entityId }).catch(() => null)
       projectData = (res?.data ?? []) as OffPlanProjectCard[]
@@ -44,9 +44,9 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
       handover: p.handover ?? undefined,
       priceFrom: p.minPrice ?? undefined,
       propertyTypes: p.projectTypes?.map((t) => t.name),
-      images: p.previewImageFile ? [getStrapiImageUrl(p.previewImageFile.url)] : [],
+      images: p.previewImage ? [getStrapiImageUrl(p.previewImage.url)] : [],
     }))
-    if (!items.length) return null
+    if (!items.length) return null   
     return (
       <SimilarProjects
         projects={items}

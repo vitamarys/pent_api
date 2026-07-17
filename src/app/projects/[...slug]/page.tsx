@@ -20,7 +20,7 @@ import AnotherContent from '@/components/sections/AnotherContent'
 import ProjectBanner from '@/components/sections/ProjectBanner'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectServices from '@/components/sections/ProjectServices'
-import ProjectForm from '@/components/sections/ProjectForm'
+import ConsultationBlock from '@/components/ui/ConsultationBlock'
 import ProjectQr from '@/components/sections/ProjectQr'
 
 export const revalidate = 3600
@@ -85,6 +85,16 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       const units = project?.numberOfUnits as number | undefined
       const area = (project?.area as { title?: string } | null)?.title ?? ''
 
+      type AnyQBlock = { contactFormData?: { agentName?: string | null; agentPosition?: string | null; agentImage?: { url?: string } | null } }
+      const formBlock = page.blocks.find(
+        (bl) => bl.__component === 'block.any-questions-block' &&
+        (bl as AnyQBlock).contactFormData?.agentName != null
+      ) as AnyQBlock | undefined
+      const form = formBlock?.contactFormData
+      const agent = form?.agentName
+        ? { name: form.agentName, role: form.agentPosition ?? '', image: form.agentImage?.url ?? '' }
+        : undefined
+
       return (
         <HeroProject
           key={index}
@@ -99,6 +109,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
             { label: 'Projects', href: '/projects' },
             { label: b.title ?? page.title },
           ]}
+          agent={agent}
         />
       )
     }
@@ -280,7 +291,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       )
     }
 
-    case 'block.developers': {     
+    case 'block.developers': {
       const dev = project?.developer as {
         name?: string
         description?: string
@@ -290,9 +301,8 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         minPrice?: number
         completedProjectsCount?: string | number
         underConstructionProjectsCount?: string | number
-        logo?: { url?: string }
-        image?: { url?: string }
-        images?: Array<{ url?: string }>
+        logoFile?: { url?: string }
+        imageFile?: { url?: string }
         pageUrl?: { url?: string }
       } | null
       if (!dev) return null
@@ -312,8 +322,8 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           key={index}
           devName={dev.name ?? ''}
           description={dev.description ?? ''}
-          logo={imgUrl(dev.logo ?? dev.image)}
-          image={imgUrl(dev.images?.[0] ?? dev.image)}
+          logo={imgUrl(dev.logoFile)}
+          image={imgUrl(dev.imageFile)}
           stats={stats}
           ctaHref={dev.pageUrl?.url ?? '#'}
         />
@@ -468,13 +478,11 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       }
       const form = b.contactFormData
       return (
-        <ProjectForm
+        <ConsultationBlock
           key={index}
           sectionTitle={form?.title ?? undefined}
           description={form?.description ?? undefined}
           submitLabel={form?.buttonText ?? undefined}
-          consentLabel={form?.agreeText ?? undefined}
-          privacyNote={form?.policyText ?? undefined}
           agent={form?.agentName ? {
             name: form.agentName,
             role: form.agentPosition ?? '',

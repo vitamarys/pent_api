@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Container from "@/components/ui/Container";
+import PopFloorPlan from "@/components/ui/PopFloorPlan";
 import { formatCompactPrice } from "@/lib/utils";
 import s from "./ProjectFloorPlan.module.scss";
 
@@ -58,6 +59,7 @@ export default function ProjectFloorPlan({
   cards,
 }: ProjectFloorPlanProps) {
   const [activeTab, setActiveTab] = useState("all");
+  const [popCard, setPopCard] = useState<FloorPlanCard | null>(null);
   const swiperRef = useRef<SwiperType | null>(null);
 
   const filteredCards =
@@ -74,6 +76,13 @@ export default function ProjectFloorPlan({
   }, [activeTab]);
 
   return (
+    <>
+    <PopFloorPlan
+      open={!!popCard}
+      onClose={() => setPopCard(null)}
+      image={popCard?.image}
+      title={popCard?.title}
+    />
     <section className={s.section}>
       <Container>
         <div className={s.header}>
@@ -122,6 +131,7 @@ export default function ProjectFloorPlan({
           modules={[Pagination]}
           spaceBetween={16}
           slidesPerView={1}
+          grabCursor
           pagination={{ clickable: true }}
           breakpoints={{
             768:  { slidesPerView: 2, pagination: { clickable: true } },
@@ -148,10 +158,14 @@ export default function ProjectFloorPlan({
                     <p className={s.cardType}>{card.type}</p>
                   </div>
                   {card.optionsLabel && (
-                    <div className={s.badge}>
+                    <button
+                      className={s.badge}
+                      onClick={() => setPopCard(card)}
+                      aria-label={`View ${card.optionsLabel} options`}
+                    >
                       <span>{card.optionsLabel}</span>
                       <ChevronRight size={16} />
-                    </div>
+                    </button>
                   )}
                 </div>
 
@@ -185,5 +199,6 @@ export default function ProjectFloorPlan({
         </Swiper>
       </Container>
     </section>
+    </>
   );
 }

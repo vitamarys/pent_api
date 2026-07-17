@@ -1,5 +1,5 @@
 @use "@/styles/tokens" as t;
-@use 'sass:color';
+@use "sass:color";
 
 $header-height: 80px;
 $panel-solid: #1f1f1f;
@@ -36,7 +36,7 @@ $panel-solid: #1f1f1f;
 
   @include t.mobile {
     height: 240px;
-    padding-top: t.$gap-small;
+    padding-top: t.$gap-extra-large;
   }
 }
 

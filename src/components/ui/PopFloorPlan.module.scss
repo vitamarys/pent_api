@@ -1,0 +1,339 @@
+@use '@/styles/tokens' as t;
+@use 'sass:color';
+
+// ── Backdrop ──────────────────────────────────────────────────
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 31, 31, 0.7);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: t.$gap-large;
+
+  @include t.tablet {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+// ── Modal ─────────────────────────────────────────────────────
+.modal {
+  background: t.$white-solid;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1044px;
+  max-height: 92svh;
+  overflow: hidden;
+
+  @include t.tablet {
+    max-width: 100%;
+    width: 100%;
+    height: 100svh;
+    max-height: 100svh;
+  }
+}
+
+// ── Header ────────────────────────────────────────────────────
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: t.$gap-small t.$gap-normal;
+  border-bottom: 1px solid t.$black-fade-2;
+  flex-shrink: 0;
+}
+
+.headerLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: t.$black-solid;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+// ── Body ──────────────────────────────────────────────────────
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+
+  @include t.tablet {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+}
+
+// ── Form panel ────────────────────────────────────────────────
+.formPanel {
+  flex: 1;
+  min-width: 0;
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-large;
+  overflow-y: auto;
+
+  @include t.tablet {
+    order: 2;
+    padding: t.$gap-small;
+    gap: t.$gap-normal;
+    overflow: visible;
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+
+.title {
+  font-family: t.$font-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -0.96px;
+  color: t.$black-solid;
+
+  @include t.mobile {
+    font-size: 24px;
+    letter-spacing: -0.72px;
+  }
+}
+
+.desc {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+}
+
+// ── Form ──────────────────────────────────────────────────────
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-small;
+}
+
+.row {
+  display: flex;
+  gap: t.$gap-small;
+
+  @include t.mobile {
+    flex-direction: column;
+  }
+}
+
+.fieldWrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-bottom: 1px solid t.$black-fade-2;
+  background: transparent;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  outline: none;
+  padding: 0;
+  transition: border-color 0.15s;
+
+  &::placeholder {
+    color: rgba(31, 31, 31, 0.4);
+  }
+
+  &:focus {
+    border-bottom-color: t.$black-solid;
+  }
+}
+
+.inputError {
+  border-bottom-color: #e03b3b;
+}
+
+.error {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  color: #e03b3b;
+  line-height: 1.4;
+}
+
+// ── Phone input ───────────────────────────────────────────────
+.phoneInput {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid t.$black-fade-2;
+  height: 48px;
+  transition: border-color 0.15s;
+
+  &:focus-within {
+    border-bottom-color: t.$black-solid;
+  }
+
+  :global(.PhoneInputCountry) {
+    margin-right: 8px;
+  }
+
+  :global(.PhoneInputInput) {
+    border: none;
+    background: transparent;
+    font-family: t.$font-sans;
+    font-size: t.$size-body-m;
+    font-weight: 400;
+    color: t.$black-solid;
+    outline: none;
+    width: 100%;
+
+    &::placeholder {
+      color: rgba(31, 31, 31, 0.4);
+    }
+  }
+}
+
+.phoneInputError {
+  border-bottom-color: #e03b3b;
+}
+
+// ── Checkbox ──────────────────────────────────────────────────
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 1px solid t.$black-fade-2;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.checkboxChecked {
+  background: t.$brand-main-base;
+  border-color: t.$brand-main-base;
+  color: t.$white-solid;
+}
+
+.consentText {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: t.$black-solid;
+}
+
+// ── Submit ────────────────────────────────────────────────────
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+
+.submitBtn {
+  width: 100%;
+  height: 48px;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: color.adjust(t.$brand-main-base, $lightness: -8%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.successMsg {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  color: t.$brand-main-base;
+  line-height: 1.4;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.privacyNote {
+  font-family: t.$font-sans;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: t.$black-fade-4;
+}
+
+// ── Image panel ───────────────────────────────────────────────
+.imagePanel {
+  width: 450px;
+  flex-shrink: 0;
+  border-left: 1px solid t.$black-fade-2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: t.$gap-small;
+  overflow: hidden;
+
+  @include t.tablet {
+    order: 1;
+    width: 100%;
+    height: 260px;
+    border-left: none;
+    border-bottom: 1px solid t.$black-fade-2;
+    flex-shrink: 0;
+  }
+}
+
+.floorImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

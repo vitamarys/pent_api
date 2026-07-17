@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
 import { formatCompactPrice } from '@/lib/utils'
+import { useDragScroll } from '@/hooks/useDragScroll'
 import s from './SimilarProjects.module.scss'
 import 'swiper/css'
 
@@ -174,6 +175,7 @@ export default function SimilarProjects({
 }: SimilarProjectsProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const SCROLL_STEP = 428 + 16
+  const drag = useDragScroll(trackRef)
 
   const scrollPrev = () => trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
   const scrollNext = () => trackRef.current?.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' })
@@ -208,7 +210,13 @@ export default function SimilarProjects({
       </Container>
 
       <Container>
-        <div className={s.scrollTrack} ref={trackRef}>
+        <div
+          className={s.scrollTrack}
+          ref={trackRef}
+          style={{ cursor: 'grab' }}
+          onMouseDown={drag.onMouseDown}
+          onClickCapture={drag.onClickCapture}
+        >
           {projects.map(project => (
             <ProjectCard key={project.slug} project={project} />
           ))}

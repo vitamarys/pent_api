@@ -160,7 +160,7 @@
   }
 
   @include t.mobile {
-    width: 280px;
+    width: calc(100% - 24px);
   }
 }
 

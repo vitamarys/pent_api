@@ -1,8 +1,8 @@
 import HeroHome from '@/components/sections/HeroHome'
 import ProjectPromo from '@/components/sections/ProjectPromo'
-import HomeWhoWeAre from '@/components/sections/HomeWhoWeAre'
-import HomeAwards from '@/components/sections/HomeAwards'
-import HomeServices from '@/components/sections/HomeServices'
+import ProjectTeam, { type TeamStat } from '@/components/sections/ProjectTeam'
+import ProjectAwards, { type Award } from '@/components/sections/ProjectAwards'
+import ProjectServices, { type ServiceItem } from '@/components/sections/ProjectServices'
 import HomeFAQ from '@/components/sections/HomeFAQ'
 import AnotherContent from '@/components/sections/AnotherContent'
 import SimilarProjects, { type SimilarProjectItem } from '@/components/sections/SimilarProjects'
@@ -10,7 +10,7 @@ import ArticlesSlider, { type ArticleCardItem } from '@/components/sections/Arti
 import ProjectBanner from '@/components/sections/ProjectBanner'
 import ProjectOfMonth, { type ProjectOfMonthItem } from '@/components/sections/ProjectOfMonth'
 import Areas, { type AreaItem } from '@/components/sections/Areas'
-import ProjectForm from '@/components/sections/ProjectForm'
+import ConsultationBlock from '@/components/ui/ConsultationBlock'
 import { getProjects } from '@/api/listings'
 import { getArticles } from '@/api/articles'
 import { getPageBySlug } from '@/api/pages'
@@ -30,7 +30,7 @@ function toSimilarProjectItem(p: OffPlanProjectCard): SimilarProjectItem {
     handover: p.handover ?? undefined,
     priceFrom: p.minPrice ?? undefined,
     propertyTypes: p.projectTypes?.map((t) => t.name),
-    images: p.previewImageFile ? [getStrapiImageUrl(p.previewImageFile.url)] : [],
+    images: p.previewImage ? [getStrapiImageUrl(p.previewImage.url)] : [],
   }
 }
 
@@ -112,7 +112,7 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         />
       )
     }
-
+    
     case 'block.slogan': {
       const b = block as { header?: string; description?: string }
       const match = b.header?.match(/^\*(.+?)\*\s*(.*)$/)
@@ -229,13 +229,17 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         stats?: Array<{ title: string; value: string }>
         image?: { url: string }
       }
+      const stats: TeamStat[] = (b.stats ?? []).map((s) => ({
+        value: s.value,
+        label: s.title,
+      }))
       return (
-        <HomeWhoWeAre
+        <ProjectTeam
           title={b.title}
           description={b.description}
-          buttonText={b.buttonText}
-          stats={b.stats}
-          image={b.image}
+          image={b.image?.url ? getStrapiImageUrl(b.image.url) : ''}
+          stats={stats}
+          ctaLabel={b.buttonText}
         />
       )
     }
@@ -252,7 +256,13 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         title?: string
         award?: Array<{ title: string; description: string; image?: { url: string } }>
       }
-      return <HomeAwards title={b.title} award={b.award} />
+      const awards: Award[] = (b.award ?? []).map((item) => ({
+        image: item.image?.url ? getStrapiImageUrl(item.image.url) : '',
+        value: item.title,
+        label: item.description,
+      }))
+      if (!awards.length) return null
+      return <ProjectAwards sectionLabel={b.title} awards={awards} />
     }
 
     case 'block.services': {
@@ -260,7 +270,13 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         title?: string
         slides?: Array<{ title: string; description?: string; imageFile?: { url: string } }>
       }
-      return <HomeServices title={b.title} slides={b.slides} />
+      const services: ServiceItem[] = (b.slides ?? []).map((slide) => ({
+        title:       slide.title,
+        description: slide.description ?? '',
+        image:       slide.imageFile?.url ? getStrapiImageUrl(slide.imageFile.url) : '',
+      }))
+      if (!services.length) return null
+      return <ProjectServices sectionTitle={b.title} services={services} />
     }
 
     case 'block.any-questions-block': {
@@ -269,17 +285,22 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           title?: string
           description?: string
           buttonText?: string
-          nameLabel?: string | null
-          emailLabel?: string | null
-          phoneLabel?: string | null
+          agentName?: string
+          agentPosition?: string
+          agentImage?: { url?: string } | null
         }
       }
       const form = b.contactFormData ?? {}
       return (
-        <ProjectForm
+        <ConsultationBlock
           sectionTitle={form.title}
           description={form.description}
           submitLabel={form.buttonText}
+          agent={form.agentName ? {
+            name: form.agentName,
+            role: form.agentPosition ?? '',
+            image: form.agentImage?.url ?? '',
+          } : undefined}
         />
       )
     }

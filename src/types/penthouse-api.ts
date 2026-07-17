@@ -137,7 +137,7 @@ export interface OffPlanProjectCard {
   areaUnit: 'SQ_FT' | 'METERS' | null
   numberOfUnits: number | null
   floors: string | null
-  previewImage: unknown | null
+  previewImage: PenthouseImage | null
   previewImageFile: PenthouseImage | null
   videoURL: string | null
   brochureURL: string | null

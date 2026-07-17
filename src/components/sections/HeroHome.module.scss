@@ -4,6 +4,7 @@
 // ── Hero ─────────────────────────────────────────────────────
 .hero {
   position: relative;
+  z-index: 10;
   height: 100svh;
   min-height: 640px;
   background-color: #1a1a24;
@@ -35,7 +36,7 @@
 // ── Content ──────────────────────────────────────────────────
 .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -114,6 +115,7 @@
   background: t.$brand-second-base;
   padding: t.$gap-xxs;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .tab {
@@ -263,6 +265,21 @@
   white-space: nowrap;
 }
 
+.priceInput {
+  @include t.text-body-m;
+  color: rgba(31,31,31,0.5);
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+  cursor: text;
+
+  &:focus {
+    color: t.$black-solid;
+  }
+}
+
 .priceSep {
   width: 1px;
   height: 12px;
@@ -305,18 +322,16 @@
 
 .sliderThumb {
   display: block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: t.$black-solid;
-  border: 2px solid t.$white-solid;
   border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
   cursor: grab;
   outline: none;
   flex-shrink: 0;
   transition: box-shadow 0.15s;
 
-  &:hover { box-shadow: 0 0 0 3px rgba(31,31,31,0.12); }
+  &:hover { box-shadow: 0 0 0 3px rgba(31,31,31,0.15); }
   &:focus-visible { box-shadow: 0 0 0 3px t.$brand-main-base; }
   &:active { cursor: grabbing; }
 }

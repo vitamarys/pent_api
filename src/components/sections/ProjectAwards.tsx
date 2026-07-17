@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
+import { useDragScroll } from "@/hooks/useDragScroll";
 import s from "./ProjectAwards.module.scss";
 
 export interface Award {
@@ -22,6 +23,7 @@ export default function ProjectAwards({
   awards,
 }: ProjectAwardsProps) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const drag = useDragScroll(trackRef);
 
   const scroll = (dir: "prev" | "next") => {
     const el = trackRef.current;
@@ -48,7 +50,13 @@ export default function ProjectAwards({
       </Container>
 
       <Container className={s.trackContainer}>
-        <div className={s.track} ref={trackRef}>
+        <div
+          className={s.track}
+          ref={trackRef}
+          style={{ cursor: 'grab' }}
+          onMouseDown={drag.onMouseDown}
+          onClickCapture={drag.onClickCapture}
+        >
           {awards.map((award, i) => (
             <div key={i} className={s.card}>
               <div className={s.awardImgWrap}>

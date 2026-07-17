@@ -26,6 +26,7 @@ export default function AreaHighlights({
 
   return (
     <section className={s.section}>
+      <Container>
       <div className={s.inner}>
 
         {/* ── Image (tablet/mobile: top, desktop: right) ── */}
@@ -67,6 +68,7 @@ export default function AreaHighlights({
         </div>
 
       </div>
+      </Container>
     </section>
   )
 }

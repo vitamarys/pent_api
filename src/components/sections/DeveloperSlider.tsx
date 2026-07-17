@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl } from '@/lib/utils'
+import { useDragScroll } from '@/hooks/useDragScroll'
 import s from './DeveloperSlider.module.scss'
 
 export interface DeveloperSliderItem {
@@ -100,6 +101,7 @@ export default function DeveloperSlider({
 }: DeveloperSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null)
   const SCROLL_STEP = 428 + 16
+  const drag = useDragScroll(trackRef)
 
   const scrollPrev = () =>
     trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
@@ -135,7 +137,13 @@ export default function DeveloperSlider({
       </Container>
 
       <Container>
-        <div className={s.scrollTrack} ref={trackRef}>
+        <div
+          className={s.scrollTrack}
+          ref={trackRef}
+          style={{ cursor: 'grab' }}
+          onMouseDown={drag.onMouseDown}
+          onClickCapture={drag.onClickCapture}
+        >
           {developers.map((dev) => (
             <DeveloperCard key={dev.slug} developer={dev} />
           ))}

@@ -26,7 +26,7 @@ function DotIcon() {
 function AreaCard({ area }: { area: AreaItem }) {
   return (
     <Link href={`/areas/${area.slug}`} className={s.card}>
-      <img src={area.image} alt={area.name} className={s.cardImage} />
+      {area.image && <img src={area.image} alt={area.name} className={s.cardImage} />}
       <div className={s.cardLabel}>
         <DotIcon />
         <span className={s.cardName}>{area.name}</span>

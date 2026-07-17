@@ -1,5 +1,5 @@
 @use "@/styles/tokens" as t;
-@use 'sass:color';
+@use "sass:color";
 
 // ── Section ─────────────────────────────────────────────────
 .section {
@@ -127,12 +127,11 @@
   position: relative;
   display: flex;
   align-items: center;
-
   gap: 12px;
   background: rgba(31, 31, 31, 0.04);
   backdrop-filter: blur(105px);
-  padding: t.$gap-large t.$gap-large;
-
+  padding: t.$gap-normal;
+  width: fit-content;
   @include t.tablet {
     padding: t.$gap-normal;
   }
@@ -143,15 +142,15 @@
 
 .dot {
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: t.$brand-main-base;
   flex-shrink: 0;
 }
 
 .labelText {
-  @include t.text-body-l;
+  @include t.text-body-m;
   color: t.$white-solid;
 
   @include t.tablet {
