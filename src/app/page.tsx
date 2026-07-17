@@ -85,7 +85,7 @@ async function StaticHomePage() {
           ctaHref="/articles"
         />
       )}
-      <ProjectForm
+      <ConsultationBlock
         sectionTitle="Request Information"
         description="Fill in the form below and our specialist will contact you within 24 hours."
         submitLabel="Send Request"
