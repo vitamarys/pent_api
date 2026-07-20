@@ -66,12 +66,12 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
 
   switch (block.__component) {
     case 'block.hero': {
-      const b = block as { title?: string; subtitle?: string; imageFile?: { url?: string } }
+      const b = block as { title?: string; description?: string; imageFile?: { url?: string } }
       return (
         <HeroArea
           key={index}
           title={b.title ?? page.title}
-          description={b.subtitle ?? ''}
+          description={b.description ?? ''}
           image={imgUrl(b.imageFile)}
           breadcrumb={[
             { label: 'Areas', href: '/areas' },

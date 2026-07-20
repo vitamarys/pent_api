@@ -75,9 +75,13 @@ export default function ProjectAmenities({
 
         {/* ── Tablet / Mobile layout ── */}
         <div className={s.mobileScroll}>
-          {items.map((item, i) => (
+          {items.slice(0, 4).map((item, i) => (
             <AmenityCard key={i} item={item} className={s.scrollCard} />
           ))}
+          <div className={`${s.scrollCard} ${s.counterTile}`} onClick={() => setOpen(true)}>
+            <Plus size={24} color="white" strokeWidth={1.5} />
+            <span className={s.counterText}>All amenities: {count}</span>
+          </div>
         </div>
         <button className={s.showAllBtn} onClick={() => setOpen(true)}>
           {count ? `All amenities: ${count}` : showAllLabel}

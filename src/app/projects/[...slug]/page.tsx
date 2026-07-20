@@ -22,6 +22,8 @@ import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectServices from '@/components/sections/ProjectServices'
 import ConsultationBlock from '@/components/ui/ConsultationBlock'
 import ProjectQr from '@/components/sections/ProjectQr'
+import ProjectMap from '@/components/sections/ProjectMap'
+import ProjectAnchorNav, { type AnchorNavItem } from '@/components/sections/ProjectAnchorNav'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -48,6 +50,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: page.seo?.title ?? page.title,
     description: page.seo?.metaDescription,
   }
+}
+
+// ── anchor nav config ─────────────────────────────────────────────────────────
+
+const BLOCK_ANCHORS: Record<string, AnchorNavItem> = {
+  'block.hero':         { label: 'Overview',     id: 'overview' },
+  'block.key-points':   { label: 'Key Points',   id: 'key-points' },
+  'block.floor-plans':  { label: 'Layouts',      id: 'layouts' },
+  'block.payment-plan': { label: 'Payment Plan', id: 'payment-plan' },
+  'block.brand':        { label: 'Brand',        id: 'brand' },
+  'block.amenities':    { label: 'Amenities',    id: 'amenities' },
+  'block.location':     { label: 'Location',     id: 'location' },
+  'block.developers':   { label: 'Developer',    id: 'developer' },
 }
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -508,6 +523,29 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       )
     }
 
+    case 'block.location': {
+      const b = block as {
+        title?: string
+        description?: string
+        buttonText?: string
+        points?: Array<{ id: number; title: string; value: string }>
+      }
+      const coords = (project?.coordinates as { lat?: number; lng?: number } | null)
+      const area = project?.area as { title?: string; pageUrl?: { url?: string } } | null
+      return (
+        <ProjectMap
+          key={index}
+          sectionTitle={b.title ?? undefined}
+          body={b.description ?? undefined}
+          latitude={coords?.lat}
+          longitude={coords?.lng}
+          proximity={(b.points ?? []).map((p) => ({ id: p.id, label: p.title, value: p.value }))}
+          ctaLabel={b.buttonText ?? undefined}
+          ctaHref={area?.pageUrl?.url ?? undefined}
+        />
+      )
+    }
+
     case 'block.another-content': {
       const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
       if (!b.contentType) return null
@@ -543,16 +581,27 @@ export default async function ProjectsPage({ params }: Props) {
 
   const entityId = page.id
 
+  const anchorItems = visibleBlocks
+    .filter((b) => b.visible !== false && BLOCK_ANCHORS[b.__component])
+    .map((b) => BLOCK_ANCHORS[b.__component])
+
   return (
-    <main>
-      {visibleBlocks.map((block, index) => {
-        try {
-          return renderBlock(block, index, page, entityId)
-        } catch (err) {
-          console.error(`Failed to render ${block.__component}`, err)
-          return null
-        }
-      })}
-    </main>
+    <>
+      <main>
+        {visibleBlocks.map((block, index) => {
+          try {
+            const anchor = BLOCK_ANCHORS[block.__component]
+            const content = renderBlock(block, index, page, entityId)
+            if (!content) return null
+            if (!anchor) return content
+            return <div key={index} id={anchor.id}>{content}</div>
+          } catch (err) {
+            console.error(`Failed to render ${block.__component}`, err)
+            return null
+          }
+        })}
+      </main>
+      {anchorItems.length > 1 && <ProjectAnchorNav items={anchorItems} />}
+    </>
   )
 }

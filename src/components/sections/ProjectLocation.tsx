@@ -16,6 +16,8 @@ interface Props {
   proximity?: ProximityItem[]
   ctaLabel?: string
   ctaHref?: string
+  lat?: number
+  lng?: number
 }
 
 export default function ProjectLocation({
@@ -26,7 +28,12 @@ export default function ProjectLocation({
   proximity = [],
   ctaLabel,
   ctaHref,
+  lat,
+  lng,
 }: Props) {
+  const directionsUrl = lat && lng
+    ? `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
+    : undefined
   return (
     <section className={s.section}>
       <div className={s.layout}>
@@ -58,14 +65,19 @@ export default function ProjectLocation({
             )}
           </div>
 
-          {ctaLabel && (
-            <a
-              href={ctaHref ?? '#'}
-              className={s.cta}
-            >
-              {ctaLabel}
-            </a>
-          )}
+          <div className={s.ctaRow}>
+            {ctaLabel && (
+              <a href={ctaHref ?? '#'} className={s.cta}>
+                {ctaLabel}
+              </a>
+            )}
+            {directionsUrl && (
+              <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className={s.directions}>
+                <MapPin size={16} />
+                Get Directions
+              </a>
+            )}
+          </div>
         </div>
 
         {/* ── MAP ── */}

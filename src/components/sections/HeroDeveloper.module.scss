@@ -129,6 +129,13 @@ $header-height: 80px;
 
   @include t.tablet {
     padding: 0;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  @include t.mobile {
+    margin-left: -16px;
+    margin-right: -16px;
   }
 }
 

@@ -6,7 +6,10 @@
   padding: 120px 0 t.$margin-vertical-small;
 
   @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
-  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+    overflow-x: hidden;
+  }
 }
 
 // ── Inner column ──────────────────────────────────────────
@@ -53,12 +56,14 @@
 
   @include t.tablet {
     flex-direction: column;
+    align-items: stretch;
     gap: 20px;
     padding-top: 20px;
   }
 
   @include t.mobile {
     flex-direction: column;
+    align-items: stretch;
     gap: t.$gap-small;
     padding-top: t.$gap-small;
   }
@@ -68,6 +73,12 @@
 .tabsCol {
   flex: 1;
   min-width: 0;
+
+  @include t.mobile {
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
 }
 
 // ── Tabs switcher ─────────────────────────────────────────
@@ -81,6 +92,11 @@
   scrollbar-width: none;
 
   &::-webkit-scrollbar { display: none; }
+
+  @include t.mobile {
+    display: flex;
+    width: max-content;
+  }
 }
 
 // ── Single tab ────────────────────────────────────────────

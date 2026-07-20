@@ -44,6 +44,7 @@ export default function HeroProject({
 
         {/* Image area — controls height per breakpoint */}
         <div className={s.imageArea}>
+          <div className={s.imageBg} style={{ backgroundImage: `url(${image})` }} />
           <Container>
             <nav className={s.breadcrumb}>
               <Link href="/"><Home size={16} /></Link>

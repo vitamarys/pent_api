@@ -17,6 +17,22 @@ $panel-solid: #1f1f1f;
   @include t.tablet {
     height: auto;
     min-height: unset;
+    padding: 0;
+    background-image: none !important;
+  }
+}
+
+// ── Image background (tablet/mobile only) ───────────────────
+.imageBg {
+  display: none;
+
+  @include t.tablet {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 }
 
@@ -24,10 +40,10 @@ $panel-solid: #1f1f1f;
 .imageArea {
   flex: 1;
   position: relative;
-  padding-top: $header-height;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-
+  padding-top: 135px;
   @include t.tablet {
     flex: none;
     height: 400px;
@@ -35,8 +51,8 @@ $panel-solid: #1f1f1f;
   }
 
   @include t.mobile {
-    height: 240px;
-    padding-top: t.$gap-extra-large;
+    height: 340px;
+    padding-top: 70px;
   }
 }
 
@@ -93,6 +109,12 @@ $panel-solid: #1f1f1f;
   @include t.tablet {
     background: $panel-solid;
     backdrop-filter: none;
+    margin: 0 -20px;
+    padding: 20px;
+  }
+  @include t.mobile {
+    margin: 0 -16px;
+    padding: 16px;
   }
 }
 

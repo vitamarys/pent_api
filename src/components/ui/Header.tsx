@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import s from './Header.module.scss'
 
-const DARK_HEADER_PATHS = ['/developers', '/areas', '/resale']
+const DARK_HEADER_PATHS = ['/developers', '/areas', '/resale', '/projects']
 
 const NAV_LINKS = [
   { label: 'Buy',               href: '/buy' },

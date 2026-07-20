@@ -42,6 +42,8 @@ interface DeveloperEntity {
   name?: string
   description?: string
   image?: { url?: string } | null
+  imageFile?: { url?: string } | null
+  logoFile?: { url?: string } | null
   images?: Array<{ url?: string }>
   foundedIn?: string
   projectCount?: number
@@ -245,8 +247,8 @@ export default async function DeveloperPage({ params }: Props) {
         <HeroDeveloper
           name={dev.name ?? ''}
           description={dev.description ?? ''}
-          bgImage={dev.images?.[0]?.url ?? dev.image?.url ?? ''}
-          logo={dev.image?.url ?? undefined}
+          bgImage={dev.imageFile?.url ?? ''}
+          logo={dev.logoFile?.url ?? undefined}
           stats={stats}
           breadcrumb={[
             { label: 'Developers', href: '/developers' },

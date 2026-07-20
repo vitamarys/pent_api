@@ -128,6 +128,16 @@
   color: rgba(31, 31, 31, 0.40);
 }
 
+// ── CTA row ──────────────────────────────────────────────────────────────────
+.ctaRow {
+  display: flex;
+  gap: t.$gap-small;
+
+  @include t.mobile {
+    flex-direction: column;
+  }
+}
+
 // ── CTA button ────────────────────────────────────────────────────────────────
 .cta {
   display: flex;
@@ -149,6 +159,27 @@
   &:hover {
     background: t.$brand-main-mid;
     color: t.$black-solid;
+  }
+}
+
+.directions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: t.$gap-xs;
+  height: t.$control-height-large;
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: t.$white-solid;
   }
 }
 

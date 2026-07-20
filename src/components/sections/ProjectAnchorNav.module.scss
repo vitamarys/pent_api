@@ -1,0 +1,72 @@
+@use "@/styles/tokens" as t;
+
+$header-height: 65px;
+
+// ── Nav wrapper (desktop only) ────────────────────────────
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  padding-top: $header-height; // transparent gap = header height
+  pointer-events: none;        // let header clicks through the padding
+  transition: transform 0.3s ease;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.hidden {
+  // moves up by (header-height + bar height) → fully off screen, same as header
+  transform: translateY(-100%);
+}
+
+// ── Full-width bar ────────────────────────────────────────
+.bar {
+  background: t.$black-fade-4;
+  backdrop-filter: blur(32.5px);
+  -webkit-backdrop-filter: blur(32.5px);
+  pointer-events: auto;
+}
+
+// ── Container row ─────────────────────────────────────────
+.inner {
+  display: flex;
+  align-items: center;
+  gap: t.$gap-small;
+  padding-top: t.$gap-xs;
+  padding-bottom: t.$gap-xs;
+}
+
+// ── Nav item ──────────────────────────────────────────────
+.item {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: t.$gap-xs t.$gap-small;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  white-space: nowrap;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ── Active item ───────────────────────────────────────────
+.active {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
