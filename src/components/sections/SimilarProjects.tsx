@@ -65,7 +65,7 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
   const hasGallery = images.length > 1
 
   return (
-    <Link href={`/project/${project.slug}`} className={s.card}>
+    <Link href={`/projects/${project.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {images.length > 0 ? (
           <Swiper
