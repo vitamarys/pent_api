@@ -295,6 +295,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         image?: { url?: string }
         logo?: { url?: string }
       }
+      if (!b.title && !b.description && !b.image?.url) return null
       return (
         <ProjectBrand
           key={index}
@@ -321,6 +322,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         pageUrl?: { url?: string }
       } | null
       if (!dev) return null
+      if (!dev.description && !dev.imageFile) return null
 
       const yearsOnMarket = dev.foundedIn
         ? Math.floor((new Date().getFullYear() - new Date(dev.foundedIn).getFullYear()) / 5) * 5
@@ -350,11 +352,12 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         title?: string
         amenities?: Array<{ id: number; name: string; image?: { url?: string } }>
       }
+      if (!b.amenities?.length) return null
       return (
         <ProjectAmenities
           key={index}
           sectionTitle={b.title ?? undefined}
-          items={b.amenities?.map((a) => ({ id: a.id, label: a.name, image: imgUrl(a.image) })) ?? []}
+          items={b.amenities.map((a) => ({ id: a.id, label: a.name, image: imgUrl(a.image) }))}
         />
       )
     }
@@ -409,11 +412,12 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         title?: string
         questions?: Array<{ id: number; title: string; answer: string }>
       }
+      if (!b.questions?.length) return null
       return (
         <ProjectAccordion
           key={index}
           sectionTitle={b.title ?? undefined}
-          items={(b.questions ?? []).map((q) => ({ title: q.title, answer: q.answer }))}
+          items={b.questions.map((q) => ({ title: q.title, answer: q.answer }))}
         />
       )
     }
@@ -514,12 +518,14 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         description?: string
         qrImage?: { url?: string } | null
       }
+      const projectQrImage = project?.qrImage as { url?: string } | null | undefined
+      const qrUrl = b.qrImage?.url ?? projectQrImage?.url ?? null
       return (
         <ProjectQr
           key={index}
           tagLabel={b.tag ?? undefined}
           description={b.description ?? undefined}
-          qrUrl={b.qrImage?.url ?? null}
+          qrUrl={qrUrl}
         />
       )
     }
@@ -583,7 +589,23 @@ export default async function ProjectsPage({ params }: Props) {
   const entityId = page.id
 
   const anchorItems = visibleBlocks
-    .filter((b) => b.visible !== false && BLOCK_ANCHORS[b.__component])
+    .filter((b) => {
+      if (b.visible === false || !BLOCK_ANCHORS[b.__component]) return false
+      if (b.__component === 'block.brand') {
+        const bb = b as { title?: string; description?: string; image?: { url?: string } }
+        if (!bb.title && !bb.description && !bb.image?.url) return false
+      }
+      if (b.__component === 'block.amenities') {
+        const bb = b as { amenities?: unknown[] }
+        if (!bb.amenities?.length) return false
+      }
+      if (b.__component === 'block.developers') {
+        const project = getProject(page)
+        const dev = project?.developer as { description?: string; imageFile?: unknown } | null
+        if (!dev?.description && !dev?.imageFile) return false
+      }
+      return true
+    })
     .map((b) => BLOCK_ANCHORS[b.__component])
 
   return (
