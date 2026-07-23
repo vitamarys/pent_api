@@ -52,10 +52,10 @@ async function StaticHomePage() {
     id: a.id,
     title: a.title,
     summary: a.summary,
-    category: a.category,
+    category: typeof a.category === 'object' && a.category !== null ? (a.category as { name?: string }).name : a.category as string | undefined,
     date: a.date,
     timeToRead: a.timeToRead,
-    image: a.previewImage ? getStrapiImageUrl(a.previewImage.url) : undefined,
+    image: a.previewImageFile?.url ? getStrapiImageUrl(a.previewImageFile.url) : a.previewImage?.url ? getStrapiImageUrl(a.previewImage.url) : undefined,
     href: a.pageUrl?.url,
   }))
 
