@@ -41,7 +41,7 @@ function toSimilarProjectItem(p: OffPlanProjectCard): SimilarProjectItem {
 
 async function StaticHomePage() {
   const [projectsRes, articlesRes] = await Promise.all([
-    getProjects({ pageSize: 8, sort: 'newest' }).catch(() => null),
+    getProjects({ pageSize: 12 }).catch(() => null),
     getArticles({ pageSize: 4 }),
   ])
 
