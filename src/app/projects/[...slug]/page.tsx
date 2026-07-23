@@ -90,7 +90,7 @@ function parseHighlight(text: string): { highlight: string; rest: string } {
 
 function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, entityId?: number) {
   if (block.visible === false) return null
-  
+
   const project = getProject(page)
   switch (block.__component) {
     case 'block.hero': {
@@ -207,25 +207,25 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         floorPlans?: Array<{
           id: number
           title?: string
-          type?: string
-          options?: string
-          price?: string
-          area?: number
-          bedroomsLabel?: string
-          imageFile?: { url?: string }
+          beds?: string | null
+          options?: string | null
+          price?: number | null
+          area?: number | null
+          imageFile?: { url?: string } | null
+          property_type?: { name?: string } | null
         }>
       }
       const plans = b.floorPlans ?? []
-      const uniqueTypes = [...new Set(plans.map((p) => p.type).filter(Boolean))] as string[]
+      const uniqueTypes = [...new Set(plans.map((p) => p.property_type?.name).filter(Boolean))] as string[]
       const tabs = uniqueTypes.map((t) => ({ label: t, value: t.toLowerCase() }))
       const cards = plans.map((p) => ({
-        title: p.title ?? '',
-        type: p.type ?? '',
+        title: p.title || '',
+        type: p.property_type?.name ?? '',
         optionsLabel: p.options ? `${p.options} options` : undefined,
-        bedroomsLabel: p.bedroomsLabel,
+        bedroomsLabel: p.beds ?? undefined,
         image: imgUrl(p.imageFile),
         startingPrice: p.price ?? '',
-        livingArea: p.area ? `${p.area} sq.ft` : '',
+        livingArea: p.area ? `${p.area} m²` : '',
       }))
       return (
         <ProjectFloorPlan
@@ -449,6 +449,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         videoURL?: string
         videoButton?: string
         previewVideo?: { url?: string }
+        image?: { url?: string }
         steps?: Array<{ id: number; title: string; value: string }>
       }
       return (
@@ -459,7 +460,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           steps={b.steps ?? []}
           videoUrl={b.videoURL ?? undefined}
           videoButton={b.videoButton ?? undefined}
-          previewImage={imgUrl(b.previewVideo) || undefined}
+          previewImage={imgUrl(b.previewVideo) || imgUrl(b.image) || undefined}
         />
       )
     }

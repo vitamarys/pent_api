@@ -135,7 +135,7 @@ export default function ProjectFloorPlan({
           pagination={{ clickable: true }}
           breakpoints={{
             768:  { slidesPerView: 2, pagination: { clickable: true } },
-            1200: { slidesPerView: 3, pagination: false },
+            1200: { slidesPerView: 3.2, pagination: false },
           }}
           className={s.swiper}
         >
@@ -152,7 +152,9 @@ export default function ProjectFloorPlan({
                       {card.bedroomsLabel
                         ? card.bedroomsLabel.toLowerCase() === 'studio'
                           ? card.bedroomsLabel
-                          : `${card.bedroomsLabel} Bedrooms`
+                          : card.bedroomsLabel === '1'
+                            ? '1 Bedroom'
+                            : `${card.bedroomsLabel} Bedrooms`
                         : card.title}
                     </p>
                     <p className={s.cardType}>{card.type}</p>

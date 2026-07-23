@@ -42,7 +42,7 @@ export default function WorkProgress({
               {steps.map((step, i) => {
                 const isLast = i === steps.length - 1;
                 return (
-                  <div key={step.id} className={s.step}>
+                  <div key={step.id ?? i} className={s.step}>
                     <div className={s.stepHeader}>
                       <div className={s.stepNumber}>{i + 1}</div>
                       <p className={s.stepTitle}>{step.title}</p>

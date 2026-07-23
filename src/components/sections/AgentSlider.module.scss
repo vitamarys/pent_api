@@ -1,0 +1,234 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ──────────────────────────────────────────────────
+.section {
+  position: relative;
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+  overflow: hidden;
+
+  @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
+  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+}
+
+// ── Decorative ellipse ────────────────────────────────────────
+.ellipse {
+  position: absolute;
+  right: -430px;
+  top: -622px;
+  width: 860px;
+  height: 860px;
+  border-radius: 50%;
+  border: 1px solid rgba(193, 153, 98, 0.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Header ───────────────────────────────────────────────────
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: t.$gap-small;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet { margin-bottom: t.$gap-small; }
+}
+
+.titleWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+// ── CTA button ───────────────────────────────────────────────
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 0 t.$gap-small;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.ctaBtnDesktop {
+  width: 200px;
+
+  @include t.tablet { display: none; }
+}
+
+.ctaBtnBottom {
+  display: none;
+  width: 100%;
+  margin-top: t.$gap-small;
+
+  @include t.tablet { display: flex; }
+}
+
+// ── Navigation arrows ────────────────────────────────────────
+.navArrows {
+  display: flex;
+  gap: t.$gap-xs;
+  flex-shrink: 0;
+
+  @include t.tablet { display: none; }
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$control-height-large;
+  height: t.$control-height-large;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover { opacity: 0.85; }
+}
+
+// ── Scroll track ─────────────────────────────────────────────
+.scrollTrack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: t.$gap-small;
+  overflow-x: hidden;
+  cursor: grab;
+
+  &:active { cursor: grabbing; }
+
+  @include t.tablet {
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  @include t.mobile {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+}
+
+// ── Card ─────────────────────────────────────────────────────
+.card {
+  flex: 0 0 448px;
+  display: flex;
+  flex-direction: column;
+  background: t.$white-solid;
+
+  @include t.tablet { flex: 1 0 340px; }
+
+  @include t.mobile {
+    flex: 0 0 calc(100% - 16px);
+    scroll-snap-align: start;
+  }
+}
+
+// ── Photo area ────────────────────────────────────────────────
+.cardMedia {
+  position: relative;
+  height: 340px;
+  flex-shrink: 0;
+  background: t.$brand-second-base;
+  overflow: hidden;
+}
+
+.cardImg {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.cardImgPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: t.$brand-second-base;
+}
+
+// ── Info area ─────────────────────────────────────────────────
+.cardCart {
+  border: 1px solid t.$black-fade-2;
+  border-top: none;
+  background: t.$white-solid;
+  padding: t.$gap-small;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-large;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+// ── Name row (dot + name) ─────────────────────────────────────
+.cardTitleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: t.$gap-xs;
+}
+
+.cardDot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: t.$brand-main-base;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.cardName {
+  font-family: t.$font-serif;
+  font-size: t.$size-body-xl;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.56px;
+  color: t.$black-solid;
+  flex: 1;
+  min-width: 0;
+
+  @include t.mobile {
+    font-size: 22px;
+    letter-spacing: -0.44px;
+  }
+}
+
+.cardPosition {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  margin: 0;
+}

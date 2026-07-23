@@ -94,7 +94,7 @@ export interface PenthouseListingsProjectsParams {
   currency?: string
   page?: number
   pageSize?: number
-  sort?: 'newest' | 'price_asc' | 'price_desc'
+  sort?: 'price_asc' | 'price_desc' | 'handover_asc' | 'handover_desc'
   search?: string
   filters?: PenthouseProjectFilters
 }
@@ -175,13 +175,13 @@ export interface PenthouseListingsProjectsResponse {
 // ── GET /listings/property ────────────────────────────────────────────────────
 
 export interface PenthousePropertyFilters {
-  search?: string[]
-  propertyType?: number
+  search?: string
+  propertyTypes?: number[]
   price?: [number, number]
   beds?: string[]
   baths?: string[]
   completion?: 'COMPLETED' | 'UNDER_CONSTRUCTION'
-  furnishing?: 'FURNISHED' | 'UNFURNISHED' | 'PARTLY_FURNISHED'
+  furnished?: 'FURNISHED' | 'UNFURNISHED' | 'PARTLY_FURNISHED'
 }
 
 export interface PenthouseListingsPropertyParams {
@@ -189,7 +189,7 @@ export interface PenthouseListingsPropertyParams {
   currency?: string
   page?: number
   pageSize?: number
-  sort?: 'newest' | 'price_asc' | 'price_desc'
+  sort?: 'newest' | 'oldest' | 'price_asc' | 'price_desc'
   filters?: PenthousePropertyFilters
 }
 
@@ -275,10 +275,11 @@ export interface PenthouseArticleItem {
   title: string
   date: string
   summary?: string
-  category?: string
+  category?: string | { id: number; name: string }
   timeToRead?: string
   previewImage?: PenthouseImage
-  pageUrl?: { url: string }
+  previewImageFile?: PenthouseImage | null
+  pageUrl?: { url: string; isExternal?: boolean }
 }
 
 export interface PenthouseArticlesResponse {

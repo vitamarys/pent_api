@@ -1,3 +1,6 @@
+import OurProperties from '@/components/sections/OurProperties'
+import DirectorQuote from '@/components/sections/DirectorQuote'
+import AgentSliderLoader from '@/components/sections/AgentSliderLoader'
 import HeroHome from '@/components/sections/HeroHome'
 import ProjectPromo from '@/components/sections/ProjectPromo'
 import ProjectTeam, { type TeamStat } from '@/components/sections/ProjectTeam'
@@ -102,13 +105,15 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
       const b = block as {
         title?: string
         description?: string
-        image?: { url: string }
+        imageFile?: { url: string } | null
+        image?: { url: string } | null
       }
+      const bgUrl = b.imageFile?.url ?? b.image?.url
       return (
         <HeroHome
           title={b.title}
           subtitle={b.description}
-          bgImage={b.image?.url ? getStrapiImageUrl(b.image.url) : undefined}
+          bgImage={bgUrl ? getStrapiImageUrl(bgUrl) : undefined}
         />
       )
     }
@@ -149,14 +154,16 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         title?: string
         description?: string
         buttonText?: string
-        image?: { url: string }
+        imageFile?: { url: string } | null
+        image?: { url: string } | null
       }
+      const bannerImg = b.imageFile ?? b.image ?? undefined
       return (
         <ProjectBanner
           title={b.title}
           description={b.description}
           ctaLabel={b.buttonText}
-          image={b.image}
+          image={bannerImg}
         />
       )
     }
@@ -169,10 +176,11 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           name?: string
           Location?: string
           description?: string
-          priceValue?: string | null
+          priceValue?: number | null
+          currency?: string | null
           handoverValue?: string
           unitsValue?: number
-          images?: Array<{ url: string }>
+          imagesFile?: Array<{ url: string }> | null
         }>
       }
       const items: ProjectOfMonthItem[] = (b.items ?? []).map((item) => ({
@@ -180,10 +188,10 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         title: item.name ?? '',
         location: item.Location,
         description: item.description,
-        priceRange: item.priceValue ?? undefined,
+        priceRange: item.priceValue != null ? String(item.priceValue) : undefined,
         handover: item.handoverValue,
         numberOfUnits: item.unitsValue,
-        images: item.images?.map((img) => getStrapiImageUrl(img.url)) ?? [],
+        images: Array.isArray(item.imagesFile) ? item.imagesFile.map((img) => getStrapiImageUrl(img.url)) : [],
       }))
       if (!items.length) return null
       return <ProjectOfMonth projects={items} sectionTitle={b.title} />
@@ -227,17 +235,19 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
         description?: string
         buttonText?: string
         stats?: Array<{ title: string; value: string }>
-        image?: { url: string }
+        imageFile?: { url: string } | null
+        image?: { url: string } | null
       }
       const stats: TeamStat[] = (b.stats ?? []).map((s) => ({
         value: s.value,
         label: s.title,
       }))
+      const whoImg = b.imageFile?.url ?? b.image?.url ?? ''
       return (
         <ProjectTeam
           title={b.title}
           description={b.description}
-          image={b.image?.url ? getStrapiImageUrl(b.image.url) : ''}
+          image={whoImg ? getStrapiImageUrl(whoImg) : ''}
           stats={stats}
           ctaLabel={b.buttonText}
         />
@@ -245,10 +255,62 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
     }
 
     case 'block.our-properties': {
-      const b = block as { cards?: unknown[] }
+      const b = block as {
+        title?: string
+        description?: string
+        cards?: Array<{
+          id?: number
+          title?: string
+          priceValue?: number | null
+          currency?: string | null
+          url?: string | null
+          imageFile?: { url: string; alternativeText?: string | null } | null
+        }>
+      }
       if (!b.cards?.length) return null
-      // Render omitted — no dedicated component; skip
-      return null
+      return (
+        <OurProperties
+          title={b.title}
+          description={b.description}
+          cards={b.cards}
+        />
+      )
+    }
+
+    case 'block.our-team': {
+      const b = block as {
+        title?: string
+        buttonText?: string
+        ctaHref?: string
+      }
+      return (
+        <AgentSliderLoader
+          sectionTitle={b.title}
+          ctaLabel={b.buttonText}
+          ctaHref={b.ctaHref}
+          limit={6}
+        />
+      )
+    }
+
+    case 'block.director-quote': {
+      const b = block as {
+        quote?: string
+        agent?: { name?: string; position?: string } | null
+        imageFile?: { url: string; alternativeText?: string | null } | null
+      }
+      if (!b.quote) return null
+      const agentName = b.agent?.name ?? ''
+      const agentPosition = b.agent?.position
+      return (
+        <DirectorQuote
+          quote={b.quote}
+          name={agentName}
+          position={agentPosition}
+          imageUrl={b.imageFile?.url}
+          imageAlt={b.imageFile?.alternativeText ?? agentName}
+        />
+      )
     }
 
     case 'block.awards': {
@@ -288,9 +350,11 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           agentName?: string
           agentPosition?: string
           agentImage?: { url?: string } | null
+          agentImageFile?: { url?: string } | null
         }
       }
       const form = b.contactFormData ?? {}
+      const agentImg = form.agentImageFile?.url ?? form.agentImage?.url ?? ''
       return (
         <ConsultationBlock
           sectionTitle={form.title}
@@ -299,7 +363,7 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           agent={form.agentName ? {
             name: form.agentName,
             role: form.agentPosition ?? '',
-            image: form.agentImage?.url ?? '',
+            image: agentImg,
           } : undefined}
         />
       )
@@ -316,6 +380,7 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
     // Skip globally rendered blocks and unknown types
     case 'block.header':
     case 'block.footer':
+    case 'block.reviews':
     default:
       return null
   }

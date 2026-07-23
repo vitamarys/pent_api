@@ -28,7 +28,7 @@ function NewsCard({ item }: { item: NewsItem }) {
   return (
     <Link href={item.href ?? `/news/${item.slug}`} className={s.card}>
       <div className={s.cardImage}>
-        <img src={item.image} alt={item.title} className={s.cardImg} />
+        {item.image && <img src={item.image} alt={item.title} className={s.cardImg} />}
         <div className={s.cardTag}>{item.tag}</div>
       </div>
       <div className={s.cardBody}>

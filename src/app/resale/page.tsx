@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     'Browse resale apartments, villas, and penthouses in Dubai. Find your perfect secondary market property with PentTest.',
 }
 
-const PAGE_SIZE = 17
+const PAGE_SIZE = 18
 
 // Banner config — insert after every N cards (0-indexed positions within the page)
 const BANNERS: Array<{ afterIndex: number; image: string; title: string; description: string; buttonText: string; buttonHref: string; align?: 'left' | 'right' }> = [

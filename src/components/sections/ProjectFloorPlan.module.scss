@@ -5,6 +5,7 @@
 .section {
   background: t.$brand-second-base;
   padding: 120px 0 t.$margin-vertical-small;
+  overflow: hidden;
 
   @include t.tablet {
     padding: 100px 0 t.$margin-vertical-small;

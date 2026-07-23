@@ -21,7 +21,24 @@ function buildListingsParams(
   if (params.pageSize !== undefined) result.pageSize = String(params.pageSize)
   if (params.sort) result.sort = params.sort
   if ('search' in params && params.search) result.search = params.search
-  if (params.filters) result.filters = JSON.stringify(params.filters)
+
+  // Serialize filters as flat query params (API does not accept JSON)
+  const f = params.filters
+  if (f) {
+    if ('areas' in f && f.areas?.length) result.areas = f.areas.join(',')
+    if ('developers' in f && f.developers?.length) result.developers = f.developers.join(',')
+    if ('propertyTypes' in f && f.propertyTypes?.length) result.propertyTypes = f.propertyTypes.join(',')
+    if ('ids' in f && f.ids?.length) result.ids = f.ids.join(',')
+    if ('handover' in f && f.handover?.length) result.handover = f.handover.join(',')
+    if ('categories' in f && f.categories?.length) result.categories = f.categories.join(',')
+    if ('beds' in f && f.beds?.length) result.beds = f.beds.join(',')
+    if ('baths' in f && f.baths?.length) result.baths = f.baths.join(',')
+    if ('price' in f && f.price) result.price = `${f.price[0]}-${f.price[1]}`
+    if ('completion' in f && f.completion) result.completion = f.completion
+    if ('furnished' in f && f.furnished) result.furnished = f.furnished
+    if ('search' in f && f.search) result.search = f.search
+  }
+
   return result
 }
 
@@ -89,7 +106,5 @@ export async function getSimilar(
     '/api/catalog/similar',
     { params: queryParams },
   )
-  console.log(queryParams);
-  
   return data
 }

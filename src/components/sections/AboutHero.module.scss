@@ -1,0 +1,211 @@
+@use "@/styles/tokens" as t;
+
+// ── Hero section ──────────────────────────────────────────────
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 640px;
+  max-height: 800px;
+  background-color: #1a1a1a;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: stretch;
+  padding-top: 64px;
+
+  @include t.tablet {
+    padding-top: 32px;
+    height: auto;
+    min-height: 100svh;
+    align-items: flex-end;
+  }
+}
+
+// ── Container override ────────────────────────────────────────
+.containerFull {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: t.$gap-large;
+  padding-bottom: t.$gap-large;
+
+  @include t.tablet {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+// ── Overlay ───────────────────────────────────────────────────
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(9, 24, 48, 0) 0%,
+    rgba(9, 24, 48, 0.35) 100%
+  );
+  pointer-events: none;
+}
+
+// ── Breadcrumbs outer (tablet/mobile only) ────────────────────
+.breadcrumbsOuter {
+  display: none;
+  z-index: 2;
+
+  @include t.tablet {
+    display: block;
+    position: absolute;
+    top: 56px;
+    left: 20px;
+    right: 20px;
+  }
+
+  @include t.mobile {
+    left: 16px;
+    right: 16px;
+  }
+}
+
+// ── Panel wrap ────────────────────────────────────────────────
+.panelWrap {
+  position: relative;
+  z-index: 2;
+  width: 480px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  @include t.tablet {
+    width: 100%;
+    padding-bottom: t.$gap-normal;
+  }
+
+  @include t.mobile {
+    padding-bottom: t.$gap-small;
+  }
+}
+
+// ── Frosted panel ─────────────────────────────────────────────
+.panel {
+  background: rgba(31, 31, 31, 0.7);
+  backdrop-filter: blur(49px);
+  -webkit-backdrop-filter: blur(49px);
+  padding: t.$gap-normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+
+  @include t.tablet {
+    flex: unset;
+    padding: t.$gap-normal;
+  }
+
+  @include t.mobile {
+    padding: t.$gap-small;
+  }
+}
+
+// ── Breadcrumbs inside panel (desktop only) ───────────────────
+.breadcrumbsInner {
+  display: block;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Breadcrumbs shared styles ─────────────────────────────────
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.breadcrumbHome {
+  display: flex;
+  align-items: center;
+  color: t.$white-solid;
+  flex-shrink: 0;
+  line-height: 1;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.breadcrumbSep {
+  color: t.$white-fade-4;
+  flex-shrink: 0;
+}
+
+.breadcrumbLink {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.breadcrumbCurrent {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-fade-4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+// ── Content ───────────────────────────────────────────────────
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+  margin-top: auto;
+}
+
+.title {
+  font-family: t.$font-serif;
+  font-size: t.$size-h1;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: -1.44px;
+  color: t.$white-solid;
+
+  @include t.tablet {
+    font-size: 40px;
+    letter-spacing: -1.2px;
+  }
+
+  @include t.mobile {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+}
+
+.desc {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-fade-4;
+}

@@ -1,0 +1,191 @@
+@use "@/styles/tokens" as t;
+
+// ── Section ───────────────────────────────────────────────
+.section {
+  position: relative;
+  background: t.$white-solid;
+  padding: 120px 0 t.$margin-vertical-small;
+  overflow: hidden;
+
+  @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
+  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+}
+
+// ── Decorative ellipse ────────────────────────────────────
+.ellipse {
+  position: absolute;
+  right: -430px;
+  top: -532px;
+  width: 860px;
+  height: 860px;
+  border-radius: 50%;
+  border: 1px solid rgba(193, 153, 98, 0.18);
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ── Inner wrapper ─────────────────────────────────────────
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+
+  @include t.tablet { gap: 20px; }
+  @include t.mobile { gap: t.$gap-small; }
+}
+
+// ── Header ────────────────────────────────────────────────
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 569px;
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.description {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+  margin: 0;
+}
+
+// ── Cards row ─────────────────────────────────────────────
+.cards {
+  display: flex;
+  gap: t.$gap-small;
+
+  @include t.tablet { flex-direction: column; }
+  @include t.mobile { flex-direction: column; }
+}
+
+// ── Card ──────────────────────────────────────────────────
+.card {
+  position: relative;
+  flex: 1;
+  height: 586px;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px;
+  text-decoration: none;
+  background: t.$black-solid;
+  overflow: hidden;
+
+  @include t.mobile { height: 432px; padding: t.$gap-small; }
+
+  &:hover .cardImage {
+    transform: scale(1.04);
+  }
+}
+
+.cardImage {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+// ── Card content (dark box at bottom) ─────────────────────
+.cardContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: t.$black-solid;
+  padding: t.$gap-small;
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-normal;
+
+  @include t.tablet { gap: 20px; }
+  @include t.mobile { gap: t.$gap-small; }
+}
+
+// ── Card header row (title + arrow) ───────────────────────
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: t.$gap-small;
+  padding-bottom: t.$gap-normal;
+  border-bottom: 1px solid t.$white-fade-2;
+
+  @include t.tablet { padding-bottom: 20px; }
+  @include t.mobile { padding-bottom: t.$gap-small; }
+}
+
+// ── Card title (Prata serif) ──────────────────────────────
+.cardTitle {
+  @include t.text-body-xl;
+  color: t.$white-solid;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+
+  @include t.tablet {
+    font-size: 22px;
+    letter-spacing: -0.44px;
+  }
+
+  @include t.mobile {
+    font-size: 18px;
+    letter-spacing: -0.36px;
+  }
+}
+
+// ── Count accent (gold) ───────────────────────────────────
+.count {
+  color: t.$brand-main-base;
+}
+
+// ── Arrow icon ────────────────────────────────────────────
+.arrow {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ── Price block ───────────────────────────────────────────
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xxs;
+}
+
+.priceLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.priceValue {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$white-solid;
+
+  @include t.tablet { font-size: 20px; }
+  @include t.mobile { font-size: 18px; }
+}

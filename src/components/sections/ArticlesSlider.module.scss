@@ -1,4 +1,5 @@
 @use '@/styles/tokens' as t;
+@use "sass:color";
 
 .section {
   background: white;
@@ -75,7 +76,7 @@
   transition: background 0.2s;
 
   &:hover {
-    background: darken(#c19962, 8%);
+    background: color.adjust(#c19962, $lightness: -8%);
   }
 }
 
@@ -120,7 +121,7 @@
   transition: background 0.2s;
 
   &:hover {
-    background: darken(#f0ece8, 6%);
+    background: color.adjust(#f0ece8, $lightness: -6%);
   }
 }
 
