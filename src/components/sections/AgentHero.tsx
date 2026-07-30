@@ -83,7 +83,7 @@ function renderContentBlock(block: ContentBlock, i: number): React.ReactNode {
   switch (block.type) {
     case 'heading': {
       const level = (block.props?.level as number) ?? 2
-      const Tag = `h${Math.min(level + 1, 6)}` as keyof JSX.IntrinsicElements
+      const Tag = `h${Math.min(level + 1, 6)}` as keyof React.JSX.IntrinsicElements
       return <Tag key={i} className={s.contentHeading}>{renderTextSegments(block.content)}</Tag>
     }
     case 'paragraph':
