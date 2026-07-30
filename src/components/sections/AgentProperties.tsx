@@ -3,14 +3,28 @@
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
+import { useFavorites } from '@/hooks/useFavorites'
 import type { SimilarProjectItem } from '@/components/sections/SimilarProjects'
 import s from './AgentProperties.module.scss'
 
-function HeartIcon() {
+interface FavProject {
+  id: number
+  slug: string
+  title: string
+  location?: string
+  developer?: string
+  handover?: string
+  priceFrom?: number
+  propertyTypes?: string[]
+  images?: string[]
+}
+
+function HeartIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
         stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
@@ -23,6 +37,25 @@ function HeartIcon() {
 function PropertyCard({ item }: { item: SimilarProjectItem }) {
   const { formatPrice } = useDisplayFormat()
   const img = item.images?.[0]
+
+  const { isFavorite, toggle } = useFavorites<FavProject>('fav_projects')
+  const active = item.id !== undefined ? isFavorite(item.id) : false
+
+  function handleFav(e: React.MouseEvent) {
+    e.preventDefault()
+    if (item.id === undefined) return
+    toggle({
+      id: item.id,
+      slug: item.slug,
+      title: item.title,
+      location: item.location,
+      developer: item.developer,
+      handover: item.handover,
+      priceFrom: item.priceFrom,
+      propertyTypes: item.propertyTypes,
+      images: item.images,
+    })
+  }
 
   return (
     <Link href={item.href ?? `/projects/${item.slug}`} className={s.card}>
@@ -40,10 +73,10 @@ function PropertyCard({ item }: { item: SimilarProjectItem }) {
             </div>
             <button
               className={s.favBtn}
-              onClick={e => e.preventDefault()}
-              aria-label="Add to favorites"
+              onClick={handleFav}
+              aria-label={active ? 'Remove from favorites' : 'Add to favorites'}
             >
-              <HeartIcon />
+              <HeartIcon active={active} />
             </button>
           </div>
         </div>

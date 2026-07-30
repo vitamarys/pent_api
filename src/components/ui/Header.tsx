@@ -436,9 +436,9 @@ export default function Header() {
               <button className={s.iconBtn} aria-label="Search" onClick={openSearch}>
                 <IconSearch dark={dark} />
               </button>
-              <button className={s.iconBtn} aria-label="Favorites">
+              <Link href="/favorites" className={s.iconBtn} aria-label="Favorites">
                 <IconHeart dark={dark} />
-              </button>
+              </Link>
               <button className={s.iconBtn} aria-label="Menu" onClick={() => setMenuOpen(true)}>
                 <IconMenu dark={dark} />
               </button>

@@ -7,10 +7,12 @@ import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import { useDragScroll } from '@/hooks/useDragScroll'
+import { useFavorites } from '@/hooks/useFavorites'
 import s from './SimilarProjects.module.scss'
 import 'swiper/css'
 
 export interface SimilarProjectItem {
+  id?: number
   slug: string
   title: string
   location?: string
@@ -29,6 +31,18 @@ interface SimilarProjectsProps {
   ctaHref?: string
 }
 
+interface FavProject {
+  id: number
+  slug: string
+  title: string
+  location?: string
+  developer?: string
+  handover?: string
+  priceFrom?: number
+  propertyTypes?: string[]
+  images?: string[]
+}
+
 function ChevronLeftIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -45,11 +59,12 @@ function ChevronRightIcon() {
   )
 }
 
-function HeartIcon() {
+function HeartIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
         stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
@@ -65,6 +80,25 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
   const { formatPrice } = useDisplayFormat()
   const images = project.images ?? []
   const hasGallery = images.length > 1
+
+  const { isFavorite, toggle } = useFavorites<FavProject>('fav_projects')
+  const active = project.id !== undefined ? isFavorite(project.id) : false
+
+  function handleFav(e: React.MouseEvent) {
+    e.preventDefault()
+    if (project.id === undefined) return
+    toggle({
+      id: project.id,
+      slug: project.slug,
+      title: project.title,
+      location: project.location,
+      developer: project.developer,
+      handover: project.handover,
+      priceFrom: project.priceFrom,
+      propertyTypes: project.propertyTypes,
+      images,
+    })
+  }
 
   return (
     <Link href={project.href ?? `/projects/${project.slug}`} className={s.card}>
@@ -94,10 +128,10 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
             </div>
             <button
               className={s.favBtn}
-              onClick={e => e.preventDefault()}
-              aria-label="Add to favorites"
+              onClick={handleFav}
+              aria-label={active ? 'Remove from favorites' : 'Add to favorites'}
             >
-              <HeartIcon />
+              <HeartIcon active={active} />
             </button>
           </div>
 

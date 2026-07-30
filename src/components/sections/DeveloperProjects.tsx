@@ -4,9 +4,11 @@ import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl, formatCompactPrice } from '@/lib/utils'
+import { useFavorites } from '@/hooks/useFavorites'
 import s from './DeveloperProjects.module.scss'
 
 export interface DeveloperProjectItem {
+  id?: number
   title: string
   slug: string
   location: string
@@ -25,6 +27,18 @@ interface DeveloperProjectsProps {
   projects: DeveloperProjectItem[]
 }
 
+interface FavProject {
+  id: number
+  slug: string
+  title: string
+  location?: string
+  developer?: string
+  handover?: string
+  priceFrom?: number
+  propertyTypes?: string[]
+  images?: string[]
+}
+
 function ChevronLeft() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -41,11 +55,12 @@ function ChevronRight() {
   )
 }
 
-function HeartIcon() {
+function HeartIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
         stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
@@ -70,6 +85,26 @@ function ProjectCard({ project }: { project: DeveloperProjectItem }) {
   }
 
   const imgSrc = images[imgIdx] ? getStrapiImageUrl(images[imgIdx].url) : ''
+  const allImgSrcs = images.map(img => getStrapiImageUrl(img.url))
+
+  const { isFavorite, toggle } = useFavorites<FavProject>('fav_projects')
+  const active = project.id !== undefined ? isFavorite(project.id) : false
+
+  function handleFav(e: React.MouseEvent) {
+    e.preventDefault()
+    if (project.id === undefined) return
+    toggle({
+      id: project.id,
+      slug: project.slug,
+      title: project.title,
+      location: project.location,
+      developer: project.developerName,
+      handover: project.handover,
+      priceFrom: project.priceFrom,
+      propertyTypes: project.propertyTypes,
+      images: allImgSrcs,
+    })
+  }
 
   return (
     <Link href={`/project/${project.slug}`} className={s.card}>
@@ -84,8 +119,12 @@ function ProjectCard({ project }: { project: DeveloperProjectItem }) {
                 <span key={i} className={s.tag}>{pt}</span>
               ))}
             </div>
-            <button className={s.favBtn} onClick={e => e.preventDefault()} aria-label="Add to favorites">
-              <HeartIcon />
+            <button
+              className={s.favBtn}
+              onClick={handleFav}
+              aria-label={active ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              <HeartIcon active={active} />
             </button>
           </div>
           {total > 1 && (

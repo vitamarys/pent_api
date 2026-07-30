@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl } from '@/lib/utils'
 import { useDragScroll } from '@/hooks/useDragScroll'
+import { useFavorites } from '@/hooks/useFavorites'
 import s from './DeveloperSlider.module.scss'
 
 export interface DeveloperSliderImageItem {
@@ -15,6 +16,7 @@ export interface DeveloperSliderImageItem {
 }
 
 export interface DeveloperSliderItem {
+  id?: number
   name: string
   slug: string
   description?: string
@@ -30,6 +32,15 @@ interface DeveloperSliderProps {
   sectionTitle?: string
   ctaLabel?: string
   ctaHref?: string
+}
+
+interface FavDeveloper {
+  id: number
+  slug: string
+  name: string
+  description?: string
+  imageBg?: { url: string }
+  logo?: { url: string }
 }
 
 function ChevronLeft() {
@@ -48,11 +59,12 @@ function ChevronRight() {
   )
 }
 
-function HeartIcon() {
+function HeartIcon({ active }: { active: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
       <path
         d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
         stroke="white"
         strokeWidth="1.5"
         strokeLinecap="round"
@@ -67,6 +79,22 @@ function DeveloperCard({ developer }: { developer: DeveloperSliderItem }) {
   const logoUrl = developer.logo?.url ?? developer.logoFile?.url ?? ''
   const bgSrc = bgUrl ? getStrapiImageUrl(bgUrl) : ''
   const logoSrc = logoUrl ? getStrapiImageUrl(logoUrl) : ''
+
+  const { isFavorite, toggle } = useFavorites<FavDeveloper>('fav_developers')
+  const active = developer.id !== undefined ? isFavorite(developer.id) : false
+
+  function handleFav(e: React.MouseEvent) {
+    e.preventDefault()
+    if (developer.id === undefined) return
+    toggle({
+      id: developer.id,
+      slug: developer.slug,
+      name: developer.name,
+      description: developer.description,
+      imageBg: bgSrc ? { url: bgSrc } : undefined,
+      logo: logoSrc ? { url: logoSrc } : undefined,
+    })
+  }
 
   return (
     <Link href={`/developers/${developer.slug}`} className={s.card}>
@@ -83,10 +111,10 @@ function DeveloperCard({ developer }: { developer: DeveloperSliderItem }) {
             </div>
             <button
               className={s.favBtn}
-              onClick={(e) => e.preventDefault()}
-              aria-label="Add to favorites"
+              onClick={handleFav}
+              aria-label={active ? 'Remove from favorites' : 'Add to favorites'}
             >
-              <HeartIcon />
+              <HeartIcon active={active} />
             </button>
           </div>
         </div>
