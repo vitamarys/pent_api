@@ -36,6 +36,7 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
     }
 
     const items: SimilarProjectItem[] = projectData.map((p) => ({
+      id: typeof p.id === 'number' ? p.id : undefined,
       slug:
         p.pageUrl?.url
           ?.replace(/^\/(off-plan|projects)\//, '')
@@ -102,6 +103,7 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
   if (contentType === 'developers') {
     const res = await getDevelopers({ pageSize: 8 }).catch(() => null)
     const items: DeveloperSliderItem[] = (res?.data ?? []).map((d) => ({
+      id: typeof d.id === 'number' ? d.id : undefined,
       name: d.name,
       slug:
         d.pageUrl?.url

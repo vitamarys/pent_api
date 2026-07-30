@@ -84,6 +84,7 @@ export default async function AgentPage({ params }: Props) {
     const firstImg = rawImages[0]
     const imgUrl = firstImg?.formats?.xl_webp?.url ?? firstImg?.formats?.thumbnail?.url ?? firstImg?.url ?? ''
     return {
+      id: typeof p.id === 'number' ? p.id : undefined,
       slug: String(p.id ?? ''),
       href: pageUrl ?? undefined,
       title: (p.propertyTitle as string | null) ?? (p.unitType as string | null) ?? '',

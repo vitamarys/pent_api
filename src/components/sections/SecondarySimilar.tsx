@@ -17,6 +17,7 @@ export default async function SecondarySimilar({ title, ctaLabel, propertyId }: 
       const rawUrl: string = item.pageUrl?.url ?? ''
       const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
       return {
+        id: typeof item.id === 'number' ? item.id : undefined,
         slug,
         title: item.propertyTitle ?? item.title ?? '',
         location: [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined,

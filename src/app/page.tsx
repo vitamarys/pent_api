@@ -26,6 +26,7 @@ export const revalidate = 3600
 
 function toSimilarProjectItem(p: OffPlanProjectCard): SimilarProjectItem {
   return {
+    id: typeof p.id === 'number' ? p.id : undefined,
     slug: p.pageUrl?.url?.replace(/^\/(off-plan|projects)\//, '').replace(/\/$/, '') ?? String(p.id),
     title: p.title ?? '',
     location: p.area?.title,
