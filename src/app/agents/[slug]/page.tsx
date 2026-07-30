@@ -59,13 +59,14 @@ export default async function AgentPage({ params }: Props) {
 
   const languages = (agent.languages as Array<{ name?: string } | string> | undefined) ?? []
 
-  const content = (agent.content as Array<{
+  type RawBlock = {
     id: string
     type: string
     props?: Record<string, unknown>
     content?: Array<{ type: 'text'; text: string; styles?: Record<string, unknown> }>
-    children?: unknown[]
-  }>) ?? []
+    children?: RawBlock[]
+  }
+  const content = (agent.content as RawBlock[]) ?? []
 
   const agentId = agent.id as number | undefined
   const agentName = (agent.name as string) ?? ''
