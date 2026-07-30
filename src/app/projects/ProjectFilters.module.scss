@@ -1,0 +1,638 @@
+@use "@/styles/tokens" as t;
+
+// ── Desktop filter bar ────────────────────────────────────────
+
+.desktopBar {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding-bottom: 0;
+  position: relative;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Dropdown wrapper ──────────────────────────────────────────
+
+.filterDropdownWrap {
+  flex: 1 0 0;
+  position: relative;
+  min-width: 0;
+}
+
+// ── Filter item button ────────────────────────────────────────
+
+.filterItem {
+  width: 100%;
+  height: 48px;
+  min-width: 0;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: t.$white-solid;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+  overflow: visible;
+
+  &:hover {
+    z-index: 1;
+    border-color: rgba(31, 31, 31, 0.35);
+  }
+}
+
+.filterItemSelected {
+  background: t.$brand-second-base;
+  border-color: transparent;
+
+  &:hover {
+    background: #e6dfd8;
+  }
+}
+
+.filterItemLabel {
+  flex: 1;
+  text-align: left;
+  padding: 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filterItemChevron {
+  flex-shrink: 0;
+  color: t.$black-solid;
+  opacity: 0.5;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+// ── Counter badge ─────────────────────────────────────────────
+
+.counterBadge {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 100px;
+  margin-right: 4px;
+}
+
+// ── Dropdown panel ────────────────────────────────────────────
+
+.filterDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  background: t.$white-solid;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  z-index: 200;
+  padding: 4px 0;
+}
+
+.dropdownOption {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: none;
+  border: none;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s;
+
+  &:hover {
+    background: t.$brand-second-base;
+  }
+}
+
+.dropdownOptionActive {
+  background: t.$brand-second-base;
+}
+
+// ── Inline price slider (desktop bar) ────────────────────────
+
+.inlinePriceBox {
+  flex: 1 0 0;
+  min-width: 260px;
+  height: 48px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: t.$white-solid;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  overflow: visible;
+}
+
+.inlinePriceBoxActive {
+  background: t.$brand-second-base;
+  border-color: transparent;
+}
+
+.inlinePriceRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.inlinePriceValWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.inlinePriceInput {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+  cursor: text;
+}
+
+.inlinePriceSep {
+  width: 1px;
+  height: 12px;
+  background: rgba(31, 31, 31, 0.25);
+  flex-shrink: 0;
+}
+
+.inlinePriceCurrency {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.3);
+  white-space: nowrap;
+}
+
+.inlineSliderRoot {
+  position: absolute;
+  bottom: -6px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  height: 12px;
+  touch-action: none;
+  user-select: none;
+  z-index: 1;
+}
+
+.inlineSliderTrack {
+  background: rgba(31, 31, 31, 0.15);
+  position: relative;
+  flex-grow: 1;
+  height: 1px;
+}
+
+.inlineSliderRange {
+  position: absolute;
+  background: t.$black-solid;
+  height: 100%;
+}
+
+.inlineSliderThumb {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: t.$black-solid;
+  border-radius: 50%;
+  cursor: grab;
+  outline: none;
+  flex-shrink: 0;
+  transition: box-shadow 0.15s;
+
+  &:hover { box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.15); }
+  &:focus-visible { box-shadow: 0 0 0 3px t.$brand-main-base; }
+  &:active { cursor: grabbing; }
+}
+
+// ── Tablet/Mobile bar ─────────────────────────────────────────
+
+.mobileBar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 20px;
+
+  @include t.tablet {
+    display: flex;
+  }
+}
+
+.filtersBtn {
+  height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  flex: 1;
+  justify-content: center;
+}
+
+.filtersBadge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 9px;
+}
+
+// ── Active tags row ───────────────────────────────────────────
+
+.activeTags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid rgba(31, 31, 31, 0.1);
+  padding-top: 24px;
+  margin-bottom: 24px;
+
+  @include t.tablet {
+    padding-top: 16px;
+    margin-bottom: 16px;
+    border-top: none;
+  }
+}
+
+.activeTag {
+  height: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: t.$brand-second-base;
+  border: none;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  min-width: 32px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #dfd5cc;
+  }
+}
+
+.clearAll {
+  height: 32px;
+  padding: 0 8px;
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: rgba(31, 31, 31, 0.35);
+  }
+}
+
+// ── Modal backdrop ────────────────────────────────────────────
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 31, 31, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+
+  @media (min-width: #{t.$bp-tablet + 1px}) {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ── Modal panel ───────────────────────────────────────────────
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  background: t.$white-solid;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @include t.tablet {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+}
+
+.modalBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+
+  @include t.mobile {
+    padding: 20px 20px 0;
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: t.$black-solid;
+  z-index: 1;
+
+  &:hover {
+    color: rgba(31, 31, 31, 0.6);
+  }
+}
+
+.modalHeader {
+  padding-bottom: 24px;
+}
+
+.modalTitle {
+  font-family: t.$font-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: t.$black-solid;
+  margin: 0;
+}
+
+// ── Filter groups ─────────────────────────────────────────────
+
+.filterGroup {
+  padding: 20px 0;
+  border-top: 1px solid rgba(31, 31, 31, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filterLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.5);
+  margin: 0;
+}
+
+// ── Tag pills (modal) ─────────────────────────────────────────
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  height: 40px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover {
+    border-color: rgba(31, 31, 31, 0.35);
+  }
+}
+
+.tagActive {
+  border-color: transparent;
+  background: t.$brand-second-base;
+}
+
+// ── Price box (modal) ─────────────────────────────────────────
+
+.priceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceVal {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+}
+
+.priceSep {
+  flex: 1;
+  height: 1px;
+  background: rgba(31, 31, 31, 0.15);
+}
+
+.priceCur {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.5);
+  margin-left: 4px;
+}
+
+// ── Slider (modal) ────────────────────────────────────────────
+
+.sliderRoot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+.sliderTrack {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: rgba(31, 31, 31, 0.15);
+  border-radius: 1px;
+}
+
+.sliderRange {
+  position: absolute;
+  height: 100%;
+  background: t.$brand-main-base;
+  border-radius: 1px;
+}
+
+.sliderThumb {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: t.$white-solid;
+  border: 2px solid t.$brand-main-base;
+  border-radius: 50%;
+  outline: none;
+  cursor: grab;
+  transition: box-shadow 0.15s;
+
+  &:hover {
+    box-shadow: 0 0 0 6px rgba(193, 153, 98, 0.15);
+  }
+
+  &:active {
+    cursor: grabbing;
+    box-shadow: 0 0 0 8px rgba(193, 153, 98, 0.2);
+  }
+}
+
+// ── Modal footer ──────────────────────────────────────────────
+
+.modalFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  flex-shrink: 0;
+
+  @include t.mobile {
+    padding: 16px 20px;
+  }
+}
+
+.clearBtn {
+  height: 48px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(31, 31, 31, 0.1);
+  background: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-solid;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: rgba(31, 31, 31, 0.35);
+  }
+}
+
+.applyBtn {
+  height: 48px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$brand-main-base;
+  border: none;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$white-solid;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.15s;
+
+  &:hover {
+    background: t.$brand-main-strong;
+  }
+}

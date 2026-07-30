@@ -1,11 +1,13 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getDevelopers } from '@/api/developers'
 import Container from '@/components/ui/Container'
 import DeveloperCard from './DeveloperCard'
+import DeveloperSearch from './DeveloperSearch'
 import s from './page.module.scss'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Top Developers — PentTest',
@@ -35,8 +37,13 @@ function ChevronIcon() {
   )
 }
 
-export default async function DevelopersPage() {
-  const { data: developers } = await getDevelopers({ pageSize: 100 })
+export default async function DevelopersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>
+}) {
+  const { search } = await searchParams
+  const { data: developers } = await getDevelopers({ pageSize: 100, search })
 
   return (
     <main>
@@ -61,6 +68,10 @@ export default async function DevelopersPage() {
               projects, premium standards, and long-term reliability
             </p>
           </div>
+
+          <Suspense>
+            <DeveloperSearch defaultValue={search ?? ''} />
+          </Suspense>
         </Container>
       </section>
 
@@ -73,9 +84,12 @@ export default async function DevelopersPage() {
               return (
                 <DeveloperCard
                   key={dev.id}
+                  id={dev.id}
                   name={dev.name}
                   slug={slug}
-                  imageBg={dev.imageFile ?? undefined}
+                  imageBg={dev.imageFile ??dev.image ??  undefined}
+                  logo={dev.logo ?? dev.logoFile ?? undefined}
+                  description={dev.description ?? ''}
                 />
               )
             })}

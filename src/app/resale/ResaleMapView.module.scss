@@ -1,0 +1,313 @@
+@use "@/styles/tokens" as t;
+
+// ── Map container ──────────────────────────────────────────────
+.mapWrap {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  min-height: 500px;
+
+  @include t.tablet {
+    height: 60vw;
+    min-height: 400px;
+  }
+
+  @include t.mobile {
+    height: 100vw;
+    min-height: 360px;
+  }
+}
+
+.mapCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+// ── Price marker ───────────────────────────────────────────────
+.marker {
+  height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(31, 31, 31, 0.85);
+  border: none;
+  font-family: t.$font-sans;
+  font-size: 13px;
+  font-weight: 400;
+  color: t.$white-solid;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.15s,
+    transform 0.1s;
+  letter-spacing: 0.01em;
+
+  &:hover {
+    background: rgba(31, 31, 31, 1);
+    transform: scale(1.04);
+  }
+}
+
+.markerActive {
+  background: t.$brand-main-base;
+  transform: scale(1.06);
+}
+
+// ── Popup — desktop (top-left, vertical) ──────────────────────
+.popup {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 400px;
+  z-index: 10;
+  // overflow visible so close button can sit outside
+  overflow: visible;
+
+  @include t.tablet {
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+    right: auto;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  @include t.mobile {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+// Close — desktop: white square, right of card top
+// tablet/mobile: dark button top-left of image
+.popupClose {
+  position: absolute;
+  top: 0;
+  right: -44px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: t.$white-solid;
+  border: none;
+  cursor: pointer;
+  color: t.$black-solid;
+  z-index: 2;
+  padding: 0;
+  transition: background 0.15s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+  &:hover {
+    background: t.$brand-second-base;
+  }
+
+  @include t.tablet {
+    top: 8px;
+    right: auto;
+    left: 8px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    color: t.$white-solid;
+    box-shadow: none;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+  }
+}
+
+.popupCard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: t.$white-solid;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+
+  @include t.tablet {
+    flex-direction: row;
+    width: 100%;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  @include t.mobile {
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// ── Media ──────────────────────────────────────────────────────
+.popupMedia {
+  position: relative;
+  height: 320px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: t.$brand-second-base;
+
+  @include t.tablet {
+    width: 140px;
+    height: auto;
+    min-height: 110px;
+  }
+
+  @include t.mobile {
+    width: 120px;
+    min-height: 100px;
+  }
+}
+
+.popupImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.popupImgPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: t.$brand-second-base;
+}
+
+// tag — desktop only, light bg + dark text
+.popupTag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  height: 32px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// Favourites button — desktop only
+.popupFav {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(31, 31, 31, 0.3);
+  backdrop-filter: blur(48px);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: t.$white-solid;
+  padding: 0;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(31, 31, 31, 0.5);
+  }
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+// ── Body ───────────────────────────────────────────────────────
+.popupBody {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+
+  @include t.tablet {
+    padding: 12px 14px;
+    justify-content: center;
+  }
+}
+
+.popupTitle {
+  font-family: t.$font-serif;
+  font-size: t.$size-body-xl;
+  font-weight: 400;
+  line-height: 1.25;
+  color: t.$black-solid;
+  margin: 0;
+
+  @include t.tablet {
+    font-size: t.$size-body-m;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+.popupLocation {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(31, 31, 31, 0.6);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popupSpecs {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.popupSpec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  color: rgba(31, 31, 31, 0.6);
+  line-height: 1.4;
+}
+
+// price — desktop only
+.popupPrice {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-l;
+  font-weight: 400;
+  line-height: 1.3;
+  color: t.$black-solid;
+  margin: 6px 0 0;
+  border-top: 1px solid rgba(31, 31, 31, 0.1);
+  padding-top: 14px;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.popupPriceCurrency {
+  font-size: t.$size-body-m;
+  color: rgba(31, 31, 31, 0.5);
+  font-weight: 400;
+}

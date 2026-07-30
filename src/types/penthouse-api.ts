@@ -87,6 +87,7 @@ export interface PenthouseProjectFilters {
   handover?: string[]
   developers?: number[]
   categories?: string[]
+  beds?: string[]
 }
 
 export interface PenthouseListingsProjectsParams {
@@ -165,6 +166,7 @@ export interface PenthouseListingsProjectsResponse {
   result: { data: OffPlanProjectCard[]; meta: PenthouseMeta }
   areaResult: PenthouseFacetResult
   propertyTypeResult: PenthouseFacetResult
+  bedsResult: PenthouseFacetResult
   developerResult: PenthouseFacetResult
   agentResult: PenthouseFacetResult
   handoverResult: PenthouseFacetResult
@@ -175,6 +177,7 @@ export interface PenthouseListingsProjectsResponse {
 // ── GET /listings/property ────────────────────────────────────────────────────
 
 export interface PenthousePropertyFilters {
+  ids?: number[]
   search?: string
   propertyTypes?: number[]
   price?: [number, number]
@@ -191,6 +194,7 @@ export interface PenthouseListingsPropertyParams {
   pageSize?: number
   sort?: 'newest' | 'oldest' | 'price_asc' | 'price_desc'
   filters?: PenthousePropertyFilters
+  agents?: number
 }
 
 export interface PenthousePropertyItem {
@@ -213,7 +217,10 @@ export interface PenthouseListingsPropertyResponse {
 // ── GET /listings/*/search ────────────────────────────────────────────────────
 
 export interface PenthouseSearchResponse {
-  data: Array<{ id: number; label: string }>
+  data: {
+    name: Array<{ id: number; label: string }>
+    area: Array<{ id: number; label: string }>
+  }
   meta: { total: number; pageSize: number; hasMatches: boolean }
 }
 
@@ -422,6 +429,25 @@ export interface PenthouseGlobalSettings {
 
 export interface PenthouseGlobalSettingsResponse {
   data: PenthouseGlobalSettings
+}
+
+// ── GET /catalog/search ───────────────────────────────────────────────────────
+
+export type CatalogGlobalSearchType = 'project' | 'area' | 'developer' | 'agent'
+
+export interface CatalogGlobalSearchItem {
+  id: number
+  title: string
+  type?: CatalogGlobalSearchType
+  subtitle?: string
+  url?: string
+  slug?: string
+  image?: PenthouseImage
+}
+
+export interface CatalogGlobalSearchResponse {
+  data: CatalogGlobalSearchItem[] | Record<string, CatalogGlobalSearchItem[]>
+  meta?: { total: number }
 }
 
 // ── GET /currency-rates ───────────────────────────────────────────────────────

@@ -6,9 +6,13 @@ import Container from '@/components/ui/Container'
 import ResaleCard from './ResaleCard'
 import ResaleBanner from './ResaleBanner'
 import ResalePagination from './ResalePagination'
+import ResaleFilters from './ResaleFilters'
+import ResaleToolbar from './ResaleToolbar'
+import ResaleMapView from './ResaleMapView'
+import type { MapProperty } from './ResaleMapView'
 import s from './page.module.scss'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Resale Properties in Dubai — PentTest',
@@ -65,16 +69,30 @@ function ChevronIcon() {
 export default async function ResalePage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ page?: string; beds?: string; price?: string; propertyTypes?: string; status?: string; furnishing?: string; search?: string; view?: string; sort?: string }>
 }) {
-  const { page: pageParam } = await searchParams
+  const { page: pageParam, beds: bedsParam, price: priceParam, propertyTypes: typesParam, status: statusParam, furnishing: furnishingParam, search: searchParam, view: viewParam, sort: sortParam } = await searchParams
+  const view = viewParam ?? 'card'
+  const sort = sortParam ?? ''
   const currentPage = Math.max(1, parseInt(pageParam ?? '1', 10) || 1)
+
+  const filters: Record<string, unknown> = {}
+  if (bedsParam)       filters.beds = bedsParam.split(',').filter(Boolean)
+  if (typesParam)      filters.propertyTypes = typesParam.split(',').map(Number).filter(Boolean)
+  if (statusParam)     filters.completion = statusParam
+  if (furnishingParam) filters.furnished = furnishingParam
+  if (searchParam)     filters.search = searchParam
+  if (priceParam) {
+    const [min, max] = priceParam.split('-').map(Number)
+    if (min && max) filters.price = [min, max] as [number, number]
+  }
 
   let properties: Array<Record<string, unknown>> = []
   let total = 0
 
   try {
-    const res = await getProperty({ page: currentPage, pageSize: PAGE_SIZE })
+    const validSort = ['newest', 'oldest', 'price_asc', 'price_desc'].includes(sort) ? sort as 'newest' | 'oldest' | 'price_asc' | 'price_desc' : undefined
+    const res = await getProperty({ page: currentPage, pageSize: PAGE_SIZE, filters, sort: validSort })
     properties = (res.result?.data ?? []) as Array<Record<string, unknown>>
     total = res.result?.meta?.total ?? properties.length
   } catch {
@@ -82,6 +100,29 @@ export default async function ResalePage({
   }
 
   const totalPages = Math.ceil(total / PAGE_SIZE)
+
+  // Build map properties array
+  const mapProperties: MapProperty[] = properties.map((item) => {
+    const rawUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
+    const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
+    const images = ((item.images ?? []) as Array<{ url: string }>).map((img) => img.url)
+    const lat = parseFloat(item.latitude as string) || undefined
+    const lng = parseFloat(item.longitude as string) || undefined
+    return {
+      id: String(item.id),
+      slug,
+      title: (item.propertyTitle as string | null) ?? (item.title as string | null) ?? '',
+      price: (item.price as number | null) ?? undefined,
+      area: (item.unitBuiltupArea as number | null) ?? undefined,
+      bedrooms: (item.bedrooms as string | null) ?? undefined,
+      bathrooms: (item.noOfBathroom as number | null) ?? undefined,
+      unitType: ((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined,
+      location: [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined,
+      image: images[0] ?? undefined,
+      lat,
+      lng,
+    }
+  })
 
   // Build grid items: cards + banners interleaved
   const gridItems: React.ReactNode[] = []
@@ -94,13 +135,14 @@ export default async function ResalePage({
     gridItems.push(
       <ResaleCard
         key={String(item.id)}
+        id={typeof item.id === 'number' ? item.id : undefined}
         slug={slug}
         title={(item.propertyTitle as string | null) ?? (item.title as string | null) ?? ''}
         price={(item.price as number | null) ?? undefined}
         area={(item.unitBuiltupArea as number | null) ?? undefined}
         bedrooms={(item.bedrooms as string | null) ?? undefined}
         bathrooms={(item.noOfBathroom as number | null) ?? undefined}
-        unitType={(item.unitType as string | null) ?? undefined}
+        unitType={((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined}
         location={
           [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined
         }
@@ -140,30 +182,37 @@ export default async function ResalePage({
 
           <div className={s.headerContent}>
             <div className={s.titleRow}>
-              <h1 className={s.title}>Resale Properties</h1>
-              {total > 0 && <span className={s.titleCount}>{total}</span>}
+              <h1 className={s.title}>Secondary Properties for sale  {total > 0 && <span className={s.titleCount}>{total}</span>}</h1>
             </div>
-            <p className={s.description}>
-              Explore secondary market apartments, villas, and penthouses across Dubai's most sought-after communities.
-            </p>
+            <ResaleFilters />
           </div>
         </Container>
       </section>
 
-      {/* ── Grid ── */}
+      {/* ── Listing ── */}
       <section className={s.listing}>
-        <Container>
-          {properties.length === 0 ? (
-            <p className={s.empty}>No properties found.</p>
-          ) : (
-            <>
-              <div className={s.grid}>
-                {gridItems}
-              </div>
-              <ResalePagination currentPage={currentPage} totalPages={totalPages} />
-            </>
-          )}
-        </Container>
+        {view === 'map' ? (
+          <>
+            <Container>
+              <ResaleToolbar view={view} sort={sort} />
+            </Container>
+            <ResaleMapView properties={mapProperties} />
+          </>
+        ) : (
+          <Container>
+            <ResaleToolbar view={view} sort={sort} />
+            {properties.length === 0 ? (
+              <p className={s.empty}>No properties found.</p>
+            ) : (
+              <>
+                <div className={s.grid}>
+                  {gridItems}
+                </div>
+                <ResalePagination currentPage={currentPage} totalPages={totalPages} />
+              </>
+            )}
+          </Container>
+        )}
       </section>
     </main>
   )

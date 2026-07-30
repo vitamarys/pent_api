@@ -7,12 +7,22 @@ import { getStrapiImageUrl } from '@/lib/utils'
 import { useDragScroll } from '@/hooks/useDragScroll'
 import s from './DeveloperSlider.module.scss'
 
+export interface DeveloperSliderImageItem {
+  url: string
+  urlMd?: string
+  urlXl?: string
+  alternativeText?: string | null
+}
+
 export interface DeveloperSliderItem {
   name: string
   slug: string
   description?: string
-  logo?: { url: string }
-  imageBg?: { url: string }
+  logo?: DeveloperSliderImageItem | null
+  logoFile?: { url: string } | null
+  image?: DeveloperSliderImageItem | null
+  imageBg?: { url: string } | null
+  imageFile?: { url: string } | null
 }
 
 interface DeveloperSliderProps {
@@ -53,11 +63,13 @@ function HeartIcon() {
 }
 
 function DeveloperCard({ developer }: { developer: DeveloperSliderItem }) {
-  const bgSrc = developer.imageBg ? getStrapiImageUrl(developer.imageBg.url) : ''
-  const logoSrc = developer.logo ? getStrapiImageUrl(developer.logo.url) : ''
+  const bgUrl = developer.image?.url ?? developer.imageBg?.url ?? developer.imageFile?.url ?? ''
+  const logoUrl = developer.logo?.url ?? developer.logoFile?.url ?? ''
+  const bgSrc = bgUrl ? getStrapiImageUrl(bgUrl) : ''
+  const logoSrc = logoUrl ? getStrapiImageUrl(logoUrl) : ''
 
   return (
-    <Link href={`/developer/${developer.slug}`} className={s.card}>
+    <Link href={`/developers/${developer.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {bgSrc && (
           <img src={bgSrc} alt={developer.name} className={s.cardBg} />

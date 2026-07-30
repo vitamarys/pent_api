@@ -1,10 +1,21 @@
 import strapiClient from '@/lib/axios'
 
+export interface CatalogDeveloperImageItem {
+  url: string
+  urlMd?: string
+  urlXl?: string
+  alternativeText?: string | null
+}
+
 export interface CatalogDeveloperItem {
   id: number
   name: string
-  pageUrl?: { url: string; isExternal?: boolean } | null
-  imageFile?: { url: string } | null
+  description?: string | null
+  image?: CatalogDeveloperImageItem | null
+  logo?: CatalogDeveloperImageItem | null
+  imageFile?: { id?: number; url: string; alternativeText?: string | null; name?: string } | null
+  logoFile?: { id?: number; url: string; alternativeText?: string | null; name?: string } | null
+  pageUrl?: { id?: number; url: string; isExternal?: boolean } | null
 }
 
 export interface CatalogDevelopersResponse {

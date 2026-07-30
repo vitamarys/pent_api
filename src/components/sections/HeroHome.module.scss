@@ -216,6 +216,12 @@
   background: t.$brand-second-base;
 }
 
+.dropdownOptionDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 // ── Price box ─────────────────────────────────────────────────
 // The container is exactly 48px tall.
 // Price values are centered; slider is absolute at bottom edge.
@@ -459,6 +465,12 @@
 .tagActive {
   background: t.$brand-second-base;
   border-color: transparent;
+}
+
+.tagDisabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 // ── Modal footer ──────────────────────────────────────────────

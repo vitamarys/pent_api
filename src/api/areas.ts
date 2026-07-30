@@ -4,7 +4,9 @@ export interface CatalogAreaItem {
   id: number
   title: string
   subtitle?: string
+  description?: string
   pageUrl?: { url: string; isExternal?: boolean } | null
+  previewImage?: { url: string } | null
   previewImageFile?: { url: string } | null
 }
 

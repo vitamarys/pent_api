@@ -107,7 +107,9 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
         d.pageUrl?.url
           ?.replace(/^\/developers\//, '')
           .replace(/\/$/, '') ?? String(d.id),
-      logo: d.imageFile ?? undefined,
+      description: d.description ?? undefined,
+      logo: d.logo ?? d.logoFile ?? undefined,
+      image: d.image ?? d.imageFile ?? undefined,
     }))
     if (!items.length) return null
     return (

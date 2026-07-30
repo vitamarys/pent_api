@@ -1,7 +1,7 @@
 'use client'
 
 import { Star } from 'lucide-react'
-import { formatPrice } from '@/lib/utils'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import s from './SecondarySidebar.module.scss'
 
 interface Props {
@@ -32,9 +32,11 @@ export default function SecondarySidebar({
   parking,
   agent,
 }: Props) {
+  const { formatPriceFull, formatArea } = useDisplayFormat()
+
   const specRows = [
-    { label: 'Price per Sq.ft', value: pricePerSqft != null ? formatPrice(pricePerSqft) : undefined },
-    { label: 'Area Sq.ft',      value: area != null ? `${area.toLocaleString('en-AE')} sq.ft` : undefined },
+    { label: 'Price per Sq.ft', value: pricePerSqft != null ? formatPriceFull(pricePerSqft) : undefined },
+    { label: 'Area',             value: area != null ? formatArea(area) : undefined },
     { label: 'Bedrooms',        value: bedrooms != null ? String(bedrooms) : undefined },
     { label: 'Bathroom',        value: bathrooms != null ? String(bathrooms) : undefined },
     { label: 'Parking',         value: parking != null ? String(parking) : undefined },
@@ -48,7 +50,7 @@ export default function SecondarySidebar({
       <div className={s.priceBlock}>
         <span className={s.priceLabel}>Price</span>
         {price != null && (
-          <span className={s.priceValue}>{formatPrice(price)}</span>
+          <span className={s.priceValue}>{formatPriceFull(price)}</span>
         )}
       </div>
 

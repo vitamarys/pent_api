@@ -1,27 +1,63 @@
 'use client'
 
 import Link from 'next/link'
+import { useFavorites } from '@/hooks/useFavorites'
 import s from './page.module.scss'
 
+interface FavArea {
+  id: number
+  slug: string
+  name: string
+  description?: string
+  image?: string
+}
+
+function HeartIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export default function AreaCard({
+  id,
   name,
   slug,
-  city,
   description,
   image,
 }: {
+  id: number
   name: string
   slug: string
-  city?: string
   description?: string
   image?: string
 }) {
+  const { isFavorite, toggle } = useFavorites<FavArea>('fav_areas')
+  const active = isFavorite(id)
+
   return (
     <Link href={`/areas/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {image && <img src={image} alt={name} className={s.cardBg} />}
         <div className={s.cardOverlay}>
-          {city && <span className={s.cityBadge}>{city}</span>}
+          <button
+            className={s.favBtn}
+            onClick={(e) => {
+              e.preventDefault()
+              toggle({ id, slug, name, description, image })
+            }}
+            aria-label={active ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            <HeartIcon active={active} />
+          </button>
         </div>
       </div>
 

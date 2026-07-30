@@ -6,6 +6,7 @@ export interface GetArticlesParams {
   pageSize?: number
   categorySlug?: string
   pinned?: boolean
+  agents?: number
 }
 
 export async function getArticles(
@@ -17,6 +18,7 @@ export async function getArticles(
     if (params.pageSize !== undefined) queryParams.pageSize = String(params.pageSize)
     if (params.categorySlug) queryParams.categorySlug = params.categorySlug
     if (params.pinned !== undefined) queryParams.pinned = String(params.pinned)
+    if (params.agents !== undefined) queryParams.agents = String(params.agents)
 
     const { data } = await strapiClient.get<PenthouseArticlesResponse>('/api/catalog/articles', {
       params: queryParams,

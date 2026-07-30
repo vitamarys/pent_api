@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
-import { formatCompactPrice } from '@/lib/utils'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import { useDragScroll } from '@/hooks/useDragScroll'
 import s from './SimilarProjects.module.scss'
 import 'swiper/css'
@@ -19,6 +19,7 @@ export interface SimilarProjectItem {
   priceFrom?: number
   propertyTypes?: string[]
   images?: string[]
+  href?: string
 }
 
 interface SimilarProjectsProps {
@@ -61,11 +62,12 @@ function HeartIcon() {
 function ProjectCard({ project }: { project: SimilarProjectItem }) {
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const { formatPrice } = useDisplayFormat()
   const images = project.images ?? []
   const hasGallery = images.length > 1
 
   return (
-    <Link href={`/projects/${project.slug}`} className={s.card}>
+    <Link href={project.href ?? `/projects/${project.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {images.length > 0 ? (
           <Swiper
@@ -159,7 +161,7 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
 
         {project.priceFrom !== undefined && (
           <div className={s.cardPriceRow}>
-            <p className={s.cardPrice}>from {formatCompactPrice(project.priceFrom)}</p>
+            <p className={s.cardPrice}>from {formatPrice(project.priceFrom)}</p>
           </div>
         )}
       </div>

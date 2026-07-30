@@ -64,7 +64,7 @@ function imgUrl(file: unknown): string {
 
 // ── block renderer ────────────────────────────────────────────────────────────
 
-function renderBlock(block: PenthouseBlock, index: number, entityId?: number) {
+function renderBlock(block: PenthouseBlock, index: number, entityId?: number, developerName?: string) {
   if (block.visible === false) return null
   switch (block.__component) {
     case 'block.key-points': {
@@ -202,11 +202,14 @@ function renderBlock(block: PenthouseBlock, index: number, entityId?: number) {
     case 'block.another-content': {
       const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
       if (!b.contentType) return null
+      const sectionTitle = b.contentType === 'projects' && developerName
+        ? `Projects by ${developerName}`
+        : b.title
       return (
         <AnotherContent
           key={index}
           contentType={b.contentType}
-          title={b.title}
+          title={sectionTitle}
           seeAllButton={b.seeAllButton ?? undefined}
           entityType="developer"
           entityId={entityId}
@@ -258,7 +261,7 @@ export default async function DeveloperPage({ params }: Props) {
       )}
       {visibleBlocks.map((block, index) => {
         try {
-          return renderBlock(block, index, entityId)
+          return renderBlock(block, index, entityId, dev?.name)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null

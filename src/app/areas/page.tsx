@@ -1,12 +1,14 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getAreas } from '@/api/areas'
 import { getStrapiImageUrl } from '@/lib/utils'
 import Container from '@/components/ui/Container'
 import AreaCard from './AreaCard'
+import AreaSearch from './AreaSearch'
 import s from './page.module.scss'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Top Areas in Dubai — PentTest',
@@ -36,8 +38,13 @@ function ChevronIcon() {
   )
 }
 
-export default async function AreasPage() {
-  const { data: areas } = await getAreas({ pageSize: 100 })
+export default async function AreasPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>
+}) {
+  const { search } = await searchParams
+  const { data: areas } = await getAreas({ pageSize: 100, search })
 
   return (
     <main>
@@ -62,6 +69,10 @@ export default async function AreasPage() {
               to vibrant urban districts. Find the perfect area for your lifestyle and investment goals.
             </p>
           </div>
+
+          <Suspense>
+            <AreaSearch defaultValue={search ?? ''} />
+          </Suspense>
         </Container>
       </section>
 
@@ -74,10 +85,11 @@ export default async function AreasPage() {
               return (
                 <AreaCard
                   key={area.id}
+                  id={area.id}
                   name={area.title}
                   slug={slug}
-                  description={area.subtitle}
-                  image={area.previewImageFile ? getStrapiImageUrl(area.previewImageFile.url) : undefined}
+                  description={area.description ?? area.subtitle}
+                  image={area.previewImageFile ? getStrapiImageUrl(area.previewImageFile.url) : area.previewImage?.url}
                 />
               )
             })}

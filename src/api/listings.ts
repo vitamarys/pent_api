@@ -16,7 +16,7 @@ function buildListingsParams(
 ): Record<string, string> {
   const result: Record<string, string> = {}
   if (params.locale) result.locale = params.locale
-  if (params.currency) result.currency = params.currency
+  if (params.currency && params.currency !== 'AED') result.currency = params.currency
   if (params.page !== undefined) result.page = String(params.page)
   if (params.pageSize !== undefined) result.pageSize = String(params.pageSize)
   if (params.sort) result.sort = params.sort
@@ -38,6 +38,8 @@ function buildListingsParams(
     if ('furnished' in f && f.furnished) result.furnished = f.furnished
     if ('search' in f && f.search) result.search = f.search
   }
+
+  if ('agents' in params && params.agents !== undefined) result.agents = String(params.agents)
 
   return result
 }
@@ -100,7 +102,7 @@ export async function getSimilar(
     id: String(params.id),
   }
   if (params.locale) queryParams.locale = params.locale
-  if (params.currency) queryParams.currency = params.currency
+  if (params.currency && params.currency !== 'AED') queryParams.currency = params.currency
 
   const { data } = await strapiClient.get<PenthouseSimilarResponse>(
     '/api/catalog/similar',

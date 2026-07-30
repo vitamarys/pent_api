@@ -1,9 +1,25 @@
 'use client'
 
 import Link from 'next/link'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
+import { useFavorites } from '@/hooks/useFavorites'
 import s from './ResaleCard.module.scss'
 
 export interface ResaleCardProps {
+  id?: number
+  slug: string
+  title: string
+  price?: number
+  area?: number
+  bedrooms?: string
+  bathrooms?: number
+  unitType?: string
+  location?: string
+  images?: string[]
+}
+
+interface FavResale {
+  id: number
   slug: string
   title: string
   price?: number
@@ -39,20 +55,36 @@ function IconBed() {
   )
 }
 
-function IconHeart() {
+function HeartIcon({ active }: { active: boolean }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-      <path fillRule="evenodd" clipRule="evenodd" d="M12.4242 7.23927L12 7.67003L11.5757 7.2392C10.8021 6.45332 9.74553 6.01077 8.64279 6.01077C7.54006 6.01077 6.48345 6.45332 5.70987 7.2392C4.09674 8.89691 4.09674 11.5376 5.70987 13.1954L10.2037 17.7584C10.6775 18.2397 11.3247 18.5107 12 18.5107C12.6754 18.5107 13.3225 18.2397 13.7963 17.7584L18.2902 13.1954C19.9033 11.5377 19.9033 8.89699 18.2902 7.23928C17.5166 6.45337 16.46 6.0108 15.3572 6.0108C14.2545 6.0108 13.1978 6.45336 12.4242 7.23927Z" stroke="white" strokeWidth="1.5"/>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        fill={active ? 'white' : 'none'}
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
 
-export default function ResaleCard({ slug, title, price, area, bedrooms, bathrooms, unitType, location, images = [] }: ResaleCardProps) {
+export default function ResaleCard({ id, slug, title, price, area, bedrooms, bathrooms, unitType, location, images = [] }: ResaleCardProps) {
+  const { formatArea, currency } = useDisplayFormat()
   const firstImage = images[0] ?? null
-
   const formattedPrice = price !== undefined
-    ? price.toLocaleString('en-US') + ' AED'
+    ? Math.round(price).toLocaleString('en-US')
     : null
+
+  const { isFavorite, toggle } = useFavorites<FavResale>('fav_resale')
+  const active = id !== undefined ? isFavorite(id) : false
+
+  function handleFav(e: React.MouseEvent) {
+    e.preventDefault()
+    if (id === undefined) return
+    toggle({ id, slug, title, price, area, bedrooms, bathrooms, unitType, location, images })
+  }
 
   return (
     <Link href={`/resale/${slug}`} className={s.card}>
@@ -76,10 +108,10 @@ export default function ResaleCard({ slug, title, price, area, bedrooms, bathroo
             </div>
             <button
               className={s.favBtn}
-              onClick={(e) => e.preventDefault()}
-              aria-label="Add to favourites"
+              onClick={handleFav}
+              aria-label={active ? 'Remove from favourites' : 'Add to favourites'}
             >
-              <IconHeart />
+              <HeartIcon active={active} />
             </button>
           </div>
         </div>
@@ -100,7 +132,7 @@ export default function ResaleCard({ slug, title, price, area, bedrooms, bathroo
               {area && (
                 <div className={s.spec}>
                   <IconArea />
-                  <span>{area.toLocaleString('en-US')} Sq.ft</span>
+                  <span>{formatArea(area)}</span>
                 </div>
               )}
               {bathrooms !== undefined && (
@@ -120,7 +152,7 @@ export default function ResaleCard({ slug, title, price, area, bedrooms, bathroo
 
           {formattedPrice && (
             <div className={s.priceRow}>
-              <p className={s.price}>{formattedPrice}</p>
+              <p className={s.price}>{formattedPrice} <span className={s.priceCurrency}>{currency}</span></p>
             </div>
           )}
         </div>

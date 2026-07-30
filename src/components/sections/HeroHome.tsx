@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Search, X, ChevronDown } from 'lucide-react';
 import * as Slider from '@radix-ui/react-slider';
 import Container from '@/components/ui/Container';
+import { useCatalogOptions, useCatalogCount, useAvailableBedrooms, type CatalogCountParams } from '@/hooks/useCatalogSearch';
 import s from './HeroHome.module.scss';
 
 interface HeroHomeProps {
@@ -11,33 +13,32 @@ interface HeroHomeProps {
   title?: string;
   subtitle?: string;
   ctaText?: string;
-  propertyTypes?: string[];
-  bedroomOptions?: string[];
   priceMin?: number;
   priceMax?: number;
   priceInitial?: [number, number];
 }
 
-const DEFAULT_PROPERTY_TYPES = ['Apartment', 'Villa', 'Penthouse', 'Townhouse', 'Duplex', 'Full floor'];
-const DEFAULT_BEDROOM_OPTIONS = ['Studio', '1', '2', '3', '4', '5+'];
 const DEFAULT_PRICE_MIN = 0;
 const DEFAULT_PRICE_MAX = 99_999_999;
+
 
 function formatPrice(val: number) {
   return val.toLocaleString('en-US').replace(/,/g, ' ');
 }
 
 // ── Dropdown component ────────────────────────────────────────
-function DropdownFilter({
+function DropdownFilter<T extends string | number>({
   label,
   options,
   selected,
   onToggle,
+  disabledIds,
 }: {
   label: string;
-  options: string[];
-  selected: string[];
-  onToggle: (v: string) => void;
+  options: { id: T; label: string }[];
+  selected: T[];
+  onToggle: (id: T) => void;
+  disabledIds?: Set<T>;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -52,7 +53,8 @@ function DropdownFilter({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
 
-  const displayLabel = selected.length > 0 ? selected.join(', ') : label;
+  const selectedLabels = options.filter(o => selected.includes(o.id)).map(o => o.label);
+  const displayLabel = selectedLabels.length > 0 ? selectedLabels.join(', ') : label;
 
   return (
     <div className={s.dropdownWrap} ref={ref}>
@@ -70,16 +72,20 @@ function DropdownFilter({
 
       {open && (
         <div className={s.dropdown}>
-          {options.map(opt => (
-            <button
-              key={opt}
-              className={`${s.dropdownOption} ${selected.includes(opt) ? s.dropdownOptionActive : ''}`}
-              onClick={() => onToggle(opt)}
-            >
-              <span>{opt}</span>
-              {selected.includes(opt) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {options.map(opt => {
+            const isDisabled = disabledIds != null && !disabledIds.has(opt.id)
+            return (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${selected.includes(opt.id) ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                onClick={() => !isDisabled && onToggle(opt.id)}
+                disabled={isDisabled}
+              >
+                <span>{opt.label}</span>
+                {selected.includes(opt.id) && <X size={14} strokeWidth={1.5} />}
+              </button>
+            )
+          })}
         </div>
       )}
     </div>
@@ -190,38 +196,64 @@ export default function HeroHome({
   bgImage,
   title = 'All luxury properties of Dubai in one place',
   subtitle = "Tailored access to Dubai's prime real estate, curated for your lifestyle by the most exclusive Agency with full cycle real estate services",
-  ctaText = 'See 45 Properties',
-  propertyTypes = DEFAULT_PROPERTY_TYPES,
-  bedroomOptions = DEFAULT_BEDROOM_OPTIONS,
+  ctaText = 'See Properties',
   priceMin = DEFAULT_PRICE_MIN,
   priceMax = DEFAULT_PRICE_MAX,
-  priceInitial = [1_000_000, 99_000_000],
+  priceInitial = [0, 99_000_000],
 }: HeroHomeProps) {
-  const [activeTab, setActiveTab] = useState<'off-plan' | 'secondary'>('off-plan');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter()
 
+  // ── filter state ──────────────────────────────────────────
+  const [activeTab,        setActiveTab]        = useState<'off-plan' | 'secondary'>('off-plan');
+  const [selectedTypes,    setSelectedTypes]    = useState<number[]>([]);
+  const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>([]);
+  const [price,            setPrice]            = useState<[number, number]>(priceInitial);
+  const [isModalOpen,      setIsModalOpen]      = useState(false);
+
+  // reset type selection on tab change
+  useEffect(() => { setSelectedTypes([]) }, [activeTab])
+
+  // body scroll lock for modal
   useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = isModalOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isModalOpen]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedBedrooms, setSelectedBedrooms] = useState<string[]>([]);
-  const [price, setPrice] = useState<[number, number]>(priceInitial);
 
-  const toggleType = useCallback((type: string) => {
-    setSelectedTypes(prev =>
-      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
-    );
+  // ── debounced params for count query ──────────────────────
+  const [debouncedParams, setDebouncedParams] = useState<CatalogCountParams>({
+    activeTab, selectedTypes, selectedBedrooms, price, priceMin, priceMax,
+  })
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setDebouncedParams({ activeTab, selectedTypes, selectedBedrooms, price, priceMin, priceMax })
+    }, 400)
+    return () => clearTimeout(t)
+  }, [activeTab, selectedTypes, selectedBedrooms, price, priceMin, priceMax])
+
+  // ── react-query ───────────────────────────────────────────
+  const { data: options } = useCatalogOptions(activeTab)
+  const { data: resultCount } = useCatalogCount(debouncedParams)
+  const { data: availableBeds } = useAvailableBedrooms(activeTab, selectedTypes)
+
+  const propertyTypeOptions = options?.propertyTypeOptions ?? []
+  const bedroomOptions      = options?.bedroomOptions      ?? []
+
+  // Знімаємо вибір bedroom якщо він став недоступним після зміни типу
+  useEffect(() => {
+    if (availableBeds == null) return
+    const invalid = selectedBedrooms.filter(b => !availableBeds.has(b))
+    if (invalid.length > 0) {
+      setSelectedBedrooms(prev => prev.filter(b => availableBeds.has(b)))
+    }
+  }, [availableBeds])
+
+  // ── handlers ──────────────────────────────────────────────
+  const toggleType = useCallback((id: number) => {
+    setSelectedTypes(prev => prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]);
   }, []);
 
   const toggleBedroom = useCallback((bed: string) => {
-    setSelectedBedrooms(prev =>
-      prev.includes(bed) ? prev.filter(b => b !== bed) : [...prev, bed]
-    );
+    setSelectedBedrooms(prev => prev.includes(bed) ? prev.filter(b => b !== bed) : [...prev, bed]);
   }, []);
 
   const clearFilters = useCallback(() => {
@@ -229,6 +261,18 @@ export default function HeroHome({
     setSelectedBedrooms([]);
     setPrice(priceInitial);
   }, [priceInitial]);
+
+  const handleSearch = useCallback(() => {
+    const params = new URLSearchParams()
+    if (selectedTypes.length > 0)    params.set('propertyTypes', selectedTypes.join(','))
+    if (selectedBedrooms.length > 0) params.set('beds', selectedBedrooms.join(','))
+    if (price[0] !== priceMin || price[1] !== priceMax) params.set('price', `${price[0]}-${price[1]}`)
+    const base = activeTab === 'off-plan' ? '/projects' : '/resale'
+    const qs = params.toString()
+    router.push(qs ? `${base}?${qs}` : base)
+  }, [activeTab, selectedTypes, selectedBedrooms, price, priceMin, priceMax, router]);
+
+  const ctaLabel = resultCount != null ? `See ${resultCount} properties` : ctaText
 
   return (
     <>
@@ -252,39 +296,17 @@ export default function HeroHome({
 
             {/* Desktop search bar */}
             <div className={s.searchBar}>
-              {/* Tabs */}
               <div className={s.tabs}>
-                <button
-                  className={`${s.tab} ${activeTab === 'off-plan' ? s.tabActive : ''}`}
-                  onClick={() => setActiveTab('off-plan')}
-                >Off-plan</button>
-                <button
-                  className={`${s.tab} ${activeTab === 'secondary' ? s.tabActive : ''}`}
-                  onClick={() => setActiveTab('secondary')}
-                >Secondary</button>
+                <button className={`${s.tab} ${activeTab === 'off-plan' ? s.tabActive : ''}`} onClick={() => setActiveTab('off-plan')}>Off-plan</button>
+                <button className={`${s.tab} ${activeTab === 'secondary' ? s.tabActive : ''}`} onClick={() => setActiveTab('secondary')}>Secondary</button>
               </div>
 
-              {/* Property Type dropdown */}
-              <DropdownFilter
-                label="Property Type"
-                options={propertyTypes}
-                selected={selectedTypes}
-                onToggle={toggleType}
-              />
+              <DropdownFilter label="Property Type" options={propertyTypeOptions} selected={selectedTypes} onToggle={toggleType} />
+              <DropdownFilter label="Bedroom"        options={bedroomOptions}      selected={selectedBedrooms} onToggle={toggleBedroom} disabledIds={availableBeds ?? undefined} />
 
-              {/* Bedroom dropdown */}
-              <DropdownFilter
-                label="Bedroom"
-                options={bedroomOptions}
-                selected={selectedBedrooms}
-                onToggle={toggleBedroom}
-              />
-
-              {/* Price Range */}
               <PriceSlider value={price} onChange={setPrice} min={priceMin} max={priceMax} variant="desktop" />
 
-              {/* CTA */}
-              <button className={s.cta}>{ctaText}</button>
+              <button className={s.cta} onClick={handleSearch}>{ctaLabel}</button>
             </div>
           </div>
         </Container>
@@ -314,10 +336,10 @@ export default function HeroHome({
               <div className={s.filterGroup}>
                 <p className={s.filterLabel}>Property Type</p>
                 <div className={s.tagList}>
-                  {propertyTypes.map((type: string) => (
-                    <button key={type} className={`${s.tag} ${selectedTypes.includes(type) ? s.tagActive : ''}`} onClick={() => toggleType(type)}>
-                      <span>{type}</span>
-                      {selectedTypes.includes(type) && <X size={16} strokeWidth={1.5} />}
+                  {propertyTypeOptions.map(opt => (
+                    <button key={opt.id} className={`${s.tag} ${selectedTypes.includes(opt.id) ? s.tagActive : ''}`} onClick={() => toggleType(opt.id)}>
+                      <span>{opt.label}</span>
+                      {selectedTypes.includes(opt.id) && <X size={16} strokeWidth={1.5} />}
                     </button>
                   ))}
                 </div>
@@ -326,12 +348,20 @@ export default function HeroHome({
               <div className={s.filterGroup}>
                 <p className={s.filterLabel}>Bedroom</p>
                 <div className={s.tagList}>
-                  {bedroomOptions.map((bed: string) => (
-                    <button key={bed} className={`${s.tag} ${selectedBedrooms.includes(bed) ? s.tagActive : ''}`} onClick={() => toggleBedroom(bed)}>
-                      <span>{bed}</span>
-                      {selectedBedrooms.includes(bed) && <X size={16} strokeWidth={1.5} />}
-                    </button>
-                  ))}
+                  {bedroomOptions.map(opt => {
+                    const isDisabled = availableBeds != null && !availableBeds.has(opt.id)
+                    return (
+                      <button
+                        key={opt.id}
+                        className={`${s.tag} ${selectedBedrooms.includes(opt.id) ? s.tagActive : ''} ${isDisabled ? s.tagDisabled : ''}`}
+                        onClick={() => !isDisabled && toggleBedroom(opt.id)}
+                        disabled={isDisabled}
+                      >
+                        <span>{opt.label}</span>
+                        {selectedBedrooms.includes(opt.id) && <X size={16} strokeWidth={1.5} />}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -346,7 +376,7 @@ export default function HeroHome({
                 <X size={16} strokeWidth={1.5} />
                 <span>Clear filters</span>
               </button>
-              <button className={s.ctaMobile}>See 125 project</button>
+              <button className={s.ctaMobile} onClick={handleSearch}>{ctaLabel}</button>
             </div>
           </div>
         </div>

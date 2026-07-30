@@ -1,17 +1,19 @@
 @use "@/styles/tokens" as t;
 
+$black-fade-3: rgba(31, 31, 31, 0.3);
+
 // ── Header ───────────────────────────────────────────────────────────────────
 
 .header {
   background: t.$white-solid;
-  padding: 80px 32px 32px;
+  padding: 80px 0 t.$gap-large;
 
   @include t.tablet {
-    padding: t.$gap-normal;
+    padding: 80px 0 t.$gap-normal;
   }
 
   @include t.mobile {
-    padding: t.$gap-small;
+    padding: 80px 0 t.$gap-normal;
   }
 }
 
@@ -38,6 +40,7 @@
   display: flex;
   flex-direction: column;
   gap: t.$gap-small;
+  max-width: 800px;
 }
 
 .title {
@@ -131,20 +134,25 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-start;
   padding: t.$gap-small;
 }
 
-.cityBadge {
-  display: inline-flex;
+// ── Fav button ───────────────────────────────────────────────────────────────
+
+.favBtn {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  width: 32px;
   height: 32px;
-  padding: 0 t.$gap-small;
-  background: rgba(31, 31, 31, 0.5);
-  backdrop-filter: blur(12px);
-  color: t.$white-solid;
-  @include t.text-body-m;
-  align-self: flex-start;
+  border-radius: 40px;
+  background: $black-fade-3;
+  backdrop-filter: blur(48px);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 // ── Card bottom ──────────────────────────────────────────────────────────────
@@ -155,7 +163,7 @@
   background: t.$white-solid;
   display: flex;
   flex-direction: column;
-  gap: t.$gap-xxs;
+  gap: t.$gap-small;
   flex: 1;
 }
 

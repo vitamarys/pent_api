@@ -103,22 +103,7 @@ export default function Footer() {
                   ))}
                 </nav>
 
-                {/* Newsletter */}
-                <div className={s.newsletter}>
-                  <span className={s.newsletterLabel}>Newsletter</span>
-                  <div className={s.newsletterForm}>
-                    <input
-                      className={s.newsletterInput}
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <button className={s.newsletterBtn} type="button">
-                      Subscribe
-                    </button>
-                  </div>
-                </div>
+
 
               </div>
             </div>

@@ -32,3 +32,5 @@ next-env.d.ts
 api.md
 CLAUDE.md
 exsample.json
+.agents
+.claude

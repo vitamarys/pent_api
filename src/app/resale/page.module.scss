@@ -56,11 +56,19 @@
   @include t.text-h1;
   color: t.$black-solid;
   margin: 0;
+  @include t.mobile {
+    font-size: 32px;
+    line-height: 114%;
+  }
 }
 
 .titleCount {
   @include t.text-h1;
   color: t.$brand-main-base;
+  @include t.mobile {
+    font-size: 32px;
+    line-height: 114%;
+  }
 }
 
 .description {
@@ -74,14 +82,14 @@
 
 .listing {
   background: t.$white-solid;
-  padding: 40px 0 0;
+  padding: 0 0 40px 0;
 
   @include t.tablet {
-    padding: 32px 0 0;
+    padding: 0 0 40px 0;
   }
 
   @include t.mobile {
-    padding: 24px 0 0;
+    padding: 0 0 24px 0;
   }
 }
 

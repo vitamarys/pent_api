@@ -1,0 +1,109 @@
+'use client'
+
+import Link from 'next/link'
+import Container from '@/components/ui/Container'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
+import type { SimilarProjectItem } from '@/components/sections/SimilarProjects'
+import s from './AgentProperties.module.scss'
+
+function HeartIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 21C12 21 3 15.5 3 9C3 6.2 5.2 4 8 4C9.8 4 11.4 4.9 12 6.3C12.6 4.9 14.2 4 16 4C18.8 4 21 6.2 21 9C21 15.5 12 21 12 21Z"
+        stroke="white"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function PropertyCard({ item }: { item: SimilarProjectItem }) {
+  const { formatPrice } = useDisplayFormat()
+  const img = item.images?.[0]
+
+  return (
+    <Link href={item.href ?? `/projects/${item.slug}`} className={s.card}>
+      <div className={s.cardMedia}>
+        {img
+          ? <img src={img} alt={item.title} className={s.cardImg} />
+          : <div className={s.imgPlaceholder} />
+        }
+        <div className={s.cardOverlay}>
+          <div className={s.topRow}>
+            <div className={s.tags}>
+              {item.propertyTypes?.map(type => (
+                <span key={type} className={s.tag}>{type}</span>
+              ))}
+            </div>
+            <button
+              className={s.favBtn}
+              onClick={e => e.preventDefault()}
+              aria-label="Add to favorites"
+            >
+              <HeartIcon />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className={s.cardCart}>
+        <div className={s.cardDetails}>
+          <div className={s.cardInfo}>
+            <div className={s.titleRow}>
+              <span className={s.cardDot} />
+              <p className={s.cardTitle}>{item.title}</p>
+            </div>
+            {item.location && (
+              <p className={s.cardLocation}>{item.location}</p>
+            )}
+          </div>
+
+          {(item.developer || item.handover) && (
+            <div className={s.cardMeta}>
+              {item.developer && (
+                <span className={s.cardMetaText}>{item.developer}</span>
+              )}
+              {item.developer && item.handover && (
+                <span className={s.cardMetaDot} />
+              )}
+              {item.handover && (
+                <span className={s.cardMetaText}>{item.handover}</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {item.priceFrom !== undefined && (
+          <div className={s.cardPriceRow}>
+            <p className={s.cardPrice}>from {formatPrice(item.priceFrom)}</p>
+          </div>
+        )}
+      </div>
+    </Link>
+  )
+}
+
+interface AgentPropertiesProps {
+  items: SimilarProjectItem[]
+  title: string
+}
+
+export default function AgentProperties({ items, title }: AgentPropertiesProps) {
+  if (items.length === 0) return null
+
+  return (
+    <section className={s.section}>
+      <Container>
+        <h2 className={s.title}>{title}</h2>
+        <div className={s.grid}>
+          {items.map(item => (
+            <PropertyCard key={item.slug} item={item} />
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
