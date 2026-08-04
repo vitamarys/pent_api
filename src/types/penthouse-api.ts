@@ -252,7 +252,7 @@ export interface PenthouseLeadData {
   message?: string
   area?: string
   projectId?: string
-  entity?: 'off_plan' | 'secondary'
+  entity?: string
   agentId?: string
   pageBitrixId?: string
   extraData?: Record<string, unknown>
@@ -326,6 +326,14 @@ export interface ArticleProjectContent {
   developerName?: string
   minPrice?: number
   maxPrice?: number
+  handover?: string | null
+  previewImage?: { url?: string; urlMd?: string; urlXl?: string; alternativeText?: string | null }
+  previewImageFile?: { url?: string; hash?: string; alternativeText?: string | null; name?: string }
+  projectTypes?: Array<{ name: string }>
+  area?: { title?: string }
+  developer?: { name?: string }
+  coordinates?: { lat?: number; lng?: number }
+  pageUrl?: { url?: string; isExternal?: boolean }
 }
 
 export interface ArticleContentBlock {
@@ -388,10 +396,11 @@ export interface PenthouseDevelopersResponse {
 export interface PenthouseAgentItem {
   id: number
   name: string
-  position?: string
-  cardImage?: PenthouseImage
-  whatsapp?: string
-  phoneNumber?: string
+  position?: string | null
+  image?: PenthouseImage | null
+  imageFile?: PenthouseImage & { id?: number; hash?: string; name?: string } | null
+  languages?: { id: number; name: string }[]
+  pageUrl?: { id?: number; url: string; isExternal: boolean } | null
 }
 
 export interface PenthouseAgentsResponse {

@@ -7,6 +7,8 @@ import { z } from 'zod';
 import { Check, X } from 'lucide-react';
 import PhoneInput, { type Country } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { submitLead } from '@/api/leads';
+import { getLeadExtraData } from '@/lib/leadAnalytics';
 import s from './PopFloorPlan.module.scss';
 
 const schema = z.object({
@@ -19,11 +21,14 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export interface PopFloorPlanProps {
-  open:     boolean;
-  onClose:  () => void;
-  image?:   string;
-  title?:   string;
-  onSubmit?: (data: FormValues) => Promise<void> | void;
+  open:           boolean;
+  onClose:        () => void;
+  image?:         string;
+  title?:         string;
+  entity?:        string;
+  projectId?:     string;
+  pageBitrixId?:  string;
+  onSubmit?:      (data: FormValues) => Promise<void> | void;
 }
 
 export default function PopFloorPlan({
@@ -31,9 +36,13 @@ export default function PopFloorPlan({
   onClose,
   image,
   title,
+  entity = 'pent_entity',
+  projectId,
+  pageBitrixId,
   onSubmit,
 }: PopFloorPlanProps) {
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     fetch('https://api.country.is/')
@@ -55,14 +64,32 @@ export default function PopFloorPlan({
     setValue,
     control,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const consent = watch('consent');
 
   const submit = async (data: FormValues) => {
-    await onSubmit?.(data);
-    reset();
+    setSubmitStatus('idle');
+    try {
+      if (onSubmit) {
+        await onSubmit(data);
+      } else {
+        await submitLead({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          entity,
+          projectId,
+          pageBitrixId,
+          extraData: getLeadExtraData(),
+        });
+      }
+      reset();
+      setSubmitStatus('success');
+    } catch {
+      setSubmitStatus('error');
+    }
   };
 
   if (!open) return null;
@@ -150,16 +177,33 @@ export default function PopFloorPlan({
               </div>
 
               <div className={s.submitArea}>
-                {isSubmitSuccessful ? (
-                  <p className={s.successMsg}>Thank you! We'll send the floor plans to your email.</p>
+                {submitStatus === 'success' ? (
+                  <div className={s.successBlock}>
+                    <div className={s.successIcon}>
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <path d="M6 16L13 23L26 9" stroke="#0c5744" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    <div className={s.successText}>
+                      <p className={s.successTitle}>Thank you for your interest!</p>
+                      <p className={s.successDesc}>We've sent you a confirmation email and will be in touch soon.</p>
+                    </div>
+                  </div>
                 ) : (
-                  <button className={s.submitBtn} type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? 'Sending…' : 'Get all floor plans'}
-                  </button>
+                  <>
+                    <button className={s.submitBtn} type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? 'Sending…' : 'Get all floor plans'}
+                    </button>
+                    {submitStatus === 'error' && (
+                      <div className={s.errorBlock}>
+                        <span>Oops! Something went wrong while submitting the form.</span>
+                      </div>
+                    )}
+                    <p className={s.privacyNote}>
+                      By accepting and providing my personal information i am consenting to Metropolitan Group Privacy Policy, the applicable data protection laws and Terms of Use
+                    </p>
+                  </>
                 )}
-                <p className={s.privacyNote}>
-                  By accepting and providing my personal information i am consenting to Metropolitan Group Privacy Policy, the applicable data protection laws and Terms of Use
-                </p>
               </div>
             </form>
           </div>

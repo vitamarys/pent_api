@@ -6,19 +6,13 @@ import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { useDragScroll } from '@/hooks/useDragScroll'
 import { getStrapiImageUrl } from '@/lib/utils'
+import type { PenthouseAgentItem } from '@/types/penthouse-api'
 import s from './AgentSlider.module.scss'
 
-export interface AgentSliderItem {
-  id: number
-  name: string
-  position?: string
-  cardImage?: { url: string } | null
-  whatsapp?: string
-  phoneNumber?: string
-}
+export type AgentSliderItem = PenthouseAgentItem
 
 export interface AgentSliderProps {
-  agents: AgentSliderItem[]
+  agents: PenthouseAgentItem[]
   sectionTitle?: string
   ctaLabel?: string
   ctaHref?: string
@@ -41,10 +35,13 @@ function ChevronRight() {
 }
 
 function AgentCard({ agent }: { agent: AgentSliderItem }) {
-  const imageSrc = agent.cardImage?.url ? getStrapiImageUrl(agent.cardImage.url) : null
+  const imageSrc = (agent.image?.url ?? agent.imageFile?.url)
+    ? getStrapiImageUrl((agent.image?.url ?? agent.imageFile?.url)!)
+    : null
+  const href = agent.pageUrl?.url ?? '#'
 
   return (
-    <div className={s.card}>
+    <Link href={href} className={s.card}>
       <div className={s.cardMedia}>
         {imageSrc ? (
           <Image
@@ -70,7 +67,7 @@ function AgentCard({ agent }: { agent: AgentSliderItem }) {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

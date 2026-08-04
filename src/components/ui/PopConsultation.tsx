@@ -8,6 +8,8 @@ import { Check, X } from 'lucide-react'
 import PhoneInput, { type Country } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import type { AgentInfo } from '@/components/sections/ProjectForm'
+import { submitLead } from '@/api/leads'
+import { getLeadExtraData } from '@/lib/leadAnalytics'
 import s from './PopConsultation.module.scss'
 
 const schema = z.object({
@@ -30,6 +32,9 @@ export interface PopConsultationProps {
   consentLabel?:  string
   whatsappHref?:  string
   agent?:         AgentInfo
+  entity?:        string
+  projectId?:     string
+  pageBitrixId?:  string
   onSubmit?:      (data: FormValues) => Promise<void> | void
 }
 
@@ -44,9 +49,13 @@ export default function PopConsultation({
   consentLabel = 'I agree to receive information about offers, deals and services from this website (optional)',
   whatsappHref,
   agent,
+  entity = 'pent_entity',
+  projectId,
+  pageBitrixId,
   onSubmit,
 }: PopConsultationProps) {
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE')
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   useEffect(() => {
     fetch('https://api.country.is/')
@@ -62,14 +71,32 @@ export default function PopConsultation({
     return () => { document.body.style.overflow = '' }
   }, [open])
 
-  const { register, handleSubmit, watch, setValue, control, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } =
+  const { register, handleSubmit, watch, setValue, control, reset, formState: { errors, isSubmitting } } =
     useForm<FormValues>({ resolver: zodResolver(schema) })
 
   const consent = watch('consent')
 
   const submit = async (data: FormValues) => {
-    await onSubmit?.(data)
-    reset()
+    setSubmitStatus('idle')
+    try {
+      if (onSubmit) {
+        await onSubmit(data)
+      } else {
+        await submitLead({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          entity,
+          projectId,
+          pageBitrixId,
+          extraData: getLeadExtraData(),
+        })
+      }
+      reset()
+      setSubmitStatus('success')
+    } catch {
+      setSubmitStatus('error')
+    }
   }
 
   if (!open) return null
@@ -170,14 +197,31 @@ export default function PopConsultation({
                 </div>
 
                 <div className={s.submitArea}>
-                  {isSubmitSuccessful ? (
-                    <p className={s.successMsg}>Thank you! We will contact you shortly.</p>
+                  {submitStatus === 'success' ? (
+                    <div className={s.successBlock}>
+                      <div className={s.successIcon}>
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                          <path d="M6 16L13 23L26 9" stroke="#0c5744" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <div className={s.successText}>
+                        <p className={s.successTitle}>Thank you for your interest!</p>
+                        <p className={s.successDesc}>We've sent you a confirmation email and will be in touch soon.</p>
+                      </div>
+                    </div>
                   ) : (
-                    <button className={s.submitBtn} type="submit" disabled={isSubmitting}>
-                      {isSubmitting ? 'Sending…' : submitLabel}
-                    </button>
+                    <>
+                      <button className={s.submitBtn} type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? 'Sending…' : submitLabel}
+                      </button>
+                      {submitStatus === 'error' && (
+                        <div className={s.errorBlock}>
+                          <span>Oops! Something went wrong while submitting the form.</span>
+                        </div>
+                      )}
+                      <p className={s.privacyNote}>{privacyNote}</p>
+                    </>
                   )}
-                  <p className={s.privacyNote}>{privacyNote}</p>
                 </div>
               </form>
 

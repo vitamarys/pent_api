@@ -7,6 +7,7 @@ import type {
 import ArticleGallery from './ArticleGallery'
 import ArticleToc, { type TocHeading } from './ArticleToc'
 import Container from '@/components/ui/Container'
+import ArticleProjectCard from '@/components/ui/ArticleProjectCard'
 import s from './ArticleBody.module.scss'
 
 interface ArticleBodyProps {
@@ -126,29 +127,27 @@ function renderBlock(block: ArticleContentBlock, index: number): React.ReactNode
 
     case 'projectBlock': {
       const props = block.props as { projectId?: string; title?: string }
-      const project = block.content as {
-        title?: string
-        url?: string
-        areaTitle?: string
-        developerName?: string
-        minPrice?: number
-      } | null | undefined
-      const href = project?.url ?? props?.projectId ?? '#'
-      const title = project?.title ?? props?.title ?? 'View Project'
+      const project = block.content as import('@/types/penthouse-api').ArticleProjectContent | null | undefined
+
+      // Extract slug from pageUrl (/projects/slug/) or projectId prop
+      const rawUrl = project?.pageUrl?.url ?? props?.projectId ?? ''
+      const slug = rawUrl.replace(/^\/projects\//, '').replace(/\/$/, '') || 'unknown'
+
+      const imageUrl = project?.previewImage?.url ?? project?.previewImageFile?.url
+      const images = imageUrl ? [imageUrl] : []
+
       return (
-        <a key={index} href={href} className={s.projectCard}>
-          <div className={s.projectCardInfo}>
-            <span className={s.projectCardTitle}>{title}</span>
-            {(project?.developerName || project?.areaTitle) && (
-              <span className={s.projectCardMeta}>
-                {[project.developerName, project.areaTitle].filter(Boolean).join(' · ')}
-              </span>
-            )}
-          </div>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#1f1f1f" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </a>
+        <ArticleProjectCard
+          key={index}
+          slug={slug}
+          title={project?.title ?? props?.title ?? 'View Project'}
+          imageUrl={imageUrl}
+          location={project?.area?.title ?? project?.areaTitle}
+          developer={project?.developer?.name ?? project?.developerName}
+          handover={project?.handover ?? undefined}
+          priceFrom={project?.minPrice}
+          propertyTypes={project?.projectTypes?.map((t) => t.name)}
+        />
       )
     }
 

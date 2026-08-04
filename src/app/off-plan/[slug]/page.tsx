@@ -217,6 +217,8 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           sectionTitle={b.title ?? undefined}
           tabs={tabs}
           cards={cards}
+          entity="pent_entity"
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }

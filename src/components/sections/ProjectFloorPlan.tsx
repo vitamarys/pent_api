@@ -7,6 +7,7 @@ import type { Swiper as SwiperType } from "swiper";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Container from "@/components/ui/Container";
 import PopFloorPlan from "@/components/ui/PopFloorPlan";
+import PopConsultation from "@/components/ui/PopConsultation";
 import { formatCompactPrice } from "@/lib/utils";
 import s from "./ProjectFloorPlan.module.scss";
 
@@ -30,9 +31,11 @@ export interface FloorPlanTab {
 }
 
 export interface ProjectFloorPlanProps {
-  sectionTitle?: string;
-  tabs: FloorPlanTab[];
-  cards: FloorPlanCard[];
+  sectionTitle?:  string;
+  tabs:           FloorPlanTab[];
+  cards:          FloorPlanCard[];
+  entity?:        string;
+  pageBitrixId?:  string;
 }
 
 function parsePrice(price: string | number): number {
@@ -57,9 +60,12 @@ export default function ProjectFloorPlan({
   sectionTitle = "Layouts",
   tabs,
   cards,
+  entity,
+  pageBitrixId,
 }: ProjectFloorPlanProps) {
   const [activeTab, setActiveTab] = useState("all");
   const [popCard, setPopCard] = useState<FloorPlanCard | null>(null);
+  const [consultOpen, setConsultOpen] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
 
   const filteredCards =
@@ -82,6 +88,14 @@ export default function ProjectFloorPlan({
       onClose={() => setPopCard(null)}
       image={popCard?.image}
       title={popCard?.title}
+      entity={entity}
+      pageBitrixId={pageBitrixId}
+    />
+    <PopConsultation
+      open={consultOpen}
+      onClose={() => setConsultOpen(false)}
+      entity={entity}
+      pageBitrixId={pageBitrixId}
     />
     <section className={s.section}>
       <Container>
@@ -180,7 +194,9 @@ export default function ProjectFloorPlan({
                 <div className={s.stats}>
                   <div className={s.statItem}>
                     <span className={s.statLabel}>Starting price:</span>
-                    <span className={s.statValue}>{card.startingPrice}</span>
+                    <span className={s.statValue}>
+                      {parsePrice(card.startingPrice) === 0 ? 'On request' : card.startingPrice}
+                    </span>
                   </div>
                   <div className={s.statItem}>
                     <span className={s.statLabel}>Living area:</span>
@@ -194,7 +210,7 @@ export default function ProjectFloorPlan({
                   )}
                 </div>
 
-                <button className={s.checkBtn}>Check Availability</button>
+                <button className={s.checkBtn} onClick={() => setConsultOpen(true)}>Check Availability</button>
               </div>
             </SwiperSlide>
           ))}

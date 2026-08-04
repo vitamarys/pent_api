@@ -440,6 +440,8 @@ function renderBlock(
                 }
               : undefined
           }
+          entity="pent_entity"
+          pageBitrixId={property?.propertyRefNo ?? undefined}
         />
       )
     }

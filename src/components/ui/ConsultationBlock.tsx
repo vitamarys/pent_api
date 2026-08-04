@@ -6,11 +6,14 @@ import PopConsultation from '@/components/ui/PopConsultation'
 import type { AgentInfo } from '@/components/sections/ProjectForm'
 
 interface ConsultationBlockProps {
-  sectionTitle?: string
-  description?:  string
-  submitLabel?:  string
-  agent?:        AgentInfo
-  whatsappHref?: string
+  sectionTitle?:  string
+  description?:   string
+  submitLabel?:   string
+  agent?:         AgentInfo
+  whatsappHref?:  string
+  entity?:        string
+  projectId?:     string
+  pageBitrixId?:  string
 }
 
 export default function ConsultationBlock({
@@ -19,6 +22,9 @@ export default function ConsultationBlock({
   submitLabel,
   agent,
   whatsappHref,
+  entity,
+  projectId,
+  pageBitrixId,
 }: ConsultationBlockProps) {
   const [open, setOpen] = useState(false)
 
@@ -29,6 +35,9 @@ export default function ConsultationBlock({
         description={description}
         submitLabel={submitLabel}
         agent={agent}
+        entity={entity}
+        projectId={projectId}
+        pageBitrixId={pageBitrixId}
         onConsultationOpen={() => setOpen(true)}
       />
 
@@ -40,6 +49,9 @@ export default function ConsultationBlock({
         submitLabel={submitLabel}
         agent={agent}
         whatsappHref={whatsappHref}
+        entity={entity}
+        projectId={projectId}
+        pageBitrixId={pageBitrixId}
       />
     </>
   )

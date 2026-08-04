@@ -228,7 +228,13 @@
   }
 }
 
-// Project card inline
+// Project card wrapper (full ProjectCard component)
+.projectCardWrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+// Project card inline (legacy — kept for fallback)
 .projectCard {
   display: flex;
   align-items: center;

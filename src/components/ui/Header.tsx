@@ -11,9 +11,9 @@ import strapiClient from '@/lib/axios'
 const DARK_HEADER_PATHS = ['/developers', '/areas', '/resale', '/projects', '/agents', '/about', '/favorites']
 
 const NAV_LINKS = [
-  { label: 'Buy',               href: '/buy' },
-  { label: 'Sell',              href: '/sell' },
   { label: 'Off-plan Projects', href: '/projects' },
+  { label: 'Buy',               href: '/resale' },
+  { label: 'Sell',              href: '/sell' },
   { label: 'Developers',        href: '/developers' },
   { label: 'Services',          href: '/services' },
   { label: 'About',             href: '/about' },

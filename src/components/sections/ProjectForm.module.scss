@@ -258,6 +258,72 @@
   }
 }
 
+// ── Success block ─────────────────────────────────────────────
+.successBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+  background: rgba(12, 87, 68, 0.05);
+  min-height: 300px;
+  width: 100%;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.successText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #0c5744;
+  text-align: center;
+  width: 100%;
+}
+
+.successTitle {
+  font-family: t.$font-sans;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.78px;
+  color: #0c5744;
+}
+
+.successDesc {
+  font-family: t.$font-sans;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #0c5744;
+}
+
+// ── Error block ───────────────────────────────────────────────
+.errorBlock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 48px;
+  background: rgba(224, 29, 16, 0.1);
+  width: 100%;
+
+  span {
+    @include t.text-body-m;
+    color: #e01d10;
+    text-align: center;
+  }
+}
+
 .privacyNote {
   font-family: t.$font-sans;
   font-size: 12px;
