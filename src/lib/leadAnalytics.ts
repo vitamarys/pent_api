@@ -78,7 +78,7 @@ export function getLeadExtraData(): Record<string, unknown> {
 
   // PostHog distinct ID
   try {
-    const ph = (window as Record<string, unknown>).posthog
+    const ph = (window as unknown as Record<string, unknown>).posthog
     if (ph && typeof (ph as Record<string, unknown>).get_distinct_id === 'function') {
       const phId = (ph as { get_distinct_id: () => string }).get_distinct_id()
       if (phId) extraData.posthog_id = phId
