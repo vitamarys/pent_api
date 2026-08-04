@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Prata } from 'next/font/google'
 import './globals.scss'
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
 import Providers from './providers'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
+import TrackingInit from '@/components/ui/TrackingInit'
 
 const prata = Prata({
   subsets: ['latin'],
@@ -29,6 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${prata.variable} font-sans antialiased`} suppressHydrationWarning>
         <Providers>
+          <Suspense fallback={null}>
+            <TrackingInit />
+          </Suspense>
           <Header />
           {children}
           <Footer />
