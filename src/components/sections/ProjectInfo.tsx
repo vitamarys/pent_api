@@ -1,5 +1,7 @@
 'use client'
 
+import '@fancyapps/ui/dist/fancybox/fancybox.css'
+import Image from 'next/image'
 import { useEffect } from "react"
 import { ChevronRight, Info, Play, Maximize2 } from "lucide-react";
 import Container from "@/components/ui/Container";
@@ -109,7 +111,7 @@ export default function ProjectInfo({
                 first?.click()
               }}
             >
-              {mainImage && <img src={mainImage} alt={title} className={s.coverImg} />}
+              {mainImage && <Image src={mainImage} alt={title} fill className={s.coverImg} sizes="(max-width: 768px) 100vw, 60vw" priority />}
               <div className={s.imgOverlay} />
               {videoUrl && (
                 <a href={videoUrl} className={s.playBtn} onClick={e => e.stopPropagation()}>
@@ -121,10 +123,10 @@ export default function ProjectInfo({
 
             <div className={s.additionalRow}>
               <div className={s.additionalImg}>
-                {images?.[0] && <img src={images[0]} alt="" className={s.coverImg} />}
+                {images?.[0] && <Image src={images[0]} alt="" fill className={s.coverImg} sizes="(max-width: 768px) 50vw, 30vw" />}
               </div>
               <div className={s.additionalImg}>
-                {images?.[1] && <img src={images[1]} alt="" className={s.coverImg} />}
+                {images?.[1] && <Image src={images[1]} alt="" fill className={s.coverImg} sizes="(max-width: 768px) 50vw, 30vw" />}
                 {galleryImages.length > 0 && (
                   <button
                     className={s.photosBtn}

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import s from './ArticleHero.module.scss'
@@ -79,7 +80,7 @@ export default function ArticleHero({
 
       {heroImage && (
         <div className={s.imageWrap}>
-          <img src={heroImage} alt={title} className={s.image} />
+          <Image src={heroImage} alt={title} fill className={s.image} sizes="100vw" priority />
         </div>
       )}
     </div>

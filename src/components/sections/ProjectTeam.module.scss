@@ -133,6 +133,7 @@
 
 // ── Right image ──────────────────────────────────────────────
 .imageWrap {
+  position: relative;
   flex: 1 0 0;
   min-width: 0;
   height: 560px;

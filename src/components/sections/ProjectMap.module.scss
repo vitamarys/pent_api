@@ -158,194 +158,206 @@
     order: 1;
   }
 
-  :global {
-    // ── Place popup ─────────────────────────────────────────────────────────────
-    .gm-popup {
-      width: 280px;
+  // ── Place popup ───────────────────────────────────────────────────────────────
+  :global(.gm-popup) {
+    width: 280px;
+    background: t.$white-solid;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+    pointer-events: all;
+    transition: opacity 0.15s ease;
+    font-family: t.$font-sans;
+  }
+
+  :global(.gm-popup__slider) {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    background: t.$brand-second-base;
+  }
+
+  :global(.gm-popup__slides) {
+    display: flex;
+    height: 100%;
+    transition: transform 0.25s ease;
+    will-change: transform;
+  }
+
+  :global(.gm-popup__slide) {
+    flex: 0 0 280px;
+    width: 280px;
+    height: 160px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  :global(.gm-popup__slide--empty) {
+    background-color: t.$brand-second-base;
+  }
+
+  :global(.gm-popup__prev) {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    color: t.$black-solid;
+    padding: 0;
+
+    &:hover {
       background: t.$white-solid;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-      overflow: hidden;
-      pointer-events: all;
-      transition: opacity 0.15s ease;
-      font-family: t.$font-sans;
     }
+  }
 
-    .gm-popup__slider {
-      position: relative;
-      height: 160px;
-      overflow: hidden;
-      background: t.$brand-second-base;
-    }
+  :global(.gm-popup__next) {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    line-height: 1;
+    color: t.$black-solid;
+    padding: 0;
 
-    .gm-popup__slides {
-      display: flex;
-      height: 100%;
-      transition: transform 0.25s ease;
-      will-change: transform;
-    }
-
-    .gm-popup__slide {
-      flex: 0 0 280px;
-      width: 280px;
-      height: 160px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-
-      &--empty {
-        background-color: t.$brand-second-base;
-      }
-    }
-
-    .gm-popup__prev,
-    .gm-popup__next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 28px;
-      height: 28px;
-      background: rgba(255, 255, 255, 0.85);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      line-height: 1;
-      color: t.$black-solid;
-      padding: 0;
-
-      &:hover {
-        background: t.$white-solid;
-      }
-    }
-
-    .gm-popup__prev {
-      left: 6px;
-    }
-    .gm-popup__next {
-      right: 6px;
-    }
-
-    .gm-popup__dots {
-      position: absolute;
-      bottom: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 4px;
-
-      span {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        transition: background 0.2s;
-
-        &.active {
-          background: t.$white-solid;
-        }
-      }
-    }
-
-    .gm-popup__close {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 24px;
-      height: 24px;
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(8px);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      color: t.$black-solid;
-
-      &:hover {
-        background: t.$white-solid;
-      }
-    }
-
-    .gm-popup__info {
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      overflow: hidden;
-    }
-
-    .gm-popup__name {
-      font-size: t.$size-body-m;
-      font-weight: 400;
-      line-height: 1.4;
-      color: t.$black-solid;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
-    }
-
-    .gm-popup__desc {
-      font-size: 14px;
-      line-height: 1.4;
-      color: t.$black-solid;
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .gm-popup__addr {
-      font-size: 14px;
-      line-height: 1.4;
-      color: t.$black-fade-4;
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    // ── ETA bubble ──────────────────────────────────────────────────────────────
-    .gm-eta {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    &:hover {
       background: t.$white-solid;
-      padding: 6px 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      pointer-events: none;
-      white-space: nowrap;
-      transform: translateX(-50%);
     }
+  }
 
-    .gm-eta__icon {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
+  :global(.gm-popup__dots) {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+  }
 
-      svg {
-        display: block;
-      }
+  :global(.gm-popup__dots) span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transition: background 0.2s;
+  }
+
+  :global(.gm-popup__dots) span.active {
+    background: t.$white-solid;
+  }
+
+  :global(.gm-popup__close) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: t.$black-solid;
+
+    &:hover {
+      background: t.$white-solid;
     }
+  }
 
-    .gm-eta__text {
-      font-family: t.$font-sans;
-      font-size: 14px;
-      line-height: 1.4;
-      color: t.$black-solid;
-    }
+  :global(.gm-popup__info) {
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+  }
 
-    // ── Hide default Google Maps UI chrome ───────────────────────────────────────
-    .gm-style-cc,
-    .gmnoprint,
-    .gm-bundled-control {
-      display: none !important;
+  :global(.gm-popup__name) {
+    font-size: t.$size-body-m;
+    font-weight: 400;
+    line-height: 1.4;
+    color: t.$black-solid;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  :global(.gm-popup__desc) {
+    font-size: 14px;
+    line-height: 1.4;
+    color: t.$black-solid;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.gm-popup__addr) {
+    font-size: 14px;
+    line-height: 1.4;
+    color: t.$black-fade-4;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // ── ETA bubble ────────────────────────────────────────────────────────────────
+  :global(.gm-eta) {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: t.$white-solid;
+    padding: 6px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    white-space: nowrap;
+    transform: translateX(-50%);
+  }
+
+  :global(.gm-eta__icon) {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    svg {
+      display: block;
     }
-  } // end :global
+  }
+
+  :global(.gm-eta__text) {
+    font-family: t.$font-sans;
+    font-size: 14px;
+    line-height: 1.4;
+    color: t.$black-solid;
+  }
+
+  // ── Hide default Google Maps UI chrome ──────────────────────────────────────
+  :global(.gm-style-cc) { display: none !important; }
+  :global(.gmnoprint) { display: none !important; }
+  :global(.gm-bundled-control) { display: none !important; }
 } // end .mapWrap
 
 // ── Map canvas ────────────────────────────────────────────────────────────────

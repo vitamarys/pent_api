@@ -251,6 +251,7 @@
 
 // ── Floor plan image ─────────────────────────────────────────
 .floorPlan {
+  position: relative;
   height: 320px;
   padding: t.$gap-small;
   flex-shrink: 0;

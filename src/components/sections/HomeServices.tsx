@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './HomeServices.module.scss'
 
@@ -24,7 +25,7 @@ export default function HomeServices({ title, slides = [] }: HomeServicesProps) 
             <div key={i} className={s.card}>
               {slide.imageFile?.url && (
                 <div className={s.cardImageWrap}>
-                  <img src={slide.imageFile.url} alt={slide.title} className={s.cardImage} />
+                  <Image src={slide.imageFile.url} alt={slide.title} fill className={s.cardImage} sizes="(max-width: 768px) 100vw, 33vw" />
                 </div>
               )}
               <div className={s.cardBody}>

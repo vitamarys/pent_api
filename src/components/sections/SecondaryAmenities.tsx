@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { X } from 'lucide-react'
 import s from './SecondaryAmenities.module.scss'
@@ -65,7 +66,7 @@ export default function SecondaryAmenities({
 
           {/* Right: image */}
           <div className={s.imageCol}>
-            <img src={imgSrc} alt={title} className={s.image} />
+            <Image src={imgSrc} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
         </div>
       </section>

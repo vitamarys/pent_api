@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Home, ChevronRight } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Container from '@/components/ui/Container'
-import PopConsultation from '@/components/ui/PopConsultation'
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 import type { AgentInfo } from '@/components/sections/ProjectForm'
 import s from './HeroProject.module.scss'
 
@@ -40,11 +42,22 @@ export default function HeroProject({
 
   return (
     <>
-      <section className={s.hero} style={{ backgroundImage: `url(${image})` }}>
+      <section className={s.hero}>
+        {image && (
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={s.bgImage}
+            aria-hidden
+          />
+        )}
 
         {/* Image area — controls height per breakpoint */}
         <div className={s.imageArea}>
-          <div className={s.imageBg} style={{ backgroundImage: `url(${image})` }} />
+          <div className={s.imageBg} />
           <Container>
             <nav className={s.breadcrumb}>
               <Link href="/"><Home size={16} /></Link>

@@ -1,7 +1,12 @@
 import type { NextConfig } from 'next'
+import bundleAnalyzer from '@next/bundle-analyzer'
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 const nextConfig: NextConfig = {
-  images: {
+images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -15,8 +20,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.yandexcloud.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'qr.propcrm.ae',
+      },
     ],
   },
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig)

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import s from './SecondarySidebar.module.scss'
@@ -71,7 +72,7 @@ export default function SecondarySidebar({
         <div className={s.agentCard}>
           <div className={s.agentAvatarWrap}>
             {agent.image ? (
-              <img src={agent.image.url} alt={agent.name} className={s.agentAvatar} />
+              <Image src={agent.image.url} alt={agent.name} fill className={s.agentAvatar} sizes="89px" />
             ) : (
               <div className={s.agentAvatarFallback}>
                 {agent.name.charAt(0)}

@@ -10,30 +10,26 @@ $panel-solid: #1f1f1f;
   flex-direction: column;
   height: 100vh;
   min-height: 640px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
   padding: 0 0 32px 0;
   @include t.tablet {
     height: auto;
     min-height: unset;
     padding: 0;
-    background-image: none !important;
   }
 }
 
-// ── Image background (tablet/mobile only) ───────────────────
+// ── next/image background (covers entire hero) ──────────────
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+// ── Image background (kept for layout, image now via next/image) ─
 .imageBg {
   display: none;
-
-  @include t.tablet {
-    display: block;
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
 }
 
 // ── Image area ──────────────────────────────────────────────
@@ -44,6 +40,7 @@ $panel-solid: #1f1f1f;
   display: flex;
   flex-direction: column;
   padding-top: 135px;
+  z-index: 1;
   @include t.tablet {
     flex: none;
     height: 400px;
@@ -103,6 +100,8 @@ $panel-solid: #1f1f1f;
 
 // ── Panel ──────────────────────────────────────────────────
 .panel {
+  position: relative;
+  z-index: 1;
   background: t.$black-fade-4;
   backdrop-filter: blur(32px);
   padding: 24px;

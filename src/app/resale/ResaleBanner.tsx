@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import s from './ResaleBanner.module.scss'
 
 export interface ResaleBannerProps {
@@ -19,7 +20,7 @@ export default function ResaleBanner({
 }: ResaleBannerProps) {
   return (
     <div className={`${s.banner} ${align === 'right' ? s.bannerRight : ''}`}>
-      <img src={image} alt={title} className={s.bannerImg} />
+      <Image src={image} alt={title} fill className={s.bannerImg} sizes="(max-width: 768px) 100vw, 50vw" />
 
       <div className={s.textPanel}>
         <div className={s.textContent}>

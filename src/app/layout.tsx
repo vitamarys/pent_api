@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Prata } from 'next/font/google'
 import './globals.scss'
-import '@fancyapps/ui/dist/fancybox/fancybox.css'
 import Providers from './providers'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
@@ -13,6 +12,7 @@ const prata = Prata({
   weight: ['400'],
   variable: '--font-prata',
 })
+
 
 export const metadata: Metadata = {
   title: {

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type {
   ArticleContentBlock,
   ArticleTextSegment,
@@ -88,7 +89,7 @@ function renderBlock(block: ArticleContentBlock, index: number): React.ReactNode
       if (!props?.url) return null
       return (
         <div key={index} className={s.imageBlock}>
-          <img src={props.url} alt={props.caption || props.name || ''} className={s.contentImage} />
+          <Image src={props.url} alt={props.caption || props.name || ''} fill className={s.contentImage} sizes="(max-width: 768px) 100vw, 800px" />
         </div>
       )
     }
@@ -181,7 +182,7 @@ function AuthorCard({
     <div className={s.authorCard}>
       <div className={s.authorAvatar}>
         {(person.imageFile?.url ?? person.image?.url) ? (
-          <img src={person.imageFile?.url ?? person.image?.url} alt={person.name} className={s.authorImg} />
+          <Image src={(person.imageFile?.url ?? person.image?.url)!} alt={person.name} fill className={s.authorImg} sizes="76px" />
         ) : (
           <div className={s.authorImgFallback} aria-hidden="true" />
         )}

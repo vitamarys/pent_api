@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './HomeAwards.module.scss'
 
@@ -24,7 +25,7 @@ export default function HomeAwards({ title, award = [] }: HomeAwardsProps) {
             <div key={i} className={s.card}>
               {item.image?.url && (
                 <div className={s.cardImageWrap}>
-                  <img src={item.image.url} alt={item.title} className={s.cardImage} />
+                  <Image src={item.image.url} alt={item.title} fill className={s.cardImage} sizes="72px" />
                 </div>
               )}
               <div className={s.cardBody}>

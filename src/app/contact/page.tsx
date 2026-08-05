@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
-import ContactHero from '@/components/sections/ContactHero'
-import ContactMap from '@/components/sections/ContactMap'
+import dynamic from 'next/dynamic'
+const ContactHero = dynamic(() => import('@/components/sections/ContactHero'))
+import ContactMap from '@/components/sections/ContactMapLazy'
 
 export const metadata: Metadata = {
   title: 'Contact Us | Penthouse.ae',

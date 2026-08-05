@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
@@ -90,7 +91,7 @@ export default function ProjectCard({ id, slug, title, location, developer, hand
           >
             {images.map((img, i) => (
               <SwiperSlide key={i} className={s.slide}>
-                <img src={img} alt={title} className={s.cardImg} />
+                <Image src={img} alt={title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               </SwiperSlide>
             ))}
           </Swiper>

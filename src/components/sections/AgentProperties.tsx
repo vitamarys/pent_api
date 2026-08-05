@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
@@ -61,7 +62,7 @@ function PropertyCard({ item }: { item: SimilarProjectItem }) {
     <Link href={item.href ?? `/projects/${item.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {img
-          ? <img src={img} alt={item.title} className={s.cardImg} />
+          ? <Image src={img} alt={item.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
           : <div className={s.imgPlaceholder} />
         }
         <div className={s.cardOverlay}>

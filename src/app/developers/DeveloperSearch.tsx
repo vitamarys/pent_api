@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef, useState, useTransition, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import s from './DeveloperSearch.module.scss'
@@ -160,7 +161,7 @@ export default function DeveloperSearch({ defaultValue = '' }: { defaultValue?: 
             >
               <div className={s.logoCard}>
                 {item.logoUrl
-                  ? <img src={item.logoUrl} alt={item.name} className={s.logoImg} />
+                  ? <Image src={item.logoUrl} alt={item.name} width={30} height={30} className={s.logoImg} style={{ height: 'auto' }} />
                   : <span className={s.logoPlaceholder} />
                 }
               </div>

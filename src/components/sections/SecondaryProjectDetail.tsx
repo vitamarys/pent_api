@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { SecondaryPropertyDld } from '@/types/penthouse-api'
 import s from './SecondaryProjectDetail.module.scss'
 
@@ -81,7 +82,7 @@ export default function SecondaryProjectDetail({
             <div className={s.dldContent}>
               {dld.qrcodeUrl && (
                 <div className={s.qrWrap}>
-                  <img src={dld.qrcodeUrl} alt="DLD QR Code" className={s.qrImg} />
+                  <Image src={dld.qrcodeUrl} alt="DLD QR Code" fill className={s.qrImg} sizes="100px" />
                 </div>
               )}
               {dldText && <p className={s.dldText}>{dldText}</p>}

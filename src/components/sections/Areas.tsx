@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import s from './Areas.module.scss'
@@ -26,7 +27,7 @@ function DotIcon() {
 function AreaCard({ area }: { area: AreaItem }) {
   return (
     <Link href={`/areas/${area.slug}`} className={s.card}>
-      {area.image && <img src={area.image} alt={area.name} className={s.cardImage} />}
+      {area.image && <Image src={area.image} alt={area.name} fill className={s.cardImage} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
       <div className={s.cardLabel}>
         <DotIcon />
         <span className={s.cardName}>{area.name}</span>

@@ -183,8 +183,7 @@ function ProjectCard({ p, onClose }: { p: SearchProject; onClose: () => void }) 
     <Link href={p.pageUrl?.url ?? '#'} className={s.popupCard} onClick={onClose}>
       <div className={s.popupCardImg}>
         {p.previewImage?.url
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={p.previewImage.url} alt={p.title} className={s.popupCardImgEl} />
+          ? <Image src={p.previewImage.url} alt={p.title} fill className={s.popupCardImgEl} sizes="(max-width: 768px) 100vw, 33vw" />
           : <div className={s.popupCardImgPlaceholder} />
         }
         {(p.projectTypes?.length ?? 0) > 0 && (
@@ -218,8 +217,7 @@ function AreaCard({ a, onClose }: { a: SearchArea; onClose: () => void }) {
     <Link href={a.pageUrl?.url ?? '#'} className={s.popupCard} onClick={onClose}>
       <div className={s.popupCardImg}>
         {a.previewImage?.url
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={a.previewImage.url} alt={a.title} className={s.popupCardImgEl} />
+          ? <Image src={a.previewImage.url} alt={a.title} fill className={s.popupCardImgEl} sizes="(max-width: 768px) 100vw, 33vw" />
           : <div className={s.popupCardImgPlaceholder} />
         }
         <button className={s.popupCardHeart} onClick={e => e.preventDefault()} aria-label="Favorite">
@@ -242,14 +240,12 @@ function DeveloperCard({ d, onClose }: { d: SearchDeveloper; onClose: () => void
     <Link href={d.pageUrl?.url ?? '#'} className={s.popupCard} onClick={onClose}>
       <div className={s.popupCardImg}>
         {d.image?.url
-          // eslint-disable-next-line @next/next/no-img-element
-          ? <img src={d.image.url} alt={d.name} className={s.popupCardImgEl} />
+          ? <Image src={d.image.url} alt={d.name} fill className={s.popupCardImgEl} sizes="(max-width: 768px) 100vw, 33vw" />
           : <div className={s.popupCardImgPlaceholder} />
         }
         {d.logo?.url && (
           <div className={s.popupCardLogoOverlay}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={d.logo.url} alt={d.name} className={s.popupCardLogoImg} />
+            <Image src={d.logo.url} alt={d.name} width={90} height={32} className={s.popupCardLogoImg} />
           </div>
         )}
         <button className={s.popupCardHeart} onClick={e => e.preventDefault()} aria-label="Favorite">
@@ -520,7 +516,7 @@ export default function Header() {
                       {searchResults.developers!.map(d => (
                         <Link key={d.id} href={d.pageUrl?.url ?? '#'} className={s.searchItem} onClick={closeAll}>
                           <span className={s.searchItemLogoWrap}>
-                            {d.logo?.url && <img src={d.logo.url} alt={d.name} className={s.searchItemLogo} />}
+                            {d.logo?.url && <Image src={d.logo.url} alt={d.name} width={44} height={32} className={s.searchItemLogo} style={{ height: 'auto' }} />}
                           </span>
                           <span className={s.searchItemText}>{d.name}</span>
                         </Link>

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from "@/components/ui/Container";
 import s from "./ProjectTeam.module.scss";
 
@@ -53,7 +54,7 @@ export default function ProjectTeam({
 
           {/* Right: team image */}
           <div className={s.imageWrap}>
-            {image && <img src={image} alt={title} className={s.image} />}
+            {image && <Image src={image} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />}
           </div>
 
         </div>

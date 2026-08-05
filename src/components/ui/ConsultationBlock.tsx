@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import ProjectForm from '@/components/sections/ProjectForm'
-import PopConsultation from '@/components/ui/PopConsultation'
 import type { AgentInfo } from '@/components/sections/ProjectForm'
+
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 
 interface ConsultationBlockProps {
   sectionTitle?:  string

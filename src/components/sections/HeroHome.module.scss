@@ -8,11 +8,15 @@
   height: 100svh;
   min-height: 640px;
   background-color: #1a1a24;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
 
   @include t.mobile {
     min-height: 580px;
@@ -22,12 +26,15 @@
 .overlay {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);
   pointer-events: none;
 }
 
 // ── Container override ────────────────────────────────────────
 .containerFull {
+  position: relative;
+  z-index: 2;
   flex: 1;
   display: flex;
   flex-direction: column;

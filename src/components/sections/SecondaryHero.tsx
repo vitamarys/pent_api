@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import s from './SecondaryHero.module.scss'
@@ -126,11 +127,14 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
         <div className={s.gallery}>
           {hasImages ? (
             images.map((img, i) => (
-              <img
+              <Image
                 key={i}
                 src={img.url}
                 alt={subtitle ?? 'Property photo'}
+                fill
                 className={`${s.galleryImage} ${i === activeIndex ? s.galleryImageActive : ''}`}
+                sizes="100vw"
+                priority={i === 0}
               />
             ))
           ) : (
@@ -196,7 +200,7 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
 
           <div className={s.lightboxImg}>
             {hasImages && (
-              <img src={images[activeIndex].url} alt={subtitle ?? 'Property photo'} />
+              <Image src={images[activeIndex].url} alt={subtitle ?? 'Property photo'} width={1920} height={1080} style={{ maxWidth: '90vw', maxHeight: '85vh', width: 'auto', height: 'auto', objectFit: 'contain' }} />
             )}
           </div>
 

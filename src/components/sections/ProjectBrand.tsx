@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from "@/components/ui/Container";
 import s from "./ProjectBrand.module.scss";
 
@@ -26,7 +27,7 @@ export default function ProjectBrand({
 
       {/* Stacked image — tablet/mobile only */}
       <div className={s.imageStack}>
-        {image && <img src={image} alt={devName} />}
+        {image && <Image src={image} alt={devName} fill sizes="100vw" style={{ objectFit: 'cover', objectPosition: 'center' }} />}
       </div>
 
       {/* Card */}
@@ -36,7 +37,7 @@ export default function ProjectBrand({
           {(logo || logoText) && (
             <div className={s.logoBadge}>
               {logo
-                ? <img src={logo} alt={devName} className={s.logo} />
+                ? <Image src={logo} alt={devName} width={120} height={33} className={s.logo} />
                 : <span className={s.logoText}>{logoText}</span>
               }
             </div>

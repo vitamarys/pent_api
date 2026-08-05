@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef } from 'react'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
@@ -41,7 +42,7 @@ function ArticleCard({ item }: { item: ArticleCardItem }) {
     <Link href={item.href ?? '#'} className={s.card}>
       <div className={s.cardImage}>
         {item.image ? (
-          <img src={item.image} alt={item.title} className={s.cardImg} />
+          <Image src={item.image} alt={item.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
         ) : (
           <div className={s.cardImgPlaceholder} />
         )}

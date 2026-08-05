@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl } from '@/lib/utils'
@@ -100,13 +101,13 @@ function DeveloperCard({ developer }: { developer: DeveloperSliderItem }) {
     <Link href={`/developers/${developer.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {bgSrc && (
-          <img src={bgSrc} alt={developer.name} className={s.cardBg} />
+          <Image src={bgSrc} alt={developer.name} fill className={s.cardBg} sizes="(max-width: 768px) 100vw, 428px" />
         )}
         <div className={s.cardOverlay}>
           <div className={s.topRow}>
             <div className={s.logoPanel}>
               {logoSrc && (
-                <img src={logoSrc} alt={`${developer.name} logo`} className={s.logoImg} />
+                <Image src={logoSrc} alt={`${developer.name} logo`} width={90} height={90} className={s.logoImg} style={{ height: 'auto' }} />
               )}
             </div>
             <button

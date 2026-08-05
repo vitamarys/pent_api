@@ -18,7 +18,8 @@ import ProjectTeam from '@/components/sections/ProjectTeam'
 import ProjectAwards from '@/components/sections/ProjectAwards'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
-import ProjectForm from '@/components/sections/ProjectForm'
+import dynamic from 'next/dynamic'
+const ProjectForm = dynamic(() => import('@/components/sections/ProjectForm'))
 import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectInfo from '@/components/sections/ProjectInfo'
 

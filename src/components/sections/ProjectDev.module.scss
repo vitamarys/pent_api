@@ -34,6 +34,7 @@
   display: none;
 
   @include t.tablet {
+    position: relative;
     display: block;
     height: 380px;
     overflow: hidden;
@@ -96,6 +97,7 @@
 
 // ── Logo ─────────────────────────────────────────────────────
 .logoWrap {
+  position: relative;
   width: 137px;
   height: 87px;
   display: flex;

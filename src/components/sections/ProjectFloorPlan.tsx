@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -187,7 +188,7 @@ export default function ProjectFloorPlan({
 
                 {/* Floor plan image */}
                 <div className={s.floorPlan}>
-                  {card.image && <img src={card.image} alt={card.title} />}
+                  {card.image && <Image src={card.image} alt={card.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'contain' }} />}
                 </div>
 
                 {/* Stats */}

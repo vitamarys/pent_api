@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl, formatCompactPrice } from '@/lib/utils'
@@ -110,7 +111,7 @@ function ProjectCard({ project }: { project: DeveloperProjectItem }) {
     <Link href={`/project/${project.slug}`} className={s.card}>
       <div className={s.cardMedia}>
         {imgSrc && (
-          <img src={imgSrc} alt={project.title} className={s.cardImage} />
+          <Image src={imgSrc} alt={project.title} fill className={s.cardImage} sizes="(max-width: 768px) 300px, 428px" />
         )}
         <div className={s.cardOverlay}>
           <div className={s.topRow}>

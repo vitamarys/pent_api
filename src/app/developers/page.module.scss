@@ -148,6 +148,7 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
 // ── Logo panel ───────────────────────────────────────────────────────────────
 
 .logoPanel {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

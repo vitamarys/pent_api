@@ -1,6 +1,7 @@
 /// <reference types="@types/google.maps" />
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import s from './ResaleMapView.module.scss'
@@ -125,12 +126,12 @@ function PopupCard({ prop, onClose }: { prop: MapProperty; onClose: () => void }
       <a href={`/resale/${prop.slug}`} className={s.popupCard}>
         <div className={s.popupMedia}>
           {prop.image
-            ? <img src={prop.image} alt={prop.title} className={s.popupImg} />
+            ? <Image src={prop.image} alt={prop.title} fill className={s.popupImg} sizes="400px" />
             : <div className={s.popupImgPlaceholder} />
           }
           {prop.unitType && <span className={s.popupTag}>{prop.unitType}</span>}
           <button className={s.popupFav} onClick={e => e.preventDefault()} aria-label="Add to favourites">
-            <img src="/icons/icon-heart.svg" alt="" width={20} height={20} aria-hidden="true" />
+            <Image src="/icons/icon-heart.svg" alt="" width={20} height={20} aria-hidden={true} />
           </button>
         </div>
         <div className={s.popupBody}>

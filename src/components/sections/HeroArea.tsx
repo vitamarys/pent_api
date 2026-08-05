@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { Home, ChevronRight } from 'lucide-react'
 import Container from '@/components/ui/Container'
@@ -24,7 +25,7 @@ export default function HeroArea({
     <section className={s.section}>
       {/* Background */}
       {image && (
-        <img src={image} alt={title} className={s.bgImage} />
+        <Image src={image} alt={title} fill className={s.bgImage} sizes="100vw" priority />
       )}
 
       {/* Top gradient overlay */}

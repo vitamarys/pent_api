@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import { useFavorites } from '@/hooks/useFavorites'
@@ -91,7 +92,7 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
       {/* ── Media ── */}
       <div className={s.media}>
         {firstImage ? (
-          <img src={firstImage} alt={title} className={s.img} />
+          <Image src={firstImage} alt={title} fill className={s.img} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />
         ) : (
           <div className={s.imgPlaceholder} />
         )}

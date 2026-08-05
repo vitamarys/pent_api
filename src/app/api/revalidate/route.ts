@@ -1,5 +1,7 @@
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest } from 'next/server'
+
+const EXPIRE_NOW = { expire: 0 }
 
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get('secret')
@@ -8,6 +10,19 @@ export async function POST(request: NextRequest) {
     return Response.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
+  const tag = request.nextUrl.searchParams.get('tag')
+
+  if (tag) {
+    revalidateTag(tag, EXPIRE_NOW)
+    return Response.json({ revalidated: true, tag })
+  }
+
+  // Full revalidation: clear all caches
+  revalidateTag('pages', EXPIRE_NOW)
+  revalidateTag('articles', EXPIRE_NOW)
+  revalidateTag('global-settings', EXPIRE_NOW)
+  revalidateTag('currency-rates', EXPIRE_NOW)
+  revalidateTag('redirects', EXPIRE_NOW)
   revalidatePath('/project/[slug]', 'page')
 
   return Response.json({ revalidated: true })

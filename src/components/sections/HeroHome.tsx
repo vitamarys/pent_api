@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Search, X, ChevronDown } from 'lucide-react';
 import * as Slider from '@radix-ui/react-slider';
 import Container from '@/components/ui/Container';
@@ -276,10 +277,18 @@ export default function HeroHome({
 
   return (
     <>
-      <section
-        className={s.hero}
-        style={bgImage ? { backgroundImage: `url(${bgImage})` } : undefined}
-      >
+      <section className={s.hero}>
+        {bgImage && (
+          <Image
+            src={bgImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className={s.bgImage}
+            aria-hidden
+          />
+        )}
         <div className={s.overlay} />
 
         <Container className={s.containerFull}>

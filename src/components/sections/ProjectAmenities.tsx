@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect } from "react"
 import { Plus, X } from "lucide-react";
 import Container from "@/components/ui/Container";
@@ -20,7 +21,7 @@ export interface ProjectAmenitiesProps {
 function AmenityCard({ item, className }: { item: AmenityItem; className?: string }) {
   return (
     <div className={`${s.card} ${className ?? ""}`}>
-      {item.image && <img src={item.image} alt={item.label} className={s.cardImg} />}
+      {item.image && <Image src={item.image} alt={item.label} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, 50vw" />}
       <div className={s.cardLabel}>
         <span className={s.dot} />
         <span className={s.labelText}>{item.label}</span>

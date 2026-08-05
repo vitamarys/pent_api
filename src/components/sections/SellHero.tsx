@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Container from '@/components/ui/Container';
-import PopConsultation from '@/components/ui/PopConsultation';
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'));
 import s from './SellHero.module.scss';
 
 export interface SellHeroBreadcrumb {

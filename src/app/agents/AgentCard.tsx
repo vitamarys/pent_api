@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { getStrapiImageUrl } from '@/lib/utils'
 import s from './page.module.scss'
 
@@ -26,7 +27,7 @@ export default function AgentCard({
   return (
     <Link href={`/agents/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
-        {imgSrc && <img src={imgSrc} alt={name} className={s.cardBg} />}
+        {imgSrc && <Image src={imgSrc} alt={name} fill className={s.cardBg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
         <div className={s.cardOverlay} />
       </div>
 

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -83,7 +84,7 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
       >
         {images.map((src, i) => (
           <SwiperSlide key={i} className={s.swiperSlide}>
-            <img src={src} alt={title} className={s.image} />
+            <Image src={src} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 60vw" />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -215,7 +216,7 @@ export default function ProjectOfMonth({
             <Link key={project.slug} href={`/project/${project.slug}`} className={s.scrollCard}>
               <div className={s.scrollCardImage}>
                 {project.images?.[0] ? (
-                  <img src={project.images[0]} alt={project.title} className={s.scrollCardImg} />
+                  <Image src={project.images[0]} alt={project.title} fill className={s.scrollCardImg} sizes="(max-width: 768px) 100vw, 300px" />
                 ) : (
                   <div className={s.imgPlaceholder} />
                 )}

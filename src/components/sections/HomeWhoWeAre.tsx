@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './HomeWhoWeAre.module.scss'
 
@@ -51,7 +52,7 @@ export default function HomeWhoWeAre({
 
           {image?.url && (
             <div className={s.right}>
-              <img src={image.url} alt={title ?? 'Who we are'} className={s.image} />
+              <Image src={image.url} alt={title ?? 'Who we are'} fill className={s.image} sizes="(max-width: 900px) 100vw, 50vw" />
             </div>
           )}
         </div>

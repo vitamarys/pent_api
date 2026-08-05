@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import Container from '@/components/ui/Container'
 import s from './AreaOverview.module.scss'
@@ -62,7 +63,7 @@ export default function AreaOverview({
           {/* ── Image ── */}
           {activeImage && (
             <div className={s.imageWrap}>
-              <img src={activeImage} alt={sectionTitle} className={s.img} />
+              <Image src={activeImage} alt={sectionTitle} fill className={s.img} sizes="(max-width: 768px) 100vw, 80vw" />
             </div>
           )}
 

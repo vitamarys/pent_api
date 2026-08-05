@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import Link from 'next/link'
 import { Home, ChevronRight } from 'lucide-react'
@@ -42,7 +43,7 @@ export default function HeroDeveloper({
 
       {/* Image area: stacked img (tablet/mobile) + gradient + breadcrumbs */}
       <div className={s.imageArea}>
-        {bgImage && <img src={bgImage} alt="" className={s.bgImg} />}
+        {bgImage && <Image src={bgImage} alt="" fill className={s.bgImg} sizes="100vw" priority />}
         <div className={s.gradient} />
         <Container>
           <nav className={s.breadcrumb}>
@@ -66,7 +67,7 @@ export default function HeroDeveloper({
           <div className={s.card}>
             {logo && (
               <div className={s.logoWrap}>
-                <img src={logo} alt={name} className={s.logo} />
+                <Image src={logo} alt={name} fill className={s.logo} sizes="136px" />
               </div>
             )}
 

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './DeveloperAbout.module.scss'
 
@@ -28,7 +29,7 @@ export default function DeveloperAbout({
           <div className={s.left}>
             {image ? (
               <div className={s.imageWrap}>
-                <img src={image} alt={sectionTitle} className={s.image} />
+                <Image src={image} alt={sectionTitle} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             ) : (
               <>

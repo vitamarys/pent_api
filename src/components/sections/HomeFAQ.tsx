@@ -1,7 +1,5 @@
-'use client'
-
-import { useState } from 'react'
 import Container from '@/components/ui/Container'
+import { FAQRow } from './HomeFAQRow'
 import s from './HomeFAQ.module.scss'
 
 interface FAQItem {
@@ -12,38 +10,6 @@ interface FAQItem {
 interface HomeFAQProps {
   title?: string
   questions?: FAQItem[]
-}
-
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      className={`${s.chevron} ${open ? s.chevronOpen : ''}`}
-    >
-      <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-function FAQRow({ item }: { item: FAQItem }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <div className={`${s.row} ${open ? s.rowOpen : ''}`}>
-      <button className={s.question} onClick={() => setOpen(v => !v)} aria-expanded={open}>
-        <span>{item.title}</span>
-        <ChevronIcon open={open} />
-      </button>
-      {open && (
-        <div className={s.answer}>
-          <p>{item.answer}</p>
-        </div>
-      )}
-    </div>
-  )
 }
 
 export default function HomeFAQ({ title, questions = [] }: HomeFAQProps) {

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useFavorites } from '@/hooks/useFavorites'
 import s from './page.module.scss'
 
@@ -46,7 +47,7 @@ export default function AreaCard({
   return (
     <Link href={`/areas/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
-        {image && <img src={image} alt={name} className={s.cardBg} />}
+        {image && <Image src={image} alt={name} fill className={s.cardBg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
         <div className={s.cardOverlay}>
           <button
             className={s.favBtn}

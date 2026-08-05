@@ -1,22 +1,21 @@
-'use client';
-
-import { useState } from 'react';
-import Container from '@/components/ui/Container';
-import s from './WorkProgress.module.scss';
+import Image from 'next/image'
+import Container from '@/components/ui/Container'
+import { WorkProgressSteps } from './WorkProgressSteps'
+import s from './WorkProgress.module.scss'
 
 export interface WorkStep {
-  id: number;
-  title: string;
-  value: string;
+  id: number
+  title: string
+  value: string
 }
 
 export interface WorkProgressProps {
-  sectionTitle?: string;
-  description?: string;
-  steps: WorkStep[];
-  videoUrl?: string;
-  videoButton?: string;
-  previewImage?: string;
+  sectionTitle?: string
+  description?: string
+  steps: WorkStep[]
+  videoUrl?: string
+  videoButton?: string
+  previewImage?: string
 }
 
 export default function WorkProgress({
@@ -27,8 +26,6 @@ export default function WorkProgress({
   videoButton = 'Play Video',
   previewImage,
 }: WorkProgressProps) {
-  const [expanded, setExpanded] = useState(false);
-
   return (
     <section className={s.section}>
       <Container>
@@ -36,39 +33,12 @@ export default function WorkProgress({
 
         <div className={s.body}>
           {description && <p className={s.description}>{description}</p>}
-
-          <div className={s.stepsCol}>
-            <div className={`${s.stepsWrap} ${expanded ? s.expanded : ''}`}>
-              {steps.map((step, i) => {
-                const isLast = i === steps.length - 1;
-                return (
-                  <div key={step.id ?? i} className={s.step}>
-                    <div className={s.stepHeader}>
-                      <div className={s.stepNumber}>{i + 1}</div>
-                      <p className={s.stepTitle}>{step.title}</p>
-                    </div>
-                    <div className={s.stepContent}>
-                      <div className={`${s.connector} ${isLast ? s.connectorLast : ''}`} />
-                      <p className={s.stepText}>{step.value}</p>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {!expanded && steps.length > 3 && (
-                <div className={s.fadeOverlay}>
-                  <button className={s.seeMoreBtn} onClick={() => setExpanded(true)}>
-                    See more
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          <WorkProgressSteps steps={steps} />
         </div>
 
         {previewImage && (
           <div className={s.video}>
-            <img src={previewImage} alt={sectionTitle} className={s.videoImg} />
+            <Image src={previewImage} alt={sectionTitle} fill className={s.videoImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px" />
             {videoUrl && (
               <a href={videoUrl} target="_blank" rel="noopener noreferrer" className={s.playBtn}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
@@ -81,5 +51,5 @@ export default function WorkProgress({
         )}
       </Container>
     </section>
-  );
+  )
 }

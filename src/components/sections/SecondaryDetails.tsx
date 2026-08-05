@@ -1,7 +1,5 @@
-'use client'
-
-import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import { DescriptionExpander } from './DescriptionExpander'
 import s from './SecondaryDetails.module.scss'
 
 interface Props {
@@ -41,8 +39,6 @@ export default function SecondaryDetails({
   floor,
   propertyStatus,
 }: Props) {
-  const [expanded, setExpanded] = useState(false)
-
   const rows: { label: string; value: string; isLink?: boolean }[] = [
     ...(location ? [{ label: locationLabel, value: location, isLink: true }] : []),
     ...(developer ? [{ label: developerLabel, value: developer, isLink: true }] : []),
@@ -77,16 +73,11 @@ export default function SecondaryDetails({
       )}
 
       {descriptionHtml && (
-        <div className={s.descBlock}>
-          <div className={`${s.desc} ${expanded ? s.descExpanded : ''}`}>
-            <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-          </div>
-          {!expanded && <div className={s.descFade} />}
-          <button className={s.toggleBtn} onClick={() => setExpanded((v) => !v)}>
-            {expanded ? readLessText : readMoreText}
-            <span className={s.toggleIcon}>{expanded ? '−' : '+'}</span>
-          </button>
-        </div>
+        <DescriptionExpander
+          html={descriptionHtml}
+          readMoreText={readMoreText}
+          readLessText={readLessText}
+        />
       )}
     </section>
   )

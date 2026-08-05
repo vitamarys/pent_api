@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Check, X } from 'lucide-react'
-import PhoneInput, { type Country } from 'react-phone-number-input'
+import PhoneInput, { type Country } from 'react-phone-number-input/min'
 import 'react-phone-number-input/style.css'
 import type { AgentInfo } from '@/components/sections/ProjectForm'
 import { submitLead } from '@/api/leads'
@@ -127,7 +128,7 @@ export default function PopConsultation({
               </div>
               <div className={s.agentCircle} />
               {agent.image && (
-                <img src={agent.image} alt={agent.name} className={s.agentImage} />
+                <Image src={agent.image} alt={agent.name} width={320} height={480} className={s.agentImage} style={{ height: 'auto' }} />
               )}
             </div>
           )}

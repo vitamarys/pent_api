@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import s from './ArticleProjectCard.module.scss'
@@ -32,7 +33,7 @@ export default function ArticleProjectCard({
       {/* Image */}
       <div className={s.media}>
         {imageUrl ? (
-          <img src={imageUrl} alt={title} className={s.img} />
+          <Image src={imageUrl} alt={title} fill className={s.img} sizes="(max-width: 640px) 100vw, 50vw" />
         ) : (
           <div className={s.imgPlaceholder} />
         )}

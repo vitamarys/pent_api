@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -28,7 +29,7 @@ function NewsCard({ item }: { item: NewsItem }) {
   return (
     <Link href={item.href ?? `/news/${item.slug}`} className={s.card}>
       <div className={s.cardImage}>
-        {item.image && <img src={item.image} alt={item.title} className={s.cardImg} />}
+        {item.image && <Image src={item.image} alt={item.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />}
         <div className={s.cardTag}>{item.tag}</div>
       </div>
       <div className={s.cardBody}>

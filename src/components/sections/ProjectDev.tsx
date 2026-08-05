@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from "react";
 import Container from "@/components/ui/Container";
 import s from "./ProjectDev.module.scss";
@@ -34,7 +35,7 @@ export default function ProjectDev({
 
       {/* Stacked image — tablet/mobile only */}
       <div className={s.imageStack}>
-        {image && <img src={image} alt={devName} />}
+        {image && <Image src={image} alt={devName} fill sizes="100vw" style={{ objectFit: 'cover', objectPosition: 'center' }} />}
       </div>
 
       <Container className={s.container}>
@@ -44,7 +45,7 @@ export default function ProjectDev({
             {/* Logo */}
             {logo && (
               <div className={s.logoWrap}>
-                <img src={logo} alt={devName} className={s.logo} />
+                <Image src={logo} alt={devName} fill className={s.logo} sizes="137px" />
 
               </div>
             )}

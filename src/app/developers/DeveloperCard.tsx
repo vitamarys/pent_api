@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { getStrapiImageUrl } from '@/lib/utils'
 import { useFavorites } from '@/hooks/useFavorites'
 import s from './page.module.scss'
@@ -65,12 +66,12 @@ export default function DeveloperCard({
   return (
     <Link href={`/developers/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
-        {bgSrc && <img src={bgSrc} alt={name} className={s.cardBg} />}
+        {bgSrc && <Image src={bgSrc} alt={name} fill className={s.cardBg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
         <div className={s.cardOverlay}>
           <div className={s.cardTopRow}>
             <div className={s.logoPanel}>
               {logoSrc && (
-                <img src={logoSrc} alt={`${name} logo`} className={s.logoImg} />
+                <Image src={logoSrc} alt={`${name} logo`} fill className={s.logoImg} />
               )}
             </div>
             <button

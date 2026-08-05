@@ -1,25 +1,34 @@
+import { unstable_cache } from 'next/cache'
 import strapiClient from '@/lib/axios'
 import type { PenthouseGetPagesResponse, PenthouseGetPageResponse, PenthousePage } from '@/types/penthouse-api'
 
-export async function getPages(): Promise<PenthouseGetPagesResponse | null> {
-  try {
-    const { data } = await strapiClient.get<PenthouseGetPagesResponse>('/api/get-pages')
-    return data
-  } catch {
-    return null
-  }
-}
+export const getPages = unstable_cache(
+  async (): Promise<PenthouseGetPagesResponse | null> => {
+    try {
+      const { data } = await strapiClient.get<PenthouseGetPagesResponse>('/api/get-pages')
+      return data
+    } catch {
+      return null
+    }
+  },
+  ['pages'],
+  { revalidate: 3600, tags: ['pages'] },
+)
 
-export async function getPageBySlug(slug: string): Promise<PenthousePage | null> {
-  try {
-    const { data } = await strapiClient.get<PenthouseGetPageResponse>('/api/get-page', {
-      params: { slug },
-    })
-    return data.page ?? null
-  } catch {
-    return null
-  }
-}
+export const getPageBySlug = unstable_cache(
+  async (slug: string): Promise<PenthousePage | null> => {
+    try {
+      const { data } = await strapiClient.get<PenthouseGetPageResponse>('/api/get-page', {
+        params: { slug },
+      })
+      return data.page ?? null
+    } catch {
+      return null
+    }
+  },
+  ['page-by-slug'],
+  { revalidate: 3600, tags: ['pages'] },
+)
 
 export async function getPageSlugs(): Promise<string[]> {
   const data = await getPages()

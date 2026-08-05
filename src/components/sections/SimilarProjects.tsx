@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -111,7 +112,7 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
           >
             {images.map((img, i) => (
               <SwiperSlide key={i} className={s.slide}>
-                <img src={img} alt={project.title} className={s.cardImg} />
+                <Image src={img} alt={project.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />
               </SwiperSlide>
             ))}
           </Swiper>

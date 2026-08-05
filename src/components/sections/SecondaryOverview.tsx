@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import { ChevronRight } from 'lucide-react'
 import s from './SecondaryOverview.module.scss'
@@ -86,7 +87,7 @@ export default function SecondaryOverview({
         <div className={s.imagePanel}>
           <div className={s.mainImageWrap}>
             {mainImage ? (
-              <img src={mainImage.url} alt={sectionTitle} className={s.mainImage} />
+              <Image src={mainImage.url} alt={sectionTitle} fill className={s.mainImage} sizes="(max-width: 768px) 100vw, 60vw" />
             ) : (
               <div className={s.imagePlaceholder} />
             )}
@@ -96,7 +97,7 @@ export default function SecondaryOverview({
             <div className={s.additionalImages}>
               {additionalImages.slice(0, 2).map((img, i) => (
                 <div key={i} className={s.additionalImageWrap}>
-                  <img src={img.url} alt="" className={s.additionalImage} />
+                  <Image src={img.url} alt="" fill className={s.additionalImage} sizes="(max-width: 768px) 50vw, 30vw" />
                 </div>
               ))}
             </div>

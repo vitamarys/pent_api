@@ -1,4 +1,4 @@
-import React from 'react'
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './ProjectBanner.module.scss'
 
@@ -23,7 +23,7 @@ export default function ProjectBanner({
         <div className={s.banner}>
           {image && (
             <div className={s.bgWrap}>
-              <img src={image.url} alt={title ?? ''} className={s.bgImage} />
+              <Image src={image.url} alt={title ?? ''} fill className={s.bgImage} sizes="100vw" />
               <div className={s.overlay} />
             </div>
           )}

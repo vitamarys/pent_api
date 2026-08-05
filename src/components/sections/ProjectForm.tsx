@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check } from "lucide-react";
-import PhoneInput, { type Country } from 'react-phone-number-input';
+import PhoneInput, { type Country } from 'react-phone-number-input/min';
 import 'react-phone-number-input/style.css';
 import Container from "@/components/ui/Container";
 import { submitLead } from '@/api/leads';
@@ -195,7 +196,7 @@ export default function ProjectForm({
       {agent && (
         <div className={s.agentPanel}>
           <div className={s.agentCircle} />
-          {agent.image && <img className={s.agentImage} src={agent.image} alt={agent.name} />}
+          {agent.image && <Image className={s.agentImage} src={agent.image} alt={agent.name} width={446} height={597} />}
           <div className={s.agentInfo}>
             <p className={s.agentName}>{agent.name}</p>
             <p className={s.agentRole}>{agent.role}</p>

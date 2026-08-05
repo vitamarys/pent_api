@@ -7,7 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Check, ChevronRight } from 'lucide-react';
-import PhoneInput, { type Country } from 'react-phone-number-input';
+import PhoneInput, { type Country } from 'react-phone-number-input/min';
 import 'react-phone-number-input/style.css';
 import Container from '@/components/ui/Container';
 import { submitLead } from '@/api/leads';
