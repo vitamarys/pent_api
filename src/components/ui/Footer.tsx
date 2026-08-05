@@ -13,12 +13,12 @@ const NAV_COLS = [
   ],
   [
     { label: 'Developers', href: '/developers' },
-    { label: 'Services',   href: '/services' },
+    { label: 'Contact Us', href: '/contact' },
     { label: 'About Us',   href: '/about' },
   ],
   [
     { label: 'Blog',           href: '/blog' },
-    { label: 'Our Specialists', href: '/specialists' },
+    { label: 'Our Specialists', href: '/agents' },
   ],
 ]
 

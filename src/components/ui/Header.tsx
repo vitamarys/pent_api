@@ -8,14 +8,14 @@ import s from './Header.module.scss'
 import { useSettingsStore, CURRENCIES, METRICS, type Currency, type Metric } from '@/store/settings'
 import strapiClient from '@/lib/axios'
 
-const DARK_HEADER_PATHS = ['/developers', '/areas', '/resale', '/projects', '/agents', '/about', '/favorites']
+const DARK_HEADER_PATHS = ['/developers', '/areas', '/resale', '/projects', '/agents', '/about', '/favorites', '/contact']
 
 const NAV_LINKS = [
   { label: 'Off-plan Projects', href: '/projects' },
   { label: 'Buy',               href: '/resale' },
   { label: 'Sell',              href: '/sell' },
   { label: 'Developers',        href: '/developers' },
-  { label: 'Services',          href: '/services' },
+  { label: 'Contact Us',          href: '/contact' },
   { label: 'About',             href: '/about' },
 ]
 

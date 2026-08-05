@@ -2,7 +2,7 @@ const TRACKING_KEY = '_pent_tracking'
 
 const TRACKED_URL_KEYS = [
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-  'fbclid', 'gclid', 'gad_source', 'li_fat_id', 'yclid',
+  'fbclid', 'gclid', 'li_fat_id', 'yclid',
 ]
 
 function readCookie(name: string): string | undefined {

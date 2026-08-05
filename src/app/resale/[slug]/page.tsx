@@ -60,6 +60,7 @@ function renderBlock(
   block: PenthouseBlock,
   index: number,
   property: SecondaryProperty | null,
+  page: PenthousePage,
 ): React.ReactNode {
   if (block.visible === false) return null
 
@@ -440,8 +441,8 @@ function renderBlock(
                 }
               : undefined
           }
-          entity="pent_entity"
-          pageBitrixId={property?.propertyRefNo ?? undefined}
+          entity="73687"
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -508,7 +509,7 @@ export default async function ResalePage({ params }: Props) {
         <div className={s.heroArea}>
           {heroBlock.map((block, index) => {
             try {
-              return renderBlock(block, index, property)
+              return renderBlock(block, index, property, page)
             } catch (err) {
               console.error(`Failed to render ${block.__component}`, err)
               return null
@@ -529,7 +530,7 @@ export default async function ResalePage({ params }: Props) {
         <div className={s.sectionsArea}>
           {sectionBlocks.map((block, index) => {
             try {
-              return renderBlock(block, heroBlock.length + index, property)
+              return renderBlock(block, heroBlock.length + index, property, page)
             } catch (err) {
               console.error(`Failed to render ${block.__component}`, err)
               return null
@@ -539,7 +540,7 @@ export default async function ResalePage({ params }: Props) {
       </div>
       {outerBlocks.map((block, index) => {
         try {
-          return renderBlock(block, innerBlocks.length + index, property)
+          return renderBlock(block, innerBlocks.length + index, property, page)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null

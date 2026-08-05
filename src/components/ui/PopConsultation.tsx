@@ -49,7 +49,7 @@ export default function PopConsultation({
   consentLabel = 'I agree to receive information about offers, deals and services from this website (optional)',
   whatsappHref,
   agent,
-  entity = 'pent_entity',
+  entity = '73687',
   projectId,
   pageBitrixId,
   onSubmit,

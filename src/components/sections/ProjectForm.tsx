@@ -48,7 +48,7 @@ export default function ProjectForm({
   privacyNote  = "By accepting and providing my personal information i am consenting to Metropolitan Group Privacy Policy, the applicable data protection laws and Terms of Use",
   consentLabel = "I agree to receive information about offers, deals and services from this website (optional)",
   agent,
-  entity = 'pent_entity',
+  entity = '73687',
   projectId,
   pageBitrixId,
   onSubmit,

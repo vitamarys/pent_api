@@ -36,7 +36,7 @@ export default function PopLayout({
   onClose,
   image,
   title,
-  entity = 'pent_entity',
+  entity = '73687',
   projectId,
   pageBitrixId,
   onSubmit,

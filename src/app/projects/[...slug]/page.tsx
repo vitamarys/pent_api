@@ -503,6 +503,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           sectionTitle={form?.title ?? undefined}
           description={form?.description ?? undefined}
           submitLabel={form?.buttonText ?? undefined}
+          pageBitrixId={page.leadBitrixId ?? undefined}
           agent={form?.agentName ? {
             name: form.agentName,
             role: form.agentPosition ?? '',
