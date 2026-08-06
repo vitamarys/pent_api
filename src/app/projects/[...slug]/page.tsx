@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { preload } from 'react-dom'
 import type { Metadata } from 'next'
 import { getPageBySlug, getPageSlugs } from '@/api/pages'
 import { formatCompactPrice } from '@/lib/utils'
@@ -582,6 +583,14 @@ export default async function ProjectsPage({ params }: Props) {
   const page = await getPageBySlug(pageSlug)
 
   if (!page || page.pageStatus !== 'PUBLISH' || page.deleted) notFound()
+
+  const heroBlock = page.blocks.find((b) => b.__component === 'block.hero')
+  const heroImageUrl = heroBlock
+    ? (heroBlock as { imageFile?: { url?: string } }).imageFile?.url
+    : undefined
+  if (heroImageUrl) {
+    preload(heroImageUrl, { as: 'image', fetchPriority: 'high' })
+  }
 
   const visibleBlocks = page.blocks.filter(
     (b) => !['block.header', 'block.footer'].includes(b.__component),

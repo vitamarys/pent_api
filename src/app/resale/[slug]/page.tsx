@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { preload } from 'react-dom'
 import type { Metadata } from 'next'
 import type React from 'react'
 import { getPageBySlug, getPageSlugs } from '@/api/pages'
@@ -488,6 +489,11 @@ export default async function ResalePage({ params }: Props) {
   if (!page || page.pageStatus !== 'PUBLISH' || page.deleted) notFound()
 
   const property = getProperty(page)
+
+  const firstImageUrl = property?.images?.[0]?.url
+  if (firstImageUrl) {
+    preload(firstImageUrl, { as: 'image', fetchPriority: 'high' })
+  }
 
   const visibleBlocks = page.blocks.filter(
     (b) => !['block.header', 'block.footer'].includes(b.__component),
