@@ -22,7 +22,7 @@ $black-fade-4:       rgba(31, 31, 31, 0.70); // Black/fade-4 — панель
 
 // ── Typography: Font families ───────────────────────────────
 $font-serif:         var(--font-prata), 'Prata', serif;
-$font-sans:          'SF Pro Display', sans-serif;
+$font-sans:          var(--font-sf-pro), -apple-system, BlinkMacSystemFont, sans-serif;
 
 // ── Typography: Sizes ───────────────────────────────────────
 $size-h1:            48px;   // size/headings/h1

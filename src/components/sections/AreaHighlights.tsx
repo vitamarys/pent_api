@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './AreaHighlights.module.scss'
 
@@ -32,11 +33,13 @@ export default function AreaHighlights({
         {/* ── Image (tablet/mobile: top, desktop: right) ── */}
         <div className={s.imagePanel}>
           {activeItem?.image && (
-            <img
+            <Image
+              fill
               key={active}
               src={activeItem.image}
               alt={activeItem.title}
               className={s.image}
+              style={{ objectFit: 'cover' }}
             />
           )}
         </div>

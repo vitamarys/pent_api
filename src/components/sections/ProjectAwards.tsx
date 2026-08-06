@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import { useDragScroll } from "@/hooks/useDragScroll";
@@ -61,16 +62,20 @@ export default function ProjectAwards({
             <div key={i} className={s.card}>
               <div className={s.awardImgWrap}>
                 {award.bgImage && (
-                  <img
+                  <Image
+                    fill
                     src={award.bgImage}
                     alt=""
                     className={s.awardBg}
+                    style={{ objectFit: 'contain' }}
                   />
                 )}
-                <img
+                <Image
+                  fill
                   src={award.image}
                   alt={award.label}
                   className={s.awardMain}
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
               <div className={s.cardInfo}>

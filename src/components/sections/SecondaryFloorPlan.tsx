@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import s from './SecondaryFloorPlan.module.scss'
 
 interface Props {
@@ -23,20 +24,28 @@ export default function SecondaryFloorPlan({
 
       {hasImages ? (
         <div className={s.card}>
-          <img
+          <Image
             src={images[0].url}
             alt={layoutTitle}
+            width={0}
+            height={0}
+            sizes="(max-width: 768px) 100vw, 800px"
             className={s.floorImage}
+            style={{ width: '100%', height: 'auto', maxHeight: 500, objectFit: 'contain', display: 'block' }}
           />
         </div>
       ) : (
         <div className={s.card}>
           {/* Left: blurred placeholder with lock */}
           <div className={s.imageCol}>
-            <img
-              src="/images/floor-plan-placeholder.png"
+            <Image
+              src="/images/floor-plan-placeholder.webp"
               alt="Floor plan locked"
+              width={0}
+              height={0}
+              sizes="(max-width: 768px) 100vw, 50vw"
               className={s.placeholderImg}
+              style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block' }}
             />
           </div>
 

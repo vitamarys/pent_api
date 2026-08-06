@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -210,10 +211,14 @@ export default function PopFloorPlan({
 
           {/* Image panel */}
           <div className={s.imagePanel}>
-            <img
+            <Image
               src={image || '/images/floorplan.png'}
               alt={title ?? 'Floor plan'}
+              width={0}
+              height={0}
+              sizes="450px"
               className={s.floorImage}
+              style={{ width: '100%', height: 'auto', objectFit: 'contain', display: 'block' }}
             />
           </div>
 

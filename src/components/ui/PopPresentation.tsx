@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -212,10 +213,12 @@ export default function PopPresentation({
           <div className={s.imagePanel}>
             <div className={s.mobileTag}>The PDF File: ~20MB</div>
             <div className={s.imageWrap}>
-              <img
+              <Image
+                fill
                 src={image || '/images/overview.png'}
                 alt={title ?? 'Presentation'}
                 className={s.overviewImage}
+                style={{ objectFit: 'cover' }}
               />
             </div>
           </div>

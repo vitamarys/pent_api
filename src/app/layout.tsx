@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { Prata } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.scss'
 import Providers from './providers'
 import Header from '@/components/ui/Header'
@@ -11,6 +12,28 @@ const prata = Prata({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-prata',
+})
+
+const sfProDisplay = localFont({
+  src: [
+    {
+      path: '../styles/fonts/sf-pro-display/sf-pro-display-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/sf-pro-display/sf-pro-display-medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../styles/fonts/sf-pro-display/sf-pro-display-bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-sf-pro',
+  display: 'swap',
 })
 
 
@@ -29,7 +52,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${prata.variable} font-sans antialiased`} suppressHydrationWarning>
+      <body className={`${prata.variable} ${sfProDisplay.variable} font-sans antialiased`} suppressHydrationWarning>
         <Providers>
           <Suspense fallback={null}>
             <TrackingInit />

@@ -6,7 +6,10 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 const nextConfig: NextConfig = {
-images: {
+  experimental: {
+    optimizeCss: true,
+  },
+  images: {
     remotePatterns: [
       {
         protocol: 'https',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import s from "./ProjectServices.module.scss";
 
@@ -150,11 +151,13 @@ export default function ProjectServices({
         {/* ── Image panel ──────────────────────────────────── */}
         <div className={s.imagePanel}>
           {services.map((item, i) => (
-            <img
+            <Image
               key={i}
+              fill
               src={item.image}
               alt={item.title}
               className={`${s.img} ${i === active ? s.imgVisible : ''}`}
+              style={{ objectFit: 'cover' }}
             />
           ))}
         </div>

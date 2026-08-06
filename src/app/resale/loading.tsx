@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './page.module.scss'
 import ls from './loading.module.scss'
@@ -21,10 +22,13 @@ export default function ResaleLoading() {
           <div className={s.grid}>
             {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
               <div key={i} className={ls.skeletonWrap}>
-                <img
+                <Image
                   src="/skeletons/project.png"
                   alt=""
-                  style={{ width: '100%', display: 'block' }}
+                  width={0}
+                  height={0}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
                 <div className={ls.shimmer} />
               </div>

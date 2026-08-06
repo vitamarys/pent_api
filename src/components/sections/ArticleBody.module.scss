@@ -222,7 +222,7 @@
 }
 
 .quoteText {
-  font-family: "SF Pro Display", sans-serif;
+  font-family: var(--font-sf-pro), sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.3;

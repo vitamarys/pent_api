@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import s from './ArticleGallery.module.scss'
 
 interface GalleryImage {
@@ -23,10 +24,12 @@ export default function ArticleGallery({ images }: ArticleGalleryProps) {
   return (
     <div className={s.gallery}>
       <div className={s.imageWrap}>
-        <img
+        <Image
+          fill
           src={images[current].url}
           alt={images[current].caption || ''}
           className={s.image}
+          style={{ objectFit: 'cover' }}
         />
         <div className={s.controls}>
           <button className={s.arrow} onClick={prev} aria-label="Previous">
