@@ -33,7 +33,7 @@ const sfProDisplay = localFont({
     },
   ],
   variable: '--font-sf-pro',
-  display: 'swap',
+  display: 'optional',
 })
 
 
