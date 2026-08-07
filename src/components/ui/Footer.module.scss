@@ -33,11 +33,11 @@
 }
 
 .logoSvg {
-  width: 240px;
+  width: 643px;
   height: auto;
 
-  @include t.tablet { width: 200px; }
-  @include t.mobile { width: 180px; }
+  @include t.tablet { width: 400px; }
+  @include t.mobile { width: 260px; }
 }
 
 // ── Body (social | nav) ────────────────────────────────────

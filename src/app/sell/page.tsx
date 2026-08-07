@@ -17,10 +17,13 @@ export const revalidate = 3600
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('/sell/')
-  if (!page?.seo) return { title: 'Sell | Penthouse.ae' }
+  if (!page?.seo) return { title: 'Sell | Penthouse.ae', alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/sell` } }
   return {
     title: page.seo.title,
     description: page.seo.metaDescription,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/sell`,
+    },
   }
 }
 

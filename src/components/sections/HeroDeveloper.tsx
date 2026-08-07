@@ -1,9 +1,14 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { Home, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Container from '@/components/ui/Container'
 import s from './HeroDeveloper.module.scss'
+
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 
 export interface BreadcrumbItem {
   label: string
@@ -36,7 +41,10 @@ export default function HeroDeveloper({
   ctaHref = '#',
   breadcrumb = [],
 }: HeroDeveloperProps) {
+  const [open, setOpen] = useState(false)
+
   return (
+    <>
     <section className={s.hero}>
       {/* Full-bleed bg — desktop only */}
       <div className={s.bg} style={{ backgroundImage: `url(${bgImage})` }} />
@@ -47,7 +55,7 @@ export default function HeroDeveloper({
         <div className={s.gradient} />
         <Container>
           <nav className={s.breadcrumb}>
-            <Link href="/"><Home size={16} /></Link>
+            <Link href="/"><Image src="/icons/icon-home-w.svg" alt="Home" width={24} height={24} /></Link>
             {breadcrumb.map((item, i) => (
               <span key={i} style={{ display: 'contents' }}>
                 <span className={s.separator}><ChevronRight size={16} /></span>
@@ -67,7 +75,7 @@ export default function HeroDeveloper({
           <div className={s.card}>
             {logo && (
               <div className={s.logoWrap}>
-                <Image src={logo} alt={name} fill className={s.logo} sizes="136px" />
+                <Image src={logo} alt={name} width={136} height={88} className={s.logo} />
               </div>
             )}
 
@@ -81,7 +89,6 @@ export default function HeroDeveloper({
                 <div className={s.statsRow}>
                   {stats.map((stat, i) => (
                     <React.Fragment key={i}>
-                      <div className={s.divider} />
                       <div className={s.statItem}>
                         <span className={s.statLabel}>{stat.label}</span>
                         <span className={s.statValue}>{stat.value}</span>
@@ -91,11 +98,13 @@ export default function HeroDeveloper({
                 </div>
               )}
 
-              <a href={ctaHref} className={s.ctaBtn}>{ctaLabel}</a>
+              <button className={s.ctaBtn} onClick={() => setOpen(true)}>{ctaLabel}</button>
             </div>
           </div>
         </div>
       </Container>
     </section>
+      <PopConsultation open={open} onClose={() => setOpen(false)} />
+    </>
   )
 }

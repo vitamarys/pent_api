@@ -166,14 +166,16 @@ export default function DeveloperSlider({
             {label}
           </a>
 
-          <div className={s.navArrows}>
-            <button className={s.arrowBtn} onClick={scrollPrev} aria-label="Previous developers">
-              <ChevronLeft />
-            </button>
-            <button className={s.arrowBtn} onClick={scrollNext} aria-label="Next developers">
-              <ChevronRight />
-            </button>
-          </div>
+          {developers.length >= 3 && (
+            <div className={s.navArrows}>
+              <button className={s.arrowBtn} onClick={scrollPrev} aria-label="Previous developers">
+                <ChevronLeft />
+              </button>
+              <button className={s.arrowBtn} onClick={scrollNext} aria-label="Next developers">
+                <ChevronRight />
+              </button>
+            </div>
+          )}
         </div>
       </Container>
 

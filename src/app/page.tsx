@@ -22,6 +22,17 @@ import type { OffPlanProjectCard, PenthouseBlock } from '@/types/penthouse-api'
 
 export const revalidate = 3600
 
+export async function generateMetadata(): Promise<import('next').Metadata> {
+  const page = await getPageBySlug('/')
+  return {
+    title: page?.seo?.title ?? page?.title ?? undefined,
+    description: page?.seo?.metaDescription ?? undefined,
+    alternates: {
+      canonical: process.env.NEXT_PUBLIC_SITE_URL,
+    },
+  }
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function toSimilarProjectItem(p: OffPlanProjectCard): SimilarProjectItem {
@@ -172,30 +183,34 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
     case 'block.project-month': {
       const b = block as {
         title?: string
-        items?: Array<{
+        buttonText?: string
+        projects?: Array<{
           id?: number
-          name?: string
-          Location?: string
-          description?: string
-          priceValue?: number | null
-          currency?: string | null
-          handoverValue?: string
-          unitsValue?: number
-          imagesFile?: Array<{ url: string }> | null
+          title?: string
+          area?: { title?: string } | null
+          minPrice?: number | null
+          maxPrice?: number | null
+          handoverValue?: string | null
+          numberOfUnits?: number | null
+          previewImage?: { url: string } | null
+          pageUrl?: { url: string } | null
         }>
       }
-      const items: ProjectOfMonthItem[] = (b.items ?? []).map((item) => ({
-        slug: String(item.id ?? Math.random()),
-        title: item.name ?? '',
-        location: item.Location,
-        description: item.description,
-        priceRange: item.priceValue != null ? String(item.priceValue) : undefined,
-        handover: item.handoverValue,
-        numberOfUnits: item.unitsValue,
-        images: Array.isArray(item.imagesFile) ? item.imagesFile.map((img) => getStrapiImageUrl(img.url)) : [],
-      }))
+      const items: ProjectOfMonthItem[] = (b.projects ?? []).map((p) => {
+        return {
+          slug: String(p.id ?? Math.random()),
+          href: p.pageUrl?.url ?? undefined,
+          title: p.title ?? '',
+          location: p.area?.title,
+          minPrice: p.minPrice ?? null,
+          maxPrice: p.maxPrice ?? null,
+          handover: p.handoverValue ?? undefined,
+          numberOfUnits: p.numberOfUnits ?? undefined,
+          images: p.previewImage?.url ? [getStrapiImageUrl(p.previewImage.url)] : [],
+        }
+      })
       if (!items.length) return null
-      return <ProjectOfMonth projects={items} sectionTitle={b.title} />
+      return <ProjectOfMonth projects={items} sectionTitle={b.title} ctaLabel={b.buttonText} />
     }
 
     case 'block.best-areas': {

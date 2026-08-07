@@ -34,6 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.seo?.title ?? page.title,
     description: page.seo?.metaDescription,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/developers/${slug}`,
+    },
   }
 }
 
@@ -68,18 +71,18 @@ function imgUrl(file: unknown): string {
 function renderBlock(block: PenthouseBlock, index: number, entityId?: number, developerName?: string) {
   if (block.visible === false) return null
   switch (block.__component) {
-    case 'block.key-points': {
+    case 'block.about-block': {
       const b = block as {
         title?: string
         description?: string
-        keyPointsItems?: Array<{ id: number; title: string; description: string }>
+        points?: Array<{ id: number; title: string; description: string }>
       }
       return (
         <DeveloperAbout
           key={index}
           sectionTitle={b.title ?? undefined}
           sectionDescription={b.description ?? undefined}
-          features={b.keyPointsItems ?? []}
+          features={b.points ?? []}
         />
       )
     }

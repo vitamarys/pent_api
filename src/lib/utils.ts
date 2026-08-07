@@ -23,6 +23,8 @@ export function formatArea(area: number): string {
   return `${new Intl.NumberFormat('en-AE').format(area)} sq.ft`
 }
 
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+
 export function getStrapiImageUrl(url: string): string {
   if (url.startsWith('http')) return url
   return `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`

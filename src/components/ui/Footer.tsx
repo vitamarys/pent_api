@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
 import s from './Footer.module.scss'
@@ -30,27 +31,9 @@ const SOCIAL_LINKS = [
   { label: 'YouTube',   href: '#' },
 ]
 
-function LogoSvg() {
-  return (
-    <svg viewBox="0 0 161 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={s.logoSvg}>
-      <ellipse cx="8.4" cy="13.6" rx="8.4" ry="8.4" fill="#C19962" />
-      <text
-        x="25"
-        y="19"
-        fontFamily="var(--font-inter), SF Pro Display, sans-serif"
-        fontSize="16"
-        fontWeight="400"
-        fill="#ffffff"
-        letterSpacing="0.5"
-      >
-        penthouse.ae
-      </text>
-    </svg>
-  )
-}
-
 export default function Footer() {
   const [email, setEmail] = useState('')
+  const year = new Date().getFullYear()
 
   return (
     <footer className={s.footer}>
@@ -61,7 +44,7 @@ export default function Footer() {
           <div className={s.top}>
 
             <Link href="/" className={s.logoLink} aria-label="Home">
-              <LogoSvg />
+              <Image src="/icons/logo-footer.svg" alt="Penthouse" width={643} height={95} className={s.logoSvg} />
             </Link>
 
             <div className={s.body}>
@@ -116,7 +99,7 @@ export default function Footer() {
               <Link href="/terms"   className={s.legalLink}>Terms of Use</Link>
             </div>
             <p className={s.copyright}>
-              Copyright © 2010-2024<br />
+              Copyright © 2010-{year}<br />
               Penthouse.ae All rights reserved.
             </p>
           </div>

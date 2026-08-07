@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Top Developers — PentTest',
   description:
     'Explore our curated list of trusted developers — offering exceptional real estate projects, premium standards, and long-term reliability.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/developers`,
+  },
 }
 
 function HomeIcon() {

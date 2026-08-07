@@ -17,6 +17,9 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Off-plan Projects in Dubai',
   description: 'Browse off-plan projects in Dubai. Find apartments, villas, and penthouses from the best developers.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/projects`,
+  },
 }
 
 const PAGE_SIZE = 18

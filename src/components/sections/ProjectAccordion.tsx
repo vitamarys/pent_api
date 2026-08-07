@@ -16,6 +16,8 @@ export default function ProjectAccordion({
   sectionTitle = 'Frequently Asked Questions',
   items,
 }: ProjectAccordionProps) {
+  if (!items.length) return null
+
   return (
     <section className={s.section}>
       <Container>

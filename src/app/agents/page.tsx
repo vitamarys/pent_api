@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Our Team — PentTest',
   description:
     'Meet our professional real estate agents — experts dedicated to helping you find the perfect property in Dubai.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/agents`,
+  },
 }
 
 interface AgentItem {

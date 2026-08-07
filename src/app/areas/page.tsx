@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Top Areas in Dubai — PentTest',
   description:
     'Explore the best areas in Dubai — from waterfront communities to iconic urban districts. Find the perfect neighbourhood for your lifestyle.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/areas`,
+  },
 }
 
 function HomeIcon() {

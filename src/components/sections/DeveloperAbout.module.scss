@@ -15,7 +15,7 @@
     height: 860px;
     background: url("/images/ellipse-bg.png") center / contain no-repeat;
     top: -38px;
-    left: 50%;
+    left: 40%;
     transform: translateX(-50%);
     pointer-events: none;
   }
@@ -81,8 +81,12 @@
   width: 100%;
   height: 480px;
 
-  @include t.tablet { height: 360px; }
-  @include t.mobile { height: 260px; }
+  @include t.tablet {
+    height: 360px;
+  }
+  @include t.mobile {
+    height: 260px;
+  }
 }
 
 .image {

@@ -7,15 +7,18 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
 import { useDragScroll } from '@/hooks/useDragScroll'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import s from './ProjectOfMonth.module.scss'
 import 'swiper/css'
 
 export interface ProjectOfMonthItem {
   slug: string
+  href?: string
   title: string
   location?: string
   description?: string
-  priceRange?: string
+  minPrice?: number | null
+  maxPrice?: number | null
   handover?: string
   numberOfUnits?: number
   images?: string[]
@@ -44,12 +47,25 @@ function ChevronRightIcon() {
 }
 
 function CardStats({ project, mobile }: { project: ProjectOfMonthItem; mobile?: boolean }) {
+  const { formatPrice } = useDisplayFormat()
+
+  const priceRange = (() => {
+    if (project.minPrice != null && project.maxPrice != null && project.minPrice !== project.maxPrice) {
+      const from = formatPrice(project.minPrice)
+      const currency = from.split(' ')[0]
+      const toNum = formatPrice(project.maxPrice).replace(new RegExp(`^${currency}\\s*`), '')
+      return `${from} – ${toNum}`
+    }
+    if (project.minPrice != null) return `from ${formatPrice(project.minPrice)}`
+    return null
+  })()
+
   return (
     <div className={mobile ? s.statsMobile : s.statsRow}>
-      {project.priceRange && (
+      {priceRange && (
         <div className={mobile ? s.statRowItem : s.stat}>
           <span className={s.statLabel}>Price range</span>
-          <span className={s.statValue}>{project.priceRange}</span>
+          <span className={s.statValue}>{priceRange}</span>
         </div>
       )}
       {project.handover && (
@@ -134,7 +150,7 @@ function FeaturedContent({ project, ctaLabel }: { project: ProjectOfMonthItem; c
         </div>
         <div className={s.panelBottom}>
           <CardStats project={project} />
-          <Link href={`/project/${project.slug}`} className={s.ctaBtn}>{ctaLabel}</Link>
+          <Link href={project.href ?? `/project/${project.slug}`} className={s.ctaBtn}>{ctaLabel}</Link>
         </div>
       </div>
     </>
@@ -213,7 +229,7 @@ export default function ProjectOfMonth({
           onClickCapture={mobileDrag.onClickCapture}
         >
           {projects.map(project => (
-            <Link key={project.slug} href={`/project/${project.slug}`} className={s.scrollCard}>
+            <Link key={project.slug} href={project.href ?? `/project/${project.slug}`} className={s.scrollCard}>
               <div className={s.scrollCardImage}>
                 {project.images?.[0] ? (
                   <Image src={project.images[0]} alt={project.title} fill className={s.scrollCardImg} sizes="(max-width: 768px) 100vw, 300px" />

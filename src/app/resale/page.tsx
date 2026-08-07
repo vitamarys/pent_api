@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: 'Resale Properties in Dubai — PentTest',
   description:
     'Browse resale apartments, villas, and penthouses in Dubai. Find your perfect secondary market property with PentTest.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/resale`,
+  },
 }
 
 const PAGE_SIZE = 18

@@ -22,6 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: page.seo?.title ?? page.title,
     description: page.seo?.metaDescription,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/about`,
+    },
   }
 }
 

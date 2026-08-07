@@ -50,6 +50,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.seo?.title ?? page.title,
     description: page.seo?.metaDescription,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/projects/${slug.join('/')}`,
+    },
   }
 }
 
