@@ -10,7 +10,7 @@ import type { SimilarProjectItem } from '@/components/sections/SimilarProjects'
 import AgentArticles from '@/components/sections/AgentArticles'
 import type { NewsItem } from '@/components/sections/NewsSlider'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = {

@@ -12,7 +12,7 @@ export const getPages = unstable_cache(
     }
   },
   ['pages'],
-  { revalidate: 3600, tags: ['pages'] },
+  { revalidate: 300, tags: ['pages'] },
 )
 
 export const getPageBySlug = unstable_cache(
@@ -27,7 +27,7 @@ export const getPageBySlug = unstable_cache(
     }
   },
   ['page-by-slug'],
-  { revalidate: 3600, tags: ['pages'] },
+  { revalidate: 300, tags: ['pages'] },
 )
 
 export async function getPageSlugs(): Promise<string[]> {

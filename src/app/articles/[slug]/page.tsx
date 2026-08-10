@@ -13,7 +13,7 @@ import ArticleBody from '@/components/sections/ArticleBody'
 import ArticlesSlider, { type ArticleCardItem } from '@/components/sections/ArticlesSlider'
 import ProjectBanner from '@/components/sections/ProjectBanner'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = {

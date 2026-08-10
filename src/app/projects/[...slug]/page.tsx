@@ -26,7 +26,7 @@ import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectMap from '@/components/sections/ProjectMap'
 import ProjectAnchorNav, { type AnchorNavItem } from '@/components/sections/ProjectAnchorNav'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = {

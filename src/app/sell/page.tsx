@@ -13,7 +13,7 @@ import { getPageBySlug } from '@/api/pages'
 import { getStrapiImageUrl } from '@/lib/utils'
 import type { PenthouseBlock } from '@/types/penthouse-api'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('/sell/')

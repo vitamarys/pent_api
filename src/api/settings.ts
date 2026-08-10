@@ -30,7 +30,7 @@ export const getCurrencyRates = unstable_cache(
     }
   },
   ['currency-rates'],
-  { revalidate: 3600, tags: ['currency-rates'] },
+  { revalidate: 300, tags: ['currency-rates'] },
 )
 
 export const getRedirects = unstable_cache(

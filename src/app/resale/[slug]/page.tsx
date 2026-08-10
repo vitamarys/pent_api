@@ -24,7 +24,7 @@ const ProjectForm = dynamic(() => import('@/components/sections/ProjectForm'))
 import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectInfo from '@/components/sections/ProjectInfo'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = { params: Promise<{ slug: string }> }

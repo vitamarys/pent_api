@@ -18,7 +18,7 @@ import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectServices from '@/components/sections/ProjectServices'
 import WorkProgress from '@/components/sections/WorkProgress'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = {

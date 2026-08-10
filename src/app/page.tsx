@@ -20,7 +20,7 @@ import { getPageBySlug } from '@/api/pages'
 import { getStrapiImageUrl } from '@/lib/utils'
 import type { OffPlanProjectCard, PenthouseBlock } from '@/types/penthouse-api'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<import('next').Metadata> {
   const page = await getPageBySlug('/')

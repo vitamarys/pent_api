@@ -14,7 +14,7 @@ import ProjectServices from '@/components/sections/ProjectServices'
 import AnotherContent from '@/components/sections/AnotherContent'
 import ConsultationBlock from '@/components/ui/ConsultationBlock'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug('/about/')

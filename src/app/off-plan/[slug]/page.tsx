@@ -21,7 +21,7 @@ import ProjectBanner from '@/components/sections/ProjectBanner'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectServices from '@/components/sections/ProjectServices'
 
-export const revalidate = 3600
+export const revalidate = 300
 export const dynamicParams = true
 
 type Props = {

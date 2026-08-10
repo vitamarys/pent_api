@@ -52,6 +52,7 @@ export default function HeroDeveloper({
       {/* Image area: stacked img (tablet/mobile) + gradient + breadcrumbs */}
       <div className={s.imageArea}>
         {bgImage && <Image src={bgImage} alt="" fill className={s.bgImg} sizes="100vw" priority />}
+        <div className={s.overlayTop} />
         <div className={s.gradient} />
         <Container>
           <nav className={s.breadcrumb}>

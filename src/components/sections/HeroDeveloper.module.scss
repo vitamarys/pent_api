@@ -8,8 +8,15 @@ $header-height: 80px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
+  background: linear-gradient(
+    180deg,
+    rgba(9, 24, 48, 0) 0%,
+    rgba(9, 24, 48, 0.5) 100%
+  );
   @include t.tablet {
+    min-height: unset;
+  }
+  @media (max-height: 860px) and (min-width: #{t.$bp-tablet + 1px}) {
     min-height: unset;
   }
 }
@@ -36,14 +43,20 @@ $header-height: 80px;
   display: flex;
   flex-direction: column;
 
+  @media (max-height: 860px) and (min-width: #{t.$bp-tablet + 1px}) {
+    flex: none;
+    height: 340px;
+  }
+
   @include t.tablet {
     flex: none;
     height: 380px;
-    padding-top: 0;
+    padding-top: 60px;
   }
 
   @include t.mobile {
     height: 234px;
+    padding-top: 50px;
   }
 }
 
@@ -61,6 +74,25 @@ $header-height: 80px;
     object-position: center;
   }
 }
+
+// ── Top overlay ──────────────────────────────────────────────
+.overlayTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 193.269px;
+  background: linear-gradient(
+    0deg,
+    rgba(9, 24, 48, 0) 0%,
+    rgba(9, 24, 48, 0.5) 100%
+  );
+  background-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+// ── Bottom overlay ───────────────────────────────────────────
 
 // ── Gradient overlay ─────────────────────────────────────────
 .gradient {
@@ -151,6 +183,10 @@ $header-height: 80px;
   justify-content: space-between;
   gap: t.$gap-normal;
 
+  @media (max-height: 860px) and (min-width: #{t.$bp-tablet + 1px}) {
+    min-height: unset;
+  }
+
   @include t.tablet {
     width: 100%;
     min-height: unset;
@@ -180,11 +216,13 @@ $header-height: 80px;
   @include t.tablet {
     width: 112px;
     height: 55px;
+    padding: 20px;
   }
 
   @include t.mobile {
     width: 102px;
     height: 46px;
+    padding: 16px;
   }
 }
 
@@ -240,6 +278,10 @@ $header-height: 80px;
   align-items: flex-start;
   width: 100%;
   overflow: hidden;
+  @include t.tablet {
+    width: fit-content;
+    gap: 32px;
+  }
 }
 
 .divider {
@@ -268,7 +310,7 @@ $header-height: 80px;
   @include t.tablet {
     gap: t.$gap-large;
     padding: 0 t.$gap-xs;
-
+    flex: auto;
     &:first-of-type {
       padding-left: 0;
     }
@@ -283,7 +325,7 @@ $header-height: 80px;
   color: t.$white-fade-4;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  // text-overflow: ellipsis;
 }
 
 .statValue {

@@ -3,14 +3,27 @@
 // ── Base ──────────────────────────────────────────────────────
 .header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-  transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.3s ease;
 }
 
-.hidden    { transform: translateY(-100%); }
-.transparent { background: transparent; border-bottom: 1px solid transparent; }
-.scrolled  { background: t.$white-solid; border-bottom: 1px solid t.$black-fade-2; }
+.hidden {
+  transform: translateY(-100%);
+}
+.transparent {
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+.scrolled {
+  background: t.$white-solid;
+  border-bottom: 1px solid t.$black-fade-2;
+}
 
 // ── Inner ─────────────────────────────────────────────────────
 .inner {
@@ -22,7 +35,10 @@
   max-width: t.$page-width;
   margin: 0 auto;
 
-  @include t.tablet { height: 56px; padding: 0 t.$gap-small; }
+  @include t.tablet {
+    height: 56px;
+    padding: 0 t.$gap-small;
+  }
 }
 
 // ── Logo ──────────────────────────────────────────────────────
@@ -39,7 +55,9 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
 }
 
 .headerMainHidden {
@@ -52,7 +70,9 @@
 .nav {
   display: flex;
   align-items: center;
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .navLink {
@@ -68,16 +88,24 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
-  &.light { color: t.$white-solid; }
-  &.dark  { color: t.$black-solid; }
+  &:hover {
+    opacity: 0.7;
+  }
+  &.light {
+    color: t.$white-solid;
+  }
+  &.dark {
+    color: t.$black-solid;
+  }
 }
 
 // ── Utilities ─────────────────────────────────────────────────
 .utils {
   display: flex;
   align-items: center;
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .utilBtn {
@@ -97,9 +125,15 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
-  &.light { color: t.$white-solid; }
-  &.dark  { color: t.$black-solid; }
+  &:hover {
+    opacity: 0.7;
+  }
+  &.light {
+    color: t.$white-solid;
+  }
+  &.dark {
+    color: t.$black-solid;
+  }
 }
 
 .divider {
@@ -131,10 +165,28 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.selectorWrap  { display: flex; flex-direction: column; gap: t.$gap-large; }
-.selectorGroup { display: flex; flex-direction: column; gap: t.$gap-xs; }
-.selectorLabel { font-family: t.$font-sans; font-size: t.$size-body-m; font-weight: 400; line-height: 1.4; color: t.$black-fade-4; }
-.selectorTags  { display: flex; gap: t.$gap-xs; flex-wrap: nowrap; }
+.selectorWrap {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-large;
+}
+.selectorGroup {
+  display: flex;
+  flex-direction: column;
+  gap: t.$gap-xs;
+}
+.selectorLabel {
+  font-family: t.$font-sans;
+  font-size: t.$size-body-m;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$black-fade-4;
+}
+.selectorTags {
+  display: flex;
+  gap: t.$gap-xs;
+  flex-wrap: nowrap;
+}
 
 .selectorTag {
   display: flex;
@@ -152,19 +204,29 @@
   font-weight: 400;
   color: t.$black-solid;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.15s, box-shadow 0.15s;
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
 
-  &:hover:not(.selectorTagActive) { background: t.$brand-second-base; box-shadow: none; }
+  &:hover:not(.selectorTagActive) {
+    background: t.$brand-second-base;
+    box-shadow: none;
+  }
 }
 
-.selectorTagActive { background: t.$brand-second-base; box-shadow: none; }
+.selectorTagActive {
+  background: t.$brand-second-base;
+  box-shadow: none;
+}
 
 // ── Mobile buttons ────────────────────────────────────────────
 .mobileRight {
   display: none;
   align-items: center;
   gap: t.$gap-small;
-  @include t.tablet { display: flex; }
+  @include t.tablet {
+    display: flex;
+  }
 }
 
 .iconBtn {
@@ -208,7 +270,11 @@
   gap: t.$gap-normal;
 }
 
-.drawerNav { display: flex; flex-direction: column; gap: 12px; }
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 .drawerLink {
   font-family: t.$font-serif;
@@ -220,11 +286,19 @@
   text-decoration: none;
   transition: opacity 0.15s;
 
-  @include t.tablet { font-size: 22px; letter-spacing: -0.44px; }
-  &:hover { opacity: 0.6; }
+  @include t.tablet {
+    font-size: 22px;
+    letter-spacing: -0.44px;
+  }
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
-.drawerSelectors { padding-top: t.$gap-normal; border-top: 1px solid t.$black-fade-2; }
+.drawerSelectors {
+  padding-top: t.$gap-normal;
+  border-top: 1px solid t.$black-fade-2;
+}
 
 // ═══════════════════════════════════════════════════════════════
 // ── Search bar (overlays header) ──────────────────────────────
@@ -232,13 +306,20 @@
 
 .searchBar {
   position: absolute;
-  left: 0; right: 0; top: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
+  background: t.$white-solid;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
-  transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease;
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease,
+    transform 0.22s ease;
   pointer-events: none;
 
   &.searchBarVisible {
@@ -254,7 +335,9 @@
   align-items: center;
   flex-shrink: 0;
   padding: 0 t.$gap-large;
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .searchInput {
@@ -269,9 +352,15 @@
   color: t.$black-solid;
   caret-color: t.$brand-main-base;
   min-width: 0;
+  background-color: #f0ece8;
+  padding-left: 12px;
 
-  @include t.tablet { padding-left: t.$gap-small; }
-  &::placeholder { color: t.$black-fade-4; }
+  @include t.tablet {
+    padding-left: t.$gap-small;
+  }
+  &::placeholder {
+    color: t.$black-fade-4;
+  }
 }
 
 .searchBarRight {
@@ -279,7 +368,9 @@
   align-items: center;
   flex-shrink: 0;
   padding-right: t.$gap-large;
-  @include t.tablet { padding-right: t.$gap-small; }
+  @include t.tablet {
+    padding-right: t.$gap-small;
+  }
 }
 
 .searchBarSearchIcon {
@@ -312,11 +403,15 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.6; }
+  &:hover {
+    opacity: 0.6;
+  }
 }
 
 .searchCloseBtnLabel {
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -325,17 +420,20 @@
 
 .searchPanel {
   position: absolute;
-  left: 0;
+  left: calc(160px + #{t.$gap-large} * 2);
   top: 100%;
   width: 340px;
   background: t.$white-solid;
   border: 1px solid t.$black-fade-2;
   border-top: none;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4px);
-  transition: opacity 0.22s ease, visibility 0.22s ease, transform 0.22s ease;
+  transition:
+    opacity 0.22s ease,
+    visibility 0.22s ease,
+    transform 0.22s ease;
   pointer-events: none;
 
   &.searchPanelVisible {
@@ -345,7 +443,9 @@
     pointer-events: all;
   }
 
-  @include t.tablet { width: 100%; }
+  @include t.tablet {
+    width: 100%;
+  }
 }
 
 .searchResultsList {
@@ -354,12 +454,20 @@
   scrollbar-width: thin;
   scrollbar-color: t.$black-fade-2 transparent;
 
-  &::-webkit-scrollbar       { width: 4px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: t.$black-fade-2; border-radius: 2px; }
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: t.$black-fade-2;
+    border-radius: 2px;
+  }
 }
 
-.searchSection {}
+.searchSection {
+}
 
 .searchSectionLabel {
   padding: 16px 16px 8px;
@@ -380,7 +488,9 @@
   border-top: 1px solid t.$black-fade-2;
   transition: background 0.12s ease;
 
-  &:hover { background: t.$brand-second-base; }
+  &:hover {
+    background: t.$brand-second-base;
+  }
 }
 
 .searchItemThumb {
@@ -440,7 +550,9 @@
   border-top: 1px solid t.$black-fade-2;
   transition: opacity 0.15s ease;
 
-  &:hover { opacity: 0.85; }
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 // ── Loading dots ──────────────────────────────────────────────
@@ -459,13 +571,25 @@
   background: t.$brand-main-base;
   animation: dotPulse 1.2s ease-in-out infinite;
 
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.4s; }
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  &:nth-child(3) {
+    animation-delay: 0.4s;
+  }
 }
 
 @keyframes dotPulse {
-  0%, 80%, 100% { opacity: 0.25; transform: scale(0.8); }
-  40%            { opacity: 1;    transform: scale(1); }
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 // ── Empty state (shared) ──────────────────────────────────────
@@ -500,12 +624,18 @@
   z-index: 99;
   animation: backdropFadeIn 0.22s ease forwards;
 
-  @include t.tablet { top: 56px; }
+  @include t.tablet {
+    top: 56px;
+  }
 }
 
 @keyframes backdropFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -524,8 +654,14 @@
 }
 
 @keyframes popupIn {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // ── Popup header bar (mirrors main search bar) ────────────────
@@ -544,7 +680,10 @@
   margin: 0 auto;
   padding: 0 t.$gap-large;
 
-  @include t.tablet { height: 56px; padding: 0 t.$gap-small; }
+  @include t.tablet {
+    height: 56px;
+    padding: 0 t.$gap-small;
+  }
 }
 
 .searchPopupLogo {
@@ -552,7 +691,9 @@
   align-items: center;
   flex-shrink: 0;
   margin-right: t.$gap-large;
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .searchPopupInput {
@@ -568,8 +709,12 @@
   caret-color: t.$brand-main-base;
   min-width: 0;
 
-  @include t.tablet { padding-left: t.$gap-small; }
-  &::placeholder { color: t.$black-fade-4; }
+  @include t.tablet {
+    padding-left: t.$gap-small;
+  }
+  &::placeholder {
+    color: t.$black-fade-4;
+  }
 }
 
 .searchPopupActions {
@@ -577,7 +722,9 @@
   align-items: center;
   flex-shrink: 0;
   padding-right: t.$gap-large;
-  @include t.tablet { padding-right: t.$gap-small; }
+  @include t.tablet {
+    padding-right: t.$gap-small;
+  }
 }
 
 // ── Popup scrollable body ─────────────────────────────────────
@@ -591,14 +738,18 @@
   margin: 0 auto;
   padding: t.$gap-large t.$gap-large t.$gap-extra-large;
 
-  @include t.tablet  { padding: t.$gap-normal t.$gap-small t.$gap-large; }
+  @include t.tablet {
+    padding: t.$gap-normal t.$gap-small t.$gap-large;
+  }
 }
 
 // ── Section ───────────────────────────────────────────────────
 .popupSection {
   margin-bottom: 56px;
 
-  &:last-child { margin-bottom: 0; }
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .popupSectionTitle {
@@ -606,7 +757,9 @@
   color: t.$black-solid;
   margin-bottom: t.$gap-normal;
 
-  @include t.tablet { font-size: 24px; }
+  @include t.tablet {
+    font-size: 24px;
+  }
 }
 
 // ── Card grid ─────────────────────────────────────────────────
@@ -615,8 +768,13 @@
   grid-template-columns: repeat(3, 1fr);
   gap: t.$gap-large;
 
-  @include t.tablet { grid-template-columns: repeat(2, 1fr); gap: t.$gap-small; }
-  @include t.mobile { grid-template-columns: repeat(1, 1fr); }
+  @include t.tablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: t.$gap-small;
+  }
+  @include t.mobile {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 // ── Single card ───────────────────────────────────────────────
@@ -628,8 +786,12 @@
   border: 1px solid t.$black-fade-2;
   transition: border-color 0.15s ease;
 
-  &:hover { border-color: rgba(31, 31, 31, 0.25); }
-  &:hover .popupCardImgEl { transform: scale(1.04); }
+  &:hover {
+    border-color: rgba(31, 31, 31, 0.25);
+  }
+  &:hover .popupCardImgEl {
+    transform: scale(1.04);
+  }
 }
 
 // Image section
@@ -697,7 +859,9 @@
   border-radius: 40px;
   transition: background 0.15s;
 
-  &:hover { background: rgba(31, 31, 31, 0.5); }
+  &:hover {
+    background: rgba(31, 31, 31, 0.5);
+  }
 }
 
 // Developer logo overlay

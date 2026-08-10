@@ -33,6 +33,6 @@ export async function getArticles(
       }
     },
     ['articles', cacheKey],
-    { revalidate: 3600, tags: ['articles'] },
+    { revalidate: 300, tags: ['articles'] },
   )()
 }
