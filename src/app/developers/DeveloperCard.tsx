@@ -71,7 +71,7 @@ export default function DeveloperCard({
           <div className={s.cardTopRow}>
             <div className={s.logoPanel}>
               {logoSrc && (
-                <Image src={logoSrc} alt={`${name} logo`} fill className={s.logoImg} />
+                <Image src={logoSrc} alt={`${name} logo`} width={90} height={90} className={s.logoImg} />
               )}
             </div>
             <button

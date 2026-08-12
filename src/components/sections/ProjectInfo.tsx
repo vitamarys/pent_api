@@ -2,8 +2,10 @@
 
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
 import Image from 'next/image'
-import { useEffect } from "react"
-import { ChevronRight, Info, Play, Maximize2 } from "lucide-react";
+import { useEffect, useState } from "react"
+import { ChevronRight, Info, Play, Maximize2 } from "lucide-react"
+import dynamic from 'next/dynamic'
+const PopPresentation = dynamic(() => import('@/components/ui/PopPresentation'))
 import Container from "@/components/ui/Container";
 import s from "./ProjectInfo.module.scss";
 
@@ -35,6 +37,8 @@ export default function ProjectInfo({
   details,
   allImages,
 }: ProjectInfoProps) {
+  const [presentationOpen, setPresentationOpen] = useState(false)
+
   const galleryImages = allImages?.length
     ? allImages
     : [mainImage, ...(images ?? [])].filter(Boolean)
@@ -51,7 +55,8 @@ export default function ProjectInfo({
   }, [])
 
   return (
-    <section className={s.section}>
+    <>
+    <section id="overview" className={s.section}>
       <Container>
         <div className={s.row}>
 
@@ -84,7 +89,7 @@ export default function ProjectInfo({
                   </li>
                 ))}
               </ul>
-              <button className={s.downloadBtn}>Download Brochure</button>
+              <button className={s.downloadBtn} onClick={() => setPresentationOpen(true)}>Download Brochure</button>
             </div>
           </div>
 
@@ -148,5 +153,13 @@ export default function ProjectInfo({
         </div>
       </Container>
     </section>
+
+    <PopPresentation
+      open={presentationOpen}
+      onClose={() => setPresentationOpen(false)}
+      image={mainImage}
+      title={title}
+    />
+    </>
   );
 }

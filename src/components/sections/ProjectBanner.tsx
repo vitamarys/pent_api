@@ -1,12 +1,16 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import Container from '@/components/ui/Container'
 import s from './ProjectBanner.module.scss'
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 
 interface Props {
   title?: string
   description?: string
   ctaLabel?: string
-  ctaHref?: string
   image?: { url: string }
 }
 
@@ -14,10 +18,12 @@ export default function ProjectBanner({
   title,
   description,
   ctaLabel,
-  ctaHref = '#',
   image,
 }: Props) {
+  const [open, setOpen] = useState(false)
+
   return (
+    <>
     <section className={s.section}>
       <Container>
         <div className={s.banner}>
@@ -32,13 +38,15 @@ export default function ProjectBanner({
             {title && <h2 className={s.title}>{title}</h2>}
             {description && <p className={s.description}>{description}</p>}
             {ctaLabel && (
-              <a href={ctaHref} className={s.ctaBtn}>
+              <button className={s.ctaBtn} onClick={() => setOpen(true)}>
                 {ctaLabel}
-              </a>
+              </button>
             )}
           </div>
         </div>
       </Container>
     </section>
+    <PopConsultation open={open} onClose={() => setOpen(false)} />
+    </>
   )
 }

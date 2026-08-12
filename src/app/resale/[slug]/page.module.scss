@@ -8,17 +8,19 @@
   padding: 80px 40px 0;
   display: grid;
   grid-template-columns: 1fr 380px;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
-    "hero    sidebar"
+    "topbar   topbar"
+    "hero     sidebar"
     "sections sidebar";
   gap: 0 32px;
   align-items: start;
 
   @include t.tablet {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
+      "topbar"
       "hero"
       "sidebar"
       "sections";
@@ -28,6 +30,71 @@
 
   @include t.mobile {
     padding: 24px 16px 0;
+  }
+}
+
+.topbarArea {
+  grid-area: topbar;
+  margin-bottom: 32px;
+
+  @include t.tablet {
+    margin-bottom: 24px;
+  }
+
+  @include t.mobile {
+    margin-bottom: 20px;
+  }
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+
+  a,
+  span {
+    display: flex;
+    align-items: center;
+    font-family: t.$font-sans;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(31, 31, 31, 0.55);
+    text-decoration: none;
+
+    &:hover {
+      color: #1f1f1f;
+    }
+  }
+
+  .breadcrumbSep {
+    color: rgba(31, 31, 31, 0.35);
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumbCurrent {
+    color: rgba(31, 31, 31, 0.4);
+    pointer-events: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.pageTitle {
+  font-family: t.$font-serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #1f1f1f;
+  margin: 0;
+
+  @include t.mobile {
+    font-size: 26px;
+    letter-spacing: -0.78px;
   }
 }
 

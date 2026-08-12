@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { preload } from 'react-dom'
 import type { Metadata } from 'next'
 import type React from 'react'
+import Link from 'next/link'
 import { getPageBySlug, getPageSlugs } from '@/api/pages'
 import s from './page.module.scss'
 import type { PenthousePage, PenthouseBlock, SecondaryProperty } from '@/types/penthouse-api'
@@ -85,6 +86,7 @@ function renderBlock(
           ]}
           tourUrl={b.tourUrl}
           videoUrl={b.videoUrl}
+          hideTopBar
         />
       )
     }
@@ -513,9 +515,37 @@ export default async function ResalePage({ params }: Props) {
       ? Math.round(property.price / property.unitBuiltupArea)
       : undefined
 
+  const breadcrumb = [
+    { label: 'Resale', href: '/resale' as string | undefined },
+    { label: property?.propertyTitle ?? 'Property', href: undefined as string | undefined },
+  ]
+
   return (
     <main>
       <div className={s.layout}>
+        <div className={s.topbarArea}>
+          <nav className={s.breadcrumb} aria-label="Breadcrumb">
+            <Link href="/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path fillRule="evenodd" clipRule="evenodd" d="M17.9994 17.5402C17.9994 17.9369 17.6759 18.2607 17.2795 18.2607H14.8259C14.4295 18.2607 14.1059 17.9369 14.1059 17.5402V14.541C14.1059 13.9994 13.6632 13.5562 13.1221 13.5562H10.8773C10.3362 13.5562 9.89346 13.9994 9.89346 14.541V17.5402C9.89346 17.9369 9.56993 18.2607 9.17355 18.2607H6.71991C6.32352 18.2607 6 17.9369 6 17.5402L6 12.265C6 11.7887 6.16966 11.3787 6.50643 11.0421L10.778 6.766C11.451 6.09232 12.549 6.09232 13.222 6.766L17.4936 11.0416C17.8298 11.3782 18 11.7882 18 12.2645L17.9994 17.5402Z" fill="#1F1F1F" stroke="#1F1F1F" strokeWidth="1.5"/>
+              </svg>
+            </Link>
+            {breadcrumb.map((item, i) => (
+              <span key={i} style={{ display: 'contents' }}>
+                <span className={s.breadcrumbSep}>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+                {item.href
+                  ? <Link href={item.href}>{item.label}</Link>
+                  : <span className={s.breadcrumbCurrent}>{item.label}</span>
+                }
+              </span>
+            ))}
+          </nav>
+          {property?.propertyTitle && <h1 className={s.pageTitle}>{property.propertyTitle}</h1>}
+        </div>
         <div className={s.heroArea}>
           {heroBlock.map((block, index) => {
             try {

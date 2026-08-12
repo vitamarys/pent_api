@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Container from '@/components/ui/Container'
+import { useSettingsStore } from '@/store/settings'
 import s from './ProjectAnchorNav.module.scss'
 
 export interface AnchorNavItem {
@@ -15,20 +16,7 @@ interface Props {
 
 export default function ProjectAnchorNav({ items }: Props) {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? '')
-  const [hidden,   setHidden]   = useState(false)
-
-  // Mirror header scroll hide/show logic
-  useEffect(() => {
-    let lastY = window.scrollY
-    const onScroll = () => {
-      const y = window.scrollY
-      if (y > lastY && y > 80) setHidden(true)
-      else if (y < lastY)      setHidden(false)
-      lastY = y
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  const hidden = useSettingsStore(s => s.headerHidden)
 
   // Active section via IntersectionObserver
   useEffect(() => {
@@ -62,7 +50,7 @@ export default function ProjectAnchorNav({ items }: Props) {
   if (!items.length) return null
 
   return (
-    <nav className={`${s.nav} ${hidden ? s.hidden : ''}`}>
+    <nav className={`${s.nav} ${hidden ? s.headerHidden : ''}`}>
       <div className={s.bar}>
         <Container>
           <div className={s.inner}>

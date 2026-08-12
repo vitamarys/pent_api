@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import dynamic from "next/dynamic";
 import Container from "@/components/ui/Container";
 import s from "./ProjectPaymentPlan.module.scss";
+const PopConsultation = dynamic(() => import("@/components/ui/PopConsultation"))
 
 export interface PaymentStage {
   title: string;
@@ -31,6 +33,7 @@ export default function ProjectPaymentPlan({
   ctaLabel = "Discuss with expert",
 }: ProjectPaymentPlanProps) {
   const [activeVersion, setActiveVersion] = useState(0);
+  const [open, setOpen] = useState(false);
 
   const stages = versions[activeVersion]?.stages ?? [];
 
@@ -81,7 +84,7 @@ export default function ProjectPaymentPlan({
           ))}
 
           {/* CTA card — desktop only */}
-          <button className={s.ctaCard}>
+          <button className={s.ctaCard} onClick={() => setOpen(true)}>
             <span className={s.ctaLabel}>{ctaLabel}</span>
             <ChevronRight size={20} />
           </button>
@@ -105,12 +108,13 @@ export default function ProjectPaymentPlan({
           ))}
 
           {/* CTA button — mobile/tablet only */}
-          <button className={s.ctaBtn}>
+          <button className={s.ctaBtn} onClick={() => setOpen(true)}>
             <span>{ctaLabel}</span>
             <ChevronRight size={20} />
           </button>
         </div>
       </Container>
+      <PopConsultation open={open} onClose={() => setOpen(false)} />
     </section>
   );
 }

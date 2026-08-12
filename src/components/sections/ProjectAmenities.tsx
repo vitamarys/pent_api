@@ -14,6 +14,7 @@ export interface AmenityItem {
 export interface ProjectAmenitiesProps {
   sectionTitle?: string;
   items: AmenityItem[];
+  allItems?: { label: string }[];
   totalCount?: number;
   showAllLabel?: string;
 }
@@ -33,13 +34,15 @@ function AmenityCard({ item, className }: { item: AmenityItem; className?: strin
 export default function ProjectAmenities({
   sectionTitle = "Amenities",
   items,
+  allItems,
   totalCount,
   showAllLabel = "Show all amenities",
 }: ProjectAmenitiesProps) {
   const [open, setOpen] = useState(false)
   const [main, ...rest] = items;
   const [item2, item3, item4] = rest;
-  const count = totalCount ?? items.length
+  const modalItems = allItems ?? items
+  const count = totalCount ?? modalItems.length
 
   useEffect(() => {
     if (open) {
@@ -101,7 +104,7 @@ export default function ProjectAmenities({
               <X size={24} />
             </button>
             <div className={s.modalList}>
-              {items.map((item, i) => (
+              {modalItems.map((item, i) => (
                 <div key={i} className={s.modalItem}>
                   <span className={s.modalItemLabel}>{item.label}</span>
                 </div>

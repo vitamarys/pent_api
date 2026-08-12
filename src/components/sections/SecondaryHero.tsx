@@ -11,6 +11,7 @@ interface Props {
   breadcrumb?: { label: string; href?: string }[]
   tourUrl?: string
   videoUrl?: string
+  hideTopBar?: boolean
 }
 
 function IconChevronRight() {
@@ -69,7 +70,7 @@ function IconArrowWhite() {
   )
 }
 
-export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourUrl, videoUrl }: Props) {
+export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourUrl, videoUrl, hideTopBar }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
 
@@ -103,25 +104,27 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
     <>
       <section className={s.section}>
         {/* ── Breadcrumb + Title ── */}
-        <div className={s.topBar}>
-          <nav className={s.breadcrumb} aria-label="Breadcrumb">
-            <Link href="/">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path fillRule="evenodd" clipRule="evenodd" d="M17.9994 17.5402C17.9994 17.9369 17.6759 18.2607 17.2795 18.2607H14.8259C14.4295 18.2607 14.1059 17.9369 14.1059 17.5402V14.541C14.1059 13.9994 13.6632 13.5562 13.1221 13.5562H10.8773C10.3362 13.5562 9.89346 13.9994 9.89346 14.541V17.5402C9.89346 17.9369 9.56993 18.2607 9.17355 18.2607H6.71991C6.32352 18.2607 6 17.9369 6 17.5402L6 12.265C6 11.7887 6.16966 11.3787 6.50643 11.0421L10.778 6.766C11.451 6.09232 12.549 6.09232 13.222 6.766L17.4936 11.0416C17.8298 11.3782 18 11.7882 18 12.2645L17.9994 17.5402Z" fill="#1F1F1F" stroke="#1F1F1F" strokeWidth="1.5"/>
-              </svg>
-            </Link>
-            {breadcrumb?.map((item, i) => (
-              <span key={i} style={{ display: 'contents' }}>
-                <span className={s.breadcrumbSep}><IconChevronRight /></span>
-                {item.href
-                  ? <Link href={item.href}>{item.label}</Link>
-                  : <span className={s.breadcrumbCurrent}>{item.label}</span>
-                }
-              </span>
-            ))}
-          </nav>
-          {subtitle && <h1 className={s.title}>{subtitle}</h1>}
-        </div>
+        {!hideTopBar && (
+          <div className={s.topBar}>
+            <nav className={s.breadcrumb} aria-label="Breadcrumb">
+              <Link href="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M17.9994 17.5402C17.9994 17.9369 17.6759 18.2607 17.2795 18.2607H14.8259C14.4295 18.2607 14.1059 17.9369 14.1059 17.5402V14.541C14.1059 13.9994 13.6632 13.5562 13.1221 13.5562H10.8773C10.3362 13.5562 9.89346 13.9994 9.89346 14.541V17.5402C9.89346 17.9369 9.56993 18.2607 9.17355 18.2607H6.71991C6.32352 18.2607 6 17.9369 6 17.5402L6 12.265C6 11.7887 6.16966 11.3787 6.50643 11.0421L10.778 6.766C11.451 6.09232 12.549 6.09232 13.222 6.766L17.4936 11.0416C17.8298 11.3782 18 11.7882 18 12.2645L17.9994 17.5402Z" fill="#1F1F1F" stroke="#1F1F1F" strokeWidth="1.5"/>
+                </svg>
+              </Link>
+              {breadcrumb?.map((item, i) => (
+                <span key={i} style={{ display: 'contents' }}>
+                  <span className={s.breadcrumbSep}><IconChevronRight /></span>
+                  {item.href
+                    ? <Link href={item.href}>{item.label}</Link>
+                    : <span className={s.breadcrumbCurrent}>{item.label}</span>
+                  }
+                </span>
+              ))}
+            </nav>
+            {subtitle && <h1 className={s.title}>{subtitle}</h1>}
+          </div>
+        )}
 
         {/* ── Gallery ── */}
         <div className={s.gallery}>

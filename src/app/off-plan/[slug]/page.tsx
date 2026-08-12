@@ -299,19 +299,21 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
     case 'block.amenities': {
       const b = block as {
         title?: string
-        amenities?: Array<{ id: number; name: string; image?: { url?: string } }>
+        amenities?: Array<{ id: number; name: string; imageFile?: { url?: string } | null }>
+        amenityItems?: Array<{ id: number; name: string }>
       }
+      if (!b.amenities?.length && !b.amenityItems?.length) return null
+      const gridItems = (b.amenities ?? [])
+        .filter((a) => a.imageFile?.url)
+        .map((a) => ({ label: a.name, image: imgUrl(a.imageFile) }))
+      const allItems = (b.amenityItems ?? b.amenities ?? []).map((a) => ({ label: a.name }))
       return (
         <ProjectAmenities
           key={index}
           sectionTitle={b.title ?? undefined}
-          items={
-            b.amenities?.map((a) => ({
-              id: a.id,
-              label: a.name,
-              image: imgUrl(a.image),
-            })) ?? []
-          }
+          items={gridItems}
+          allItems={allItems}
+          totalCount={allItems.length}
         />
       )
     }

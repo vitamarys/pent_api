@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Home, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Container from '@/components/ui/Container'
 const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
@@ -60,7 +60,7 @@ export default function HeroProject({
           <div className={s.imageBg} />
           <Container>
             <nav className={s.breadcrumb}>
-              <Link href="/"><Home size={16} /></Link>
+              <Link href="/"><Image src="/icons/icon-home-w.svg" alt="Home" width={24} height={24} /></Link>
               {breadcrumb.map((item, i) => (
                 <span key={i} style={{ display: 'contents' }}>
                   <span className={s.separator}><ChevronRight size={16} /></span>
@@ -88,27 +88,42 @@ export default function HeroProject({
                     <span>{location}</span>
                   </div>
                 </div>
-                <p className={s.description}>{description}</p>
+                {description && 
+                                <p className={s.description}>{description}</p>
+
+                }
               </div>
 
               {/* Right */}
               <div className={s.infoContainer}>
                 <div className={s.statsRow}>
-                  <div className={s.statDivider} />
-                  <div className={s.statItem}>
-                    <p className={s.statLabel}>Starting Price</p>
-                    <p className={s.statValue}>{startingPrice}</p>
-                  </div>
-                  <div className={s.statDivider} />
-                  <div className={s.statItem}>
-                    <p className={s.statLabel}>Handover</p>
-                    <p className={s.statValue}>{handover}</p>
-                  </div>
-                  <div className={s.statDivider} />
-                  <div className={s.statItem}>
-                    <p className={s.statLabel}>Number of Units</p>
-                    <p className={s.statValue}>{numberOfUnits}</p>
-                  </div>
+                  {startingPrice && (
+                    <>
+                      <div className={s.statDivider} />
+                      <div className={s.statItem}>
+                        <p className={s.statLabel}>Starting Price</p>
+                        <p className={s.statValue}>{startingPrice}</p>
+                      </div>
+                    </>
+                  )}
+                  {handover && (
+                    <>
+                      <div className={s.statDivider} />
+                      <div className={s.statItem}>
+                        <p className={s.statLabel}>Handover</p>
+                        <p className={s.statValue}>{handover}</p>
+                      </div>
+                    </>
+                  )}
+                  {numberOfUnits && (
+                    <>
+                      <div className={s.statDivider} />
+                      <div className={s.statItem}>
+                        <p className={s.statLabel}>Number of Units</p>
+                        <p className={s.statValue}>{numberOfUnits}</p>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <button className={s.cta} onClick={() => setOpen(true)}>Check Availability</button>
               </div>

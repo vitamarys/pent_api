@@ -18,9 +18,9 @@ $header-height: 65px;
   }
 }
 
-.hidden {
-  // moves up by (header-height + bar height) → fully off screen, same as header
-  transform: translateY(-100%);
+.headerHidden {
+  // slides up by exactly header height → bar sticks to top of viewport
+  transform: translateY(-#{$header-height});
 }
 
 // ── Full-width bar ────────────────────────────────────────

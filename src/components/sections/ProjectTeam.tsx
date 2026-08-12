@@ -1,6 +1,11 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import Container from "@/components/ui/Container";
 import s from "./ProjectTeam.module.scss";
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 
 export interface TeamStat {
   value: string;
@@ -13,7 +18,6 @@ export interface ProjectTeamProps {
   image:        string;
   stats?:       TeamStat[];
   ctaLabel?:    string;
-  ctaHref?:     string;
 }
 
 export default function ProjectTeam({
@@ -22,9 +26,11 @@ export default function ProjectTeam({
   image,
   stats,
   ctaLabel = "Contact us",
-  ctaHref  = "#",
 }: ProjectTeamProps) {
+  const [open, setOpen] = useState(false)
+
   return (
+    <>
     <section className={s.section}>
       <Container>
         <div className={s.inner}>
@@ -47,9 +53,9 @@ export default function ProjectTeam({
               </div>
             )}
 
-            <a href={ctaHref} className={s.ctaBtn}>
+            <button className={s.ctaBtn} onClick={() => setOpen(true)}>
               {ctaLabel}
-            </a>
+            </button>
           </div>
 
           {/* Right: team image */}
@@ -60,5 +66,7 @@ export default function ProjectTeam({
         </div>
       </Container>
     </section>
+    <PopConsultation open={open} onClose={() => setOpen(false)} />
+    </>
   );
 }

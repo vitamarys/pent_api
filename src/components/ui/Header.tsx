@@ -270,12 +270,11 @@ export default function Header() {
 
   const [mounted,      setMounted]      = useState(false)
   const [scrolled,     setScrolled]     = useState(false)
-  const [hidden,       setHidden]       = useState(false)
   const [menuOpen,     setMenuOpen]     = useState(false)
   const [currencyOpen, setCurrencyOpen] = useState(false)
   const currencyRef = useRef<HTMLDivElement>(null)
 
-  const { currency, metric, setCurrency, setMetric } = useSettingsStore()
+  const { currency, metric, setCurrency, setMetric, headerHidden, setHeaderHidden } = useSettingsStore()
 
   // ── Search + Popup state ───────────────────────────────────
   const [searchOpen,    setSearchOpen]    = useState(false)
@@ -298,8 +297,8 @@ export default function Header() {
     const onScroll = () => {
       const y = window.scrollY
       setScrolled(y > 10)
-      if (y > lastY && y > 80) setHidden(true)
-      else if (y < lastY)       setHidden(false)
+      if (y > lastY && y > 80) setHeaderHidden(true)
+      else if (y < lastY)       setHeaderHidden(false)
       lastY = y
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -389,7 +388,7 @@ export default function Header() {
       {/* ══════════════════════════════════════════════════════
           HEADER
       ══════════════════════════════════════════════════════ */}
-      <header className={`${s.header} ${dark ? s.scrolled : s.transparent} ${mounted && hidden && !menuOpen && !searchOpen && !popupOpen ? s.hidden : ''}`}>
+      <header className={`${s.header} ${dark ? s.scrolled : s.transparent} ${mounted && headerHidden && !menuOpen && !searchOpen && !popupOpen ? s.hidden : ''}`}>
         <div className={s.inner}>
 
           {/* Normal content */}

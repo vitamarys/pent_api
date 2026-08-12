@@ -80,7 +80,7 @@
 }
 
 .counterText {
-  @include t.text-body-l;
+  @include t.text-body-m;
   color: t.$white-solid;
   text-align: center;
 }
