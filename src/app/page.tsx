@@ -89,7 +89,6 @@ async function StaticHomePage() {
         title="Get professional property guidance"
         description="Leave your details, and an advisor will help you choose the right property and navigate the purchase process."
         ctaLabel="Learn more"
-        ctaHref="#"
         image={{ url: '/images/banner-bg.png' }}
       />
       {articles.length > 0 && (
