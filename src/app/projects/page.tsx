@@ -24,20 +24,6 @@ export const metadata: Metadata = {
 
 const PAGE_SIZE = 18
 
-function HomeIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M17.9994 17.5402C17.9994 17.9369 17.6759 18.2607 17.2795 18.2607H14.8259C14.4295 18.2607 14.1059 17.9369 14.1059 17.5402V14.541C14.1059 13.9994 13.6632 13.5562 13.1221 13.5562H10.8773C10.3362 13.5562 9.89346 13.9994 9.89346 14.541V17.5402C9.89346 17.9369 9.56993 18.2607 9.17355 18.2607H6.71991C6.32352 18.2607 6 17.9369 6 17.5402L6 12.265C6 11.7887 6.16966 11.3787 6.50643 11.0421L10.778 6.766C11.451 6.09232 12.549 6.09232 13.222 6.766L17.4936 11.0416C17.8298 11.3782 18 11.7882 18 12.2645L17.9994 17.5402Z"
-        fill="#1F1F1F"
-        stroke="#1F1F1F"
-        strokeWidth="1.5"
-      />
-    </svg>
-  )
-}
 
 function ChevronIcon() {
   return (
@@ -159,7 +145,7 @@ export default async function ProjectsPage({
         <Container>
           <nav className={s.breadcrumb} aria-label="Breadcrumb">
             <Link href="/" className={s.breadcrumbHome} aria-label="Home">
-              <HomeIcon />
+              <img src="/icons/icon-home-b.svg" width={24} height={24} alt="" />
             </Link>
             <span className={s.breadcrumbSep}><ChevronIcon /></span>
             <span className={s.breadcrumbCurrent}>Projects</span>
@@ -203,9 +189,11 @@ export default async function ProjectsPage({
                       project.pageUrl?.url
                         ?.replace(/^\/(off-plan|projects)\//, '')
                         .replace(/\/$/, '') ?? String(project.id)
-                    const images = project.previewImage
-                      ? [getStrapiImageUrl(project.previewImage.url)]
-                      : []
+                    const images = project.galleryImages?.length
+                      ? project.galleryImages.map(img => getStrapiImageUrl(img.url))
+                      : project.previewImage
+                        ? [getStrapiImageUrl(project.previewImage.url)]
+                        : []
                     return (
                       <ProjectCard
                         key={project.id}

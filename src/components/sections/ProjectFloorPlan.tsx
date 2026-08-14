@@ -9,7 +9,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import Container from "@/components/ui/Container";
 import PopFloorPlan from "@/components/ui/PopFloorPlan";
 import PopConsultation from "@/components/ui/PopConsultation";
-import { formatCompactPrice } from "@/lib/utils";
+import { useDisplayFormat } from "@/hooks/useDisplayFormat";
 import s from "./ProjectFloorPlan.module.scss";
 
 import "swiper/css";
@@ -37,6 +37,7 @@ export interface ProjectFloorPlanProps {
   cards:          FloorPlanCard[];
   entity?:        string;
   pageBitrixId?:  string;
+  agentId?:       string;
 }
 
 function parsePrice(price: string | number): number {
@@ -49,12 +50,8 @@ function parsePrice(price: string | number): number {
   return num
 }
 
-function calcCostPerSqm(price: string | number, livingArea: string | number): string | null {
-  const priceNum = parsePrice(price)
-  const areaNum = parseFloat(String(livingArea).replace(/[^\d.]/g, ''))
-  if (!priceNum || !areaNum) return null
-  const areaM2 = areaNum * 0.0929
-  return formatCompactPrice(Math.round(priceNum / areaM2))
+function parseAreaSqFt(area: string | number): number {
+  return parseFloat(String(area).replace(/[^\d.]/g, '')) || 0
 }
 
 export default function ProjectFloorPlan({
@@ -63,11 +60,13 @@ export default function ProjectFloorPlan({
   cards,
   entity,
   pageBitrixId,
+  agentId,
 }: ProjectFloorPlanProps) {
   const [activeTab, setActiveTab] = useState("all");
   const [popCard, setPopCard] = useState<FloorPlanCard | null>(null);
   const [consultOpen, setConsultOpen] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
+  const { formatPrice, formatArea, metric } = useDisplayFormat();
 
   const filteredCards =
     activeTab === "all"
@@ -97,6 +96,7 @@ export default function ProjectFloorPlan({
       onClose={() => setConsultOpen(false)}
       entity={entity}
       pageBitrixId={pageBitrixId}
+      agentId={agentId}
     />
     <section className={s.section}>
       <Container>
@@ -196,17 +196,26 @@ export default function ProjectFloorPlan({
                   <div className={s.statItem}>
                     <span className={s.statLabel}>Starting price:</span>
                     <span className={s.statValue}>
-                      {parsePrice(card.startingPrice) === 0 ? 'On request' : card.startingPrice}
+                      {parsePrice(card.startingPrice) === 0
+                        ? 'On request'
+                        : formatPrice(parsePrice(card.startingPrice))}
                     </span>
                   </div>
                   <div className={s.statItem}>
                     <span className={s.statLabel}>Living area:</span>
-                    <span className={s.statValue}>{card.livingArea}</span>
+                    <span className={s.statValue}>{formatArea(parseAreaSqFt(card.livingArea))}</span>
                   </div>
-                  {calcCostPerSqm(card.startingPrice, card.livingArea) && (
+                  {parsePrice(card.startingPrice) > 0 && parseAreaSqFt(card.livingArea) > 0 && (
                     <div className={s.statItem}>
-                      <span className={s.statLabel}>Cost per m²:</span>
-                      <span className={s.statValue}>{calcCostPerSqm(card.startingPrice, card.livingArea)}</span>
+                      <span className={s.statLabel}>Cost per {metric}:</span>
+                      <span className={s.statValue}>
+                        {formatPrice(Math.round(
+                          parsePrice(card.startingPrice) /
+                          (metric === 'm²'
+                            ? parseAreaSqFt(card.livingArea) * 0.0929
+                            : parseAreaSqFt(card.livingArea))
+                        ))}
+                      </span>
                     </div>
                   )}
                 </div>

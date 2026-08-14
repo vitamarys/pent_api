@@ -22,6 +22,12 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>
 
+const DEFAULT_AGENT: AgentInfo = {
+  name:  'Jamie Lane',
+  role:  'Luxury Property Advisor',
+  image: '/images/Agent.png',
+}
+
 export interface PopConsultationProps {
   open:           boolean
   onClose:        () => void
@@ -33,9 +39,12 @@ export interface PopConsultationProps {
   consentLabel?:  string
   whatsappHref?:  string
   agent?:         AgentInfo
+  hideAgent?:     boolean
   entity?:        string
   projectId?:     string
+  agentId?:       string
   pageBitrixId?:  string
+  agentLeadId?:   string
   onSubmit?:      (data: FormValues) => Promise<void> | void
 }
 
@@ -50,11 +59,19 @@ export default function PopConsultation({
   consentLabel = 'I agree to receive information about offers, deals and services from this website (optional)',
   whatsappHref,
   agent,
+  hideAgent = false,
   entity = '73687',
   projectId,
+  agentId,
   pageBitrixId,
+  agentLeadId,
   onSubmit,
 }: PopConsultationProps) {
+  const resolvedAgent = hideAgent
+    ? undefined
+    : agent
+      ? { ...agent, image: agent.image || DEFAULT_AGENT.image }
+      : DEFAULT_AGENT
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
@@ -89,8 +106,12 @@ export default function PopConsultation({
           phone: data.phone,
           entity,
           projectId,
+          agentId,
           pageBitrixId,
-          extraData: getLeadExtraData(),
+          extraData: {
+            ...getLeadExtraData(),
+            ...(agentLeadId ? { agent_id: agentLeadId } : {}),
+          },
         })
       }
       reset()
@@ -117,18 +138,19 @@ export default function PopConsultation({
         <div className={s.body}>
 
           {/* ── Agent section (tablet/mobile: top; desktop: right) ── */}
-          {agent && (
+          {resolvedAgent && (
             <div className={s.agentSection}>
               <div className={s.agentDetails}>
-                <p className={s.agentName}>{agent.name}</p>
-                <p className={s.agentRole}>{agent.role}</p>
+                <p className={s.agentName}>{resolvedAgent.name}</p>
+                <p className={s.agentRole}>{resolvedAgent.role}</p>
                 <div className={s.stars}>
                   {[1,2,3,4,5].map(i => <span key={i} className={s.star}>★</span>)}
                 </div>
               </div>
               <div className={s.agentCircle} />
-              {agent.image && (
-                <Image src={agent.image} alt={agent.name} width={320} height={480} className={s.agentImage} style={{ height: 'auto' }} />
+              {resolvedAgent.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={resolvedAgent.image} alt={resolvedAgent.name} className={s.agentImage} />
               )}
             </div>
           )}

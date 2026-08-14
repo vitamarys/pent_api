@@ -1,8 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
+import dynamic from 'next/dynamic'
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 import s from './SecondarySidebar.module.scss'
 
 interface Props {
@@ -13,6 +16,8 @@ interface Props {
   bathrooms?: number
   parking?: number
   agent?: { name: string; role?: string; image?: { url: string }; phone?: string }
+  agentId?: string
+  agentLeadId?: string
 }
 
 function WhatsAppIcon() {
@@ -32,8 +37,11 @@ export default function SecondarySidebar({
   bathrooms,
   parking,
   agent,
+  agentId,
+  agentLeadId,
 }: Props) {
   const { formatPriceFull, formatArea } = useDisplayFormat()
+  const [consultOpen, setConsultOpen] = useState(false)
 
   const specRows = [
     { label: 'Price per Sq.ft', value: pricePerSqft != null ? formatPriceFull(pricePerSqft) : undefined },
@@ -46,6 +54,8 @@ export default function SecondarySidebar({
   const visibleRows = specRows.filter((r) => r.value != null)
 
   return (
+    <>
+    <PopConsultation open={consultOpen} onClose={() => setConsultOpen(false)} agentLeadId={agentLeadId} hideAgent />
     <aside className={s.sidebar}>
       {/* Price block */}
       <div className={s.priceBlock}>
@@ -93,7 +103,7 @@ export default function SecondarySidebar({
 
       {/* CTA row */}
       <div className={s.ctaRow}>
-        <button className={s.ctaBtnPrimary}>Request Availability</button>
+        <button className={s.ctaBtnPrimary} onClick={() => setConsultOpen(true)}>Request Availability</button>
         {agent?.phone ? (
           <a
             href={`https://wa.me/${agent.phone.replace(/\D/g, '')}`}
@@ -113,5 +123,6 @@ export default function SecondarySidebar({
         )}
       </div>
     </aside>
+    </>
   )
 }

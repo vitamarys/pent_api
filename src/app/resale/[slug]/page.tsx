@@ -244,12 +244,12 @@ function renderBlock(
       const mainImage = allImageUrls[0] ?? ''
       const images: [string, string] = [allImageUrls[1] ?? '', allImageUrls[2] ?? '']
 
-      const details: Array<{ label: string; value: string; type?: 'link' | 'text'; href?: string }> = []
+      const details: Array<{ label: string; value: string; type?: 'link' | 'text'; href?: string; published?: boolean }> = []
       if (b.locationLabel && proj.area?.title) {
-        details.push({ label: b.locationLabel, value: proj.area.title, type: proj.area.pageUrl ? 'link' : 'text', href: proj.area.pageUrl?.url })
+        details.push({ label: b.locationLabel, value: proj.area.title, type: proj.area.pageUrl ? 'link' : 'text', href: proj.area.pageUrl?.url, published: proj.area.pageUrl?.published })
       }
       if (b.developerLabel && proj.developer?.name) {
-        details.push({ label: b.developerLabel, value: proj.developer.name, type: proj.developer.pageUrl ? 'link' : 'text', href: proj.developer.pageUrl?.url })
+        details.push({ label: b.developerLabel, value: proj.developer.name, type: proj.developer.pageUrl ? 'link' : 'text', href: proj.developer.pageUrl?.url, published: proj.developer.pageUrl?.published })
       }
       if (b.handoverLabel && proj.handoverValue) {
         details.push({ label: b.handoverLabel, value: proj.handoverValue })
@@ -450,6 +450,7 @@ function renderBlock(
           }
           entity="73687"
           pageBitrixId={page.leadBitrixId ?? undefined}
+          agentLeadId={property?.agent?.leadId ?? undefined}
         />
       )
     }
@@ -526,9 +527,8 @@ export default async function ResalePage({ params }: Props) {
         <div className={s.topbarArea}>
           <nav className={s.breadcrumb} aria-label="Breadcrumb">
             <Link href="/">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path fillRule="evenodd" clipRule="evenodd" d="M17.9994 17.5402C17.9994 17.9369 17.6759 18.2607 17.2795 18.2607H14.8259C14.4295 18.2607 14.1059 17.9369 14.1059 17.5402V14.541C14.1059 13.9994 13.6632 13.5562 13.1221 13.5562H10.8773C10.3362 13.5562 9.89346 13.9994 9.89346 14.541V17.5402C9.89346 17.9369 9.56993 18.2607 9.17355 18.2607H6.71991C6.32352 18.2607 6 17.9369 6 17.5402L6 12.265C6 11.7887 6.16966 11.3787 6.50643 11.0421L10.778 6.766C11.451 6.09232 12.549 6.09232 13.222 6.766L17.4936 11.0416C17.8298 11.3782 18 11.7882 18 12.2645L17.9994 17.5402Z" fill="#1F1F1F" stroke="#1F1F1F" strokeWidth="1.5"/>
-              </svg>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icons/icon-home-b.svg" alt="Home" width={24} height={24} />
             </Link>
             {breadcrumb.map((item, i) => (
               <span key={i} style={{ display: 'contents' }}>
@@ -565,6 +565,7 @@ export default async function ResalePage({ params }: Props) {
             bathrooms={property?.noOfBathroom ?? undefined}
             parking={property?.parking ? Number(property.parking) : undefined}
             agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined } : undefined}
+            agentLeadId={property?.agent?.leadId ?? undefined}
           />
         </div>
         <div className={s.sectionsArea}>

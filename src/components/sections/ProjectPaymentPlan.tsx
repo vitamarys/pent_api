@@ -24,6 +24,7 @@ export interface ProjectPaymentPlanProps {
   description?: string;
   versions: PaymentVersion[];
   ctaLabel?: string;
+  agentId?: string;
 }
 
 export default function ProjectPaymentPlan({
@@ -31,6 +32,7 @@ export default function ProjectPaymentPlan({
   description,
   versions,
   ctaLabel = "Discuss with expert",
+  agentId,
 }: ProjectPaymentPlanProps) {
   const [activeVersion, setActiveVersion] = useState(0);
   const [open, setOpen] = useState(false);
@@ -72,7 +74,7 @@ export default function ProjectPaymentPlan({
                   <p className={s.stageSubtitle}>{stage.subtitle}</p>
                 </div>
                 <div className={s.bottomWrap}>
-                  <p className={s.percentage}>{stage.percentage} %</p>
+                  <p className={s.percentage}>{stage.percentage} </p>
                   {stage.paymentsLabel && (
                     <div className={s.badge}>
                       <span>{stage.paymentsLabel}</span>
@@ -114,7 +116,7 @@ export default function ProjectPaymentPlan({
           </button>
         </div>
       </Container>
-      <PopConsultation open={open} onClose={() => setOpen(false)} />
+      <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} />
     </section>
   );
 }

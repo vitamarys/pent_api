@@ -1,4 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+const PopFloorPlan = dynamic(() => import('@/components/ui/PopFloorPlan'))
 import s from './SecondaryFloorPlan.module.scss'
 
 interface Props {
@@ -17,8 +22,11 @@ export default function SecondaryFloorPlan({
   images,
 }: Props) {
   const hasImages = images && images.length > 0
+  const [popOpen, setPopOpen] = useState(false)
 
   return (
+    <>
+    <PopFloorPlan open={popOpen} onClose={() => setPopOpen(false)} />
     <section className={s.section}>
       {title && <h2 className={s.title}>{title}</h2>}
 
@@ -61,11 +69,12 @@ export default function SecondaryFloorPlan({
               )}
             </div>
             {buttonText && (
-              <button className={s.requestBtn}>{buttonText}</button>
+              <button className={s.requestBtn} onClick={() => setPopOpen(true)}>{buttonText}</button>
             )}
           </div>
         </div>
       )}
     </section>
+    </>
   )
 }

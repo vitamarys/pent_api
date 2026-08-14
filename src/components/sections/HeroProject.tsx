@@ -25,6 +25,7 @@ export interface HeroProjectProps {
   numberOfUnits: string | number
   breadcrumb?: BreadcrumbItem[]
   agent?: AgentInfo
+  agentId?: string
 }
 
 export default function HeroProject({
@@ -37,6 +38,7 @@ export default function HeroProject({
   numberOfUnits,
   breadcrumb = [],
   agent,
+  agentId,
 }: HeroProjectProps) {
   const [open, setOpen] = useState(false)
 
@@ -137,6 +139,7 @@ export default function HeroProject({
         open={open}
         onClose={() => setOpen(false)}
         agent={agent}
+        agentId={agentId}
       />
     </>
   )

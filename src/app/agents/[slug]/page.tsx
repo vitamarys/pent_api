@@ -73,6 +73,7 @@ export default async function AgentPage({ params }: Props) {
 
   const agentId = agent.id as number | undefined
   const agentName = (agent.name as string) ?? ''
+  const agentLeadId = (agent.leadId as string | undefined) ?? undefined
 
   // Fetch agent's properties and articles in parallel
   const [propertyRes, articlesRes] = await Promise.all([
@@ -133,6 +134,7 @@ export default async function AgentPage({ params }: Props) {
         telegram={(agent.telegram as string | undefined) ?? undefined}
         languages={languages}
         content={content}
+        agentLeadId={agentLeadId}
       />
 
       <AgentProperties

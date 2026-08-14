@@ -85,18 +85,18 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       )
     }
 
-    case 'block.key-points': {
+    case 'block.about-block': {
       const b = block as {
         title?: string
         description?: string
-        keyPointsItems?: Array<{ id: number; title: string; description: string }>
+        points?: Array<{ id: number; title: string; description: string }>
       }
       return (
         <AboutArea
           key={index}
           sectionTitle={b.title ?? undefined}
           description={b.description ?? ''}
-          features={b.keyPointsItems ?? []}
+          features={b.points ?? []}
         />
       )
     }

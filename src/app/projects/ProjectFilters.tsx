@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { X, SlidersHorizontal, ChevronDown } from 'lucide-react'
+import { X, SlidersHorizontal, ChevronDown, Search } from 'lucide-react'
 import * as Slider from '@radix-ui/react-slider'
 import s from './ProjectFilters.module.scss'
 
@@ -118,16 +118,21 @@ function InlinePriceSlider({ value, onChange, onApply, min, max }: {
 }
 
 // ── Desktop dropdown wrapper ──────────────────────────────────
-function FilterDropdown({ label, count, isActive, children }: {
+function FilterDropdown({ label, count, isActive, searchable, children }: {
   label: string
   count?: number
   isActive: boolean
+  searchable?: { value: string; onChange: (q: string) => void; placeholder?: string }
   children: React.ReactNode
 }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
 
-  const close = useCallback(() => setOpen(false), [])
+  const close = useCallback(() => {
+    setOpen(false)
+    if (searchable) searchable.onChange('')
+  }, [searchable])
 
   useEffect(() => {
     if (!open) return
@@ -137,6 +142,12 @@ function FilterDropdown({ label, count, isActive, children }: {
     document.addEventListener('mousedown', handle)
     return () => document.removeEventListener('mousedown', handle)
   }, [open, close])
+
+  useEffect(() => {
+    if (open && searchable) {
+      setTimeout(() => searchRef.current?.focus(), 0)
+    }
+  }, [open, searchable])
 
   return (
     <div className={s.filterDropdownWrap} ref={ref}>
@@ -153,7 +164,28 @@ function FilterDropdown({ label, count, isActive, children }: {
         />
       </button>
       {open && (
-        <div className={s.filterDropdown}>
+        <div className={`${s.filterDropdown} ${searchable ? s.filterDropdownSearchable : ''}`}>
+          {searchable && (
+            <div className={s.dropdownSearchWrap}>
+              <div className={s.dropdownSearch}>
+                <input
+                  ref={searchRef}
+                  className={s.dropdownSearchInput}
+                  value={searchable.value}
+                  onChange={e => searchable.onChange(e.target.value)}
+                  placeholder={searchable.placeholder ?? 'Search…'}
+                  onKeyDown={e => e.key === 'Escape' && close()}
+                />
+                {searchable.value ? (
+                  <button className={s.dropdownSearchClear} onClick={() => searchable.onChange('')}>
+                    <X size={16} strokeWidth={1.5} />
+                  </button>
+                ) : (
+                  <Search size={20} strokeWidth={1.5} className={s.dropdownSearchIcon} />
+                )}
+              </div>
+            </div>
+          )}
           {children}
         </div>
       )}
@@ -250,6 +282,14 @@ export default function ProjectFilters({
   )
 
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [locationSearch, setLocationSearch] = useState('')
+
+  const filteredAreaOptions = useMemo(() =>
+    locationSearch.trim()
+      ? areaOptions.filter(o => o.label.toLowerCase().includes(locationSearch.toLowerCase()))
+      : areaOptions,
+    [areaOptions, locationSearch]
+  )
 
   const activeCount =
     selectedLocation.length +
@@ -346,23 +386,53 @@ export default function ProjectFilters({
           label="Location"
           count={selectedLocation.length}
           isActive={selectedLocation.length > 0}
+          searchable={{ value: locationSearch, onChange: setLocationSearch, placeholder: 'Search location…' }}
         >
-          {areaOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedLocation.includes(opt.id as number) ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedLocation.includes(opt.id as number)
-                  ? selectedLocation.filter(t => t !== opt.id)
-                  : [...selectedLocation, opt.id as number]
-                setSelectedLocation(next)
-                push({ location: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedLocation.includes(opt.id as number) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {selectedLocation.length > 0 && (
+            <div className={s.dropdownSelectedTags}>
+              {selectedLocation.map(id => {
+                const label = areaOptions.find(o => o.id === id)?.label ?? String(id)
+                return (
+                  <button key={id} className={s.dropdownSelectedTag} onClick={() => {
+                    const next = selectedLocation.filter(t => t !== id)
+                    setSelectedLocation(next)
+                    push({ location: next })
+                  }}>
+                    {label} <X size={12} strokeWidth={2} />
+                  </button>
+                )
+              })}
+              <button className={s.dropdownSelectedTagClear} onClick={() => {
+                setSelectedLocation([])
+                push({ location: [] })
+              }}>
+                Clear all <X size={12} strokeWidth={2} />
+              </button>
+            </div>
+          )}
+          {filteredAreaOptions.length === 0 ? (
+            <div className={s.dropdownEmpty}>
+              <span className={s.dropdownEmptyTitle}>Nothing found</span>
+              <span className={s.dropdownEmptySubtitle}>Try a different search term</span>
+            </div>
+          ) : (
+            filteredAreaOptions.map(opt => (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${selectedLocation.includes(opt.id as number) ? s.dropdownOptionActive : ''}`}
+                onClick={() => {
+                  const next = selectedLocation.includes(opt.id as number)
+                    ? selectedLocation.filter(t => t !== opt.id)
+                    : [...selectedLocation, opt.id as number]
+                  setSelectedLocation(next)
+                  push({ location: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {selectedLocation.includes(opt.id as number) && <X size={14} strokeWidth={1.5} />}
+              </button>
+            ))
+          )}
         </FilterDropdown>
 
         {/* Property Type */}

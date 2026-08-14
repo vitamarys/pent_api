@@ -19,7 +19,9 @@ export default function AboutArea({
 }: AboutAreaProps) {
   return (
     <section className={s.section}>
-      <div className={s.ellipse} aria-hidden />
+      <div className={s.decorative} aria-hidden>
+        <div className={s.ellipse} />
+      </div>
 
       <Container>
         <div className={s.inner}>

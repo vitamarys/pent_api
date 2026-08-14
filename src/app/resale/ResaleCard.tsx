@@ -1,10 +1,14 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import { useFavorites } from '@/hooks/useFavorites'
 import s from './ResaleCard.module.scss'
+import 'swiper/css'
 
 export interface ResaleCardProps {
   id?: number
@@ -30,6 +34,22 @@ interface FavResale {
   unitType?: string
   location?: string
   images?: string[]
+}
+
+function ChevronLeftIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    </svg>
+  )
+}
+
+function ChevronRightIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+    </svg>
+  )
 }
 
 function IconArea() {
@@ -72,8 +92,10 @@ function HeartIcon({ active }: { active: boolean }) {
 }
 
 export default function ResaleCard({ id, slug, title, price, area, bedrooms, bathrooms, unitType, location, images = [] }: ResaleCardProps) {
+  const swiperRef = useRef<SwiperType | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const { formatArea, currency } = useDisplayFormat()
-  const firstImage = images[0] ?? null
+  const hasGallery = images.length > 1
   const formattedPrice = price !== undefined
     ? Math.round(price).toLocaleString('en-US')
     : null
@@ -91,14 +113,23 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
     <Link href={`/resale/${slug}`} className={s.card}>
       {/* ── Media ── */}
       <div className={s.media}>
-        {firstImage ? (
-          <Image src={firstImage} alt={title} fill className={s.img} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />
+        {images.length > 0 ? (
+          <Swiper
+            onSwiper={swiper => { swiperRef.current = swiper }}
+            onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
+            className={s.swiper}
+          >
+            {images.map((img, i) => (
+              <SwiperSlide key={i} className={s.slide}>
+                <Image src={img} alt={title} fill className={s.img} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         ) : (
           <div className={s.imgPlaceholder} />
         )}
 
         <div className={s.overlay}>
-          {/* Top row: type tag + favorites */}
           <div className={s.topRow}>
             <div className={s.tagContainer}>
               {unitType && (
@@ -115,18 +146,45 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
               <HeartIcon active={active} />
             </button>
           </div>
+
+          {hasGallery && (
+            <>
+              <div className={s.galNav}>
+                <button
+                  className={s.galBtn}
+                  onClick={e => { e.preventDefault(); swiperRef.current?.slidePrev() }}
+                  aria-label="Previous image"
+                >
+                  <ChevronLeftIcon />
+                </button>
+                <button
+                  className={s.galBtn}
+                  onClick={e => { e.preventDefault(); swiperRef.current?.slideNext() }}
+                  aria-label="Next image"
+                >
+                  <ChevronRightIcon />
+                </button>
+              </div>
+              <div className={s.pagination}>
+                {images.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`${s.paginationBar} ${i === activeIndex ? s.paginationBarActive : ''}`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 
       {/* ── Body ── */}
       <div className={s.body}>
-        {/* Property info */}
         <div className={s.propertyInfo}>
           <p className={s.title}>{title}</p>
           {location && <p className={s.location}>{location}</p>}
         </div>
 
-        {/* Specs + Price */}
         <div className={s.bottomContainer}>
           {(area || bathrooms !== undefined || bedrooms) && (
             <div className={s.specs}>

@@ -16,6 +16,7 @@ interface ConsultationBlockProps {
   entity?:        string
   projectId?:     string
   pageBitrixId?:  string
+  agentLeadId?:   string
 }
 
 export default function ConsultationBlock({
@@ -27,6 +28,7 @@ export default function ConsultationBlock({
   entity,
   projectId,
   pageBitrixId,
+  agentLeadId,
 }: ConsultationBlockProps) {
   const [open, setOpen] = useState(false)
 
@@ -40,6 +42,7 @@ export default function ConsultationBlock({
         entity={entity}
         projectId={projectId}
         pageBitrixId={pageBitrixId}
+        agentLeadId={agentLeadId}
         onConsultationOpen={() => setOpen(true)}
       />
 
@@ -54,6 +57,7 @@ export default function ConsultationBlock({
         entity={entity}
         projectId={projectId}
         pageBitrixId={pageBitrixId}
+        agentLeadId={agentLeadId}
       />
     </>
   )

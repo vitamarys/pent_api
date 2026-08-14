@@ -11,6 +11,8 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   border: 1px solid t.$black-fade-2;
   background: t.$white-solid;
   transition: box-shadow 0.2s ease;
+  min-width: 0;
+  overflow: hidden;
 
   &:hover {
     box-shadow: 0 4px 24px rgba(31, 31, 31, 0.08);

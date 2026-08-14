@@ -12,6 +12,7 @@ interface Props {
   description?: string
   ctaLabel?: string
   image?: { url: string }
+  agentId?: string
 }
 
 export default function ProjectBanner({
@@ -19,6 +20,7 @@ export default function ProjectBanner({
   description,
   ctaLabel,
   image,
+  agentId,
 }: Props) {
   const [open, setOpen] = useState(false)
 
@@ -46,7 +48,7 @@ export default function ProjectBanner({
         </div>
       </Container>
     </section>
-    <PopConsultation open={open} onClose={() => setOpen(false)} />
+    <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} />
     </>
   )
 }

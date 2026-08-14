@@ -28,18 +28,19 @@ interface ContentBlock {
 // ── Props ─────────────────────────────────────────────────────────────────────
 
 export interface AgentHeroProps {
-  name:         string
-  position?:    string
-  description?: string
-  imageUrl?:    string
-  phone?:       string
-  email?:       string
-  whatsapp?:    string
-  instagram?:   string
-  linkedin?:    string
-  telegram?:    string
-  languages?:   Array<{ name?: string } | string>
-  content?:     ContentBlock[]
+  name:          string
+  position?:     string
+  description?:  string
+  imageUrl?:     string
+  phone?:        string
+  email?:        string
+  whatsapp?:     string
+  instagram?:    string
+  linkedin?:     string
+  telegram?:     string
+  languages?:    Array<{ name?: string } | string>
+  content?:      ContentBlock[]
+  agentLeadId?:  string
 }
 
 // ── Breadcrumbs ───────────────────────────────────────────────────────────────
@@ -143,6 +144,7 @@ export default function AgentHero({
   telegram,
   languages = [],
   content = [],
+  agentLeadId,
 }: AgentHeroProps) {
   const [popOpen, setPopOpen] = useState(false)
   const hasSocials = !!(whatsapp || instagram || linkedin || telegram)
@@ -156,6 +158,8 @@ export default function AgentHero({
       open={popOpen}
       onClose={() => setPopOpen(false)}
       agent={name ? { name, role: position ?? '', image: imageUrl ?? '' } : undefined}
+      agentLeadId={agentLeadId}
+      hideAgent={!name}
     />
     <section className={s.section}>
       <Container>

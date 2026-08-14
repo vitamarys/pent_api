@@ -140,6 +140,9 @@ export interface OffPlanProjectCard {
   floors: string | null
   previewImage: PenthouseImage | null
   previewImageFile: PenthouseImage | null
+  images: PenthouseImage[] | null
+  galleryImages: PenthouseImage[] | null
+  galleryImagesFile: PenthouseImage[] | null
   videoURL: string | null
   brochureURL: string | null
   titleLevel: number
@@ -153,10 +156,10 @@ export interface OffPlanProjectCard {
   developer: {
     name: string
     image: unknown | null
-    pageUrl: { url: string; isExternal: boolean } | null
+    pageUrl: { url: string; isExternal: boolean; published?: boolean } | null
   } | null
   agent: {
-    pageUrl: { url: string; isExternal: boolean } | null
+    pageUrl: { url: string; isExternal: boolean; published?: boolean } | null
   } | null
   coordinates: { lat: number; lng: number } | null
   beds: { title: string; values: string[] } | null
@@ -527,11 +530,11 @@ export interface SecondaryPropertyProject {
   beds: { multiValue: string[] } | null
   developer: {
     name: string
-    pageUrl: { url: string } | null
+    pageUrl: { url: string; published?: boolean } | null
   } | null
   area: {
     title: string
-    pageUrl: { url: string } | null
+    pageUrl: { url: string; published?: boolean } | null
   } | null
   coordinates: { id: number; lat: number; lng: number } | null
 }
@@ -569,4 +572,7 @@ export interface SecondaryProperty {
   dld: SecondaryPropertyDld | null
   pageUrl: { url: string; isExternal: boolean } | null
   project: SecondaryPropertyProject | null
+  agent?: { id?: number; name?: string; leadId?: string; phoneNumber?: string; email?: string } | null
+  furnished?: string | null
+  area?: { id?: number; title?: string } | null
 }

@@ -38,6 +38,7 @@ export interface ProjectFormProps {
   entity?:              string;
   projectId?:           string;
   pageBitrixId?:        string;
+  agentLeadId?:         string;
   onSubmit?:            (data: FormValues) => Promise<void> | void;
   onConsultationOpen?:  () => void;
 }
@@ -52,6 +53,7 @@ export default function ProjectForm({
   entity = '73687',
   projectId,
   pageBitrixId,
+  agentLeadId,
   onSubmit,
 }: ProjectFormProps) {
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
@@ -85,7 +87,10 @@ export default function ProjectForm({
           entity,
           projectId,
           pageBitrixId,
-          extraData: getLeadExtraData(),
+          extraData: {
+            ...getLeadExtraData(),
+            ...(agentLeadId ? { agent_id: agentLeadId } : {}),
+          },
         });
       }
       reset();

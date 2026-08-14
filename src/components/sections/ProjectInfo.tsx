@@ -14,6 +14,7 @@ export interface DetailItem {
   value: string;
   type?: "link" | "info" | "text";
   href?: string;
+  published?: boolean;
 }
 
 export interface ProjectInfoProps {
@@ -73,8 +74,8 @@ export default function ProjectInfo({
                   <li key={i} className={s.detailItem}>
                     <span className={s.detailLabel}>{item.label}</span>
 
-                    {item.type === "link" ? (
-                      <a href={item.href ?? "#"} className={s.detailLink}>
+                    {item.type === "link" && item.href && item.published !== false ? (
+                      <a href={item.href} className={s.detailLink}>
                         {item.value}
                         <ChevronRight size={16} />
                       </a>
