@@ -15,7 +15,7 @@ interface Props {
   bedrooms?: number
   bathrooms?: number
   parking?: number
-  agent?: { name: string; role?: string; image?: { url: string }; phone?: string }
+  agent?: { name: string; role?: string; image?: { url: string }; phone?: string; email?: string }
   agentId?: string
   agentLeadId?: string
 }

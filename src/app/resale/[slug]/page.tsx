@@ -246,10 +246,10 @@ function renderBlock(
 
       const details: Array<{ label: string; value: string; type?: 'link' | 'text'; href?: string; published?: boolean }> = []
       if (b.locationLabel && proj.area?.title) {
-        details.push({ label: b.locationLabel, value: proj.area.title, type: proj.area.pageUrl ? 'link' : 'text', href: proj.area.pageUrl?.url, published: proj.area.pageUrl?.published })
+        details.push({ label: b.locationLabel, value: proj.area.title, type: proj.area.pageUrl ? 'link' : 'text', href: proj.area.pageUrl?.url, published: proj.area.pageUrl ? proj.area.pageUrl.pageStatus === 'PUBLISH' && !proj.area.pageUrl.deleted : false })
       }
       if (b.developerLabel && proj.developer?.name) {
-        details.push({ label: b.developerLabel, value: proj.developer.name, type: proj.developer.pageUrl ? 'link' : 'text', href: proj.developer.pageUrl?.url, published: proj.developer.pageUrl?.published })
+        details.push({ label: b.developerLabel, value: proj.developer.name, type: proj.developer.pageUrl ? 'link' : 'text', href: proj.developer.pageUrl?.url, published: proj.developer.pageUrl ? proj.developer.pageUrl.pageStatus === 'PUBLISH' && !proj.developer.pageUrl.deleted : false })
       }
       if (b.handoverLabel && proj.handoverValue) {
         details.push({ label: b.handoverLabel, value: proj.handoverValue })
@@ -564,7 +564,7 @@ export default async function ResalePage({ params }: Props) {
             bedrooms={property?.bedrooms ? Number(property.bedrooms) : undefined}
             bathrooms={property?.noOfBathroom ?? undefined}
             parking={property?.parking ? Number(property.parking) : undefined}
-            agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined } : undefined}
+            agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined, email: property.listingAgentEmail ?? undefined } : undefined}
             agentLeadId={property?.agent?.leadId ?? undefined}
           />
         </div>

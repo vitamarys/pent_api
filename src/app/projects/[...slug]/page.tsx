@@ -152,8 +152,8 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         description?: string
         imagesFile?: Array<{ url?: string }>
       }
-      const developer = project?.developer as { name?: string; pageUrl?: { url?: string; published?: boolean } } | null
-      const area = project?.area as { title?: string; pageUrl?: { url?: string; published?: boolean } } | null
+      const developer = project?.developer as { name?: string; pageUrl?: { url?: string; pageStatus?: string; deleted?: boolean } } | null
+      const area = project?.area as { title?: string; pageUrl?: { url?: string; pageStatus?: string; deleted?: boolean } } | null
       const handover = project?.handoverValue as string | undefined
       const paymentPlan = project?.paymentPlan as string | undefined
       const types = (project?.projectTypes as Array<{ name?: string }> | undefined)
@@ -164,9 +164,9 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       const brandCollaboration = project?.brandCollaboration as string | undefined
 
       const details: { label: string; value: string; type: 'text' | 'link'; href?: string; published?: boolean }[] = [
-        ...(area ? [{ label: 'Location', value: area.title ?? '', type: 'link' as const, href: area.pageUrl?.url, published: area.pageUrl?.published }] : []),
+        ...(area ? [{ label: 'Location', value: area.title ?? '', type: 'link' as const, href: area.pageUrl?.url, published: area.pageUrl ? area.pageUrl.pageStatus === 'PUBLISH' && !area.pageUrl.deleted : false }] : []),
         ...(developer
-          ? [{ label: 'Developer', value: developer.name ?? '', type: 'link' as const, href: developer.pageUrl?.url, published: developer.pageUrl?.published }]
+          ? [{ label: 'Developer', value: developer.name ?? '', type: 'link' as const, href: developer.pageUrl?.url, published: developer.pageUrl ? developer.pageUrl.pageStatus === 'PUBLISH' && !developer.pageUrl.deleted : false }]
           : []),
         ...(handover ? [{ label: 'Handover', value: handover, type: 'text' as const }] : []),
         ...(paymentPlan ? [{ label: 'Payment Plan', value: paymentPlan, type: 'text' as const }] : []),

@@ -184,6 +184,22 @@
   margin-top: 4px;
 }
 
+.agentContact {
+  font-family: t.$font-sans;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: t.$brand-main-base;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
 .starIcon {
   color: t.$brand-main-base;
   fill: t.$brand-main-base;

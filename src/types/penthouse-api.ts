@@ -156,10 +156,10 @@ export interface OffPlanProjectCard {
   developer: {
     name: string
     image: unknown | null
-    pageUrl: { url: string; isExternal: boolean; published?: boolean } | null
+    pageUrl: { url: string; isExternal: boolean; published?: boolean; pageStatus?: string; deleted?: boolean } | null
   } | null
   agent: {
-    pageUrl: { url: string; isExternal: boolean; published?: boolean } | null
+    pageUrl: { url: string; isExternal: boolean; published?: boolean; pageStatus?: string; deleted?: boolean } | null
   } | null
   coordinates: { lat: number; lng: number } | null
   beds: { title: string; values: string[] } | null
@@ -530,11 +530,11 @@ export interface SecondaryPropertyProject {
   beds: { multiValue: string[] } | null
   developer: {
     name: string
-    pageUrl: { url: string; published?: boolean } | null
+    pageUrl: { url: string; published?: boolean; pageStatus?: string; deleted?: boolean } | null
   } | null
   area: {
     title: string
-    pageUrl: { url: string; published?: boolean } | null
+    pageUrl: { url: string; published?: boolean; pageStatus?: string; deleted?: boolean } | null
   } | null
   coordinates: { id: number; lat: number; lng: number } | null
 }
