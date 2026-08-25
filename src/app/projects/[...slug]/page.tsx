@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import { preload } from 'react-dom'
 import type { Metadata } from 'next'
 import { getPageBySlug, getPageSlugs } from '@/api/pages'
-import { formatCompactPrice } from '@/lib/utils'
 import type { PenthousePage, PenthouseBlock } from '@/types/penthouse-api'
 
 import HeroProject from '@/components/sections/HeroProject'
@@ -67,6 +66,8 @@ const BLOCK_ANCHORS: Record<string, AnchorNavItem> = {
   'block.amenities':    { label: 'Amenities',    id: 'amenities' },
   'block.location':     { label: 'Location',     id: 'location' },
   'block.developers':   { label: 'Developer',    id: 'developer' },
+  'block.who-we-are':   { label: 'Who We Are',   id: 'who-we-are' },
+  'block.faq':          { label: 'FAQ',          id: 'faq' },
 }
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -121,7 +122,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           location={[area, 'Dubai'].filter(Boolean).join(', ')}
           description={b.description ?? ''}
           image={imgUrl(b.imageFile)}
-          startingPrice={minPrice ? formatCompactPrice(minPrice) : ''}
+          startingPrice={minPrice ?? null}
           handover={handover}
           numberOfUnits={units ? String(units) : ''}
           breadcrumb={[
@@ -623,6 +624,14 @@ export default async function ProjectsPage({ params }: Props) {
         const project = getProject(page)
         const dev = project?.developer as { description?: string; imageFile?: unknown } | null
         if (!dev?.description && !dev?.imageFile) return false
+      }
+      if (b.__component === 'block.who-we-are') {
+        const bb = b as { title?: string; description?: string; image?: { url?: string } }
+        if (!bb.title && !bb.description && !bb.image?.url) return false
+      }
+      if (b.__component === 'block.faq') {
+        const bb = b as { questions?: unknown[] }
+        if (!bb.questions?.length) return false
       }
       return true
     })

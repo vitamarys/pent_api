@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic'
 import Container from '@/components/ui/Container'
 const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 import type { AgentInfo } from '@/components/sections/ProjectForm'
+import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import s from './HeroProject.module.scss'
 
 export interface BreadcrumbItem {
@@ -20,7 +21,7 @@ export interface HeroProjectProps {
   location: string
   description: string
   image: string
-  startingPrice: string
+  startingPrice?: number | null
   handover: string
   numberOfUnits: string | number
   breadcrumb?: BreadcrumbItem[]
@@ -41,6 +42,7 @@ export default function HeroProject({
   agentId,
 }: HeroProjectProps) {
   const [open, setOpen] = useState(false)
+  const { formatPrice } = useDisplayFormat()
 
   return (
     <>
@@ -99,12 +101,12 @@ export default function HeroProject({
               {/* Right */}
               <div className={s.infoContainer}>
                 <div className={s.statsRow}>
-                  {startingPrice && (
+                  {startingPrice != null && startingPrice > 0 && (
                     <>
                       <div className={s.statDivider} />
                       <div className={s.statItem}>
                         <p className={s.statLabel}>Starting Price</p>
-                        <p className={s.statValue}>{startingPrice}</p>
+                        <p className={s.statValue}>{formatPrice(startingPrice)}</p>
                       </div>
                     </>
                   )}

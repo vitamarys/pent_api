@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -28,6 +27,12 @@ export interface AgentInfo {
   image: string;
 }
 
+const DEFAULT_AGENT: AgentInfo = {
+  name:  'Jamie Lane',
+  role:  'Luxury Property Advisor',
+  image: '/images/Agent.png',
+}
+
 export interface ProjectFormProps {
   sectionTitle?:        string;
   description?:         string;
@@ -35,6 +40,7 @@ export interface ProjectFormProps {
   privacyNote?:         string;
   consentLabel?:        string;
   agent?:               AgentInfo;
+  hideAgent?:           boolean;
   entity?:              string;
   projectId?:           string;
   pageBitrixId?:        string;
@@ -50,12 +56,19 @@ export default function ProjectForm({
   privacyNote  = "By accepting and providing my personal information i am consenting to Metropolitan Group Privacy Policy, the applicable data protection laws and Terms of Use",
   consentLabel = "I agree to receive information about offers, deals and services from this website (optional)",
   agent,
+  hideAgent = false,
   entity = '73687',
   projectId,
   pageBitrixId,
   agentLeadId,
   onSubmit,
 }: ProjectFormProps) {
+  const resolvedAgent = hideAgent
+    ? undefined
+    : agent
+      ? { ...agent, image: agent.image || DEFAULT_AGENT.image }
+      : DEFAULT_AGENT
+
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
 
   useEffect(() => {
@@ -198,13 +211,16 @@ export default function ProjectForm({
       </div>
 
       {/* Right: agent panel */}
-      {agent && (
+      {resolvedAgent && (
         <div className={s.agentPanel}>
           <div className={s.agentCircle} />
-          {agent.image && <Image className={s.agentImage} src={agent.image} alt={agent.name} width={446} height={597} />}
+          {resolvedAgent.image && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className={s.agentImage} src={resolvedAgent.image} alt={resolvedAgent.name} />
+          )}
           <div className={s.agentInfo}>
-            <p className={s.agentName}>{agent.name}</p>
-            <p className={s.agentRole}>{agent.role}</p>
+            <p className={s.agentName}>{resolvedAgent.name}</p>
+            <p className={s.agentRole}>{resolvedAgent.role}</p>
             <div className={s.stars}>
               {"★★★★★".split("").map((_, i) => (
                 <span key={i} className={s.star}>★</span>

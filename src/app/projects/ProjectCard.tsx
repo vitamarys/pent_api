@@ -69,7 +69,8 @@ export default function ProjectCard({ id, slug, title, location, developer, hand
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const { formatPrice } = useDisplayFormat()
-  const hasGallery = images.length > 1
+  const limitedImages = images.slice(0, 4)
+  const hasGallery = limitedImages.length > 1
 
   const { isFavorite, toggle } = useFavorites<FavProject>('fav_projects')
   const active = id !== undefined ? isFavorite(id) : false
@@ -83,13 +84,13 @@ export default function ProjectCard({ id, slug, title, location, developer, hand
   return (
     <Link href={`/projects/${slug}`} className={s.card}>
       <div className={s.cardMedia}>
-        {images.length > 0 ? (
+        {limitedImages.length > 0 ? (
           <Swiper
             onSwiper={swiper => { swiperRef.current = swiper }}
             onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
             className={s.swiper}
           >
-            {images.map((img, i) => (
+            {limitedImages.map((img, i) => (
               <SwiperSlide key={i} className={s.slide}>
                 <Image src={img} alt={title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               </SwiperSlide>
@@ -134,7 +135,7 @@ export default function ProjectCard({ id, slug, title, location, developer, hand
                 </button>
               </div>
               <div className={s.pagination}>
-                {images.map((_, i) => (
+                {limitedImages.map((_, i) => (
                   <span
                     key={i}
                     className={`${s.paginationBar} ${i === activeIndex ? s.paginationBarActive : ''}`}

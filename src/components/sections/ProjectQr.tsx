@@ -13,6 +13,7 @@ export default function ProjectQr({
   description = "This project has been verified in partnership with the Dubai Land Department's (DLD) Real Estate Regulatory Agency (RERA)",
   qrUrl,
 }: Props) {
+  console.log(qrUrl)
   return (
     <section className={s.section}>
       <Container>

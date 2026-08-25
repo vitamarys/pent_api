@@ -97,7 +97,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           location={[area, 'Dubai'].filter(Boolean).join(', ')}
           description={b.subtitle ?? ''}
           image={imgUrl(b.imageFile)}
-          startingPrice={minPrice ? formatCompactPrice(minPrice) : ''}
+          startingPrice={minPrice ?? null}
           handover={handover}
           numberOfUnits={units ? String(units) : ''}
           breadcrumb={[
