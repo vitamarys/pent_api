@@ -187,8 +187,8 @@ export default function DeveloperSlider({
           onMouseDown={drag.onMouseDown}
           onClickCapture={drag.onClickCapture}
         >
-          {developers.map((dev) => (
-            <DeveloperCard key={dev.slug} developer={dev} />
+          {developers.map((dev, i) => (
+            <DeveloperCard key={dev.id ?? `${dev.slug}-${i}`} developer={dev} />
           ))}
         </div>
       </Container>
