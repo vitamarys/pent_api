@@ -6,7 +6,7 @@ import type { PenthouseBlock } from '@/types/penthouse-api'
 
 import dynamic from 'next/dynamic'
 import AnotherContent from '@/components/sections/AnotherContent'
-import DeveloperAbout from '@/components/sections/DeveloperAbout'
+import AboutArea from '@/components/sections/AboutArea'
 import HeroDeveloper from '@/components/sections/HeroDeveloper'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
 import ProjectBanner from '@/components/sections/ProjectBanner'
@@ -78,10 +78,10 @@ function renderBlock(block: PenthouseBlock, index: number, entityId?: number, de
         points?: Array<{ id: number; title: string; description: string }>
       }
       return (
-        <DeveloperAbout
+        <AboutArea
           key={index}
           sectionTitle={b.title ?? undefined}
-          sectionDescription={b.description ?? undefined}
+          description={b.description ?? ''}
           features={b.points ?? []}
         />
       )

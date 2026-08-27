@@ -2,8 +2,12 @@
 
 // ── Container override: no padding on tablet/mobile ─────────
 .container {
-  @include t.tablet { padding: 0; }
-  @include t.mobile { padding: 0; }
+  @include t.tablet {
+    padding: 0;
+  }
+  @include t.mobile {
+    padding: 0;
+  }
 }
 
 // ── Section ─────────────────────────────────────────────────
@@ -105,15 +109,18 @@
   justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-
+  background-color: rgba(255, 255, 255, 0.16);
+  padding: 32px;
   @include t.tablet {
     width: 112px;
     height: 55px;
+    padding: 20px;
   }
 
   @include t.mobile {
     width: 102px;
     height: 46px;
+    padding: 16px;
   }
 }
 
@@ -121,6 +128,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  position: static !important;
 }
 
 // ── Info container ───────────────────────────────────────────
