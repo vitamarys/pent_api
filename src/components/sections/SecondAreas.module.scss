@@ -1,0 +1,71 @@
+@use "@/styles/tokens" as t;
+@use "sass:color";
+
+.section {
+  padding: 120px 0 t.$gap-large;
+
+  @include t.tablet {
+    padding: 100px 0 t.$gap-large;
+  }
+
+  @include t.mobile {
+    padding: 80px 0 t.$gap-large;
+  }
+}
+
+.title {
+  @include t.text-h2;
+  color: t.$black-solid;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    font-size: 32px;
+    letter-spacing: -0.96px;
+  }
+
+  @include t.mobile {
+    font-size: 28px;
+    letter-spacing: -0.84px;
+  }
+}
+
+.highlight {
+  color: t.$brand-main-base;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include t.mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: t.$control-height-large;
+  margin: 0 auto;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: color.adjust(t.$brand-main-base, $lightness: -8%);
+  }
+
+  @include t.mobile {
+    width: 100%;
+  }
+}

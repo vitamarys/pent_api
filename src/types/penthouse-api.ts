@@ -181,6 +181,7 @@ export interface PenthouseListingsProjectsResponse {
 
 export interface PenthousePropertyFilters {
   ids?: number[]
+  areas?: number[]
   search?: string
   propertyTypes?: number[]
   price?: [number, number]

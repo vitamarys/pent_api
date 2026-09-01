@@ -28,6 +28,7 @@ export interface SimilarProjectItem {
 interface SimilarProjectsProps {
   projects: SimilarProjectItem[]
   sectionTitle?: string
+  titleHighlight?: string
   ctaLabel?: string
   ctaHref?: string
 }
@@ -207,6 +208,7 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
 export default function SimilarProjects({
   projects,
   sectionTitle = 'Similar Projects',
+  titleHighlight,
   ctaLabel = 'See all projects',
   ctaHref = '/projects',
 }: SimilarProjectsProps) {
@@ -226,7 +228,15 @@ export default function SimilarProjects({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title}>{sectionTitle}</h2>
+            <h2 className={s.title}>
+              {titleHighlight && sectionTitle?.includes(titleHighlight)
+                ? <>
+                    {sectionTitle.slice(0, sectionTitle.indexOf(titleHighlight))}
+                    <span style={{ color: '#C19962' }}>{titleHighlight}</span>
+                    {sectionTitle.slice(sectionTitle.indexOf(titleHighlight) + titleHighlight.length)}
+                  </>
+                : sectionTitle}
+            </h2>
           </div>
 
           <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnDesktop}`}>

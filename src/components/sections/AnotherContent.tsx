@@ -2,6 +2,7 @@ import SimilarProjects, { type SimilarProjectItem } from './SimilarProjects'
 import NewsSlider, { type NewsItem } from './NewsSlider'
 import DeveloperSlider, { type DeveloperSliderItem } from './DeveloperSlider'
 import AgentSlider from './AgentSlider'
+import SecondAreas from './SecondAreas'
 import { getProjects, getSimilar } from '@/api/listings'
 import { getArticles } from '@/api/articles'
 import { getDevelopers } from '@/api/developers'
@@ -12,12 +13,13 @@ import type { OffPlanProjectCard } from '@/types/penthouse-api'
 interface Props {
   contentType: 'projects' | 'articles' | string | null | undefined
   title?: string
+  titleHighlight?: string
   seeAllButton?: string
   entityType?: 'area' | 'developer' | 'project'
   entityId?: number
 }
 
-export default async function AnotherContent({ contentType, title, seeAllButton, entityType, entityId }: Props) {
+export default async function AnotherContent({ contentType, title, titleHighlight, seeAllButton, entityType, entityId }: Props) {
   if (contentType === 'projects') {
     let projectData: OffPlanProjectCard[] = []
       
@@ -54,6 +56,7 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
       <SimilarProjects
         projects={items}
         sectionTitle={title}
+        titleHighlight={titleHighlight}
         ctaLabel={seeAllButton}
         ctaHref="/projects"
       />
@@ -120,6 +123,17 @@ export default async function AnotherContent({ contentType, title, seeAllButton,
         sectionTitle={title}
         ctaLabel={seeAllButton}
         ctaHref="/developers"
+      />
+    )
+  }
+
+  if (contentType === 'secondary') {
+    return (
+      <SecondAreas
+        sectionTitle={title}
+        titleHighlight={titleHighlight}
+        ctaLabel={seeAllButton}
+        entityId={entityId}
       />
     )
   }

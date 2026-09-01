@@ -16,6 +16,7 @@ const ProjectForm = dynamic(() => import('@/components/sections/ProjectForm'))
 import ProjectMap from '@/components/sections/ProjectMap'
 import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectServices from '@/components/sections/ProjectServices'
+import SecondAreas from '@/components/sections/SecondAreas'
 import WorkProgress from '@/components/sections/WorkProgress'
 
 export const revalidate = 300
@@ -47,6 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 interface AreaEntity {
   name?: string
+  title?: string
   description?: string
   image?: { url?: string } | null
   images?: Array<{ url?: string }>
@@ -268,12 +270,20 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         title?: string
         description?: string
         mapLink?: string
+        coordinates?: { lat?: number; lng?: number } | null
         zoom?: number
         points?: Array<{ id: number; title: string; value: string }>
       }
-      const [latitude, longitude] = (b.mapLink ?? '')
-        .split(',')
-        .map((s) => parseFloat(s.trim()))
+      let latitude: number | undefined
+      let longitude: number | undefined
+      if (b.coordinates?.lat && b.coordinates?.lng) {
+        latitude = b.coordinates.lat
+        longitude = b.coordinates.lng
+      } else if (b.mapLink) {
+        const parts = b.mapLink.split(',').map((s) => parseFloat(s.trim()))
+        latitude = parts[0]
+        longitude = parts[1]
+      }
       if (!latitude || !longitude) return null
       return (
         <ProjectMap
@@ -291,11 +301,18 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
     case 'block.another-content': {
       const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
       if (!b.contentType) return null
+      const ae = getAreaEntity(page)
+      const areaName = ae?.title ?? ae?.name
+      const title =
+        b.contentType === 'projects' && areaName
+          ? `Latest Projects in ${areaName}`
+          : b.title
       return (
         <AnotherContent
           key={index}
           contentType={b.contentType}
-          title={b.title}
+          title={title}
+          titleHighlight={b.contentType === 'projects' && areaName ? areaName : undefined}
           seeAllButton={b.seeAllButton ?? undefined}
           entityType="area"
           entityId={entityId}
@@ -323,15 +340,32 @@ export default async function AreaPage({ params }: Props) {
   const ae = page.associatedEntity?.[0] as { area?: { id?: number } } | undefined
   const entityId = ae?.area?.id
 
+  const areaEntityName = (getAreaEntity(page)?.title ?? getAreaEntity(page)?.name)
+
   return (
     <main>
-      {visibleBlocks.map((block, index) => {
+      {visibleBlocks.flatMap((block, index) => {
+        let el
         try {
-          return renderBlock(block, index, page, entityId)
+          el = renderBlock(block, index, page, entityId)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
-          return null
+          el = null
         }
+
+        if (block.__component === 'block.location') {
+          return [
+            <SecondAreas
+              key="second-areas"
+              entityId={entityId}
+              sectionTitle={areaEntityName ? `Secondary Properties for Sale in ${areaEntityName}` : 'Secondary Properties for Sale'}
+              titleHighlight={areaEntityName ?? undefined}
+            />,
+            el,
+          ]
+        }
+
+        return [el]
       })}
     </main>
   )
