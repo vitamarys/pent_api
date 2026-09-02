@@ -32,15 +32,18 @@ export default function AreaHighlights({
 
         {/* ── Image (tablet/mobile: top, desktop: right) ── */}
         <div className={s.imagePanel}>
-          {activeItem?.image && (
-            <Image
-              fill
-              key={active}
-              src={activeItem.image}
-              alt={activeItem.title}
-              className={s.image}
-              style={{ objectFit: 'cover' }}
-            />
+          {items.map((item, i) =>
+            item.image ? (
+              <Image
+                key={item.image}
+                fill
+                src={item.image}
+                alt={item.title}
+                className={`${s.image} ${i === active ? s.imageActive : ''}`}
+                style={{ objectFit: 'cover' }}
+                priority={i === 0}
+              />
+            ) : null
           )}
         </div>
 

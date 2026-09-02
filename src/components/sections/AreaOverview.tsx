@@ -22,7 +22,6 @@ export default function AreaOverview({
 }: AreaOverviewProps) {
   const [activeTab, setActiveTab] = useState(0)
   const activeContent = tabs[activeTab]?.content ?? ''
-  const activeImage = tabs[activeTab]?.image ?? ''
 
   return (
     <section className={s.section}>
@@ -61,9 +60,21 @@ export default function AreaOverview({
           </div>
 
           {/* ── Image ── */}
-          {activeImage && (
+          {tabs.some(t => t.image) && (
             <div className={s.imageWrap}>
-              <Image src={activeImage} alt={sectionTitle} fill className={s.img} sizes="(max-width: 768px) 100vw, 80vw" />
+              {tabs.map((tab, i) =>
+                tab.image ? (
+                  <Image
+                    key={tab.image}
+                    src={tab.image}
+                    alt={tab.label}
+                    fill
+                    className={`${s.img} ${i === activeTab ? s.imgActive : ''}`}
+                    sizes="(max-width: 768px) 100vw, 80vw"
+                    priority={i === 0}
+                  />
+                ) : null
+              )}
             </div>
           )}
 
