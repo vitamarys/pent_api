@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Star } from 'lucide-react'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
 import dynamic from 'next/dynamic'
@@ -15,7 +16,7 @@ interface Props {
   bedrooms?: number
   bathrooms?: number
   parking?: number
-  agent?: { name: string; role?: string; image?: { url: string }; phone?: string; email?: string }
+  agent?: { name: string; role?: string; image?: { url: string }; phone?: string; email?: string; pageUrl?: string }
   agentId?: string
   agentLeadId?: string
 }
@@ -78,28 +79,39 @@ export default function SecondarySidebar({
       )}
 
       {/* Agent card */}
-      {agent && (
-        <div className={s.agentCard}>
-          <div className={s.agentAvatarWrap}>
-            {agent.image ? (
-              <Image src={agent.image.url} alt={agent.name} fill className={s.agentAvatar} sizes="89px" />
-            ) : (
-              <div className={s.agentAvatarFallback}>
-                {agent.name.charAt(0)}
-              </div>
-            )}
-          </div>
-          <div className={s.agentInfo}>
-            <span className={s.agentName}>{agent.name}</span>
-            {agent.role && <span className={s.agentRole}>{agent.role}</span>}
-            <div className={s.agentStars}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <Star key={n} size={14} className={s.starIcon} />
-              ))}
+      {agent && (() => {
+        const cardContent = (
+          <>
+            <div className={s.agentAvatarWrap}>
+              {agent.image ? (
+                <Image src={agent.image.url} alt={agent.name} fill className={s.agentAvatar} sizes="89px" />
+              ) : (
+                <div className={s.agentAvatarFallback}>
+                  {agent.name.charAt(0)}
+                </div>
+              )}
             </div>
+            <div className={s.agentInfo}>
+              <span className={s.agentName}>{agent.name}</span>
+              {agent.role && <span className={s.agentRole}>{agent.role}</span>}
+              <div className={s.agentStars}>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <Star key={n} size={14} className={s.starIcon} />
+                ))}
+              </div>
+            </div>
+          </>
+        )
+        return agent.pageUrl ? (
+          <Link href={agent.pageUrl} className={s.agentCard}>
+            {cardContent}
+          </Link>
+        ) : (
+          <div className={s.agentCard}>
+            {cardContent}
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* CTA row */}
       <div className={s.ctaRow}>

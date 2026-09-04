@@ -3,8 +3,17 @@
 // ── Section ───────────────────────────────────────────────
 .section {
   display: flex;
+  flex-direction: column;
+}
+
+// ── Inner (Container override) ────────────────────────────
+.inner {
+  display: flex;
   align-items: stretch;
+  width: 100%;
   min-height: 645px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 
   @include t.mobile {
     flex-direction: column;

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Container from '@/components/ui/Container'
 import s from './ProjectQr.module.scss'
 
@@ -25,7 +24,8 @@ export default function ProjectQr({
 
           {qrUrl && (
             <div className={s.qrWrap}>
-              <Image src={qrUrl} alt="QR code" fill className={s.qrImg} sizes="120px" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={qrUrl} alt="QR code" className={s.qrImg} />
             </div>
           )}
         </div>

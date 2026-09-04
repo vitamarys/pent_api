@@ -564,7 +564,25 @@ export default async function ResalePage({ params }: Props) {
             bedrooms={property?.bedrooms ? Number(property.bedrooms) : undefined}
             bathrooms={property?.noOfBathroom ?? undefined}
             parking={property?.parking ? Number(property.parking) : undefined}
-            agent={property?.listingAgent ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined, email: property.listingAgentEmail ?? undefined } : undefined}
+            agent={
+              property?.agent
+                ? {
+                    name: property.agent.name ?? property.listingAgent ?? '',
+                    role: property.agent.position ?? undefined,
+                    image: property.agent.image?.url ? { url: property.agent.image.url } : undefined,
+                    phone: property.agent.phoneNumber ?? property.listingAgentPhone ?? undefined,
+                    email: property.agent.email ?? property.listingAgentEmail ?? undefined,
+                    pageUrl:
+                      property.agent.pageUrl?.url &&
+                      property.agent.pageUrl.pageStatus === 'PUBLISH' &&
+                      !property.agent.pageUrl.deleted
+                        ? property.agent.pageUrl.url
+                        : undefined,
+                  }
+                : property?.listingAgent
+                  ? { name: property.listingAgent, phone: property.listingAgentPhone ?? undefined, email: property.listingAgentEmail ?? undefined }
+                  : undefined
+            }
             agentLeadId={property?.agent?.leadId ?? undefined}
           />
         </div>

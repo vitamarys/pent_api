@@ -47,6 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // ── helpers ───────────────────────────────────────────────────────────────────
 
 interface AreaEntity {
+  id?: number
   name?: string
   title?: string
   description?: string
@@ -337,10 +338,9 @@ export default async function AreaPage({ params }: Props) {
     (b) => !['block.header', 'block.footer'].includes(b.__component),
   )
 
-  const ae = page.associatedEntity?.[0] as { area?: { id?: number } } | undefined
-  const entityId = ae?.area?.id
-
-  const areaEntityName = (getAreaEntity(page)?.title ?? getAreaEntity(page)?.name)
+  const areaEntity = getAreaEntity(page)
+  const entityId = areaEntity?.id
+  const areaEntityName = areaEntity?.title ?? areaEntity?.name
 
   return (
     <main>

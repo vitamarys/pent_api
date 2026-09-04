@@ -7,8 +7,12 @@
   padding: 120px 0 t.$margin-vertical-small;
   overflow: hidden;
 
-  @include t.tablet { padding: 100px 0 t.$margin-vertical-small; }
-  @include t.mobile { padding: 80px 0 t.$margin-vertical-small; }
+  @include t.tablet {
+    padding: 100px 0 t.$margin-vertical-small;
+  }
+  @include t.mobile {
+    padding: 80px 0 t.$margin-vertical-small;
+  }
 }
 
 // ── Decorative ellipse ────────────────────────────────────────
@@ -33,7 +37,9 @@
   gap: t.$gap-small;
   margin-bottom: t.$gap-normal;
 
-  @include t.tablet { margin-bottom: t.$gap-small; }
+  @include t.tablet {
+    margin-bottom: t.$gap-small;
+  }
 }
 
 .titleWrap {
@@ -79,7 +85,9 @@
 .ctaBtnDesktop {
   width: 200px;
 
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .ctaBtnBottom {
@@ -87,7 +95,9 @@
   width: 100%;
   margin-top: t.$gap-small;
 
-  @include t.tablet { display: flex; }
+  @include t.tablet {
+    display: flex;
+  }
 }
 
 // ── Navigation arrows ────────────────────────────────────────
@@ -96,7 +106,9 @@
   gap: t.$gap-xs;
   flex-shrink: 0;
 
-  @include t.tablet { display: none; }
+  @include t.tablet {
+    display: none;
+  }
 }
 
 .arrowBtn {
@@ -111,7 +123,9 @@
   cursor: pointer;
   flex-shrink: 0;
 
-  &:hover { opacity: 0.85; }
+  &:hover {
+    opacity: 0.85;
+  }
 }
 
 // ── Scroll track ─────────────────────────────────────────────
@@ -123,19 +137,25 @@
   overflow-x: hidden;
   cursor: grab;
 
-  &:active { cursor: grabbing; }
+  &:active {
+    cursor: grabbing;
+  }
 
   @include t.tablet {
     overflow-x: auto;
     scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   @include t.mobile {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 
@@ -145,8 +165,15 @@
   display: flex;
   flex-direction: column;
   background: t.$white-solid;
+  text-decoration: none;
 
-  @include t.tablet { flex: 1 0 340px; }
+  &:hover .cardCart {
+    background: #f0ece8;
+  }
+
+  @include t.tablet {
+    flex: 1 0 340px;
+  }
 
   @include t.mobile {
     flex: 0 0 calc(100% - 16px);
@@ -161,11 +188,13 @@
   flex-shrink: 0;
   background: t.$brand-second-base;
   overflow: hidden;
+  padding: 20px 20px 0 20px;
 }
 
 .cardImg {
   object-fit: cover;
   object-position: center top;
+  position: static !important;
 }
 
 .cardImgPlaceholder {
@@ -183,6 +212,7 @@
   display: flex;
   flex-direction: column;
   gap: t.$gap-large;
+  transition: background 0.2s ease;
 }
 
 .cardInfo {
@@ -231,4 +261,24 @@
   line-height: 1.4;
   color: t.$black-fade-4;
   margin: 0;
+}
+
+// ── Language tags ─────────────────────────────────────────────
+.cardLanguages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cardLangTag {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid t.$black-fade-2;
+  font-family: t.$font-sans;
+  font-size: 13px;
+  font-weight: 400;
+  color: t.$black-fade-4;
+  white-space: nowrap;
 }

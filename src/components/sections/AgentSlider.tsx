@@ -66,6 +66,13 @@ function AgentCard({ agent }: { agent: AgentSliderItem }) {
             <p className={s.cardPosition}>{agent.position}</p>
           )}
         </div>
+        {agent.languages && agent.languages.length > 0 && (
+          <div className={s.cardLanguages}>
+            {agent.languages.map((lang) => (
+              <span key={lang.id} className={s.cardLangTag}>{lang.name}</span>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   )

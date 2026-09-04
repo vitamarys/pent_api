@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Container from '@/components/ui/Container'
 import s from './DirectorQuote.module.scss'
 
 export interface DirectorQuoteProps {
@@ -18,6 +19,7 @@ export default function DirectorQuote({
 }: DirectorQuoteProps) {
   return (
     <section className={s.section}>
+      <Container className={s.inner}>
 
       {/* Photo */}
       <div className={s.photo}>
@@ -48,6 +50,7 @@ export default function DirectorQuote({
         </div>
       </div>
 
+      </Container>
     </section>
   )
 }

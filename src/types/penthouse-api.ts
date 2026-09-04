@@ -573,7 +573,16 @@ export interface SecondaryProperty {
   dld: SecondaryPropertyDld | null
   pageUrl: { url: string; isExternal: boolean } | null
   project: SecondaryPropertyProject | null
-  agent?: { id?: number; name?: string; leadId?: string; phoneNumber?: string; email?: string } | null
+  agent?: {
+    id?: number
+    name?: string
+    leadId?: string
+    phoneNumber?: string
+    email?: string
+    position?: string | null
+    image?: { url: string; urlMd?: string; urlXl?: string; alternativeText?: string | null } | null
+    pageUrl?: { url: string; pageStatus?: string; deleted?: boolean } | null
+  } | null
   furnished?: string | null
   area?: { id?: number; title?: string } | null
 }
