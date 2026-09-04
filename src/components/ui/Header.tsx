@@ -8,7 +8,7 @@ import s from './Header.module.scss'
 import { useSettingsStore, CURRENCIES, METRICS, type Currency, type Metric } from '@/store/settings'
 import strapiClient from '@/lib/axios'
 
-const DARK_HEADER_PATHS = [ '/areas', '/resale', '/projects', '/agents', '/about', '/favorites', '/contact', '/developers']
+const DARK_HEADER_PATHS = [ '/areas', '/resale', '/projects', '/agents', '/about-us', '/favorites', '/contact', '/developers']
 
 const NAV_LINKS = [
   
@@ -18,7 +18,7 @@ const NAV_LINKS = [
   { label: 'Developers',        href: '/developers' },
     { label: 'Areas',        href: '/areas' },
   { label: 'Contact Us',          href: '/contact' },
-  { label: 'About',             href: '/about' },
+  { label: 'About',             href: '/about-us' },
 ]
 
 // ── Search API types ──────────────────────────────────────────

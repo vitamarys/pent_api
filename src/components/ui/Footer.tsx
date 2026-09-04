@@ -15,7 +15,7 @@ const NAV_COLS = [
   [
     { label: 'Developers', href: '/developers' },
     { label: 'Contact Us', href: '/contact' },
-    { label: 'About Us',   href: '/about' },
+    { label: 'About Us',   href: '/about-us' },
   ],
   [
     { label: 'Blog',           href: '/blog' },
