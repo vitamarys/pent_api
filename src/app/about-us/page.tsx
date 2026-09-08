@@ -17,13 +17,13 @@ import ConsultationBlock from '@/components/ui/ConsultationBlock'
 export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPageBySlug('/about/')
+  const page = await getPageBySlug('/about-us/')
   if (!page) return {}
   return {
     title: page.seo?.title ?? page.title,
     description: page.seo?.metaDescription,
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/about`,
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/about-us`,
     },
   }
 }
@@ -273,7 +273,7 @@ function renderBlock(block: PenthouseBlock, index: number) {
 }
 
 export default async function AboutPage() {
-  const page = await getPageBySlug('/about/')
+  const page = await getPageBySlug('/about-us/')
   if (!page) notFound()
 
   return (
