@@ -41,13 +41,27 @@ function ChevronIcon() {
   )
 }
 
+const PAGE_SIZE = 21
+
 export default async function AreasPage({
   searchParams,
 }: {
-  searchParams: Promise<{ search?: string }>
+  searchParams: Promise<{ search?: string; page?: string }>
 }) {
-  const { search } = await searchParams
-  const { data: areas } = await getAreas({ pageSize: 100, search })
+  const { search, page: pageParam } = await searchParams
+  const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1)
+
+  const { data: areas, meta } = await getAreas({ pageSize: PAGE_SIZE, page, search })
+  const pageCount = meta?.pageCount ?? 1
+  const total = meta?.total ?? areas.length
+
+  function pageHref(p: number) {
+    const params = new URLSearchParams()
+    if (search) params.set('search', search)
+    if (p > 1) params.set('page', String(p))
+    const qs = params.toString()
+    return `/areas${qs ? `?${qs}` : ''}`
+  }
 
   return (
     <main>
@@ -65,7 +79,7 @@ export default async function AreasPage({
           <div className={s.headerContent}>
             <h1 className={s.title}>
               Top Areas{' '}
-              <span className={s.titleCount}>{areas.length}</span>
+              <span className={s.titleCount}>{total}</span>
             </h1>
             <p className={s.description}>
               Explore the best neighbourhoods in Dubai — from iconic waterfront communities
@@ -97,6 +111,44 @@ export default async function AreasPage({
               )
             })}
           </div>
+
+          {/* ── Pagination ── */}
+          {pageCount > 1 && (
+            <nav className={s.pagination} aria-label="Pagination">
+              <Link
+                href={pageHref(page - 1)}
+                className={`${s.pageBtn} ${page <= 1 ? s.pageBtnDisabled : ''}`}
+                aria-disabled={page <= 1}
+                tabIndex={page <= 1 ? -1 : undefined}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+                </svg>
+              </Link>
+
+              {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => (
+                <Link
+                  key={p}
+                  href={pageHref(p)}
+                  className={`${s.pageBtn} ${p === page ? s.pageBtnActive : ''}`}
+                  aria-current={p === page ? 'page' : undefined}
+                >
+                  {p}
+                </Link>
+              ))}
+
+              <Link
+                href={pageHref(page + 1)}
+                className={`${s.pageBtn} ${page >= pageCount ? s.pageBtnDisabled : ''}`}
+                aria-disabled={page >= pageCount}
+                tabIndex={page >= pageCount ? -1 : undefined}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 6L15 12L9 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square"/>
+                </svg>
+              </Link>
+            </nav>
+          )}
         </Container>
       </section>
     </main>

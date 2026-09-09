@@ -12,6 +12,7 @@ interface Props {
   layoutTitle?: string
   layoutDescription?: string
   images?: Array<{ url: string }> | null
+  pageBitrixId?: string
 }
 
 export default function SecondaryFloorPlan({
@@ -20,13 +21,14 @@ export default function SecondaryFloorPlan({
   layoutTitle = 'Layout on Request',
   layoutDescription = 'Get detailed layouts with exact areas, room dimensions, and available configurations.',
   images,
+  pageBitrixId,
 }: Props) {
   const hasImages = images && images.length > 0
   const [popOpen, setPopOpen] = useState(false)
 
   return (
     <>
-    <PopFloorPlan open={popOpen} onClose={() => setPopOpen(false)} />
+    <PopFloorPlan open={popOpen} onClose={() => setPopOpen(false)} pageBitrixId={pageBitrixId} />
     <section className={s.section}>
       {title && <h2 className={s.title}>{title}</h2>}
 

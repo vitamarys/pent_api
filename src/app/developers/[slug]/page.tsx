@@ -68,7 +68,7 @@ function imgUrl(file: unknown): string {
 
 // ── block renderer ────────────────────────────────────────────────────────────
 
-function renderBlock(block: PenthouseBlock, index: number, entityId?: number, developerName?: string) {
+function renderBlock(block: PenthouseBlock, index: number, entityId?: number, developerName?: string, pageBitrixId?: string) {
   if (block.visible === false) return null
   switch (block.__component) {
     case 'block.about-block': {
@@ -111,6 +111,7 @@ function renderBlock(block: PenthouseBlock, index: number, entityId?: number, de
           description={b.description}
           ctaLabel={b.buttonText ?? undefined}
           image={b.image?.url ? { url: b.image.url } : undefined}
+          pageBitrixId={pageBitrixId}
         />
       )
     }
@@ -261,11 +262,12 @@ export default async function DeveloperPage({ params }: Props) {
             { label: 'Developers', href: '/developers' },
             { label: dev.name ?? '' },
           ]}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )}
       {visibleBlocks.map((block, index) => {
         try {
-          return renderBlock(block, index, entityId, dev?.name)
+          return renderBlock(block, index, entityId, dev?.name, page.leadBitrixId ?? undefined)
         } catch (err) {
           console.error(`Failed to render ${block.__component}`, err)
           return null

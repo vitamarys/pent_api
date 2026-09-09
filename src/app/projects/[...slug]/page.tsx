@@ -130,6 +130,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
             { label: b.title ?? page.title },
           ]}
           agent={agent}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -188,6 +189,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           images={images.slice(1) as [string, string]}
           details={details}
           allImages={images}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -289,6 +291,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           description={b.description ?? undefined}
           ctaLabel={b.expertButton ?? undefined}
           versions={versions}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -415,6 +418,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           image={imgUrl(b.image)}
           stats={b.stats?.map((s) => ({ value: s.value, label: s.title })) ?? []}
           ctaLabel={b.buttonText ?? undefined}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -491,6 +495,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           description={b.description}
           ctaLabel={b.buttonText ?? undefined}
           image={b.image?.url ? { url: b.image.url } : undefined}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }

@@ -82,11 +82,20 @@ export default function PopConsultation({
       .catch(() => {})
   }, [])
 
-  // Body scroll lock
+  // Body scroll lock (compensate scrollbar width to prevent layout shift)
   useEffect(() => {
-    if (open) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
-    return () => { document.body.style.overflow = '' }
+    if (open) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
   }, [open])
 
   const { register, handleSubmit, watch, setValue, control, reset, formState: { errors, isSubmitting } } =

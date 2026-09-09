@@ -25,6 +25,7 @@ export interface ProjectPaymentPlanProps {
   versions: PaymentVersion[];
   ctaLabel?: string;
   agentId?: string;
+  pageBitrixId?: string;
 }
 
 export default function ProjectPaymentPlan({
@@ -33,6 +34,7 @@ export default function ProjectPaymentPlan({
   versions,
   ctaLabel = "Discuss with expert",
   agentId,
+  pageBitrixId,
 }: ProjectPaymentPlanProps) {
   const [activeVersion, setActiveVersion] = useState(0);
   const [open, setOpen] = useState(false);
@@ -116,7 +118,7 @@ export default function ProjectPaymentPlan({
           </button>
         </div>
       </Container>
-      <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} />
+      <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} pageBitrixId={pageBitrixId} />
     </section>
   );
 }

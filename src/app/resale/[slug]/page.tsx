@@ -188,6 +188,7 @@ function renderBlock(
           layoutTitle={b.layoutTitle}
           layoutDescription={b.layoutDescription}
           images={b.images ?? null}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -282,6 +283,7 @@ function renderBlock(
           videoUrl={b.videoURL ?? proj.videoURL ?? undefined}
           details={details}
           allImages={allImageUrls}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -301,6 +303,7 @@ function renderBlock(
           description={b.description}
           ctaLabel={b.buttonText ?? undefined}
           image={b.image?.url ? { url: b.image.url } : undefined}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -351,6 +354,7 @@ function renderBlock(
           ctaLabel={b.buttonText}
           stats={b.stats?.map((s) => ({ value: s.value, label: s.title })) ?? []}
           image={b.image?.url ?? ''}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }

@@ -66,7 +66,7 @@ export default function DeveloperSearch({ defaultValue = '' }: { defaultValue?: 
     if (!q.trim()) { setSuggestions([]); setOpen(false); return }
     try {
       const base = process.env.NEXT_PUBLIC_STRAPI_URL ?? ''
-      const res = await fetch(`${base}/api/catalog/developers?search=${encodeURIComponent(q)}&pageSize=8`)
+      const res = await fetch(`${base}/api/catalog/developers?search=${encodeURIComponent(q)}&pageSize=20`)
       const json = await res.json()
       const items: SuggestionItem[] = (json.data ?? []).map((d: {
         id: number

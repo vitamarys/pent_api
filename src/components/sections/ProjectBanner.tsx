@@ -13,6 +13,7 @@ interface Props {
   ctaLabel?: string
   image?: { url: string }
   agentId?: string
+  pageBitrixId?: string
 }
 
 export default function ProjectBanner({
@@ -21,6 +22,7 @@ export default function ProjectBanner({
   ctaLabel,
   image,
   agentId,
+  pageBitrixId,
 }: Props) {
   const [open, setOpen] = useState(false)
 
@@ -48,7 +50,7 @@ export default function ProjectBanner({
         </div>
       </Container>
     </section>
-    <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} />
+    <PopConsultation open={open} onClose={() => setOpen(false)} agentId={agentId} pageBitrixId={pageBitrixId} />
     </>
   )
 }

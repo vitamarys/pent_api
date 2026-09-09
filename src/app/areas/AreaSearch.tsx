@@ -63,7 +63,7 @@ export default function AreaSearch({ defaultValue = '' }: { defaultValue?: strin
     if (!q.trim()) { setSuggestions([]); setOpen(false); return }
     try {
       const base = process.env.NEXT_PUBLIC_STRAPI_URL ?? ''
-      const res = await fetch(`${base}/api/catalog/areas?search=${encodeURIComponent(q)}&pageSize=8`)
+      const res = await fetch(`${base}/api/catalog/areas?search=${encodeURIComponent(q)}&pageSize=20`)
       const json = await res.json()
       const items: SuggestionItem[] = (json.data ?? []).map((a: {
         id: number

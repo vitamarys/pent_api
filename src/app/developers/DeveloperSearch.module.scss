@@ -67,7 +67,7 @@
   gap: t.$gap-small;
   flex-direction: column;
   max-height: 400px;
-  overflow: hidden;
+  overflow-y: auto;
 
   // custom scrollbar track
   &::-webkit-scrollbar { display: none; }

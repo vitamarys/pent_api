@@ -27,6 +27,7 @@ export interface HeroProjectProps {
   breadcrumb?: BreadcrumbItem[]
   agent?: AgentInfo
   agentId?: string
+  pageBitrixId?: string
 }
 
 export default function HeroProject({
@@ -40,6 +41,7 @@ export default function HeroProject({
   breadcrumb = [],
   agent,
   agentId,
+  pageBitrixId,
 }: HeroProjectProps) {
   const [open, setOpen] = useState(false)
   const { formatPrice } = useDisplayFormat()
@@ -142,6 +144,7 @@ export default function HeroProject({
         onClose={() => setOpen(false)}
         agent={agent}
         agentId={agentId}
+        pageBitrixId={pageBitrixId}
       />
     </>
   )

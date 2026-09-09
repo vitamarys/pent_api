@@ -25,6 +25,7 @@ export interface ProjectInfoProps {
   videoUrl?: string;
   details: DetailItem[];
   allImages?: string[];
+  pageBitrixId?: string;
 }
 
 const GALLERY_ID = "project-info-gallery"
@@ -37,6 +38,7 @@ export default function ProjectInfo({
   videoUrl,
   details,
   allImages,
+  pageBitrixId,
 }: ProjectInfoProps) {
   const [presentationOpen, setPresentationOpen] = useState(false)
 
@@ -160,6 +162,7 @@ export default function ProjectInfo({
       onClose={() => setPresentationOpen(false)}
       image={mainImage}
       title={title}
+      pageBitrixId={pageBitrixId}
     />
     </>
   );

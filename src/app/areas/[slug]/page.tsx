@@ -84,6 +84,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
             { label: 'Areas', href: '/areas' },
             { label: b.title ?? page.title },
           ]}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }
@@ -174,6 +175,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           description={b.description}
           ctaLabel={b.buttonText ?? undefined}
           image={b.image?.url ? { url: b.image.url } : undefined}
+          pageBitrixId={page.leadBitrixId ?? undefined}
         />
       )
     }

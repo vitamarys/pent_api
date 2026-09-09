@@ -13,11 +13,12 @@ export interface TeamStat {
 }
 
 export interface ProjectTeamProps {
-  title?:       string;
-  description?: string;
-  image:        string;
-  stats?:       TeamStat[];
-  ctaLabel?:    string;
+  title?:         string;
+  description?:   string;
+  image:          string;
+  stats?:         TeamStat[];
+  ctaLabel?:      string;
+  pageBitrixId?:  string;
 }
 
 export default function ProjectTeam({
@@ -26,6 +27,7 @@ export default function ProjectTeam({
   image,
   stats,
   ctaLabel = "Contact us",
+  pageBitrixId,
 }: ProjectTeamProps) {
   const [open, setOpen] = useState(false)
 
@@ -66,7 +68,7 @@ export default function ProjectTeam({
         </div>
       </Container>
     </section>
-    <PopConsultation open={open} onClose={() => setOpen(false)} />
+    <PopConsultation open={open} onClose={() => setOpen(false)} pageBitrixId={pageBitrixId} />
     </>
   );
 }

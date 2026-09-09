@@ -17,6 +17,7 @@ export interface HeroAreaProps {
   breadcrumb?: { label: string; href?: string }[]
   ctaLabel?: string
   ctaHref?: string
+  pageBitrixId?: string
 }
 
 export default function HeroArea({
@@ -25,6 +26,7 @@ export default function HeroArea({
   image,
   breadcrumb = [],
   ctaLabel = 'Get Consultation',
+  pageBitrixId,
 }: HeroAreaProps) {
   const [open, setOpen] = useState(false)
 
@@ -76,7 +78,7 @@ export default function HeroArea({
           </Container>
         </div>
       </section>
-      <PopConsultation open={open} onClose={() => setOpen(false)} />
+      <PopConsultation open={open} onClose={() => setOpen(false)} pageBitrixId={pageBitrixId} />
     </>
   )
 }

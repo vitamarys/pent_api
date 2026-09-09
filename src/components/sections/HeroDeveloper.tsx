@@ -29,6 +29,7 @@ export interface HeroDeveloperProps {
   ctaLabel?: string
   ctaHref?: string
   breadcrumb?: BreadcrumbItem[]
+  pageBitrixId?: string
 }
 
 export default function HeroDeveloper({
@@ -40,6 +41,7 @@ export default function HeroDeveloper({
   ctaLabel = 'Get Consultation',
   ctaHref = '#',
   breadcrumb = [],
+  pageBitrixId,
 }: HeroDeveloperProps) {
   const [open, setOpen] = useState(false)
 
@@ -105,7 +107,7 @@ export default function HeroDeveloper({
         </div>
       </Container>
     </section>
-      <PopConsultation open={open} onClose={() => setOpen(false)} />
+      <PopConsultation open={open} onClose={() => setOpen(false)} pageBitrixId={pageBitrixId} />
     </>
   )
 }

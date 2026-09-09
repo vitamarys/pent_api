@@ -1,6 +1,22 @@
 @use '@/styles/tokens' as t;
 @use 'sass:color';
 
+// ── Animations ────────────────────────────────────────────────
+@keyframes backdropIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(12px) }
+  to   { opacity: 1; transform: scale(1) translateY(0) }
+}
+
+@keyframes modalSlideUp {
+  from { transform: translateY(100%) }
+  to   { transform: translateY(0) }
+}
+
 // ── Backdrop ──────────────────────────────────────────────────
 .backdrop {
   position: fixed;
@@ -13,6 +29,7 @@
   align-items: center;
   justify-content: center;
   padding: t.$gap-large;
+  animation: backdropIn 0.25s ease both;
 
   @include t.tablet {
     align-items: flex-end;
@@ -29,12 +46,14 @@
   max-width: 1044px;
   max-height: 92svh;
   overflow: hidden;
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @include t.tablet {
     max-width: 100%;
     width: 100%;
     height: 100svh;
     max-height: 100svh;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
 
