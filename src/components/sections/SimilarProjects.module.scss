@@ -63,6 +63,7 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   white-space: nowrap;
   text-decoration: none;
   flex-shrink: 0;
+  cursor: pointer;
   transition: background 0.2s;
 
   &:hover {
@@ -393,6 +394,7 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
 .cardPriceRow {
   border-top: 1px solid t.$black-fade-2;
   padding-top: t.$gap-small;
+  margin-top: auto;
 }
 
 .cardPrice {

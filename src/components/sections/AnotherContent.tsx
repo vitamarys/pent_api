@@ -46,7 +46,7 @@ export default async function AnotherContent({ contentType, title, titleHighligh
       title: p.title ?? '',
       location: p.area?.title,
       developer: p.developer?.name,
-      handover: p.handover ?? undefined,
+      handover: p.handover ?? (p.handoverValue ? `Handover ${p.handoverValue}` : undefined),
       priceFrom: p.minPrice ?? undefined,
       propertyTypes: p.projectTypes?.map((t) => t.name),
       images: p.previewImage ? [getStrapiImageUrl(p.previewImage.url)] : [],
@@ -134,6 +134,7 @@ export default async function AnotherContent({ contentType, title, titleHighligh
         titleHighlight={titleHighlight}
         ctaLabel={seeAllButton}
         entityId={entityId}
+        variant="slider"
       />
     )
   }

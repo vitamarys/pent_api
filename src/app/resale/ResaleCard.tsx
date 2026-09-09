@@ -95,7 +95,8 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const { formatArea, currency } = useDisplayFormat()
-  const hasGallery = images.length > 1
+  const limitedImages = images.slice(0, 4)
+  const hasGallery = limitedImages.length > 1
   const formattedPrice = price !== undefined
     ? Math.round(price).toLocaleString('en-US')
     : null
@@ -113,13 +114,13 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
     <Link href={`/resale/${slug}`} className={s.card}>
       {/* ── Media ── */}
       <div className={s.media}>
-        {images.length > 0 ? (
+        {limitedImages.length > 0 ? (
           <Swiper
             onSwiper={swiper => { swiperRef.current = swiper }}
             onSlideChange={swiper => setActiveIndex(swiper.activeIndex)}
             className={s.swiper}
           >
-            {images.map((img, i) => (
+            {limitedImages.map((img, i) => (
               <SwiperSlide key={i} className={s.slide}>
                 <Image src={img} alt={title} fill className={s.img} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 428px" />
               </SwiperSlide>
@@ -166,7 +167,7 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
                 </button>
               </div>
               <div className={s.pagination}>
-                {images.map((_, i) => (
+                {limitedImages.map((_, i) => (
                   <span
                     key={i}
                     className={`${s.paginationBar} ${i === activeIndex ? s.paginationBarActive : ''}`}

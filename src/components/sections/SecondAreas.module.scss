@@ -1,6 +1,127 @@
 @use "@/styles/tokens" as t;
 @use "sass:color";
 
+// ── Slider header ─────────────────────────────────────────────
+.sliderHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: t.$gap-small;
+  margin-bottom: t.$gap-normal;
+
+  @include t.tablet {
+    margin-bottom: t.$gap-small;
+  }
+}
+
+.titleWrap {
+  flex: 1;
+  min-width: 0;
+}
+
+// ── Slider CTA button ─────────────────────────────────────────
+.sliderCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: t.$control-height-large;
+  padding: 0 t.$gap-small;
+  background: t.$brand-main-base;
+  color: t.$white-solid;
+  @include t.text-body-m;
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: color.adjust(t.$brand-main-base, $lightness: -8%);
+  }
+}
+
+.sliderCtaDesktop {
+  width: 200px;
+
+  @include t.tablet {
+    display: none;
+  }
+}
+
+.sliderCtaBottom {
+  display: none;
+  width: 100%;
+  margin-top: t.$gap-small;
+
+  @include t.tablet {
+    display: flex;
+  }
+}
+
+// ── Navigation arrows ─────────────────────────────────────────
+.navArrows {
+  display: flex;
+  gap: t.$gap-xs;
+  flex-shrink: 0;
+
+  @include t.mobile {
+    display: none;
+  }
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: t.$control-height-large;
+  height: t.$control-height-large;
+  background: t.$brand-second-base;
+  color: t.$black-solid;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+// ── Scroll track ──────────────────────────────────────────────
+.scrollTrack {
+  display: flex;
+  gap: t.$gap-small;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  width: calc(100% + t.$gap-large);
+
+  @include t.tablet {
+    width: 100%;
+    scroll-snap-type: x mandatory;
+  }
+}
+
+// ── Slider card wrapper ───────────────────────────────────────
+.sliderCardWrap {
+  flex: 0 0 calc((100% - 3 * t.$gap-small) / 3.2);
+  min-width: 280px;
+
+  @include t.tablet {
+    flex: 0 0 340px;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  @include t.mobile {
+    flex: 0 0 calc(100% - 24px);
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
 .section {
   padding: 120px 0 t.$gap-large;
 
@@ -59,6 +180,7 @@
   color: t.$white-solid;
   @include t.text-body-m;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s;
 
   &:hover {

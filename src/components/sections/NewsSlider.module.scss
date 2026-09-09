@@ -60,9 +60,10 @@
   color: t.$white-solid;
   @include t.text-body-m;
   text-decoration: none;
-  transition: background 0.2s;
   white-space: nowrap;
   padding: 0 16px;
+  cursor: pointer;
+  transition: background 0.2s;
 
   &:hover {
     background: color.adjust(t.$brand-main-base, $lightness: -8%);

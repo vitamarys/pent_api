@@ -378,6 +378,7 @@
   color: t.$white-solid;
   @include t.text-body-m;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s;
 
   &:hover {

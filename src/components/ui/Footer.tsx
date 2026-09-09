@@ -18,7 +18,7 @@ const NAV_COLS = [
     { label: 'About Us',   href: '/about-us' },
   ],
   [
-    { label: 'Blog',           href: '/blog' },
+    // { label: 'Blog',           href: '/blog' },
     { label: 'Our Specialists', href: '/agents' },
   ],
 ]
@@ -26,9 +26,9 @@ const NAV_COLS = [
 const NAV_LINKS_FLAT = NAV_COLS.flat()
 
 const SOCIAL_LINKS = [
-  { label: 'Facebook',  href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'YouTube',   href: '#' },
+  { label: 'Facebook',  href: 'https://www.facebook.com/penthouse.ae' },
+  { label: 'Instagram', href: 'https://www.instagram.com/penthouse.ae' },
+  { label: 'YouTube',   href: 'https://www.youtube.com/c/MetropolitanPremiumProperties' },
 ]
 
 export default function Footer() {
@@ -95,8 +95,8 @@ export default function Footer() {
           {/* ── Bottom ───────────────────────────────────── */}
           <div className={s.bottom}>
             <div className={s.legalLinks}>
-              <Link href="/privacy" className={s.legalLink}>Privacy Policy</Link>
-              <Link href="/terms"   className={s.legalLink}>Terms of Use</Link>
+              <Link href="https://mpp.agency/docs/privacy_policy/mpp/en.html" rel="nofollow" target="_blank"  className={s.legalLink}>Privacy Policy</Link>
+              <Link href="https://mpp.agency/docs/terms/mpp/en.html" rel="nofollow" target="_blank"   className={s.legalLink}>Terms of Use</Link>
             </div>
             <p className={s.copyright}>
               Copyright © 2010-{year}<br />

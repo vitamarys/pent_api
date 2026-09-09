@@ -7,10 +7,16 @@ import * as Slider from '@radix-ui/react-slider'
 import { useQuery } from '@tanstack/react-query'
 import { useCatalogOptions } from '@/hooks/useCatalogSearch'
 import { searchProperty } from '@/api/listings'
+import { useSettingsStore } from '@/store/settings'
 import s from './ResaleFilters.module.scss'
 
 const PRICE_MIN = 0
 const PRICE_MAX = 99_999_999
+
+const CURRENCY_RATES: Record<string, number> = {
+  USD: 0.2723,
+  EUR: 0.2506,
+}
 
 const STATUS_OPTIONS = [
   { id: 'UNDER_CONSTRUCTION', label: 'Under Construction' },
@@ -36,35 +42,43 @@ function PriceInput({ value, onCommit, onApply, min, max, showCurrency }: {
   max: number
   showCurrency?: boolean
 }) {
-  const [draft, setDraft] = useState(formatPrice(value))
+  const { currency } = useSettingsStore()
+  const rate = currency === 'AED' ? 1 : (CURRENCY_RATES[currency] ?? 1)
+
+  const toDisplay = (aed: number) => Math.round(aed * rate)
+  const toAED = (displayed: number) => Math.round(displayed / rate)
+
+  const [draft, setDraft] = useState(formatPrice(toDisplay(value)))
   const focused = useRef(false)
 
   useEffect(() => {
-    if (!focused.current) setDraft(formatPrice(value))
-  }, [value])
+    if (!focused.current) setDraft(formatPrice(toDisplay(value)))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, rate])
 
   return (
     <div className={s.inlinePriceValWrap}>
       <input
         className={s.inlinePriceInput}
         value={draft}
-        onFocus={() => { focused.current = true; setDraft(String(value)) }}
+        onFocus={() => { focused.current = true; setDraft(String(toDisplay(value))) }}
         onChange={e => setDraft(e.target.value)}
         onBlur={() => {
           focused.current = false
           const parsed = parseInt(draft.replace(/\D/g, ''), 10)
           if (!isNaN(parsed)) {
-            const clamped = Math.min(Math.max(parsed, min), max)
+            const aedValue = toAED(parsed)
+            const clamped = Math.min(Math.max(aedValue, min), max)
             onCommit(clamped)
-            setDraft(formatPrice(clamped))
+            setDraft(formatPrice(toDisplay(clamped)))
             onApply(clamped)
           } else {
-            setDraft(formatPrice(value))
+            setDraft(formatPrice(toDisplay(value)))
           }
         }}
         onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
       />
-      {showCurrency && <span className={s.inlinePriceCurrency}>AED</span>}
+      {showCurrency && <span className={s.inlinePriceCurrency}>{currency}</span>}
     </div>
   )
 }
@@ -189,13 +203,17 @@ function PriceRange({ value, onChange }: {
   value: [number, number]
   onChange: (v: [number, number]) => void
 }) {
+  const { currency } = useSettingsStore()
+  const rate = currency === 'AED' ? 1 : (CURRENCY_RATES[currency] ?? 1)
+  const toDisplay = (aed: number) => Math.round(aed * rate)
+
   return (
     <div className={s.priceBox}>
       <div className={s.priceRow}>
-        <span className={s.priceVal}>{formatPrice(value[0])}</span>
+        <span className={s.priceVal}>{formatPrice(toDisplay(value[0]))}</span>
         <span className={s.priceSep} />
-        <span className={s.priceVal}>{formatPrice(value[1])}</span>
-        <span className={s.priceCur}>AED</span>
+        <span className={s.priceVal}>{formatPrice(toDisplay(value[1]))}</span>
+        <span className={s.priceCur}>{currency}</span>
       </div>
       <Slider.Root
         className={s.sliderRoot}

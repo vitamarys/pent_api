@@ -7,7 +7,13 @@ import { Search, X, ChevronDown } from 'lucide-react';
 import * as Slider from '@radix-ui/react-slider';
 import Container from '@/components/ui/Container';
 import { useCatalogOptions, useCatalogCount, useAvailableBedrooms, type CatalogCountParams } from '@/hooks/useCatalogSearch';
+import { useSettingsStore } from '@/store/settings';
 import s from './HeroHome.module.scss';
+
+const CURRENCY_RATES: Record<string, number> = {
+  USD: 0.2723,
+  EUR: 0.2506,
+};
 
 interface HeroHomeProps {
   bgImage?: string;
@@ -107,12 +113,19 @@ function PriceInput({
   max: number;
   showCurrency?: boolean;
 }) {
-  const [draft, setDraft] = useState(formatPrice(value));
+  const { currency } = useSettingsStore();
+  const rate = currency === 'AED' ? 1 : (CURRENCY_RATES[currency] ?? 1);
+
+  const toDisplay = (aed: number) => Math.round(aed * rate);
+  const toAED = (displayed: number) => Math.round(displayed / rate);
+
+  const [draft, setDraft] = useState(formatPrice(toDisplay(value)));
   const focused = useRef(false);
 
   useEffect(() => {
-    if (!focused.current) setDraft(formatPrice(value));
-  }, [value]);
+    if (!focused.current) setDraft(formatPrice(toDisplay(value)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, rate]);
 
   return (
     <div className={s.priceValWrap}>
@@ -121,23 +134,24 @@ function PriceInput({
         value={draft}
         onFocus={() => {
           focused.current = true;
-          setDraft(String(value));
+          setDraft(String(toDisplay(value)));
         }}
         onChange={e => setDraft(e.target.value)}
         onBlur={() => {
           focused.current = false;
           const parsed = parseInt(draft.replace(/\D/g, ''), 10);
           if (!isNaN(parsed)) {
-            const clamped = Math.min(Math.max(parsed, min), max);
+            const aedValue = toAED(parsed);
+            const clamped = Math.min(Math.max(aedValue, min), max);
             onCommit(clamped);
-            setDraft(formatPrice(clamped));
+            setDraft(formatPrice(toDisplay(clamped)));
           } else {
-            setDraft(formatPrice(value));
+            setDraft(formatPrice(toDisplay(value)));
           }
         }}
         onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); }}
       />
-      {showCurrency && <span className={s.priceCurrency}>AED</span>}
+      {showCurrency && <span className={s.priceCurrency}>{currency}</span>}
     </div>
   );
 }
