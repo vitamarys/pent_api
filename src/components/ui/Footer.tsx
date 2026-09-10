@@ -9,7 +9,7 @@ import s from './Footer.module.scss'
 const NAV_COLS = [
   [
     { label: 'Off-plan Projects', href: '/projects' },
-    { label: 'Buy',               href: '/buy' },
+    { label: 'Buy',               href: '/resale' },
     { label: 'Sell',              href: '/sell' },
   ],
   [
