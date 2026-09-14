@@ -27,7 +27,9 @@
   background: t.$white-solid;
   border: 1px solid rgba(31, 31, 31, 0.1);
   position: relative;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
   overflow: visible;
 
   &:focus-within {
@@ -266,7 +268,9 @@
   color: t.$black-solid;
   cursor: pointer;
   position: relative;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
   overflow: visible;
 
   &:hover {
@@ -322,7 +326,7 @@
 
 .inlinePriceBox {
   flex: 1 0 0;
-  min-width: 3000px;
+  min-width: 300px;
   height: 48px;
   position: relative;
   display: flex;
@@ -425,9 +429,15 @@
   flex-shrink: 0;
   transition: box-shadow 0.15s;
 
-  &:hover { box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.15); }
-  &:focus-visible { box-shadow: 0 0 0 3px t.$brand-main-base; }
-  &:active { cursor: grabbing; }
+  &:hover {
+    box-shadow: 0 0 0 3px rgba(31, 31, 31, 0.15);
+  }
+  &:focus-visible {
+    box-shadow: 0 0 0 3px t.$brand-main-base;
+  }
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 // ── Tablet/Mobile bar ─────────────────────────────────────────
@@ -867,7 +877,9 @@
   line-height: 1.4;
   color: t.$black-solid;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 
   &:hover {
     border-color: rgba(31, 31, 31, 0.35);
