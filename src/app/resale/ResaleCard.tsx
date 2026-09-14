@@ -20,7 +20,27 @@ export interface ResaleCardProps {
   bathrooms?: number
   unitType?: string
   location?: string
+  projectName?: string
   images?: string[]
+}
+
+function buildCardTitle(props: Pick<ResaleCardProps, 'bedrooms' | 'unitType' | 'projectName' | 'location' | 'title'>): string {
+  const parts: string[] = []
+
+  if (props.bedrooms) {
+    const beds = props.bedrooms.toString().trim()
+    const isStudio = beds === '0' || beds.toLowerCase() === 'studio'
+    parts.push(isStudio ? 'Studio' : `${beds} bedroom`)
+  }
+
+  if (props.unitType) {
+    parts.push(props.unitType.toLowerCase())
+  }
+
+  const place = [props.projectName, props.location].filter(Boolean).join(', ')
+  if (place) parts.push(`in ${place}`)
+
+  return parts.join(' ') || props.title
 }
 
 interface FavResale {
@@ -91,7 +111,7 @@ function HeartIcon({ active }: { active: boolean }) {
   )
 }
 
-export default function ResaleCard({ id, slug, title, price, area, bedrooms, bathrooms, unitType, location, images = [] }: ResaleCardProps) {
+export default function ResaleCard({ id, slug, title, price, area, bedrooms, bathrooms, unitType, location, projectName, images = [] }: ResaleCardProps) {
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const { formatArea, currency } = useDisplayFormat()
@@ -182,7 +202,7 @@ export default function ResaleCard({ id, slug, title, price, area, bedrooms, bat
       {/* ── Body ── */}
       <div className={s.body}>
         <div className={s.propertyInfo}>
-          <p className={s.title}>{title}</p>
+          <p className={s.title}>{buildCardTitle({ bedrooms, unitType, projectName, location, title })}</p>
           {location && <p className={s.location}>{location}</p>}
         </div>
 

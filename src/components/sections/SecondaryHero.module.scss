@@ -166,7 +166,7 @@
 // ── Arrow navigation ──────────────────────────────────────────────────────────
 .galleryArrows {
   position: absolute;
-  inset: 0;
+  inset: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;

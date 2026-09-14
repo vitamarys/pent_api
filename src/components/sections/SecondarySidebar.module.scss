@@ -105,11 +105,24 @@
   display: flex;
   align-items: center;
   gap: 16px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:is(a) {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 
   @include t.tablet {
     grid-column: 1;
     grid-row: 2;
     align-self: end;
+  }
+  @include t.mobile {
+    align-self: start;
   }
 }
 

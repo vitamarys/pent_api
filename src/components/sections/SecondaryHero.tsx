@@ -74,13 +74,14 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
 
-  const hasImages = images.length > 0
+  const sliderImages = images.slice(0, 4)
+  const hasImages = sliderImages.length > 0
 
   function prev() {
-    setActiveIndex((i) => (i === 0 ? images.length - 1 : i - 1))
+    setActiveIndex((i) => (i === 0 ? sliderImages.length - 1 : i - 1))
   }
   function next() {
-    setActiveIndex((i) => (i === images.length - 1 ? 0 : i + 1))
+    setActiveIndex((i) => (i === sliderImages.length - 1 ? 0 : i + 1))
   }
 
   const closeLightbox = useCallback(() => setLightboxOpen(false), [])
@@ -129,7 +130,7 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
         {/* ── Gallery ── */}
         <div className={s.gallery}>
           {hasImages ? (
-            images.map((img, i) => (
+            sliderImages.map((img, i) => (
               <Image
                 key={i}
                 src={img.url}
@@ -165,7 +166,7 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
           </div>
 
           {/* Arrow navigation — sides */}
-          {images.length > 1 && (
+          {sliderImages.length > 1 && (
             <div className={s.galleryArrows}>
               <button className={s.arrowBtn} onClick={prev} aria-label="Previous photo">
                 <span className={s.arrowIconFlipped}><IconArrow /></span>
@@ -177,9 +178,9 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
           )}
 
           {/* Pagination lines */}
-          {images.length > 1 && (
+          {sliderImages.length > 1 && (
             <div className={s.pagination}>
-              {images.map((_, i) => (
+              {sliderImages.map((_, i) => (
                 <button
                   key={i}
                   className={`${s.paginationLine} ${i === activeIndex ? s.paginationLineActive : ''}`}

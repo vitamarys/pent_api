@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 }
 
-const PAGE_SIZE = 18
+const PAGE_SIZE = 17
 
 // Banner config — insert after every N cards (0-indexed positions within the page)
 const BANNERS: Array<{ afterIndex: number; image: string; title: string; description: string; buttonText: string; buttonHref: string; align?: 'left' | 'right' }> = [
@@ -135,6 +135,7 @@ export default async function ResalePage({
         location={
           [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined
         }
+        projectName={(item.propertyName as string | null) ?? undefined}
         images={images}
       />
     )

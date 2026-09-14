@@ -414,7 +414,7 @@
   scroll-snap-align: start;
 
   @include t.mobile {
-    flex: 0 0 calc(100% - 24px);
+    flex: 0 0 calc(100% - 56px);
   }
 }
 

@@ -22,7 +22,7 @@ function Breadcrumbs({ items }: { items: AboutHeroBreadcrumb[] }) {
   return (
     <nav className={s.breadcrumbs} aria-label="Breadcrumb">
       <Link href="/" className={s.breadcrumbHome} aria-label="Home">
-        <Image src="/icons/icon-home-w.svg" alt="Home" width={16} height={16} />
+        <Image src="/icons/icon-home-w.svg" alt="Home" width={24} height={24} />
       </Link>
       {items.map((item, i) => (
         <span key={i} className={s.breadcrumbItem}>

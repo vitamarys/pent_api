@@ -48,7 +48,7 @@ export default function SecondarySidebar({
     { label: 'Price per Sq.ft', value: pricePerSqft != null ? formatPriceFull(pricePerSqft) : undefined },
     { label: 'Area',             value: area != null ? formatArea(area) : undefined },
     { label: 'Bedrooms',        value: bedrooms != null ? String(bedrooms) : undefined },
-    { label: 'Bathroom',        value: bathrooms != null ? String(bathrooms) : undefined },
+    { label: 'Bathrooms',       value: bathrooms != null ? String(bathrooms) : undefined },
     { label: 'Parking',         value: parking != null ? String(parking) : undefined },
   ]
 

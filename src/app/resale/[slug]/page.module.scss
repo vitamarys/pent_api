@@ -8,11 +8,11 @@
   padding: 80px 40px 0;
   display: grid;
   grid-template-columns: 1fr 380px;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto;
   grid-template-areas:
     "topbar   topbar"
     "hero     sidebar"
-    "sections sidebar";
+    "sections sections";
   gap: 0 32px;
   align-items: start;
 
@@ -25,11 +25,11 @@
       "sidebar"
       "sections";
     gap: 0;
-    padding: 40px 16px 0;
+    padding: 70px 16px 0;
   }
 
   @include t.mobile {
-    padding: 24px 16px 0;
+    padding: 60px 16px 0;
   }
 }
 
@@ -100,11 +100,18 @@
 
 .heroArea {
   grid-area: hero;
+  align-self: stretch;
 }
 
 .sidebarArea {
   grid-area: sidebar;
   align-self: stretch;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 1;
+  }
 }
 
 .sectionsArea {

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 }
 
-const PAGE_SIZE = 18
+const PAGE_SIZE = 17
 
 
 function ChevronIcon() {

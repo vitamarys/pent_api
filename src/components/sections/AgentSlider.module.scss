@@ -177,7 +177,7 @@
   }
 
   @include t.mobile {
-    flex: 0 0 calc(100% - 16px);
+    flex: 0 0 calc(100% - 56px);
     scroll-snap-align: start;
   }
 }

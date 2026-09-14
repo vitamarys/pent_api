@@ -52,6 +52,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
+function buildPageTitle(property: SecondaryProperty): string {
+  const parts: string[] = []
+
+  if (property.bedrooms) {
+    const beds = property.bedrooms.toString().trim()
+    const isStudio = beds === '0' || beds.toLowerCase() === 'studio'
+    parts.push(isStudio ? 'Studio' : `${beds} bedroom`)
+  }
+
+  if (property.unitType) {
+    parts.push(property.unitType.toLowerCase())
+  }
+
+  const projectName = property.project?.title ?? property.propertyName
+  const location = [property.subCommunity, property.community].filter(Boolean).join(', ')
+  const place = [projectName, location].filter(Boolean).join(', ')
+
+  if (place) parts.push(`in ${place}`)
+
+  return parts.join(' ')
+}
+
 function getProperty(page: PenthousePage): SecondaryProperty | null {
   const ae = page.associatedEntity?.[0] as
     | { __component: string; property?: SecondaryProperty }
@@ -548,7 +570,7 @@ export default async function ResalePage({ params }: Props) {
               </span>
             ))}
           </nav>
-          {property?.propertyTitle && <h1 className={s.pageTitle}>{property.propertyTitle}</h1>}
+          {property && <h1 className={s.pageTitle}>{buildPageTitle(property)}</h1>}
         </div>
         <div className={s.heroArea}>
           {heroBlock.map((block, index) => {

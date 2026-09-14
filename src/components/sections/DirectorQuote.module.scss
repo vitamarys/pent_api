@@ -12,8 +12,6 @@
   align-items: stretch;
   width: 100%;
   min-height: 645px;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
 
   @include t.mobile {
     flex-direction: column;
@@ -77,7 +75,7 @@
   z-index: 0;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 80px;
     border-radius: 50%;

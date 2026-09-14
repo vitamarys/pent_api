@@ -16,7 +16,7 @@
   padding-top: 64px;
 
   @include t.tablet {
-    padding-top: 32px;
+    padding-top: 52px;
     height: auto;
     min-height: 100svh;
     align-items: flex-end;
@@ -55,7 +55,7 @@
   @include t.tablet {
     display: block;
     position: absolute;
-    top: 56px;
+    top: 72px;
     left: 20px;
     right: 20px;
   }
