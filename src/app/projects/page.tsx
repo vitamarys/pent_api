@@ -135,6 +135,7 @@ export default async function ProjectsPage({
       image,
       lat: project.coordinates?.lat,
       lng: project.coordinates?.lng,
+      basePath: '/projects',
     }
   })
 

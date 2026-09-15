@@ -584,5 +584,5 @@ export interface SecondaryProperty {
     pageUrl?: { url: string; pageStatus?: string; deleted?: boolean } | null
   } | null
   furnished?: string | null
-  area?: { id?: number; title?: string } | null
+  area?: { id?: number; title?: string; pageUrl?: { url: string; pageStatus?: string; deleted?: boolean } | null } | null
 }

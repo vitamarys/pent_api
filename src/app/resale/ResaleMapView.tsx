@@ -19,6 +19,7 @@ export interface MapProperty {
   image?:     string
   lat?:       number
   lng?:       number
+  basePath?:  string
 }
 
 // ── Google Maps singleton loader ───────────────────────────────────────────────
@@ -123,7 +124,7 @@ function PopupCard({ prop, onClose }: { prop: MapProperty; onClose: () => void }
         </svg>
       </button>
 
-      <a href={`/resale/${prop.slug}`} className={s.popupCard}>
+      <a href={`${prop.basePath ?? '/resale'}/${prop.slug}`} className={s.popupCard}>
         <div className={s.popupMedia}>
           {prop.image
             ? <Image src={prop.image} alt={prop.title} fill className={s.popupImg} sizes="400px" />

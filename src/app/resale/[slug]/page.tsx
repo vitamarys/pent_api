@@ -127,6 +127,13 @@ function renderBlock(
       if (!property) return null
       const location = [property.subCommunity, property.community].filter(Boolean).join(', ')
       const developerName = property.project?.developer?.name ?? undefined
+      const areaPageUrl = property.area?.pageUrl
+      const locationHref =
+        areaPageUrl?.url &&
+        areaPageUrl.pageStatus === 'PUBLISH' &&
+        !areaPageUrl.deleted
+          ? areaPageUrl.url
+          : undefined
       return (
         <SecondaryDetails
           key={index}
@@ -141,6 +148,7 @@ function renderBlock(
           title={property.propertyTitle ?? undefined}
           descriptionHtml={property.webRemarks ?? undefined}
           location={location || undefined}
+          locationHref={locationHref}
           developer={developerName}
           propertyType={property.unitType ?? undefined}
           furnishing={property.primaryView ?? undefined}

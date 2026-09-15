@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { DescriptionExpander } from './DescriptionExpander'
 import s from './SecondaryDetails.module.scss'
@@ -14,6 +15,7 @@ interface Props {
   title?: string
   descriptionHtml?: string
   location?: string
+  locationHref?: string
   developer?: string
   propertyType?: string
   furnishing?: string
@@ -33,15 +35,16 @@ export default function SecondaryDetails({
   title,
   descriptionHtml,
   location,
+  locationHref,
   developer,
   propertyType,
   furnishing,
   floor,
   propertyStatus,
 }: Props) {
-  const rows: { label: string; value: string; isLink?: boolean }[] = [
-    ...(location ? [{ label: locationLabel, value: location, isLink: true }] : []),
-    ...(developer ? [{ label: developerLabel, value: developer, isLink: true }] : []),
+  const rows: { label: string; value: string; href?: string }[] = [
+    ...(location ? [{ label: locationLabel, value: location, href: locationHref }] : []),
+    ...(developer ? [{ label: developerLabel, value: developer }] : []),
     ...(propertyType ? [{ label: typeOfPropertyLabel, value: propertyType }] : []),
     ...(furnishing ? [{ label: furnishingLabel, value: furnishing }] : []),
     ...(floor ? [{ label: floorsLabel, value: floor }] : []),
@@ -56,14 +59,14 @@ export default function SecondaryDetails({
 
       {rows.length > 0 && (
         <div className={s.table}>
-          {rows.map(({ label, value, isLink }, i) => (
+          {rows.map(({ label, value, href }, i) => (
             <div key={label} className={`${s.row} ${i === 0 ? s.rowFirst : ''}`}>
               <span className={s.rowLabel}>{label}</span>
-              {isLink ? (
-                <span className={s.rowValueLink}>
+              {href ? (
+                <Link href={href} className={s.rowValueLink}>
                   {value}
                   <ChevronRight size={16} />
-                </span>
+                </Link>
               ) : (
                 <span className={s.rowValue}>{value}</span>
               )}
