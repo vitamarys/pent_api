@@ -56,7 +56,7 @@ export default function SecondaryProjectDetail({
       <div className={s.card}>
         {/* Left: title + rows */}
         <div className={s.leftCol}>
-          {title && <h2 className={s.title}>{title}</h2>}
+          {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
           {rows.length > 0 && (
             <div className={s.rows}>
               {rows.map(({ label, value }, i) => (

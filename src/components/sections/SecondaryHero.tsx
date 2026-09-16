@@ -123,7 +123,7 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
                 </span>
               ))}
             </nav>
-            {subtitle && <h1 className={s.title}>{subtitle}</h1>}
+            {subtitle && <h1 className={s.title} data-anim="heading">{subtitle}</h1>}
           </div>
         )}
 

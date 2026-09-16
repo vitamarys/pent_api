@@ -56,9 +56,9 @@ export default function SecondaryOverview({
 
         {/* ── LEFT: text panel ── */}
         <div className={s.leftPanel}>
-          <h2 className={s.sectionTitle}>{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
 
-          {description && <p className={s.description}>{description}</p>}
+          {description && <p className={s.description} data-anim="text">{description}</p>}
 
           {infoRows.length > 0 && (
             <div className={s.infoTable}>
@@ -85,7 +85,7 @@ export default function SecondaryOverview({
 
         {/* ── RIGHT: image grid ── */}
         <div className={s.imagePanel}>
-          <div className={s.mainImageWrap}>
+          <div className={s.mainImageWrap} data-anim="image">
             {mainImage ? (
               <Image src={mainImage.url} alt={sectionTitle} fill className={s.mainImage} sizes="(max-width: 768px) 100vw, 60vw" />
             ) : (

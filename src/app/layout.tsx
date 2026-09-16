@@ -7,6 +7,7 @@ import Providers from './providers'
 import Header from '@/components/ui/Header'
 import Footer from '@/components/ui/Footer'
 import TrackingInit from '@/components/ui/TrackingInit'
+import AnimationInit from '@/components/ui/AnimationInit'
 
 const prata = Prata({
   subsets: ['latin'],
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Suspense fallback={null}>
             <TrackingInit />
           </Suspense>
+          <AnimationInit />
           <Header />
           {children}
           <Footer />

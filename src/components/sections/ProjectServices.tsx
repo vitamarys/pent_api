@@ -49,11 +49,11 @@ export default function ProjectServices({
 
         {/* ── Sidebar ─────────────────────────────────────── */}
         <div className={s.sidebar}>
-          <h2 className={s.sectionTitle}>{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
 
           <div className={s.serviceInfo} key={active}>
-            <p className={s.serviceName}>{svc.title}</p>
-            <p className={s.serviceDesc}>{svc.description}</p>
+            <p className={s.serviceName} data-anim="text">{svc.title}</p>
+            <p className={s.serviceDesc} data-anim="text">{svc.description}</p>
           </div>
 
           <div className={s.navRow}>

@@ -22,7 +22,7 @@ export default function DirectorQuote({
       <Container className={s.inner}>
 
       {/* Photo */}
-      <div className={s.photo}>
+      <div className={s.photo} data-anim="image">
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -41,9 +41,9 @@ export default function DirectorQuote({
         <div className={s.ellipse} aria-hidden />
 
         <div className={s.content}>
-          <blockquote className={s.quote}>{quote}</blockquote>
+          <blockquote className={s.quote} data-anim="heading">{quote}</blockquote>
 
-          <div className={s.agent}>
+          <div className={s.agent} data-anim="text">
             <p className={s.name}>{name}</p>
             {position && <p className={s.position}>{position}</p>}
           </div>

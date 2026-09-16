@@ -71,8 +71,8 @@ export default function AboutHero({
             )}
 
             <div className={s.content}>
-              <h1 className={s.title}>{title}</h1>
-              <p className={s.desc}>{description}</p>
+              <h1 className={s.title} data-anim="heading">{title}</h1>
+              <p className={s.desc} data-anim="text">{description}</p>
             </div>
           </div>
         </div>

@@ -168,7 +168,7 @@ export default function AgentHero({
 
           {/* ── Left column ── */}
           <div className={s.leftCol}>
-            <div className={s.photoWrap}>
+            <div className={s.photoWrap} data-anim="image">
               {imageUrl ? (
                 <Image src={imageUrl} alt={name} fill className={s.photo} />
               ) : (
@@ -191,11 +191,11 @@ export default function AgentHero({
               )}
 
               <div className={s.nameBlock}>
-                <h1 className={s.name}>{name}</h1>
-                {position && <p className={s.position}>{position}</p>}
+                <h1 className={s.name} data-anim="heading">{name}</h1>
+                {position && <p className={s.position} data-anim="text">{position}</p>}
               </div>
 
-              {description && <p className={s.description}>{description}</p>}
+              {description && <p className={s.description} data-anim="text">{description}</p>}
 
               <div className={s.divider} />
 

@@ -1,0 +1,90 @@
+// ─── Scroll-triggered Fade-In & Slide Animations ─────────────────────────────
+//
+// Usage:
+//   <h2 data-anim="heading">…</h2>
+//   <p  data-anim="text">…</p>
+//   <div data-anim="image">…</div>
+//
+//   Stagger grid (observer watches the container):
+//   <ul data-anim-stagger data-stagger-step="100">
+//     <li data-anim="stagger">…</li>
+//     <li data-anim="stagger">…</li>
+//   </ul>
+//
+//   Custom delay override:
+//   <p data-anim="text" style="--anim-delay: 200ms">…</p>
+//
+// AnimationInit component (src/components/ui/AnimationInit.tsx) adds
+// the `.is-in-view` class via IntersectionObserver (threshold: 0.15, once).
+// ─────────────────────────────────────────────────────────────────────────────
+
+$_ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+// ── will-change on all animated targets ──────────────────────────────────────
+[data-anim] {
+  will-change: opacity, transform;
+}
+
+// ── Initial hidden states ────────────────────────────────────────────────────
+
+// Headings H1–H4: rise 24px
+[data-anim="heading"] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity   700ms $_ease-out-expo,
+    transform 700ms $_ease-out-expo;
+  transition-delay: var(--anim-delay, 0ms);
+}
+
+// Body text / lead / captions: rise 16px, slight delay
+[data-anim="text"] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   600ms $_ease-out-expo,
+    transform 600ms $_ease-out-expo;
+  transition-delay: var(--anim-delay, 120ms);
+}
+
+// Images / photo wrappers: scale + rise
+[data-anim="image"] {
+  opacity: 0;
+  transform: scale(0.96) translateY(12px);
+  transition:
+    opacity   800ms $_ease-out-expo,
+    transform 800ms $_ease-out-expo;
+  transition-delay: var(--anim-delay, 200ms);
+}
+
+// Stagger items (set --stagger-delay via JS, 100ms step)
+[data-anim="stagger"] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity   600ms $_ease-out-expo,
+    transform 600ms $_ease-out-expo;
+  transition-delay: var(--stagger-delay, 0ms);
+}
+
+// ── Active / visible state ────────────────────────────────────────────────────
+[data-anim].is-in-view {
+  opacity: 1;
+  transform: none;
+}
+
+// Stagger: parent container receives .is-in-view
+[data-anim-stagger].is-in-view [data-anim="stagger"] {
+  opacity: 1;
+  transform: none;
+}
+
+// ── Reduced-motion: disable transforms, keep simple fade ─────────────────────
+@media (prefers-reduced-motion: reduce) {
+  [data-anim],
+  [data-anim-stagger] [data-anim="stagger"] {
+    transform: none !important;
+    will-change: auto;
+    transition: opacity 300ms ease !important;
+  }
+}

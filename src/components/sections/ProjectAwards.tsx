@@ -38,7 +38,7 @@ export default function ProjectAwards({
     <section className={s.section}>
       <Container>
         <div className={s.header}>
-          <span className={s.sectionLabel}>{sectionLabel}</span>
+          <span className={s.sectionLabel} data-anim="heading">{sectionLabel}</span>
           <div className={s.navBtns}>
             <button className={s.navBtn} onClick={() => scroll("prev")} aria-label="Previous">
               <ChevronLeft size={20} strokeWidth={1.5} />

@@ -43,8 +43,8 @@ export default function ProjectBrand({
             </div>
           )}
           <div className={s.textContent}>
-            <h2 className={s.devName}>{devName}</h2>
-            <p className={s.description}>{description}</p>
+            <h2 className={s.devName} data-anim="heading">{devName}</h2>
+            <p className={s.description} data-anim="text">{description}</p>
           </div>
         </div>
         </div>

@@ -19,7 +19,7 @@ export default function HomeFAQ({ title, questions = [] }: HomeFAQProps) {
   return (
     <section className={s.section}>
       <Container>
-        {title && <h2 className={s.title}>{title}</h2>}
+        {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
         <div className={s.list}>
           {items.map((item, i) => (
             <FAQRow key={i} item={item} />

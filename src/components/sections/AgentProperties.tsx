@@ -59,7 +59,7 @@ function PropertyCard({ item }: { item: SimilarProjectItem }) {
   }
 
   return (
-    <Link href={item.href ?? `/projects/${item.slug}`} className={s.card}>
+    <Link href={item.href ?? `/projects/${item.slug}`} className={s.card} data-anim="stagger">
       <div className={s.cardMedia}>
         {img
           ? <Image src={img} alt={item.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
@@ -131,8 +131,8 @@ export default function AgentProperties({ items, title }: AgentPropertiesProps) 
   return (
     <section className={s.section}>
       <Container>
-        <h2 className={s.title}>{title}</h2>
-        <div className={s.grid}>
+        <h2 className={s.title} data-anim="heading">{title}</h2>
+        <div className={s.grid} data-anim-stagger="">
           {items.map(item => (
             <PropertyCard key={item.slug} item={item} />
           ))}

@@ -49,7 +49,7 @@ export default function Areas({
       <Container>
         {/* Header */}
         <div className={s.header}>
-          <h2 className={s.title}>{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
           <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnDesktop}`}>
             {ctaLabel}
           </Link>

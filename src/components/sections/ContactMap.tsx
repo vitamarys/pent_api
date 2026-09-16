@@ -140,7 +140,7 @@ export default function ContactMap() {
       <Container className={s.container}>
 
         {/* Title */}
-        <h2 className={s.title}>Visit our offices</h2>
+        <h2 className={s.title} data-anim="heading">Visit our offices</h2>
 
         {/* Map block */}
         <div className={s.mapBlock}>
@@ -214,7 +214,7 @@ export default function ContactMap() {
         {/* Slider */}
         <div className={s.sliderSection}>
           <div className={s.sliderHeader}>
-            <h3 className={s.sliderTitle}>Inside our office</h3>
+            <h3 className={s.sliderTitle} data-anim="heading">Inside our office</h3>
             <div className={s.sliderNav}>
               <span className={s.sliderCounter}>
                 {String(slide + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}

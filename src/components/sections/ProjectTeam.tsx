@@ -40,8 +40,8 @@ export default function ProjectTeam({
           {/* Left: text + stats + button */}
           <div className={s.textCol}>
             <div className={s.textBlock}>
-              <h2 className={s.title}>{title}</h2>
-              <p className={s.description}>{description}</p>
+              <h2 className={s.title} data-anim="heading">{title}</h2>
+              <p className={s.description} data-anim="text">{description}</p>
             </div>
 
             {stats && stats.length > 0 && (
@@ -61,7 +61,7 @@ export default function ProjectTeam({
           </div>
 
           {/* Right: team image */}
-          <div className={s.imageWrap}>
+          <div className={s.imageWrap} data-anim="image">
             {image && <Image src={image} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />}
           </div>
 

@@ -309,8 +309,8 @@ export default function HeroHome({
           <div className={s.content}>
             {/* Text block */}
             <div className={s.textBlock}>
-              <h1 className={s.title}>{title}</h1>
-              <p className={s.subtitle}>{subtitle}</p>
+              <h1 className={s.title} data-anim="heading">{title}</h1>
+              <p className={s.subtitle} data-anim="text">{subtitle}</p>
               <button className={s.searchBtn} onClick={() => setIsModalOpen(true)} aria-label="Search properties">
                 <Search size={20} strokeWidth={1.5} />
                 <span>Search Property</span>

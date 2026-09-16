@@ -44,7 +44,7 @@ export default function ProjectDev({
 
             {/* Logo */}
             {logo && (
-              <div className={s.logoWrap}>
+              <div className={s.logoWrap} data-anim="image">
                 <Image src={logo} alt={devName} fill className={s.logo} sizes="137px" />
 
               </div>
@@ -53,8 +53,8 @@ export default function ProjectDev({
             {/* Info */}
             <div className={s.infoContainer}>
               <div className={s.textContent}>
-                <h2 className={s.devName}>{devName}</h2>
-                <p className={s.description}>{description}</p>
+                <h2 className={s.devName} data-anim="heading">{devName}</h2>
+                <p className={s.description} data-anim="text">{description}</p>
               </div>
 
               {stats && stats.length > 0 && (

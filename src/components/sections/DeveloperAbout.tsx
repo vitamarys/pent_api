@@ -28,14 +28,14 @@ export default function DeveloperAbout({
           {/* Left: image OR title + description */}
           <div className={s.left}>
             {image ? (
-              <div className={s.imageWrap}>
+              <div className={s.imageWrap} data-anim="image">
                 <Image src={image} alt={sectionTitle} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />
               </div>
             ) : (
               <>
-                <h2 className={s.title}>{sectionTitle}</h2>
+                <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
                 {sectionDescription && (
-                  <p className={s.description}>{sectionDescription}</p>
+                  <p className={s.description} data-anim="text">{sectionDescription}</p>
                 )}
               </>
             )}
@@ -45,17 +45,17 @@ export default function DeveloperAbout({
           <div className={s.right}>
             {image && (
               <div className={s.rightHeader}>
-                <h2 className={s.title}>{sectionTitle}</h2>
+                <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
                 {sectionDescription && (
-                  <p className={s.description}>{sectionDescription}</p>
+                  <p className={s.description} data-anim="text">{sectionDescription}</p>
                 )}
               </div>
             )}
 
             {features.length > 0 && (
-              <div className={s.featuresList}>
+              <div className={s.featuresList} data-anim-stagger="">
                 {features.map((item, i) => (
-                  <div key={i} className={s.featureCard}>
+                  <div key={i} className={s.featureCard} data-anim="stagger">
                     <div className={s.cardTop}>
                       <span className={s.dot} />
                       <p className={s.featureTitle}>{item.title}</p>

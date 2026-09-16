@@ -205,7 +205,7 @@ export default function DeveloperProjects({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title}>
+            <h2 className={s.title} data-anim="heading">
               {sectionTitle ?? (
                 <>{'Projects by '}<span className={s.titleHighlight}>{developerName.toUpperCase()}</span></>
               )}

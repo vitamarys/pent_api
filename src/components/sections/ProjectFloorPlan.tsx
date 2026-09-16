@@ -101,7 +101,7 @@ export default function ProjectFloorPlan({
     <section className={s.section}>
       <Container>
         <div className={s.header}>
-          <h2 className={s.sectionTitle}>{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
 
           {showTabs && (
             <div className={s.tabsBar}>

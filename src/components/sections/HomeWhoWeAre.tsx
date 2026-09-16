@@ -29,13 +29,13 @@ export default function HomeWhoWeAre({
       <Container>
         <div className={s.inner}>
           <div className={s.left}>
-            {title && <h2 className={s.title}>{title}</h2>}
-            {description && <p className={s.description}>{description}</p>}
+            {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+            {description && <p className={s.description} data-anim="text">{description}</p>}
 
             {stats.length > 0 && (
-              <div className={s.statsGrid}>
+              <div className={s.statsGrid} data-anim-stagger="">
                 {stats.map((stat, i) => (
-                  <div key={i} className={s.statItem}>
+                  <div key={i} className={s.statItem} data-anim="stagger">
                     <span className={s.statValue}>{stat.value}</span>
                     <span className={s.statLabel}>{stat.title}</span>
                   </div>
@@ -44,14 +44,14 @@ export default function HomeWhoWeAre({
             )}
 
             {buttonText && (
-              <a href="/contact" className={s.ctaBtn}>
+              <a href="/contact" className={s.ctaBtn} data-anim="text" style={{ '--anim-delay': '240ms' } as React.CSSProperties}>
                 {buttonText}
               </a>
             )}
           </div>
 
           {image?.url && (
-            <div className={s.right}>
+            <div className={s.right} data-anim="image">
               <Image src={image.url} alt={title ?? 'Who we are'} fill className={s.image} sizes="(max-width: 900px) 100vw, 50vw" />
             </div>
           )}

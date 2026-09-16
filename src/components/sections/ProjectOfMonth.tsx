@@ -191,7 +191,7 @@ export default function ProjectOfMonth({
     <section className={s.section}>
       <Container>
         <div className={s.header}>
-          <h2 className={s.title}>{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
 
           {showNav && (
             <div className={s.navGroup}>

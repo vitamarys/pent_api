@@ -38,7 +38,7 @@ export default function SecondaryAmenities({
   return (
     <>
       <section className={s.section}>
-        {title && <h2 className={s.title}>{title}</h2>}
+        {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
 
         <div className={s.body}>
           {/* Left: list + button */}
@@ -65,7 +65,7 @@ export default function SecondaryAmenities({
           </div>
 
           {/* Right: image */}
-          <div className={s.imageCol}>
+          <div className={s.imageCol} data-anim="image">
             <Image src={imgSrc} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />
           </div>
         </div>

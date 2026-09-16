@@ -42,8 +42,8 @@ export default function ProjectLocation({
         <div className={s.leftPanel}>
           <div className={s.leftContent}>
             <div className={s.textBlock}>
-              <h2 className={s.title}>{sectionTitle}</h2>
-              {description && <p className={s.description}>{description}</p>}
+              <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+              {description && <p className={s.description} data-anim="text">{description}</p>}
             </div>
 
             {proximity.length > 0 && (

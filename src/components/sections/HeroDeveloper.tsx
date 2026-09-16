@@ -84,8 +84,8 @@ export default function HeroDeveloper({
 
             <div className={s.infoContainer}>
               <div className={s.textContent}>
-                <h1 className={s.name}>{name}</h1>
-                <p className={s.description}>{description}</p>
+                <h1 className={s.name} data-anim="heading">{name}</h1>
+                <p className={s.description} data-anim="text">{description}</p>
               </div>
 
               {stats.length > 0 && (

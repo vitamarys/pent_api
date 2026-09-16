@@ -46,7 +46,7 @@ export default function SecondAreasSlider({ items, sectionTitle, titleHighlight,
         <div className={s.sliderHeader}>
           <div className={s.titleWrap}>
             {sectionTitle && (
-              <h2 className={s.title}>
+              <h2 className={s.title} data-anim="heading">
                 {titleHighlight && sectionTitle.includes(titleHighlight)
                   ? <>
                       {sectionTitle.slice(0, sectionTitle.indexOf(titleHighlight))}

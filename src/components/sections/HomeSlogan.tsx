@@ -24,10 +24,10 @@ export default function HomeSlogan({ header, description }: HomeSloganProps) {
       <Container>
         <div className={s.inner}>
           {header && (
-            <h2 className={s.heading}>{parseItalic(header)}</h2>
+            <h2 className={s.heading} data-anim="heading">{parseItalic(header)}</h2>
           )}
           {description && (
-            <p className={s.description}>{description}</p>
+            <p className={s.description} data-anim="text">{description}</p>
           )}
         </div>
       </Container>

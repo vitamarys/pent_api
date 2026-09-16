@@ -51,15 +51,15 @@ export default function WorkProgress({
     <>
       <section className={s.section}>
         <Container>
-          <h2 className={s.title}>{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
 
           <div className={s.body}>
-            {description && <p className={s.description}>{description}</p>}
+            {description && <p className={s.description} data-anim="text">{description}</p>}
             <WorkProgressSteps steps={steps} />
           </div>
 
           {previewImage && (
-            <div className={s.video}>
+            <div className={s.video} data-anim="image">
               <Image src={previewImage} alt={sectionTitle} fill className={s.videoImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px" />
               {videoUrl && (
                 <button className={s.playBtn} onClick={() => setModalOpen(true)}>

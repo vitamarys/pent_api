@@ -13,7 +13,7 @@ export default function SecondaryReviews({ title }: Props) {
   return (
     <section className={s.section}>
       <Container>
-        <h2 className={s.title}>{title}</h2>
+        <h2 className={s.title} data-anim="heading">{title}</h2>
       </Container>
     </section>
   )

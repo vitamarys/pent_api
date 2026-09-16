@@ -24,13 +24,13 @@ export default function MarketingSupport({
       <div className={s.ellipse} aria-hidden />
       <Container>
         <div className={s.header}>
-          <h2 className={s.title}>{sectionTitle}</h2>
-          {description && <p className={s.desc}>{description}</p>}
+          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+          {description && <p className={s.desc} data-anim="text">{description}</p>}
         </div>
 
-        <div className={s.grid}>
+        <div className={s.grid} data-anim-stagger="">
           {items.map((item, i) => (
-            <div key={i} className={s.card}>
+            <div key={i} className={s.card} data-anim="stagger">
               <span className={s.number}>{item.number}</span>
               <p className={s.cardTitle}>{item.title}</p>
             </div>

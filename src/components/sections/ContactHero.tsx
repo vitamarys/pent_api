@@ -85,8 +85,8 @@ export default function ContactHero() {
           {/* Left — contact info */}
           <div className={s.infoCol}>
             <div className={s.titleGroup}>
-              <h1 className={s.title}>Contact Us</h1>
-              <p className={s.desc}>
+              <h1 className={s.title} data-anim="heading">Contact Us</h1>
+              <p className={s.desc} data-anim="text">
                 Get in touch with Dubai's award-winning real estate specialists
                 for elite services, luxury listings, and professional advice.
               </p>

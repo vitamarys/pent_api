@@ -39,10 +39,10 @@ export default function ProjectBanner({
           )}
 
           <div className={s.content}>
-            {title && <h2 className={s.title}>{title}</h2>}
-            {description && <p className={s.description}>{description}</p>}
+            {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+            {description && <p className={s.description} data-anim="text">{description}</p>}
             {ctaLabel && (
-              <button className={s.ctaBtn} onClick={() => setOpen(true)}>
+              <button className={s.ctaBtn} onClick={() => setOpen(true)} data-anim="text" style={{ '--anim-delay': '200ms' } as React.CSSProperties}>
                 {ctaLabel}
               </button>
             )}

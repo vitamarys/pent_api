@@ -55,12 +55,12 @@ export default async function OurProperties({
 
           {/* Header */}
           <div className={s.header}>
-            <h2 className={s.title}>{title}</h2>
-            {description && <p className={s.description}>{description}</p>}
+            <h2 className={s.title} data-anim="heading">{title}</h2>
+            {description && <p className={s.description} data-anim="text">{description}</p>}
           </div>
 
           {/* Cards */}
-          <div className={s.cards}>
+          <div className={s.cards} data-anim-stagger="">
             {cards.map((card, i) => {
               const href = card.url ?? FALLBACK_HREFS[i] ?? '/projects'
               const count = counts[i] ?? 0
@@ -69,7 +69,7 @@ export default async function OurProperties({
                 : null
 
               return (
-                <Link key={card.id ?? i} href={href} className={s.card}>
+                <Link key={card.id ?? i} href={href} className={s.card} data-anim="stagger">
                   {card.imageFile?.url && (
                     <Image
                       src={card.imageFile.url}

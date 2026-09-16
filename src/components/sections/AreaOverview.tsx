@@ -30,7 +30,7 @@ export default function AreaOverview({
 
           {/* ── Top content block ── */}
           <div className={s.header}>
-            <h2 className={s.title}>{sectionTitle}</h2>
+            <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
 
             <div className={s.body}>
               {/* Tabs (left on desktop, top on tablet/mobile) */}
@@ -61,7 +61,7 @@ export default function AreaOverview({
 
           {/* ── Image ── */}
           {tabs.some(t => t.image) && (
-            <div className={s.imageWrap}>
+            <div className={s.imageWrap} data-anim="image">
               {tabs.map((tab, i) =>
                 tab.image ? (
                   <Image

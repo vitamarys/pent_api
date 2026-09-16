@@ -19,10 +19,10 @@ export default function HomeServices({ title, slides = [] }: HomeServicesProps) 
   return (
     <section className={s.section}>
       <Container>
-        {title && <h2 className={s.title}>{title}</h2>}
-        <div className={s.track}>
+        {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+        <div className={s.track} data-anim-stagger="">
           {slides.map((slide, i) => (
-            <div key={i} className={s.card}>
+            <div key={i} className={s.card} data-anim="stagger">
               {slide.imageFile?.url && (
                 <div className={s.cardImageWrap}>
                   <Image src={slide.imageFile.url} alt={slide.title} fill className={s.cardImage} sizes="(max-width: 768px) 100vw, 33vw" />

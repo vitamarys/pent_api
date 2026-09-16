@@ -66,8 +66,8 @@ export default function ProjectInfo({
           {/* Left column — text + details */}
           <div className={s.leftCol}>
             <div className={s.overviewBlock}>
-              <h3 className={s.title}>{title}</h3>
-              <p className={s.description}>{description}</p>
+              <h3 className={s.title} data-anim="heading">{title}</h3>
+              <p className={s.description} data-anim="text">{description}</p>
             </div>
 
             <div className={s.detailsBlock}>
@@ -112,6 +112,7 @@ export default function ProjectInfo({
             {/* Main image — clicks the first hidden anchor to open gallery */}
             <div
               className={s.mainImageWrap}
+              data-anim="image"
               onClick={() => {
                 const first = document.querySelector<HTMLElement>(
                   `[data-fancybox="${GALLERY_ID}"]`
