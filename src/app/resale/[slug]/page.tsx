@@ -95,7 +95,7 @@ function renderBlock(
   switch (block.__component) {
     case 'block.secondary-hero': {
       if (!property) return null
-      const b = block as { tourUrl?: string; videoUrl?: string }
+      const b = block as { tourUrl?: string; videoUrl?: string; photosLabel?: string; tourLabel?: string; playVideoLabel?: string }
       const images = (property.images ?? []).map((img) => ({ url: img.url }))
       return (
         <SecondaryHero
@@ -108,6 +108,9 @@ function renderBlock(
           ]}
           tourUrl={b.tourUrl}
           videoUrl={b.videoUrl}
+          photosLabel={b.photosLabel}
+          tourLabel={b.tourLabel}
+          playVideoLabel={b.playVideoLabel}
           hideTopBar
         />
       )

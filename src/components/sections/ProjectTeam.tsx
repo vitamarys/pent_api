@@ -61,7 +61,7 @@ export default function ProjectTeam({
           </div>
 
           {/* Right: team image */}
-          <div className={s.imageWrap} data-anim="image">
+          <div className={s.imageWrap} data-anim="image" suppressHydrationWarning>
             {image && <Image src={image} alt={title} fill className={s.image} sizes="(max-width: 768px) 100vw, 50vw" />}
           </div>
 

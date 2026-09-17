@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import s from './SecondaryHero.module.scss'
 
@@ -73,6 +73,7 @@ function IconArrowWhite() {
 export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourUrl, videoUrl, hideTopBar }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
+  const touchStartX = useRef<number | null>(null)
 
   const sliderImages = images.slice(0, 4)
   const hasImages = sliderImages.length > 0
@@ -82,6 +83,19 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
   }
   function next() {
     setActiveIndex((i) => (i === sliderImages.length - 1 ? 0 : i + 1))
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const delta = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(delta) > 50) {
+      delta > 0 ? next() : prev()
+    }
+    touchStartX.current = null
   }
 
   const closeLightbox = useCallback(() => setLightboxOpen(false), [])
@@ -128,7 +142,7 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
         )}
 
         {/* ── Gallery ── */}
-        <div className={s.gallery}>
+        <div className={s.gallery} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           {hasImages ? (
             sliderImages.map((img, i) => (
               <Image

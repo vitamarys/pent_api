@@ -1,3 +1,4 @@
+import type React from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getProjects } from '@/api/listings'
@@ -6,6 +7,7 @@ import { getStrapiImageUrl } from '@/lib/utils'
 import type { PenthouseProjectFilters } from '@/types/penthouse-api'
 import ResaleMapView from '@/app/resale/ResaleMapView'
 import type { MapProperty } from '@/app/resale/ResaleMapView'
+import ResaleBanner from '@/app/resale/ResaleBanner'
 import ProjectCard from './ProjectCard'
 import ProjectPagination from './ProjectPagination'
 import ProjectFilters from './ProjectFilters'
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
   },
 }
 
-const PAGE_SIZE = 17
+const PAGE_SIZE = 16
 
 
 function ChevronIcon() {
@@ -185,31 +187,48 @@ export default async function ProjectsPage({
             ) : (
               <>
                 <div className={s.grid}>
-                  {projects.map(project => {
-                    const slug =
-                      project.pageUrl?.url
-                        ?.replace(/^\/(off-plan|projects)\//, '')
-                        .replace(/\/$/, '') ?? String(project.id)
-                    const images = project.galleryImages?.length
-                      ? project.galleryImages.map(img => getStrapiImageUrl(img.url))
-                      : project.previewImage
-                        ? [getStrapiImageUrl(project.previewImage.url)]
-                        : []
-                    return (
-                      <ProjectCard
-                        key={project.id}
-                        id={project.id}
-                        slug={slug}
-                        title={project.title ?? ''}
-                        location={project.area?.title}
-                        developer={project.developer?.name}
-                        handover={project.handover ?? undefined}
-                        priceFrom={project.minPrice ?? undefined}
-                        propertyTypes={project.projectTypes?.map(t => t.name)}
-                        images={images}
-                      />
-                    )
-                  })}
+                  {(() => {
+                    const items: React.ReactNode[] = []
+                    projects.forEach((project, i) => {
+                      const slug =
+                        project.pageUrl?.url
+                          ?.replace(/^\/(off-plan|projects)\//, '')
+                          .replace(/\/$/, '') ?? String(project.id)
+                      const images = project.galleryImages?.length
+                        ? project.galleryImages.map(img => getStrapiImageUrl(img.url))
+                        : project.previewImage
+                          ? [getStrapiImageUrl(project.previewImage.url)]
+                          : []
+                      items.push(
+                        <ProjectCard
+                          key={project.id}
+                          id={project.id}
+                          slug={slug}
+                          title={project.title ?? ''}
+                          location={project.area?.title}
+                          developer={project.developer?.name}
+                          handover={project.handover ?? undefined}
+                          priceFrom={project.minPrice ?? undefined}
+                          propertyTypes={project.projectTypes?.map(t => t.name)}
+                          images={images}
+                        />
+                      )
+                      if (i === 5) {
+                        items.push(
+                          <div key="banner" className={s.bannerWrap}>
+                            <ResaleBanner
+                              image="/images/baner2.png"
+                              title="Get professional property guidance"
+                              description="Leave your details, and an advisor will help you choose the right property and navigate the purchase process."
+                              buttonText="Learn more"
+                              align="right"
+                            />
+                          </div>
+                        )
+                      }
+                    })
+                    return items
+                  })()}
                 </div>
                 <ProjectPagination
                   currentPage={currentPage}

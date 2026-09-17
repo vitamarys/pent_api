@@ -1,4 +1,8 @@
+'use client'
+
+import { useState } from 'react'
 import Image from 'next/image'
+import PopConsultation from '@/components/ui/PopConsultation'
 import s from './ResaleBanner.module.scss'
 
 export interface ResaleBannerProps {
@@ -6,7 +10,6 @@ export interface ResaleBannerProps {
   title: string
   description?: string
   buttonText?: string
-  buttonHref?: string
   align?: 'left' | 'right'
 }
 
@@ -15,22 +18,27 @@ export default function ResaleBanner({
   title,
   description,
   buttonText = 'Learn more',
-  buttonHref = '#',
   align = 'left',
 }: ResaleBannerProps) {
-  return (
-    <div className={`${s.banner} ${align === 'right' ? s.bannerRight : ''}`}>
-      <Image src={image} alt={title} fill className={s.bannerImg} sizes="(max-width: 768px) 100vw, 50vw" />
+  const [popupOpen, setPopupOpen] = useState(false)
 
-      <div className={s.textPanel}>
-        <div className={s.textContent}>
-          <p className={s.title}>{title}</p>
-          {description && <p className={s.description}>{description}</p>}
+  return (
+    <>
+      <div className={`${s.banner} ${align === 'right' ? s.bannerRight : ''}`}>
+        <Image src={image} alt={title} fill className={s.bannerImg} sizes="(max-width: 768px) 100vw, 50vw" />
+
+        <div className={s.textPanel}>
+          <div className={s.textContent}>
+            <p className={s.title}>{title}</p>
+            {description && <p className={s.description}>{description}</p>}
+          </div>
+          <button type="button" className={s.button} onClick={() => setPopupOpen(true)}>
+            {buttonText}
+          </button>
         </div>
-        <a href={buttonHref} className={s.button}>
-          {buttonText}
-        </a>
       </div>
-    </div>
+
+      <PopConsultation open={popupOpen} onClose={() => setPopupOpen(false)} />
+    </>
   )
 }

@@ -7,7 +7,7 @@
   height: 100svh;
   min-height: 600px;
   overflow: hidden;
-
+  max-height: 1200px;
   @include t.tablet {
     min-height: 700px;
   }

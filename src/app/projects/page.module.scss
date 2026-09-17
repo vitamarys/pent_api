@@ -106,6 +106,23 @@
   }
 }
 
+// ── Banner wrapper (full-width in 3-col grid) ─────────────────────────────────
+
+.bannerWrap {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex: 1;
+    grid-column: unset;
+  }
+
+  @include t.mobile {
+    grid-column: span 1;
+  }
+}
+
 // ── Empty ─────────────────────────────────────────────────────────────────────
 
 .empty {

@@ -23,28 +23,7 @@ export const metadata: Metadata = {
   },
 }
 
-const PAGE_SIZE = 17
-
-// Banner config — insert after every N cards (0-indexed positions within the page)
-const BANNERS: Array<{ afterIndex: number; image: string; title: string; description: string; buttonText: string; buttonHref: string; align?: 'left' | 'right' }> = [
-  {
-    afterIndex: 5,
-    image: '/images/baner1.png',
-    title: 'Get professional property guidance',
-    description: 'Leave your details, and an advisor will help you choose the right property and navigate the purchase process.',
-    buttonText: 'Learn more',
-    buttonHref: '#',
-  },
-  {
-    afterIndex: 13,
-    image: '/images/baner2.png',
-    title: 'Get professional property guidance',
-    description: 'Leave your details, and an advisor will help you choose the right property and navigate the purchase process.',
-    buttonText: 'Learn more',
-    buttonHref: '#',
-    align: 'right' as const,
-  },
-]
+const PAGE_SIZE = 16
 
 
 function ChevronIcon() {
@@ -113,49 +92,6 @@ export default async function ResalePage({
     }
   })
 
-  // Build grid items: cards + banners interleaved
-  const gridItems: React.ReactNode[] = []
-
-  properties.forEach((item, i) => {
-    const rawUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
-    const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
-    const images = ((item.images ?? []) as Array<{ url: string }>).map((img) => img.url)
-
-    gridItems.push(
-      <ResaleCard
-        key={String(item.id)}
-        id={typeof item.id === 'number' ? item.id : undefined}
-        slug={slug}
-        title={(item.propertyTitle as string | null) ?? (item.title as string | null) ?? ''}
-        price={(item.price as number | null) ?? undefined}
-        area={(item.unitBuiltupArea as number | null) ?? undefined}
-        bedrooms={(item.bedrooms as string | null) ?? undefined}
-        bathrooms={(item.noOfBathroom as number | null) ?? undefined}
-        unitType={((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined}
-        location={
-          [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined
-        }
-        projectName={(item.propertyName as string | null) ?? undefined}
-        images={images}
-      />
-    )
-
-    // Insert banner after specified index
-    const banner = BANNERS.find((b) => b.afterIndex === i)
-    if (banner) {
-      gridItems.push(
-        <ResaleBanner
-          key={`banner-${i}`}
-          image={banner.image}
-          title={banner.title}
-          description={banner.description}
-          buttonText={banner.buttonText}
-          buttonHref={banner.buttonHref}
-          align={banner.align}
-        />
-      )
-    }
-  })
 
   return (
     <main>
@@ -196,7 +132,42 @@ export default async function ResalePage({
             ) : (
               <>
                 <div className={s.grid}>
-                  {gridItems}
+                  {(() => {
+                    const items: React.ReactNode[] = []
+                    properties.forEach((item, i) => {
+                      const rawUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
+                      const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
+                      const images = ((item.images ?? []) as Array<{ url: string }>).map((img) => img.url)
+                      items.push(
+                        <ResaleCard
+                          key={String(item.id)}
+                          id={typeof item.id === 'number' ? item.id : undefined}
+                          slug={slug}
+                          title={(item.propertyTitle as string | null) ?? (item.title as string | null) ?? ''}
+                          price={(item.price as number | null) ?? undefined}
+                          area={(item.unitBuiltupArea as number | null) ?? undefined}
+                          bedrooms={(item.bedrooms as string | null) ?? undefined}
+                          bathrooms={(item.noOfBathroom as number | null) ?? undefined}
+                          unitType={((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined}
+                          location={[item.subCommunity, item.community].filter(Boolean).join(', ') || undefined}
+                          projectName={(item.propertyName as string | null) ?? undefined}
+                          images={images}
+                        />
+                      )
+                      if (i === 5) {
+                        items.push(
+                          <ResaleBanner
+                            key="banner"
+                            image="/images/baner1.png"
+                            title="Get professional property guidance"
+                            description="Leave your details, and an advisor will help you choose the right property and navigate the purchase process."
+                            buttonText="Learn more"
+                          />
+                        )
+                      }
+                    })
+                    return items
+                  })()}
                 </div>
                 <ResalePagination currentPage={currentPage} totalPages={totalPages} />
               </>

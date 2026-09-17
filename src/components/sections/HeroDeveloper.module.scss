@@ -8,6 +8,8 @@ $header-height: 80px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  max-height: 1200px;
+
   background: linear-gradient(
     180deg,
     rgba(9, 24, 48, 0) 0%,
