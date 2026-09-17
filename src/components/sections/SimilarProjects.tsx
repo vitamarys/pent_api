@@ -277,7 +277,8 @@ export default function SimilarProjects({
         spaceBetween={16}
         slidesOffsetBefore={offsetBefore}
         slidesOffsetAfter={offsetBefore}
-        className={s.outerSwiper}
+        className={`${s.outerSwiper} ${projects.length === 3 ? s.outerSwiperTriple : ''}`}
+        style={{ '--swiper-offset': `${offsetBefore}px` } as React.CSSProperties}
       >
         {projects.map(project => (
           <SwiperSlide key={project.slug} className={s.outerSlide}>

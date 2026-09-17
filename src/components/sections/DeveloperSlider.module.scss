@@ -112,52 +112,33 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   }
 }
 
-// ── Scroll track ─────────────────────────────────────────────
-.scrollTrack {
-  display: flex;
-  gap: t.$gap-small;
-  overflow-x: hidden;
+// ── Swiper ───────────────────────────────────────────────────
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  width: 428px !important;
 
   @include t.tablet {
-    overflow-x: auto;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    width: 340px !important;
   }
 
   @include t.mobile {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    width: calc(100vw - #{t.$gap-small} * 4) !important;
   }
 }
 
 // ── Card ─────────────────────────────────────────────────────
 .card {
-  flex: 0 0 428px;
-  min-width: 340px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   text-decoration: none;
   color: inherit;
   border: 1px solid t.$black-fade-2;
   background: t.$white-solid;
-
-  @include t.tablet {
-    flex: 1 0 340px;
-  }
-
-  @include t.mobile {
-    flex: 0 0 calc(100% - 24px);
-    min-width: 0;
-    scroll-snap-align: start;
-  }
 }
 
 // ── Card media ───────────────────────────────────────────────

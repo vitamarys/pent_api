@@ -117,7 +117,8 @@ export default async function ResalePage({
 
       {/* ── Listing ── */}
       <section className={s.listing}>
-        {view === 'map' ? (
+        {/* TODO: map view temporarily hidden */}
+        {false && view === 'map' ? (
           <>
             <Container>
               <ResaleToolbar view={view} sort={sort} />

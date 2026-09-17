@@ -11,7 +11,7 @@
   background: t.$white-solid;
   transition: box-shadow 0.2s ease;
   overflow: hidden;
-  align-self: start;
+  height: 100%;
   min-width: 0;
 
   &:hover {
@@ -228,6 +228,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: auto;
 }
 
 .specs {

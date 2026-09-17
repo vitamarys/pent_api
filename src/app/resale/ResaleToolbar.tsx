@@ -39,21 +39,23 @@ export default function ResaleToolbar({ view, sort }: { view: string; sort: stri
 
   return (
     <div className={s.toolbar}>
-      {/* View tabs */}
-      <div className={s.tabs}>
-        <button
-          className={`${s.tab} ${view !== 'map' ? s.tabActive : ''}`}
-          onClick={() => updateParam('view', null)}
-        >
-          Card
-        </button>
-        <button
-          className={`${s.tab} ${view === 'map' ? s.tabActive : ''}`}
-          onClick={() => updateParam('view', 'map')}
-        >
-          Map
-        </button>
-      </div>
+      {/* TODO: view tabs temporarily hidden */}
+      {false && (
+        <div className={s.tabs}>
+          <button
+            className={`${s.tab} ${view !== 'map' ? s.tabActive : ''}`}
+            onClick={() => updateParam('view', null)}
+          >
+            Card
+          </button>
+          <button
+            className={`${s.tab} ${view === 'map' ? s.tabActive : ''}`}
+            onClick={() => updateParam('view', 'map')}
+          >
+            Map
+          </button>
+        </div>
+      )}
 
       {/* Sort dropdown */}
       <div className={s.sortWrap} ref={sortRef}>

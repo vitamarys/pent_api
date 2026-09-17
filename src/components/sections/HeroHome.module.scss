@@ -221,13 +221,21 @@
 
 .dropdown {
   position: absolute;
-  top: calc(100% + 4px);
   left: 0;
   right: 0;
   background: t.$white-solid;
   border: 1px solid t.$black-fade-2;
   z-index: 50;
+}
+
+.dropdownDown {
+  top: calc(100% + 4px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownUp {
+  bottom: calc(100% + 4px);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .dropdownOption {

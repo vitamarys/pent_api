@@ -133,6 +133,18 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   }
 }
 
+.outerSwiperTriple .outerSlide {
+  width: calc((100% - var(--swiper-offset) * 2 - 32px) / 3) !important;
+
+  @include t.tablet {
+    width: 340px !important;
+  }
+
+  @include t.mobile {
+    width: calc(100vw - #{t.$gap-small} * 4) !important;
+  }
+}
+
 // ── Card ──────────────────────────────────────────────────────
 .card {
   display: flex;

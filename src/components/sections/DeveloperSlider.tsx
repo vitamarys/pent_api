@@ -1,13 +1,15 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
 import { getStrapiImageUrl } from '@/lib/utils'
-import { useDragScroll } from '@/hooks/useDragScroll'
 import { useFavorites } from '@/hooks/useFavorites'
 import s from './DeveloperSlider.module.scss'
+import 'swiper/css'
 
 export interface DeveloperSliderImageItem {
   url: string
@@ -140,19 +142,35 @@ export default function DeveloperSlider({
   ctaLabel,
   ctaHref,
 }: DeveloperSliderProps) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const SCROLL_STEP = 428 + 16
-  const drag = useDragScroll(trackRef)
+  const swiperRef = useRef<SwiperType | null>(null)
 
-  const scrollPrev = () =>
-    trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
-  const scrollNext = () =>
-    trackRef.current?.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' })
+  const PAGE_WIDTH = 1440
+  const GAP_LARGE = 32
+  const GAP_SMALL = 16
+  const MOBILE_BP = 767
+
+  const [offsetBefore, setOffsetBefore] = useState(GAP_LARGE)
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth
+      if (vw <= MOBILE_BP) {
+        setOffsetBefore(GAP_SMALL)
+      } else {
+        setOffsetBefore(vw > PAGE_WIDTH ? Math.floor((vw - PAGE_WIDTH) / 2) + GAP_LARGE : GAP_LARGE)
+      }
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    return () => window.removeEventListener('resize', calc)
+  }, [])
+
   if (developers.length === 0) return null
 
   const title = sectionTitle || 'Other Developers'
   const label = ctaLabel || 'See all Developers'
   const href = ctaHref || '/developers'
+  const showArrows = developers.length >= 3
 
   return (
     <section className={s.section}>
@@ -166,12 +184,12 @@ export default function DeveloperSlider({
             {label}
           </a>
 
-          {developers.length >= 3 && (
+          {showArrows && (
             <div className={s.navArrows}>
-              <button className={s.arrowBtn} onClick={scrollPrev} aria-label="Previous developers">
+              <button className={s.arrowBtn} onClick={() => swiperRef.current?.slidePrev()} aria-label="Previous developers">
                 <ChevronLeft />
               </button>
-              <button className={s.arrowBtn} onClick={scrollNext} aria-label="Next developers">
+              <button className={s.arrowBtn} onClick={() => swiperRef.current?.slideNext()} aria-label="Next developers">
                 <ChevronRight />
               </button>
             </div>
@@ -179,19 +197,20 @@ export default function DeveloperSlider({
         </div>
       </Container>
 
-      <Container>
-        <div
-          className={s.scrollTrack}
-          ref={trackRef}
-          style={{ cursor: 'grab' }}
-          onMouseDown={drag.onMouseDown}
-          onClickCapture={drag.onClickCapture}
-        >
-          {developers.map((dev, i) => (
-            <DeveloperCard key={dev.id ?? `${dev.slug}-${i}`} developer={dev} />
-          ))}
-        </div>
-      </Container>
+      <Swiper
+        onSwiper={swiper => { swiperRef.current = swiper }}
+        slidesPerView="auto"
+        spaceBetween={16}
+        slidesOffsetBefore={offsetBefore}
+        slidesOffsetAfter={offsetBefore}
+        className={s.swiper}
+      >
+        {developers.map((dev, i) => (
+          <SwiperSlide key={dev.id ?? `${dev.slug}-${i}`} className={s.slide}>
+            <DeveloperCard developer={dev} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
       <Container>
         <a href={href} className={`${s.ctaBtn} ${s.ctaBtnBottom}`}>

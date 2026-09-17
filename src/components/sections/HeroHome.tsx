@@ -48,6 +48,7 @@ function DropdownFilter<T extends string | number>({
   disabledIds?: Set<T>;
 }) {
   const [open, setOpen] = useState(false);
+  const [openUp, setOpenUp] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -60,6 +61,16 @@ function DropdownFilter<T extends string | number>({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
 
+  function handleToggle() {
+    if (!open && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const dropdownHeight = options.length * 41 + 8; // approx
+      setOpenUp(spaceBelow < dropdownHeight);
+    }
+    setOpen(v => !v);
+  }
+
   const selectedLabels = options.filter(o => selected.includes(o.id)).map(o => o.label);
   const displayLabel = selectedLabels.length > 0 ? selectedLabels.join(', ') : label;
 
@@ -67,7 +78,7 @@ function DropdownFilter<T extends string | number>({
     <div className={s.dropdownWrap} ref={ref}>
       <button
         className={`${s.filterItem} ${open ? s.filterItemOpen : ''}`}
-        onClick={() => setOpen(v => !v)}
+        onClick={handleToggle}
       >
         <span className={selected.length > 0 ? s.filterItemActive : ''}>{displayLabel}</span>
         <ChevronDown
@@ -78,7 +89,7 @@ function DropdownFilter<T extends string | number>({
       </button>
 
       {open && (
-        <div className={s.dropdown}>
+        <div className={`${s.dropdown} ${openUp ? s.dropdownUp : s.dropdownDown}`}>
           {options.map(opt => {
             const isDisabled = disabledIds != null && !disabledIds.has(opt.id)
             return (
