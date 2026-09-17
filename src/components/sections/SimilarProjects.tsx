@@ -79,7 +79,7 @@ function ProjectCard({ project }: { project: SimilarProjectItem }) {
   const swiperRef = useRef<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const { formatPrice } = useDisplayFormat()
-  const images = project.images ?? []
+  const images = (project.images ?? []).slice(0, 4)
   const hasGallery = images.length > 1
 
   const { isFavorite, toggle } = useFavorites<FavProject>('fav_projects')

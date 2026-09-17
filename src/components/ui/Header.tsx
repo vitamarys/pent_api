@@ -8,7 +8,7 @@ import s from './Header.module.scss'
 import { useSettingsStore, CURRENCIES, METRICS, type Currency, type Metric } from '@/store/settings'
 import strapiClient from '@/lib/axios'
 
-const DARK_HEADER_PATHS = [ '/','/areas', '/resale', '/projects', '/agents', '/about-us', '/favorites', '/contact', '/developers']
+const DARK_HEADER_PATHS = ['/', '/areas', '/resale', '/projects', '/agents', '/about-us', '/favorites', '/contact', '/developers']
 
 const NAV_LINKS = [
   

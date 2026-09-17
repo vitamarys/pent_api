@@ -49,7 +49,14 @@ export default async function AnotherContent({ contentType, title, titleHighligh
       handover: p.handover ?? (p.handoverValue ? `Handover ${p.handoverValue}` : undefined),
       priceFrom: p.minPrice ?? undefined,
       propertyTypes: p.projectTypes?.map((t) => t.name),
-      images: p.previewImage ? [getStrapiImageUrl(p.previewImage.url)] : [],
+      images: (
+        p.galleryImagesFile?.length ? p.galleryImagesFile :
+        p.galleryImages?.length    ? p.galleryImages :
+        p.images?.length           ? p.images :
+        p.previewImageFile         ? [p.previewImageFile] :
+        p.previewImage             ? [p.previewImage] :
+        []
+      ).slice(0, 4).map(img => getStrapiImageUrl(img.url)),
     }))
     if (!items.length) return null   
     return (

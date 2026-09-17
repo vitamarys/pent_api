@@ -364,7 +364,7 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
 .cardMeta {
   display: flex;
   align-items: center;
-  gap: t.$gap-xxs;
+  gap: t.$gap-xs;
 }
 
 .cardMetaText {
@@ -377,7 +377,7 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: t.$black-fade-4;
+  background: #c19962;
   flex-shrink: 0;
 }
 
