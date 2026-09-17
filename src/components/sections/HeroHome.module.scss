@@ -127,7 +127,7 @@
   background: rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(49px);
   -webkit-backdrop-filter: blur(49px);
-
+  backdrop-filter: blur(49px);
   @include t.tablet {
     display: none;
   }

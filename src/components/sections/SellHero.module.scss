@@ -90,8 +90,8 @@
 // ── Frosted panel ─────────────────────────────────────────────
 .panel {
   background: rgba(31, 31, 31, 0.7);
-  backdrop-filter: blur(49px);
   -webkit-backdrop-filter: blur(49px);
+  backdrop-filter: blur(49px);
   padding: t.$gap-normal;
   display: flex;
   flex-direction: column;
