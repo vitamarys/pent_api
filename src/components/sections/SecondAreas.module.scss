@@ -101,7 +101,7 @@
   }
 
   @include t.mobile {
-    width: calc(100vw - 32px) !important;
+    width: calc(100vw - #{t.$gap-small} * 4) !important;
   }
 }
 
