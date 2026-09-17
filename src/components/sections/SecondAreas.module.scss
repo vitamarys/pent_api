@@ -112,6 +112,7 @@
 
 .section {
   padding: 120px 0 t.$gap-large;
+  overflow: hidden;
 
   @include t.tablet {
     padding: 100px 0 t.$gap-large;

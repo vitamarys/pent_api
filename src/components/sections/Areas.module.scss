@@ -173,29 +173,28 @@
   }
 }
 
-// ── Tablet / Mobile: horizontal scroll ─────────────────────────
-.scrollTrack {
+// ── Tablet / Mobile: Swiper ────────────────────────────────────
+.swiperWrap {
   display: none;
 
   @include t.tablet {
-    display: flex;
-    gap: t.$gap-small;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    display: block;
+    width: 100%;
+    overflow: hidden;
   }
 }
 
-.scrollItem {
-  flex: 0 0 334px;
+.swiper {
+  width: 100%;
+  overflow: visible;
+}
+
+.swiperSlide {
+  width: 334px;
   height: 412px;
-  scroll-snap-align: start;
 
   @include t.mobile {
-    flex: 0 0 calc(80vw - 32px);
+    width: calc(80vw - 16px);
+    height: 360px;
   }
 }

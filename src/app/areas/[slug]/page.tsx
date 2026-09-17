@@ -277,6 +277,9 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         zoom?: number
         points?: Array<{ id: number; title: string; value: string }>
       }
+      const overviewDesc = (page.blocks.find(
+        (bl) => bl.__component === 'block.overview'
+      ) as { description?: string } | undefined)?.description
       let latitude: number | undefined
       let longitude: number | undefined
       if (b.coordinates?.lat && b.coordinates?.lng) {
@@ -292,7 +295,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         <ProjectMap
           key={index}
           sectionTitle={b.title ?? undefined}
-          body={b.description}
+          body={b.description || overviewDesc || undefined}
           latitude={latitude}
           longitude={longitude}
           zoom={b.zoom ?? 13}

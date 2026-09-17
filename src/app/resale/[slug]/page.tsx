@@ -346,6 +346,9 @@ function renderBlock(
         zoom?: number
         points?: Array<{ id: number; title: string; value: string }>
       }
+      const overviewDesc = (page.blocks.find(
+        (bl) => bl.__component === 'block.overview'
+      ) as { description?: string } | undefined)?.description
       const lat = b.mapLink
         ? parseFloat(b.mapLink.split(',')[0])
         : property?.project?.coordinates?.lat
@@ -359,7 +362,7 @@ function renderBlock(
         <ProjectMap
           key={index}
           sectionTitle={b.title ?? undefined}
-          body={b.description}
+          body={b.description || overviewDesc || undefined}
           latitude={lat}
           longitude={lng}
           zoom={b.zoom ?? 13}

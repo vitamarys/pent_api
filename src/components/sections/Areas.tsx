@@ -1,7 +1,11 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import Container from '@/components/ui/Container'
 import s from './Areas.module.scss'
+import 'swiper/css'
 
 export interface AreaItem {
   name: string
@@ -27,7 +31,7 @@ function DotIcon() {
 function AreaCard({ area }: { area: AreaItem }) {
   return (
     <Link href={`/areas/${area.slug}`} className={s.card}>
-      {area.image && <Image src={area.image} alt={area.name} fill className={s.cardImage} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
+      {area.image && <Image src={area.image} alt={area.name} fill className={s.cardImage} sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw" />}
       <div className={s.cardLabel}>
         <DotIcon />
         <span className={s.cardName}>{area.name}</span>
@@ -63,16 +67,26 @@ export default function Areas({
             </div>
           ))}
         </div>
+      </Container>
 
-        {/* Tablet / Mobile: horizontal scroll */}
-        <div className={s.scrollTrack}>
+      {/* Tablet / Mobile: Swiper */}
+      <div className={s.swiperWrap}>
+        <Swiper
+          slidesPerView="auto"
+          spaceBetween={12}
+          slidesOffsetBefore={16}
+          slidesOffsetAfter={16}
+          className={s.swiper}
+        >
           {areas.map(area => (
-            <div key={area.slug} className={s.scrollItem}>
+            <SwiperSlide key={area.slug} className={s.swiperSlide}>
               <AreaCard area={area} />
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
+      </div>
 
+      <Container>
         {/* CTA button for tablet/mobile */}
         <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnMobile}`}>
           {ctaLabel}

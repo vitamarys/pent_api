@@ -557,13 +557,16 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         buttonText?: string
         points?: Array<{ id: number; title: string; value: string }>
       }
+      const overviewDesc = (page.blocks.find(
+        (bl) => bl.__component === 'block.overview'
+      ) as { description?: string } | undefined)?.description
       const coords = (project?.coordinates as { lat?: number; lng?: number } | null)
       const area = project?.area as { title?: string; pageUrl?: { url?: string } } | null
       return (
         <ProjectMap
           key={index}
           sectionTitle={b.title ?? undefined}
-          body={b.description ?? undefined}
+          body={b.description || overviewDesc || undefined}
           latitude={coords?.lat}
           longitude={coords?.lng}
           proximity={(b.points ?? []).map((p) => ({ id: p.id, label: p.title, value: p.value }))}

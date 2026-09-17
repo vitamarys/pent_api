@@ -154,6 +154,8 @@
 // ── Map wrap + Google Maps overlay globals ────────────────────────────────────
 .mapWrap {
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   @include t.tablet {
     order: 1;
@@ -363,10 +365,13 @@
 
 // ── Map canvas ────────────────────────────────────────────────────────────────
 .mapCanvas {
-  height: 720px;
+  flex: 1;
+  min-height: 720px;
 
   @include t.tablet {
+    flex: none;
     height: 576px;
+    min-height: unset;
   }
   @include t.mobile {
     height: 439px;
