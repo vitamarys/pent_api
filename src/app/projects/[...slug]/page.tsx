@@ -166,7 +166,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       const floors = project?.floors as string | undefined
       const brandCollaboration = project?.brandCollaboration as string | undefined
 
-      const details: { label: string; value: string; type: 'text' | 'link'; href?: string; published?: boolean }[] = [
+      const details: { label: string; value: string; type: 'text' | 'link' | 'info'; href?: string; published?: boolean }[] = [
         ...(area ? [{ label: 'Location', value: area.title ?? '', type: 'link' as const, href: area.pageUrl?.url, published: area.pageUrl ? area.pageUrl.pageStatus === 'PUBLISH' && !area.pageUrl.deleted : false }] : []),
         ...(developer
           ? [{ label: 'Developer', value: developer.name ?? '', type: 'link' as const, href: developer.pageUrl?.url, published: developer.pageUrl ? developer.pageUrl.pageStatus === 'PUBLISH' && !developer.pageUrl.deleted : false }]
