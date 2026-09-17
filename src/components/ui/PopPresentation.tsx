@@ -29,6 +29,7 @@ export interface PopPresentationProps {
   entity?:        string;
   projectId?:     string;
   pageBitrixId?:  string;
+  brochureURL?:   string;
   onSubmit?:      (data: FormValues) => Promise<void> | void;
 }
 
@@ -40,6 +41,7 @@ export default function PopPresentation({
   entity = '73687',
   projectId,
   pageBitrixId,
+  brochureURL,
   onSubmit,
 }: PopPresentationProps) {
   const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
@@ -97,6 +99,9 @@ export default function PopPresentation({
       }
       reset();
       setSubmitStatus('success');
+      if (brochureURL) {
+        window.open(brochureURL, '_blank', 'noopener,noreferrer');
+      }
     } catch {
       setSubmitStatus('error');
     }

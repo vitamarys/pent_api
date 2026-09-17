@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { ChevronRight, Play, Maximize2 } from "lucide-react"
 import dynamic from 'next/dynamic'
 const PopPresentation = dynamic(() => import('@/components/ui/PopPresentation'))
+const PopConsultation = dynamic(() => import('@/components/ui/PopConsultation'))
 import Container from "@/components/ui/Container";
 import s from "./ProjectInfo.module.scss";
 
@@ -27,6 +28,8 @@ export interface ProjectInfoProps {
   allImages?: string[];
   pageBitrixId?: string;
   paymentPlanExplanation?: string;
+  brochureURL?: string;
+  buttonText?: string;
 }
 
 const GALLERY_ID = "project-info-gallery"
@@ -41,8 +44,12 @@ export default function ProjectInfo({
   allImages,
   pageBitrixId,
   paymentPlanExplanation,
+  brochureURL,
+  buttonText,
 }: ProjectInfoProps) {
   const [presentationOpen, setPresentationOpen] = useState(false)
+  const [consultationOpen, setConsultationOpen] = useState(false)
+  const hasBrochure = !!brochureURL
 
   const galleryImages = allImages?.length
     ? allImages
@@ -102,7 +109,12 @@ export default function ProjectInfo({
                   </li>
                 ))}
               </ul>
-              <button className={s.downloadBtn} onClick={() => setPresentationOpen(true)}>Download Brochure</button>
+              <button
+                className={s.downloadBtn}
+                onClick={() => hasBrochure ? setPresentationOpen(true) : setConsultationOpen(true)}
+              >
+                {hasBrochure ? (buttonText ?? 'Download Brochure') : 'Check Availability'}
+              </button>
             </div>
           </div>
 
@@ -174,6 +186,12 @@ export default function ProjectInfo({
       onClose={() => setPresentationOpen(false)}
       image={mainImage}
       title={title}
+      pageBitrixId={pageBitrixId}
+      brochureURL={brochureURL}
+    />
+    <PopConsultation
+      open={consultationOpen}
+      onClose={() => setConsultationOpen(false)}
       pageBitrixId={pageBitrixId}
     />
     </>

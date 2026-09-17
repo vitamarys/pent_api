@@ -264,6 +264,7 @@ function renderBlock(
         description?: string
         videoURL?: string
         buttonText?: string
+        brochureURL?: string
         locationLabel?: string
         developerLabel?: string
         handoverLabel?: string
@@ -317,6 +318,8 @@ function renderBlock(
           details={details}
           allImages={allImageUrls}
           pageBitrixId={page.leadBitrixId ?? undefined}
+          brochureURL={b.brochureURL ?? undefined}
+          buttonText={b.buttonText ?? undefined}
         />
       )
     }

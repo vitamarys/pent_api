@@ -152,6 +152,9 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       const b = block as {
         title?: string
         description?: string
+        buttonText?: string
+        brochureURL?: string
+        videoURL?: string
         imagesFile?: Array<{ url?: string }>
       }
       const developer = project?.developer as { name?: string; pageUrl?: { url?: string; pageStatus?: string; deleted?: boolean } } | null
@@ -188,10 +191,13 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           description={b.description ?? ''}
           mainImage={images[0] ?? ''}
           images={images.slice(1) as [string, string]}
+          videoUrl={b.videoURL ?? undefined}
           details={details}
           allImages={images}
           pageBitrixId={page.leadBitrixId ?? undefined}
           paymentPlanExplanation={paymentPlanExplanation}
+          brochureURL={b.brochureURL ?? undefined}
+          buttonText={b.buttonText ?? undefined}
         />
       )
     }
