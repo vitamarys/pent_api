@@ -19,7 +19,7 @@ export default function ProjectQr({
         <div className={s.card}>
           <div className={s.body}>
             <span className={s.tag}>{tagLabel}</span>
-            <p className={s.description} data-anim="text">{description}</p>
+            <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
           </div>
 
           {qrUrl && (

@@ -64,7 +64,7 @@ export default async function SecondAreas({
     <section className={s.section}>
       <Container>
         {sectionTitle && (
-          <h2 className={s.title} data-anim="heading">
+          <h2 className={s.title} data-anim="heading" suppressHydrationWarning>
             {titleHighlight && sectionTitle.includes(titleHighlight)
               ? <>
                   {sectionTitle.slice(0, sectionTitle.indexOf(titleHighlight))}

@@ -1,13 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
 import Container from '@/components/ui/Container'
 import { useDisplayFormat } from '@/hooks/useDisplayFormat'
-import { useDragScroll } from '@/hooks/useDragScroll'
 import { useFavorites } from '@/hooks/useFavorites'
 import s from './SimilarProjects.module.scss'
 import 'swiper/css'
@@ -212,12 +211,28 @@ export default function SimilarProjects({
   ctaLabel = 'See all projects',
   ctaHref = '/projects',
 }: SimilarProjectsProps) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const SCROLL_STEP = 428 + 16
-  const drag = useDragScroll(trackRef)
+  const outerSwiperRef = useRef<SwiperType | null>(null)
 
-  const scrollPrev = () => trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
-  const scrollNext = () => trackRef.current?.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' })
+  const PAGE_WIDTH = 1440
+  const GAP_LARGE = 32
+  const GAP_SMALL = 16
+  const MOBILE_BP = 767
+
+  const [offsetBefore, setOffsetBefore] = useState(GAP_LARGE)
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth
+      if (vw <= MOBILE_BP) {
+        setOffsetBefore(GAP_SMALL)
+      } else {
+        setOffsetBefore(vw > PAGE_WIDTH ? Math.floor((vw - PAGE_WIDTH) / 2) + GAP_LARGE : GAP_LARGE)
+      }
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    return () => window.removeEventListener('resize', calc)
+  }, [])
 
   if (projects.length === 0) return null
 
@@ -228,7 +243,7 @@ export default function SimilarProjects({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title} data-anim="heading">
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>
               {titleHighlight && sectionTitle?.includes(titleHighlight)
                 ? <>
                     {sectionTitle.slice(0, sectionTitle.indexOf(titleHighlight))}
@@ -245,10 +260,10 @@ export default function SimilarProjects({
 
           {showArrows && (
             <div className={s.navArrows}>
-              <button className={s.arrowBtn} onClick={scrollPrev} aria-label="Previous projects">
+              <button className={s.arrowBtn} onClick={() => outerSwiperRef.current?.slidePrev()} aria-label="Previous projects">
                 <ChevronLeftIcon />
               </button>
-              <button className={s.arrowBtn} onClick={scrollNext} aria-label="Next projects">
+              <button className={s.arrowBtn} onClick={() => outerSwiperRef.current?.slideNext()} aria-label="Next projects">
                 <ChevronRightIcon />
               </button>
             </div>
@@ -256,19 +271,22 @@ export default function SimilarProjects({
         </div>
       </Container>
 
-      <Container>
-        <div
-          className={s.scrollTrack}
-          ref={trackRef}
-          style={{ cursor: 'grab' }}
-          onMouseDown={drag.onMouseDown}
-          onClickCapture={drag.onClickCapture}
-        >
-          {projects.map(project => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
+      <Swiper
+        onSwiper={swiper => { outerSwiperRef.current = swiper }}
+        slidesPerView="auto"
+        spaceBetween={16}
+        slidesOffsetBefore={offsetBefore}
+        slidesOffsetAfter={offsetBefore}
+        className={s.outerSwiper}
+      >
+        {projects.map(project => (
+          <SwiperSlide key={project.slug} className={s.outerSlide}>
+            <ProjectCard project={project} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
+      <Container>
         <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnBottom}`}>
           {ctaLabel}
         </Link>

@@ -401,8 +401,8 @@ export default function ProjectMap({
           <div className={s.leftPanel}>
             <div className={s.leftContent}>
               <div className={s.textBlock}>
-                <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
-                {body && <p className={s.description} data-anim="text">{body}</p>}
+                <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
+                {body && <p className={s.description} data-anim="text" suppressHydrationWarning>{body}</p>}
               </div>
               <div className={s.infoWrap}>
                     {destinations.length > 0 && (

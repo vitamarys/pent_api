@@ -51,10 +51,10 @@ export default function WorkProgress({
     <>
       <section className={s.section}>
         <Container>
-          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
           <div className={s.body}>
-            {description && <p className={s.description} data-anim="text">{description}</p>}
+            {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
             <WorkProgressSteps steps={steps} />
           </div>
 

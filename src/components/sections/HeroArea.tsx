@@ -67,8 +67,8 @@ export default function HeroArea({
             {/* Info card */}
             <div className={s.card}>
               <div className={s.cardText}>
-                <h1 className={s.title} data-anim="heading">{title}</h1>
-                <p className={s.description} data-anim="text">{description}</p>
+                <h1 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h1>
+                <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
               </div>
               <button className={s.ctaBtn} onClick={() => setOpen(true)}>
                 {ctaLabel}

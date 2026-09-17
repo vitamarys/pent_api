@@ -29,13 +29,13 @@ export default function HomeWhoWeAre({
       <Container>
         <div className={s.inner}>
           <div className={s.left}>
-            {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
-            {description && <p className={s.description} data-anim="text">{description}</p>}
+            {title && <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>}
+            {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
 
             {stats.length > 0 && (
               <div className={s.statsGrid} data-anim-stagger="">
                 {stats.map((stat, i) => (
-                  <div key={i} className={s.statItem} data-anim="stagger">
+                  <div key={i} className={s.statItem} data-anim="stagger" suppressHydrationWarning>
                     <span className={s.statValue}>{stat.value}</span>
                     <span className={s.statLabel}>{stat.title}</span>
                   </div>
@@ -44,7 +44,7 @@ export default function HomeWhoWeAre({
             )}
 
             {buttonText && (
-              <a href="/contact" className={s.ctaBtn} data-anim="text" style={{ '--anim-delay': '240ms' } as React.CSSProperties}>
+              <a href="/contact" className={s.ctaBtn} data-anim="text" style={{ '--anim-delay': '240ms' } as React.CSSProperties} suppressHydrationWarning>
                 {buttonText}
               </a>
             )}

@@ -55,7 +55,7 @@ export default function SecondaryDetails({
 
   return (
     <section className={s.section}>
-      {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+      {title && <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>}
 
       {rows.length > 0 && (
         <div className={s.table}>

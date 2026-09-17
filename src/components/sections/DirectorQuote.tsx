@@ -41,9 +41,9 @@ export default function DirectorQuote({
         <div className={s.ellipse} aria-hidden />
 
         <div className={s.content}>
-          <blockquote className={s.quote} data-anim="heading">{quote}</blockquote>
+          <blockquote className={s.quote} data-anim="heading" suppressHydrationWarning>{quote}</blockquote>
 
-          <div className={s.agent} data-anim="text">
+          <div className={s.agent} data-anim="text" suppressHydrationWarning>
             <p className={s.name}>{name}</p>
             {position && <p className={s.position}>{position}</p>}
           </div>

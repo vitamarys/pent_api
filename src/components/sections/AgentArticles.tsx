@@ -8,7 +8,7 @@ import s from './AgentArticles.module.scss'
 
 function ArticleCard({ item }: { item: NewsItem }) {
   return (
-    <Link href={item.href ?? `/news/${item.slug}`} className={s.card} data-anim="stagger">
+    <Link href={item.href ?? `/news/${item.slug}`} className={s.card} data-anim="stagger" suppressHydrationWarning>
       <div className={s.cardImage}>
         {item.image && <Image src={item.image} alt={item.title} fill className={s.cardImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />}
         {item.tag && <div className={s.cardTag}>{item.tag}</div>}
@@ -43,7 +43,7 @@ export default function AgentArticles({ items, title }: AgentArticlesProps) {
   return (
     <section className={s.section}>
       <Container>
-        <h2 className={s.title} data-anim="heading">{title}</h2>
+        <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>
         <div className={s.grid} data-anim-stagger="">
           {items.map(item => (
             <ArticleCard key={item.slug} item={item} />

@@ -47,8 +47,8 @@ export default function ProjectPaymentPlan({
         {/* Header */}
         <div className={s.header}>
           <div className={s.headerLeft}>
-            <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
-            {description && <p className={s.description} data-anim="text">{description}</p>}
+            <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
+            {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
           </div>
 
           {versions.length > 1 && (

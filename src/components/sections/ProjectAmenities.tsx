@@ -56,7 +56,7 @@ export default function ProjectAmenities({
   return (
     <section className={s.section}>
       <Container>
-        <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
+        <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
         {/* ── Desktop layout ── */}
         <div className={s.desktopGrid}>

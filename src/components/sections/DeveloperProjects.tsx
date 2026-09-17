@@ -205,7 +205,7 @@ export default function DeveloperProjects({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title} data-anim="heading">
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>
               {sectionTitle ?? (
                 <>{'Projects by '}<span className={s.titleHighlight}>{developerName.toUpperCase()}</span></>
               )}
@@ -227,13 +227,11 @@ export default function DeveloperProjects({
         </div>
       </Container>
 
-      <Container>
-        <div className={s.scrollTrack} ref={trackRef}>
-          {projects.map(project => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </Container>
+      <div className={s.scrollTrack} ref={trackRef}>
+        {projects.map(project => (
+          <ProjectCard key={project.slug} project={project} />
+        ))}
+      </div>
 
       <Container>
         <a href={href} className={`${s.ctaBtn} ${s.ctaBtnBottom}`}>

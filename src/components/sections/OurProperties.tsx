@@ -55,8 +55,8 @@ export default async function OurProperties({
 
           {/* Header */}
           <div className={s.header}>
-            <h2 className={s.title} data-anim="heading">{title}</h2>
-            {description && <p className={s.description} data-anim="text">{description}</p>}
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>
+            {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
           </div>
 
           {/* Cards */}
@@ -69,7 +69,7 @@ export default async function OurProperties({
                 : null
 
               return (
-                <Link key={card.id ?? i} href={href} className={s.card} data-anim="stagger">
+                <Link key={card.id ?? i} href={href} className={s.card} data-anim="stagger" suppressHydrationWarning>
                   {card.imageFile?.url && (
                     <Image
                       src={card.imageFile.url}

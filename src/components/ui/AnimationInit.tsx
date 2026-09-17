@@ -6,56 +6,85 @@ import { usePathname } from 'next/navigation'
 /**
  * Initialises scroll-triggered animations on every page navigation.
  *
- * Watches [data-anim] and [data-anim-stagger] elements via IntersectionObserver
- * (threshold 0.15, fires once) and adds the `.is-in-view` class to trigger
- * CSS transitions defined in src/styles/_animations.scss.
- *
- * Include once in the root layout — it renders nothing to the DOM.
+ * Uses IntersectionObserver (threshold 0.15) + MutationObserver to catch
+ * elements added after the initial render (lazy components, Suspense, etc.).
+ * Adds `.is-in-view` class to trigger CSS transitions in _animations.scss.
  */
 export default function AnimationInit() {
   const pathname = usePathname()
 
   useEffect(() => {
-    let observer: IntersectionObserver
+    const observed = new WeakSet<Element>()
 
-    const init = () => {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-in-view')
-              observer.unobserve(entry.target)
-            }
-          })
-        },
-        { threshold: 0.15 },
-      )
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-in-view')
+            io.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.15 },
+    )
 
-      // Observe individual elements (skip stagger children — managed by container)
-      document
-        .querySelectorAll('[data-anim]:not([data-anim="stagger"])')
-        .forEach((el) => observer.observe(el))
-
-      // Stagger containers: set per-child delay, then observe the container
-      document.querySelectorAll('[data-anim-stagger]').forEach((container) => {
-        const step = parseInt(
-          (container as HTMLElement).dataset.staggerStep ?? '100',
-        )
-        container
-          .querySelectorAll<HTMLElement>('[data-anim="stagger"]')
-          .forEach((item, i) => {
-            item.style.setProperty('--stagger-delay', `${i * step}ms`)
-          })
-        observer.observe(container)
-      })
+    const observeElement = (el: Element) => {
+      if (observed.has(el)) return
+      observed.add(el)
+      io.observe(el)
     }
 
-    // rAF ensures Next.js has flushed new page content into the DOM
-    const raf = requestAnimationFrame(init)
+    const initEl = (el: Element) => {
+      // stagger items are controlled by their container
+      if (el.getAttribute('data-anim') === 'stagger') return
+      observeElement(el)
+    }
+
+    const initStagger = (container: Element) => {
+      if (observed.has(container)) return
+      const step = parseInt((container as HTMLElement).dataset.staggerStep ?? '100')
+      container.querySelectorAll<HTMLElement>('[data-anim="stagger"]').forEach((item, i) => {
+        item.style.setProperty('--stagger-delay', `${i * step}ms`)
+      })
+      observeElement(container)
+    }
+
+    const scanNode = (root: Element | Document) => {
+      root.querySelectorAll('[data-anim]:not([data-anim="stagger"])').forEach(initEl)
+      root.querySelectorAll('[data-anim-stagger]').forEach(initStagger)
+    }
+
+    // MutationObserver: catches elements added after initial render
+    // (client components, Suspense boundaries, lazy data fetching)
+    const mo = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return
+          const el = node as Element
+
+          if (el.matches('[data-anim]:not([data-anim="stagger"])')) initEl(el)
+          if (el.matches('[data-anim-stagger]')) initStagger(el)
+
+          // also scan descendants of the added node
+          scanNode(el)
+        })
+      })
+    })
+
+    // Double rAF: waits for React hydration to complete before any observation.
+    // MutationObserver starts only after the initial scan to avoid adding
+    // `is-in-view` during hydration (which would cause a server/client mismatch).
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scanNode(document)
+        mo.observe(document.body, { childList: true, subtree: true })
+      })
+    })
 
     return () => {
       cancelAnimationFrame(raf)
-      observer?.disconnect()
+      io.disconnect()
+      mo.disconnect()
     }
   }, [pathname])
 

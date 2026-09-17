@@ -59,10 +59,10 @@ export default function ArticleHero({
 
         <div className={s.content}>
           <div className={s.titleGroup}>
-            <h1 className={s.title} data-anim="heading">{title}</h1>
+            <h1 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h1>
           </div>
           {summary && (
-            <p className={s.summary} data-anim="text">{summary}</p>
+            <p className={s.summary} data-anim="text" suppressHydrationWarning>{summary}</p>
           )}
         </div>
 

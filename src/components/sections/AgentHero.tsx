@@ -191,11 +191,11 @@ export default function AgentHero({
               )}
 
               <div className={s.nameBlock}>
-                <h1 className={s.name} data-anim="heading">{name}</h1>
-                {position && <p className={s.position} data-anim="text">{position}</p>}
+                <h1 className={s.name} data-anim="heading" suppressHydrationWarning>{name}</h1>
+                {position && <p className={s.position} data-anim="text" suppressHydrationWarning>{position}</p>}
               </div>
 
-              {description && <p className={s.description} data-anim="text">{description}</p>}
+              {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
 
               <div className={s.divider} />
 

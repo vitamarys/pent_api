@@ -2,8 +2,12 @@
 
 // ── Container override: no padding on tablet/mobile ─────────
 .container {
-  @include t.tablet { padding: 0; }
-  @include t.mobile { padding: 0; }
+  @include t.tablet {
+    padding: 0;
+  }
+  @include t.mobile {
+    padding: 0;
+  }
 }
 
 // ── Section ─────────────────────────────────────────────────
@@ -32,7 +36,7 @@
 .bgOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(31, 31, 31, 0.55);
+  // background: rgba(31, 31, 31, 0.55);
 }
 
 // ── Stacked image (tablet/mobile) ────────────────────────────
@@ -66,7 +70,7 @@
   justify-content: flex-end;
   align-items: stretch;
   padding: t.$gap-large 0;
-  min-height: 580px;
+  min-height: 700px;
 
   @include t.tablet {
     position: static;
@@ -79,7 +83,7 @@
 // ── Card ─────────────────────────────────────────────────────
 .card {
   width: 487px;
-  background: rgba(31, 31, 31, 0.7);
+  background: #1f1f1fb3;
   backdrop-filter: blur(49px);
   padding: t.$gap-normal;
   display: flex;
@@ -105,7 +109,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: t.$gap-large t.$gap-large;
+  padding: 0 t.$gap-large;
+  height: 90px;
   background: t.$white-fade-2;
   width: fit-content;
 }
@@ -135,7 +140,6 @@
 .devName {
   @include t.text-h2;
   color: t.$white-solid;
-  white-space: nowrap;
 
   @include t.tablet {
     font-size: 32px;

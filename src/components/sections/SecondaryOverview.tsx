@@ -56,9 +56,9 @@ export default function SecondaryOverview({
 
         {/* ── LEFT: text panel ── */}
         <div className={s.leftPanel}>
-          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
-          {description && <p className={s.description} data-anim="text">{description}</p>}
+          {description && <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>}
 
           {infoRows.length > 0 && (
             <div className={s.infoTable}>

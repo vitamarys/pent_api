@@ -49,7 +49,7 @@ export default function AreaHighlights({
 
         {/* ── Sidebar ── */}
         <div className={s.sidebar}>
-          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
           <ul className={s.list}>
             {items.map((item, i) => {

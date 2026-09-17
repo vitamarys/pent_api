@@ -30,7 +30,7 @@ export default function AreaOverview({
 
           {/* ── Top content block ── */}
           <div className={s.header}>
-            <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
             <div className={s.body}>
               {/* Tabs (left on desktop, top on tablet/mobile) */}

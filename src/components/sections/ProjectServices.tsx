@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Container from '@/components/ui/Container'
 import s from "./ProjectServices.module.scss";
 
 export interface ServiceItem {
@@ -45,15 +46,16 @@ export default function ProjectServices({
 
   return (
     <section className={s.section}>
+      <Container>
       <div className={s.stage}>
 
         {/* ── Sidebar ─────────────────────────────────────── */}
         <div className={s.sidebar}>
-          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
           <div className={s.serviceInfo} key={active}>
-            <p className={s.serviceName} data-anim="text">{svc.title}</p>
-            <p className={s.serviceDesc} data-anim="text">{svc.description}</p>
+            <p className={s.serviceName}>{svc.title}</p>
+            <p className={s.serviceDesc}>{svc.description}</p>
           </div>
 
           <div className={s.navRow}>
@@ -163,6 +165,7 @@ export default function ProjectServices({
         </div>
 
       </div>
+      </Container>
     </section>
   );
 }

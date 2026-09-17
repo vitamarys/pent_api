@@ -18,11 +18,11 @@ export default function ProjectPromo({
     <section className={`${s.section} ${bg === 'white' ? s.sectionWhite : ''}`}>
       <Container>
         <div className={s.inner}>
-          <h2 className={s.title} data-anim="heading">
+          <h2 className={s.title} data-anim="heading" suppressHydrationWarning>
             <span className={s.highlight}>{titleHighlight} </span>
             {titleRest}
           </h2>
-          <p className={s.description} data-anim="text">{description}</p>
+          <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
         </div>
       </Container>
     </section>

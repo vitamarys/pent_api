@@ -19,10 +19,10 @@ export default function HomeAwards({ title, award = [] }: HomeAwardsProps) {
   return (
     <section className={s.section}>
       <Container>
-        {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+        {title && <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>}
         <div className={s.track} data-anim-stagger="">
           {award.map((item, i) => (
-            <div key={i} className={s.card} data-anim="stagger">
+            <div key={i} className={s.card} data-anim="stagger" suppressHydrationWarning>
               {item.image?.url && (
                 <div className={s.cardImageWrap}>
                   <Image src={item.image.url} alt={item.title} fill className={s.cardImage} sizes="72px" />

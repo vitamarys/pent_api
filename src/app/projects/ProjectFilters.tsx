@@ -556,29 +556,31 @@ export default function ProjectFilters({
           ))}
         </FilterDropdown>
 
-        {/* Additional details */}
-        <FilterDropdown
-          label="Additional details"
-          count={selectedDetails.length}
-          isActive={selectedDetails.length > 0}
-        >
-          {categoryOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedDetails.includes(opt.id as string) ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedDetails.includes(opt.id as string)
-                  ? selectedDetails.filter(d => d !== opt.id)
-                  : [...selectedDetails, opt.id as string]
-                setSelectedDetails(next)
-                push({ details: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedDetails.includes(opt.id as string) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
-        </FilterDropdown>
+        {/* Additional details — тимчасово приховано */}
+        {false && (
+          <FilterDropdown
+            label="Additional details"
+            count={selectedDetails.length}
+            isActive={selectedDetails.length > 0}
+          >
+            {categoryOptions.map(opt => (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${selectedDetails.includes(opt.id as string) ? s.dropdownOptionActive : ''}`}
+                onClick={() => {
+                  const next = selectedDetails.includes(opt.id as string)
+                    ? selectedDetails.filter(d => d !== opt.id)
+                    : [...selectedDetails, opt.id as string]
+                  setSelectedDetails(next)
+                  push({ details: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {selectedDetails.includes(opt.id as string) && <X size={14} strokeWidth={1.5} />}
+              </button>
+            ))}
+          </FilterDropdown>
+        )}
       </div>
 
       {/* ── Tablet/Mobile bar ── */}
@@ -764,22 +766,24 @@ export default function ProjectFilters({
                 </div>
               </div>
 
-              {/* Additional details */}
-              <div className={s.filterGroup}>
-                <p className={s.filterLabel}>Additional details</p>
-                <div className={s.tagList}>
-                  {categoryOptions.map(opt => (
-                    <Tag
-                      key={opt.id}
-                      label={opt.label}
-                      active={selectedDetails.includes(opt.id as string)}
-                      onToggle={() => setSelectedDetails(p =>
-                        p.includes(opt.id as string) ? p.filter(d => d !== opt.id) : [...p, opt.id as string]
-                      )}
-                    />
-                  ))}
+              {/* Additional details — тимчасово приховано */}
+              {false && (
+                <div className={s.filterGroup}>
+                  <p className={s.filterLabel}>Additional details</p>
+                  <div className={s.tagList}>
+                    {categoryOptions.map(opt => (
+                      <Tag
+                        key={opt.id}
+                        label={opt.label}
+                        active={selectedDetails.includes(opt.id as string)}
+                        onToggle={() => setSelectedDetails(p =>
+                          p.includes(opt.id as string) ? p.filter(d => d !== opt.id) : [...p, opt.id as string]
+                        )}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className={s.modalFooter}>

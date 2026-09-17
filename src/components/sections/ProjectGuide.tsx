@@ -20,9 +20,9 @@ export default function ProjectGuide({
         <div className={s.banner} style={{ backgroundImage: `url(${image})` }}>
           <div className={s.overlay} />
           <div className={s.content}>
-            <h2 className={s.title} data-anim="heading">{title}</h2>
-            <p className={s.description} data-anim="text">{description}</p>
-            <button className={s.btn} data-anim="text" style={{ '--anim-delay': '200ms' } as React.CSSProperties}>{buttonLabel}</button>
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>
+            <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
+            <button className={s.btn} data-anim="text" style={{ '--anim-delay': '200ms' } as React.CSSProperties} suppressHydrationWarning>{buttonLabel}</button>
           </div>
         </div>
       </Container>

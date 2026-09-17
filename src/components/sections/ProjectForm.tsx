@@ -120,8 +120,8 @@ export default function ProjectForm({
       {/* Left: form panel */}
       <div className={s.formPanel}>
         <div className={s.formHeader}>
-          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
-          <p className={s.description} data-anim="text">{description}</p>
+          <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
+          <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
         </div>
 
         {submitStatus === 'success' ? (

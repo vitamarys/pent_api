@@ -213,7 +213,7 @@ export default function ArticleBody({ content, author, editor }: ArticleBodyProp
 
           {(author || editor) && (
             <div className={s.authors}>
-              <h3 className={s.authorsTitle} data-anim="heading">Authors</h3>
+              <h3 className={s.authorsTitle} data-anim="heading" suppressHydrationWarning>Authors</h3>
               <div className={s.authorsList}>
                 {author && <AuthorCard person={author} role="Author" />}
                 {editor && <AuthorCard person={editor} role="Reviewer" />}

@@ -22,7 +22,7 @@ export default function ProjectAccordion({
     <section className={s.section}>
       <Container>
         <div className={s.inner}>
-          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
           <AccordionList items={items} />
         </div>
       </Container>

@@ -93,7 +93,7 @@ export default function ArticlesSlider({
     <section className={s.section}>
       <Container>
         <div className={s.header}>
-          <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
           <div className={s.headerActions}>
             <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnDesktop}`}>
               {ctaLabel}

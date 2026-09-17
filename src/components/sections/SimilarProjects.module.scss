@@ -7,7 +7,6 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
 .section {
   background: t.$white-solid;
   padding: 120px 0 t.$gap-large;
-  overflow: hidden;
 
   @include t.tablet {
     padding: 100px 0 t.$gap-large;
@@ -117,53 +116,33 @@ $black-fade-3: rgba(31, 31, 31, 0.3);
   }
 }
 
-// ── Scroll track ──────────────────────────────────────────────
-.scrollTrack {
-  display: flex;
-  gap: t.$gap-small;
-  overflow-x: auto;
-  scrollbar-width: none;
+// ── Outer Swiper ──────────────────────────────────────────────
+.outerSwiper {
+  width: 100%;
+}
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  // Desktop: extend to right viewport edge (removes the white Container padding clip)
-  width: calc(100% + t.$gap-large);
+.outerSlide {
+  width: 428px !important;
 
   @include t.tablet {
-    width: 100%;
-    scroll-snap-type: x mandatory;
+    width: 340px !important;
   }
 
   @include t.mobile {
-    scroll-snap-type: x mandatory;
+    width: calc(100vw - #{t.$gap-small} * 4) !important;
   }
 }
 
 // ── Card ──────────────────────────────────────────────────────
 .card {
-  // Fluid width: always ~3 cards + 20% peek regardless of viewport
-  flex: 0 0 calc((100% - 3 * t.$gap-small) / 3.2);
-  min-width: 280px;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
   text-decoration: none;
   color: inherit;
   border: 1px solid t.$black-fade-2;
   background: t.$white-solid;
-
-  @include t.tablet {
-    flex: 0 0 340px;
-    min-width: 0;
-    scroll-snap-align: start;
-  }
-
-  @include t.mobile {
-    flex: 0 0 calc(100% - 24px);
-    min-width: 0;
-    scroll-snap-align: start;
-  }
 }
 
 // ── Card media ────────────────────────────────────────────────

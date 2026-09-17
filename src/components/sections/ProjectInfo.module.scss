@@ -1,5 +1,5 @@
 @use "@/styles/tokens" as t;
-@use 'sass:color';
+@use "sass:color";
 
 // ── Section ─────────────────────────────────────────────────
 .section {
@@ -135,14 +135,90 @@
   align-items: center;
   gap: 4px;
 
-  svg {
-    color: t.$black-fade-4;
-    flex-shrink: 0;
-  }
-
   @include t.mobile {
     justify-content: space-between;
     width: 100%;
+  }
+}
+
+// ── Info icon + tooltip ───────────────────────────────────────
+.tooltipWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  &:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+  }
+}
+
+.infoIcon {
+  display: block;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  position: relative;
+  top: -2px;
+
+  .tooltipWrap:hover & {
+    opacity: 1;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: t.$black-solid;
+  color: t.$white-solid;
+  font-family: t.$font-sans;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 4px 8px;
+  white-space: pre-wrap;
+  max-width: 320px;
+  width: max-content;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.15s,
+    transform 0.15s,
+    visibility 0.15s;
+  z-index: 10;
+  pointer-events: none;
+
+  @include t.tablet {
+    left: auto;
+    right: 0;
+    transform: translateY(0);
+  }
+}
+
+.tooltipWrap:hover .tooltip {
+  @include t.tablet {
+    transform: translateY(-4px);
+  }
+}
+
+.tooltipArrow {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid t.$black-solid;
+
+  @include t.tablet {
+    left: auto;
+    right: 4px;
+    transform: none;
   }
 }
 

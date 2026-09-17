@@ -191,6 +191,7 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           maxPrice?: number | null
           handoverValue?: string | null
           numberOfUnits?: number | null
+          paymentPlanExplanation?: string | null
           previewImage?: { url: string } | null
           pageUrl?: { url: string } | null
         }>
@@ -201,6 +202,7 @@ function renderBlock(block: PenthouseBlock): React.ReactNode {
           href: p.pageUrl?.url ?? undefined,
           title: p.title ?? '',
           location: p.area?.title,
+          description: p.paymentPlanExplanation ?? undefined,
           minPrice: p.minPrice ?? null,
           maxPrice: p.maxPrice ?? null,
           handover: p.handoverValue ?? undefined,

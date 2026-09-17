@@ -151,7 +151,7 @@ function renderBlock(
           locationHref={locationHref}
           developer={developerName}
           propertyType={property.unitType ?? undefined}
-          furnishing={property.primaryView ?? undefined}
+          furnishing={property.furnished ?? undefined}
           propertyStatus={property.completionStatus ?? undefined}
         />
       )

@@ -33,9 +33,9 @@ export default function DeveloperAbout({
               </div>
             ) : (
               <>
-                <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+                <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
                 {sectionDescription && (
-                  <p className={s.description} data-anim="text">{sectionDescription}</p>
+                  <p className={s.description} data-anim="text" suppressHydrationWarning>{sectionDescription}</p>
                 )}
               </>
             )}
@@ -45,9 +45,9 @@ export default function DeveloperAbout({
           <div className={s.right}>
             {image && (
               <div className={s.rightHeader}>
-                <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+                <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
                 {sectionDescription && (
-                  <p className={s.description} data-anim="text">{sectionDescription}</p>
+                  <p className={s.description} data-anim="text" suppressHydrationWarning>{sectionDescription}</p>
                 )}
               </div>
             )}
@@ -55,7 +55,7 @@ export default function DeveloperAbout({
             {features.length > 0 && (
               <div className={s.featuresList} data-anim-stagger="">
                 {features.map((item, i) => (
-                  <div key={i} className={s.featureCard} data-anim="stagger">
+                  <div key={i} className={s.featureCard} data-anim="stagger" suppressHydrationWarning>
                     <div className={s.cardTop}>
                       <span className={s.dot} />
                       <p className={s.featureTitle}>{item.title}</p>

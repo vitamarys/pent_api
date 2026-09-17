@@ -18,8 +18,8 @@
 // ── Header row ───────────────────────────────────────────────
 .header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
   gap: t.$gap-normal;
   margin-bottom: t.$gap-normal;
 
@@ -57,7 +57,10 @@
   @include t.tablet {
     width: 100%;
     justify-self: stretch;
+    align-self: auto;
   }
+
+  justify-self: start;
 
   @include t.mobile {
     overflow-x: auto;
@@ -101,6 +104,7 @@
 .navButtons {
   display: flex;
   gap: t.$gap-xs;
+  justify-self: end;
   opacity: 1;
   pointer-events: auto;
   transition: opacity 0.2s;
@@ -135,7 +139,7 @@
 // ── Swiper overrides ─────────────────────────────────────────
 .swiper {
   width: 100%;
-  overflow: visible;
+  overflow: visible !important;
 
   // Show pagination dots on tablet/mobile
   :global(.swiper-pagination) {

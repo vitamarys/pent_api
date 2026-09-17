@@ -28,15 +28,15 @@ export default function AboutArea({
 
           {/* Left — title + description */}
           <div className={s.leftCol}>
-            <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
-            <p className={s.description} data-anim="text">{description}</p>
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
+            <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
           </div>
 
           {/* Right — feature cards */}
           {features.length > 0 && (
             <div className={s.rightCol} data-anim-stagger="">
               {features.map((feature, i) => (
-                <div key={i} className={s.card} data-anim="stagger">
+                <div key={i} className={s.card} data-anim="stagger" suppressHydrationWarning>
                   <div className={s.cardHeader}>
                     <span className={s.dot} aria-hidden />
                     <h3 className={s.cardTitle}>{feature.title}</h3>

@@ -159,7 +159,7 @@ export default function DeveloperSlider({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title} data-anim="heading">{title}</h2>
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>
           </div>
 
           <a href={href} className={`${s.ctaBtn} ${s.ctaBtnDesktop}`}>

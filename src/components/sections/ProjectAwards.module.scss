@@ -49,21 +49,25 @@
   }
 }
 
-// ── Track ────────────────────────────────────────────────────
-.trackContainer {
-  overflow: visible;
+// ── Swiper ───────────────────────────────────────────────────
+.swiper {
+  width: 100%;
+
+  :global(.swiper-wrapper) {
+    align-items: stretch;
+  }
 }
 
-.track {
-  display: flex;
-  gap: t.$gap-small;
-  align-items: stretch;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
+.swiperSlide {
+  width: 332px !important;
+  height: auto !important;
 
-  &::-webkit-scrollbar {
-    display: none;
+  @include t.tablet {
+    width: 269px !important;
+  }
+
+  @include t.mobile {
+    width: 240px !important;
   }
 }
 
@@ -75,16 +79,14 @@
   gap: t.$gap-normal;
   background: t.$brand-second-base;
   padding: 48px 32px;
-  width: 332px;
-  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
 
   @include t.tablet {
-    width: 269px;
     gap: 20px;
   }
 
   @include t.mobile {
-    width: 240px;
     padding: 32px 16px;
     gap: t.$gap-small;
   }

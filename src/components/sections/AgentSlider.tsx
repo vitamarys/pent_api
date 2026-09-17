@@ -102,7 +102,7 @@ export default function AgentSlider({
       <Container>
         <div className={s.header}>
           <div className={s.titleWrap}>
-            <h2 className={s.title} data-anim="heading">{sectionTitle}</h2>
+            <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
           </div>
 
           <Link href={ctaHref} className={`${s.ctaBtn} ${s.ctaBtnDesktop}`}>

@@ -158,6 +158,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       const area = project?.area as { title?: string; pageUrl?: { url?: string; pageStatus?: string; deleted?: boolean } } | null
       const handover = project?.handoverValue as string | undefined
       const paymentPlan = project?.paymentPlan as string | undefined
+      const paymentPlanExplanation = project?.paymentPlanExplanation as string | undefined
       const types = (project?.projectTypes as Array<{ name?: string }> | undefined)
         ?.map((t) => t.name ?? '')
         .join(', ')
@@ -171,7 +172,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           ? [{ label: 'Developer', value: developer.name ?? '', type: 'link' as const, href: developer.pageUrl?.url, published: developer.pageUrl ? developer.pageUrl.pageStatus === 'PUBLISH' && !developer.pageUrl.deleted : false }]
           : []),
         ...(handover ? [{ label: 'Handover', value: handover, type: 'text' as const }] : []),
-        ...(paymentPlan ? [{ label: 'Payment Plan', value: paymentPlan, type: 'text' as const }] : []),
+        ...(paymentPlan ? [{ label: 'Payment Plan', value: paymentPlan, type: (paymentPlanExplanation ? 'info' : 'text') as 'info' | 'text' }] : []),
         ...(types ? [{ label: 'Types', value: types, type: 'text' as const }] : []),
         ...(beds ? [{ label: 'Bedrooms', value: beds, type: 'text' as const }] : []),
         ...(floors ? [{ label: 'Floors', value: floors, type: 'text' as const }] : []),
@@ -190,6 +191,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           details={details}
           allImages={images}
           pageBitrixId={page.leadBitrixId ?? undefined}
+          paymentPlanExplanation={paymentPlanExplanation}
         />
       )
     }

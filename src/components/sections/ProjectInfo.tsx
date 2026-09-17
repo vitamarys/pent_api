@@ -3,7 +3,7 @@
 import '@fancyapps/ui/dist/fancybox/fancybox.css'
 import Image from 'next/image'
 import { useEffect, useState } from "react"
-import { ChevronRight, Info, Play, Maximize2 } from "lucide-react"
+import { ChevronRight, Play, Maximize2 } from "lucide-react"
 import dynamic from 'next/dynamic'
 const PopPresentation = dynamic(() => import('@/components/ui/PopPresentation'))
 import Container from "@/components/ui/Container";
@@ -26,6 +26,7 @@ export interface ProjectInfoProps {
   details: DetailItem[];
   allImages?: string[];
   pageBitrixId?: string;
+  paymentPlanExplanation?: string;
 }
 
 const GALLERY_ID = "project-info-gallery"
@@ -39,6 +40,7 @@ export default function ProjectInfo({
   details,
   allImages,
   pageBitrixId,
+  paymentPlanExplanation,
 }: ProjectInfoProps) {
   const [presentationOpen, setPresentationOpen] = useState(false)
 
@@ -66,8 +68,8 @@ export default function ProjectInfo({
           {/* Left column — text + details */}
           <div className={s.leftCol}>
             <div className={s.overviewBlock}>
-              <h3 className={s.title} data-anim="heading">{title}</h3>
-              <p className={s.description} data-anim="text">{description}</p>
+              <h3 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h3>
+              <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
             </div>
 
             <div className={s.detailsBlock}>
@@ -84,7 +86,15 @@ export default function ProjectInfo({
                     ) : item.type === "info" ? (
                       <span className={s.detailValueInfo}>
                         {item.value}
-                        <Info size={14} />
+                        {paymentPlanExplanation && (
+                          <span className={s.tooltipWrap}>
+                            <img src="/icons/info.svg" alt="info" className={s.infoIcon} width={16} height={16} />
+                            <span className={s.tooltip}>
+                              {paymentPlanExplanation}
+                              <span className={s.tooltipArrow} />
+                            </span>
+                          </span>
+                        )}
                       </span>
                     ) : (
                       <span className={s.detailValue}>{item.value}</span>
@@ -113,6 +123,7 @@ export default function ProjectInfo({
             <div
               className={s.mainImageWrap}
               data-anim="image"
+              suppressHydrationWarning
               onClick={() => {
                 const first = document.querySelector<HTMLElement>(
                   `[data-fancybox="${GALLERY_ID}"]`

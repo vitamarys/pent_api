@@ -85,41 +85,29 @@
   }
 }
 
-// ── Scroll track ──────────────────────────────────────────────
-.scrollTrack {
-  display: flex;
-  gap: t.$gap-small;
-  overflow-x: auto;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  width: calc(100% + t.$gap-large);
-
-  @include t.tablet {
-    width: 100%;
-    scroll-snap-type: x mandatory;
-  }
+// ── Swiper ────────────────────────────────────────────────────
+// Swiper на повну ширину viewport.
+// slidesOffsetBefore рахується динамічно в JS (враховує centering > 1440px).
+// slidesOffsetAfter = 32px — остання картка повністю прокручується.
+.swiper {
+  width: 100%;
 }
 
-// ── Slider card wrapper ───────────────────────────────────────
-.sliderCardWrap {
-  flex: 0 0 calc((100% - 3 * t.$gap-small) / 3.2);
-  min-width: 280px;
+.swiperSlide {
+  width: 428px;
 
   @include t.tablet {
-    flex: 0 0 340px;
-    min-width: 0;
-    scroll-snap-align: start;
+    width: 340px;
   }
 
   @include t.mobile {
-    flex: 0 0 calc(100% - 24px);
-    min-width: 0;
-    scroll-snap-align: start;
+    width: calc(100vw - #{t.$gap-small} * 4);
   }
+}
+
+.swiperSpacer {
+  width: t.$gap-large !important;
+  pointer-events: none;
 }
 
 .section {

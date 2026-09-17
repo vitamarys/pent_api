@@ -8,7 +8,6 @@ import type { Swiper as SwiperType } from "swiper";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Container from "@/components/ui/Container";
 import PopFloorPlan from "@/components/ui/PopFloorPlan";
-import PopConsultation from "@/components/ui/PopConsultation";
 import { useDisplayFormat } from "@/hooks/useDisplayFormat";
 import s from "./ProjectFloorPlan.module.scss";
 
@@ -60,11 +59,9 @@ export default function ProjectFloorPlan({
   cards,
   entity,
   pageBitrixId,
-  agentId,
 }: ProjectFloorPlanProps) {
   const [activeTab, setActiveTab] = useState("all");
   const [popCard, setPopCard] = useState<FloorPlanCard | null>(null);
-  const [consultOpen, setConsultOpen] = useState(false);
   const swiperRef = useRef<SwiperType | null>(null);
   const { formatPrice, formatArea, metric } = useDisplayFormat();
 
@@ -75,7 +72,12 @@ export default function ProjectFloorPlan({
 
   const uniqueTypes = new Set(cards.map((c) => c.type.toLowerCase()))
   const showTabs = tabs.length > 0 && uniqueTypes.size > 1;
-  const showNav = filteredCards.length > 3;
+
+  const desktopSlidesPerView =
+    filteredCards.length <= 2 ? 2 :
+    filteredCards.length === 3 ? 3 : 3.2;
+
+  const showNav = filteredCards.length > Math.floor(desktopSlidesPerView);
 
   useEffect(() => {
     swiperRef.current?.slideTo(0);
@@ -91,17 +93,10 @@ export default function ProjectFloorPlan({
       entity={entity}
       pageBitrixId={pageBitrixId}
     />
-    <PopConsultation
-      open={consultOpen}
-      onClose={() => setConsultOpen(false)}
-      entity={entity}
-      pageBitrixId={pageBitrixId}
-      agentId={agentId}
-    />
     <section className={s.section}>
       <Container>
         <div className={s.header}>
-          <h2 className={s.sectionTitle} data-anim="heading">{sectionTitle}</h2>
+          <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
 
           {showTabs && (
             <div className={s.tabsBar}>
@@ -142,6 +137,7 @@ export default function ProjectFloorPlan({
         </div>
 
         <Swiper
+          key={filteredCards.length}
           onSwiper={(swiper) => { swiperRef.current = swiper; }}
           modules={[Pagination]}
           spaceBetween={16}
@@ -149,8 +145,8 @@ export default function ProjectFloorPlan({
           grabCursor
           pagination={{ clickable: true }}
           breakpoints={{
-            768:  { slidesPerView: 2, pagination: { clickable: true } },
-            1200: { slidesPerView: 3.2, pagination: false },
+            768:  { slidesPerView: Math.min(filteredCards.length, 2), pagination: { clickable: true } },
+            1200: { slidesPerView: desktopSlidesPerView, pagination: false },
           }}
           className={s.swiper}
         >
@@ -220,7 +216,7 @@ export default function ProjectFloorPlan({
                   )}
                 </div>
 
-                <button className={s.checkBtn} onClick={() => setConsultOpen(true)}>Check Availability</button>
+                <button className={s.checkBtn} onClick={() => setPopCard(card)}>Check Availability</button>
               </div>
             </SwiperSlide>
           ))}

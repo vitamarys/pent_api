@@ -30,7 +30,7 @@ export default function SecondaryFloorPlan({
     <>
     <PopFloorPlan open={popOpen} onClose={() => setPopOpen(false)} pageBitrixId={pageBitrixId} />
     <section className={s.section}>
-      {title && <h2 className={s.title} data-anim="heading">{title}</h2>}
+      {title && <h2 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h2>}
 
       {hasImages ? (
         <div className={s.card}>
@@ -65,9 +65,9 @@ export default function SecondaryFloorPlan({
           {/* Right: text + button */}
           <div className={s.textCol}>
             <div className={s.textGroup}>
-              {layoutTitle && <p className={s.layoutTitle} data-anim="heading">{layoutTitle}</p>}
+              {layoutTitle && <p className={s.layoutTitle} data-anim="heading" suppressHydrationWarning>{layoutTitle}</p>}
               {layoutDescription && (
-                <p className={s.layoutDescription} data-anim="text">{layoutDescription}</p>
+                <p className={s.layoutDescription} data-anim="text" suppressHydrationWarning>{layoutDescription}</p>
               )}
             </div>
             {buttonText && (

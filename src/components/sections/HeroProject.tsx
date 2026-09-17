@@ -88,14 +88,14 @@ export default function HeroProject({
               {/* Left */}
               <div className={s.textContainer}>
                 <div className={s.titleGroup}>
-                  <h1 className={s.title} data-anim="heading">{title}</h1>
+                  <h1 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h1>
                   <div className={s.location}>
                     <span className={s.dot} />
                     <span>{location}</span>
                   </div>
                 </div>
                 {description &&
-                                <p className={s.description} data-anim="text">{description}</p>
+                                <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
 
                 }
               </div>

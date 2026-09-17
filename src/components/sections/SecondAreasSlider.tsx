@@ -1,11 +1,13 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useDragScroll } from '@/hooks/useDragScroll'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
 import ResaleCard, { type ResaleCardProps } from '@/app/resale/ResaleCard'
 import Container from '@/components/ui/Container'
 import s from './SecondAreas.module.scss'
+import 'swiper/css'
 
 function ChevronLeftIcon() {
   return (
@@ -31,14 +33,29 @@ interface Props {
 }
 
 export default function SecondAreasSlider({ items, sectionTitle, titleHighlight, ctaLabel = 'See more' }: Props) {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const SCROLL_STEP = 428 + 16
-  const drag = useDragScroll(trackRef)
-
-  const scrollPrev = () => trackRef.current?.scrollBy({ left: -SCROLL_STEP, behavior: 'smooth' })
-  const scrollNext = () => trackRef.current?.scrollBy({ left: SCROLL_STEP, behavior: 'smooth' })
-
+  const swiperRef = useRef<SwiperType | null>(null)
   const showArrows = items.length >= 4
+
+  const PAGE_WIDTH = 1440
+  const GAP_LARGE = 32
+  const GAP_SMALL = 16
+  const MOBILE_BP = 767
+
+  const [offsetBefore, setOffsetBefore] = useState(GAP_LARGE)
+
+  useEffect(() => {
+    const calc = () => {
+      const vw = window.innerWidth
+      if (vw <= MOBILE_BP) {
+        setOffsetBefore(GAP_SMALL)
+      } else {
+        setOffsetBefore(vw > PAGE_WIDTH ? Math.floor((vw - PAGE_WIDTH) / 2) + GAP_LARGE : GAP_LARGE)
+      }
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    return () => window.removeEventListener('resize', calc)
+  }, [])
 
   return (
     <section className={s.section}>
@@ -46,7 +63,7 @@ export default function SecondAreasSlider({ items, sectionTitle, titleHighlight,
         <div className={s.sliderHeader}>
           <div className={s.titleWrap}>
             {sectionTitle && (
-              <h2 className={s.title} data-anim="heading">
+              <h2 className={s.title} data-anim="heading" suppressHydrationWarning>
                 {titleHighlight && sectionTitle.includes(titleHighlight)
                   ? <>
                       {sectionTitle.slice(0, sectionTitle.indexOf(titleHighlight))}
@@ -64,10 +81,10 @@ export default function SecondAreasSlider({ items, sectionTitle, titleHighlight,
 
           {showArrows && (
             <div className={s.navArrows}>
-              <button className={s.arrowBtn} onClick={scrollPrev} aria-label="Previous">
+              <button className={s.arrowBtn} onClick={() => swiperRef.current?.slidePrev()} aria-label="Previous">
                 <ChevronLeftIcon />
               </button>
-              <button className={s.arrowBtn} onClick={scrollNext} aria-label="Next">
+              <button className={s.arrowBtn} onClick={() => swiperRef.current?.slideNext()} aria-label="Next">
                 <ChevronRightIcon />
               </button>
             </div>
@@ -75,21 +92,22 @@ export default function SecondAreasSlider({ items, sectionTitle, titleHighlight,
         </div>
       </Container>
 
-      <Container>
-        <div
-          className={s.scrollTrack}
-          ref={trackRef}
-          style={{ cursor: 'grab' }}
-          onMouseDown={drag.onMouseDown}
-          onClickCapture={drag.onClickCapture}
-        >
-          {items.map(item => (
-            <div key={item.slug} className={s.sliderCardWrap}>
-              <ResaleCard {...item} />
-            </div>
-          ))}
-        </div>
+      <Swiper
+        onSwiper={swiper => { swiperRef.current = swiper }}
+        slidesPerView="auto"
+        spaceBetween={16}
+        slidesOffsetBefore={offsetBefore}
+        slidesOffsetAfter={offsetBefore}
+        className={s.swiper}
+      >
+        {items.map(item => (
+          <SwiperSlide key={item.slug} className={s.swiperSlide}>
+            <ResaleCard {...item} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
+      <Container>
         <Link href="/resale" className={`${s.sliderCta} ${s.sliderCtaBottom}`}>
           {ctaLabel}
         </Link>

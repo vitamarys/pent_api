@@ -79,8 +79,8 @@ export default function SellHero({
               )}
 
               <div className={s.content}>
-                <h1 className={s.title} data-anim="heading">{title}</h1>
-                <p className={s.desc} data-anim="text">{description}</p>
+                <h1 className={s.title} data-anim="heading" suppressHydrationWarning>{title}</h1>
+                <p className={s.desc} data-anim="text" suppressHydrationWarning>{description}</p>
                 <button className={s.cta} onClick={() => setPopOpen(true)}>
                   {ctaLabel}
                 </button>
