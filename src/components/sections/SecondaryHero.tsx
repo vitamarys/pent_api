@@ -12,6 +12,9 @@ interface Props {
   tourUrl?: string
   videoUrl?: string
   hideTopBar?: boolean
+  photosLabel?: string
+  tourLabel?: string
+  playVideoLabel?: string
 }
 
 function IconChevronRight() {
@@ -70,7 +73,7 @@ function IconArrowWhite() {
   )
 }
 
-export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourUrl, videoUrl, hideTopBar }: Props) {
+export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourUrl, videoUrl, hideTopBar, photosLabel, tourLabel, playVideoLabel }: Props) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const touchStartX = useRef<number | null>(null)
@@ -163,18 +166,18 @@ export default function SecondaryHero({ subtitle, images = [], breadcrumb, tourU
           <div className={s.actionBtns}>
             <button className={s.actionBtn} onClick={() => setLightboxOpen(true)} aria-label="View all photos">
               <span className={s.actionBtnIcon}><IconPhotos /></span>
-              <span>{images.length} photos</span>
+              <span>{images.length} {photosLabel ?? 'photos'}</span>
             </button>
             {tourUrl && (
               <a className={s.actionBtn} href={tourUrl} target="_blank" rel="noopener noreferrer" aria-label="3D tour">
                 <span className={s.actionBtnIcon}><IconTour /></span>
-                <span>3D tour</span>
+                <span>{tourLabel ?? '3D tour'}</span>
               </a>
             )}
             {videoUrl && (
               <a className={s.actionBtn} href={videoUrl} target="_blank" rel="noopener noreferrer" aria-label="Play video">
                 <span className={s.actionBtnIcon}><IconPlay /></span>
-                <span>Play video</span>
+                <span>{playVideoLabel ?? 'Play video'}</span>
               </a>
             )}
           </div>
