@@ -94,14 +94,14 @@
 }
 
 .swiperSlide {
-  width: 428px;
+  width: 428px !important;
 
   @include t.tablet {
-    width: 340px;
+    width: 340px !important;
   }
 
   @include t.mobile {
-    width: calc(100vw - 32px);
+    width: calc(100vw - 32px) !important;
   }
 }
 
