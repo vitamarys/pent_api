@@ -49,6 +49,7 @@ export default function ProjectInfo({
 }: ProjectInfoProps) {
   const [presentationOpen, setPresentationOpen] = useState(false)
   const [consultationOpen, setConsultationOpen] = useState(false)
+  const [videoOpen, setVideoOpen] = useState(false)
   const hasBrochure = !!brochureURL
 
   const galleryImages = allImages?.length
@@ -131,25 +132,19 @@ export default function ProjectInfo({
               />
             ))}
 
-            {/* Main image — clicks the first hidden anchor to open gallery */}
+            {/* Main image */}
             <div
               className={s.mainImageWrap}
               data-anim="image"
               suppressHydrationWarning
-              onClick={() => {
-                const first = document.querySelector<HTMLElement>(
-                  `[data-fancybox="${GALLERY_ID}"]`
-                )
-                first?.click()
-              }}
             >
               {mainImage && <Image src={mainImage} alt={title} fill className={s.coverImg} sizes="(max-width: 768px) 100vw, 60vw" priority />}
               <div className={s.imgOverlay} />
               {videoUrl && (
-                <a href={videoUrl} className={s.playBtn} onClick={e => e.stopPropagation()}>
+                <button className={s.playBtn} onClick={() => setVideoOpen(true)}>
                   <Play size={16} />
                   Play Video
-                </a>
+                </button>
               )}
             </div>
 
@@ -180,6 +175,20 @@ export default function ProjectInfo({
         </div>
       </Container>
     </section>
+
+    {videoOpen && videoUrl && (
+      <div className={s.videoOverlay} onClick={() => setVideoOpen(false)}>
+        <div className={s.videoModal} onClick={e => e.stopPropagation()}>
+          <button className={s.videoClose} onClick={() => setVideoOpen(false)}>✕</button>
+          <iframe
+            src={videoUrl}
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            className={s.videoIframe}
+          />
+        </div>
+      </div>
+    )}
 
     <PopPresentation
       open={presentationOpen}

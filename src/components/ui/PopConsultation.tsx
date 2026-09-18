@@ -114,7 +114,7 @@ export default function PopConsultation({
           email: data.email,
           phone: data.phone,
           entity,
-          projectId,
+          projectId: pageBitrixId ?? projectId,
           agentId,
           pageBitrixId,
           extraData: {

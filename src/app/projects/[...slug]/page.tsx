@@ -119,7 +119,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
         <HeroProject
           key={index}
           title={b.title ?? page.title}
-          location={[area, 'Dubai'].filter(Boolean).join(', ')}
+          location={area}
           description={b.description ?? ''}
           image={imgUrl(b.imageFile)}
           startingPrice={minPrice ?? null}
@@ -585,6 +585,15 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
     case 'block.another-content': {
       const b = block as { title?: string; contentType?: string; seeAllButton?: string | null }
       if (!b.contentType) return null
+      const proj = getProject(page)
+      const projectSimilarity = proj && b.contentType === 'projects' ? {
+        typeNames: ((proj.projectTypes as Array<{ name?: string }> | undefined)
+          ?.map(t => t.name).filter(Boolean) ?? []) as string[],
+        areaTitle: (proj.area as { title?: string } | null)?.title,
+        developerName: (proj.developer as { name?: string } | null)?.name,
+        minPrice: proj.minPrice as number | undefined,
+        currentTitle: page.title,
+      } : undefined
       return (
         <AnotherContent
           key={index}
@@ -593,6 +602,7 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
           seeAllButton={b.seeAllButton ?? undefined}
           entityType="project"
           entityId={entityId}
+          projectSimilarity={projectSimilarity}
         />
       )
     }

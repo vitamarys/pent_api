@@ -12,13 +12,14 @@ const DARK_HEADER_PATHS = ['/', '/areas', '/resale', '/projects', '/agents', '/a
 
 const NAV_LINKS = [
   
-  { label: 'Off-plan Projects', href: '/projects' },
+  { label: 'Off-plan', href: '/projects' },
   { label: 'Buy',               href: '/resale' },
   { label: 'Sell',              href: '/sell' },
   { label: 'Developers',        href: '/developers' },
     { label: 'Areas',        href: '/areas' },
   { label: 'Contact Us',          href: '/contact' },
   { label: 'About',             href: '/about-us' },
+    { label: 'Our Team',             href: '/agents' },
 ]
 
 // ── Search API types ──────────────────────────────────────────

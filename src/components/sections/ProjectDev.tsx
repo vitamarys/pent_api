@@ -44,7 +44,7 @@ export default function ProjectDev({
 
             {/* Logo */}
             {logo && (
-              <div className={s.logoWrap} data-anim="image">
+              <div className={s.logoWrap} data-anim="image" suppressHydrationWarning>
                 <Image src={logo} alt={devName} fill className={s.logo} sizes="137px" />
 
               </div>

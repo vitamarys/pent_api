@@ -90,7 +90,7 @@ export default function PopFloorPlan({
           email: data.email,
           phone: data.phone,
           entity,
-          projectId,
+          projectId: pageBitrixId ?? projectId,
           pageBitrixId,
           extraData: getLeadExtraData(),
         });

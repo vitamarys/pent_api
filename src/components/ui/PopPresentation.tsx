@@ -92,7 +92,7 @@ export default function PopPresentation({
           email: data.email,
           phone: data.phone,
           entity,
-          projectId,
+          projectId: pageBitrixId ?? projectId,
           pageBitrixId,
           extraData: getLeadExtraData(),
         });

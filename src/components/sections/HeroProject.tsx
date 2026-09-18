@@ -95,7 +95,7 @@ export default function HeroProject({
                   </div>
                 </div>
                 {description &&
-                                <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
+                 <p className={s.description} data-anim="text" suppressHydrationWarning>{description}</p>
 
                 }
               </div>
