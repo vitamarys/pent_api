@@ -56,7 +56,12 @@ export default function SecondarySidebar({
 
   return (
     <>
-    <PopConsultation open={consultOpen} onClose={() => setConsultOpen(false)} agentLeadId={agentLeadId} hideAgent />
+    <PopConsultation
+      open={consultOpen}
+      onClose={() => setConsultOpen(false)}
+      agentLeadId={agentLeadId}
+      agent={agent?.image ? { name: agent.name, role: agent.role ?? '', image: agent.image.url } : undefined}
+    />
     <aside className={s.sidebar}>
       {/* Price block */}
       <div className={s.priceBlock}>
