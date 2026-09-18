@@ -20,16 +20,31 @@ $panel-solid: #1f1f1f;
     min-height: unset;
     padding: 0;
   }
+
 }
 
-// ── next/image background (covers entire hero) ──────────────
+// ── Image crop wrapper ─────────────────────────────────────
+// Desktop/tablet: fills entire hero (position absolute inset 0)
+// Mobile: limited to 260px height, clips the image
+.imageCrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  @include t.mobile {
+    bottom: auto;
+    height: 260px;
+    overflow: hidden;
+  }
+}
+
+// ── next/image background ──────────────────────────────────
 .bgImage {
   object-fit: cover;
   object-position: center;
-  z-index: 0;
 }
 
-// ── Image background (kept for layout, image now via next/image) ─
+// ── Image background (placeholder) ─────────────────────────
 .imageBg {
   display: none;
 }
@@ -43,6 +58,7 @@ $panel-solid: #1f1f1f;
   flex-direction: column;
   padding-top: 135px;
   z-index: 1;
+
   @include t.tablet {
     flex: none;
     height: 400px;
@@ -50,10 +66,12 @@ $panel-solid: #1f1f1f;
   }
 
   @include t.mobile {
-    height: 340px;
+    flex: none;
+    height: 260px;
     padding-top: 70px;
   }
 }
+
 
 .gradient {
   position: absolute;

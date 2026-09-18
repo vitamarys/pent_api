@@ -49,21 +49,22 @@ export default function HeroProject({
   return (
     <>
       <section className={s.hero}>
-        {image && (
-          <Image
-            src={image}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className={s.bgImage}
-            aria-hidden
-          />
-        )}
+        <div className={s.imageCrop}>
+          {image && (
+            <Image
+              src={image}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className={s.bgImage}
+              aria-hidden
+            />
+          )}
+        </div>
 
         {/* Image area — controls height per breakpoint */}
         <div className={s.imageArea}>
-          <div className={s.imageBg} />
           <Container>
             <nav className={s.breadcrumb}>
               <Link href="/"><Image src="/icons/icon-home-w.svg" alt="Home" width={24} height={24} /></Link>
