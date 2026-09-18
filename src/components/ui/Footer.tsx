@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Container from '@/components/ui/Container'
+import ExternalWidgets from '@/components/ui/ExternalWidgets'
 import s from './Footer.module.scss'
 
 const NAV_COLS = [
@@ -107,6 +108,7 @@ export default function Footer() {
 
         </div>
       </Container>
+      <ExternalWidgets />
     </footer>
   )
 }
