@@ -8,8 +8,6 @@ import AreaCard from './AreaCard'
 import AreaSearch from './AreaSearch'
 import s from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata: Metadata = {
   title: 'Top Areas in Dubai — PentTest',
   description:

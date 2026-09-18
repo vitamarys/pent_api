@@ -12,8 +12,6 @@ import ResaleMapView from './ResaleMapView'
 import type { MapProperty } from './ResaleMapView'
 import s from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata: Metadata = {
   title: 'Resale Properties in Dubai — PentTest',
   description:

@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Check, X } from 'lucide-react'
 import PhoneInput, { type Country } from 'react-phone-number-input/min'
+import { useCountry } from '@/hooks/useCountry'
 import 'react-phone-number-input/style.css'
 import type { AgentInfo } from '@/components/sections/ProjectForm'
 import { submitLead } from '@/api/leads'
@@ -72,15 +73,8 @@ export default function PopConsultation({
     : agent
       ? { ...agent, image: agent.image || DEFAULT_AGENT.image }
       : DEFAULT_AGENT
-  const [defaultCountry, setDefaultCountry] = useState<Country>('AE')
+  const defaultCountry = useCountry()
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
-  useEffect(() => {
-    fetch('https://api.country.is/')
-      .then(r => r.json())
-      .then(d => { if (d?.country) setDefaultCountry(d.country as Country) })
-      .catch(() => {})
-  }, [])
 
   // Body scroll lock (compensate scrollbar width to prevent layout shift)
   useEffect(() => {

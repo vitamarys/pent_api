@@ -1,9 +1,11 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { getProperty } from '@/api/listings'
 import ResaleCard from '@/app/resale/ResaleCard'
 import Container from '@/components/ui/Container'
-import SecondAreasSlider from './SecondAreasSlider'
 import s from './SecondAreas.module.scss'
+
+const SecondAreasSlider = dynamic(() => import('./SecondAreasSlider'))
 
 interface Props {
   sectionTitle?: string

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Check, ChevronRight } from 'lucide-react';
 import PhoneInput, { type Country } from 'react-phone-number-input/min';
+import { useCountry } from '@/hooks/useCountry';
 import 'react-phone-number-input/style.css';
 import Container from '@/components/ui/Container';
 import { submitLead } from '@/api/leads';
@@ -29,15 +30,8 @@ const EMAIL    = 'team@metropolitan.realestate';
 const WA_HREF  = 'https://wa.me/97152222105';
 
 export default function ContactHero() {
-  const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
+  const defaultCountry = useCountry();
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  useEffect(() => {
-    fetch('https://api.country.is/')
-      .then(r => r.json())
-      .then(d => { if (d?.country) setDefaultCountry(d.country as Country); })
-      .catch(() => {});
-  }, []);
 
   const {
     register, handleSubmit, watch, setValue, control, reset,

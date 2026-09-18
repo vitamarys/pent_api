@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import strapiClient from '@/lib/axios'
 import type {
   PenthouseListingsProjectsParams,
@@ -44,14 +45,25 @@ function buildListingsParams(
   return result
 }
 
-export async function getProjects(
-  params: PenthouseListingsProjectsParams = {},
-): Promise<PenthouseListingsProjectsResponse> {
+const _getProjects = async (
+  params: PenthouseListingsProjectsParams,
+): Promise<PenthouseListingsProjectsResponse> => {
   const { data } = await strapiClient.get<PenthouseListingsProjectsResponse>(
     '/api/catalog/projects',
     { params: buildListingsParams(params) },
   )
   return data
+}
+
+const cachedGetProjects = unstable_cache(_getProjects, ['catalog-projects'], {
+  revalidate: 60,
+  tags: ['projects'],
+})
+
+export async function getProjects(
+  params: PenthouseListingsProjectsParams = {},
+): Promise<PenthouseListingsProjectsResponse> {
+  return cachedGetProjects(params)
 }
 
 export async function searchProjects(
@@ -69,14 +81,25 @@ export async function searchProjects(
   return data
 }
 
-export async function getProperty(
-  params: PenthouseListingsPropertyParams = {},
-): Promise<PenthouseListingsPropertyResponse> {
+const _getProperty = async (
+  params: PenthouseListingsPropertyParams,
+): Promise<PenthouseListingsPropertyResponse> => {
   const { data } = await strapiClient.get<PenthouseListingsPropertyResponse>(
     '/api/catalog/property',
     { params: buildListingsParams(params) },
   )
   return data
+}
+
+const cachedGetProperty = unstable_cache(_getProperty, ['catalog-property'], {
+  revalidate: 60,
+  tags: ['property'],
+})
+
+export async function getProperty(
+  params: PenthouseListingsPropertyParams = {},
+): Promise<PenthouseListingsPropertyResponse> {
+  return cachedGetProperty(params)
 }
 
 export async function searchProperty(

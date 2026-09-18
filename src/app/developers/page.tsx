@@ -7,8 +7,6 @@ import DeveloperCard from './DeveloperCard'
 import DeveloperSearch from './DeveloperSearch'
 import s from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata: Metadata = {
   title: 'Top Developers — PentTest',
   description:

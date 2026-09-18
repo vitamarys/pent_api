@@ -24,6 +24,11 @@ export async function POST(request: NextRequest) {
   revalidateTag('global-settings', EXPIRE_NOW)
   revalidateTag('currency-rates', EXPIRE_NOW)
   revalidateTag('redirects', EXPIRE_NOW)
+  revalidateTag('projects', EXPIRE_NOW)
+  revalidateTag('property', EXPIRE_NOW)
+  revalidateTag('areas', EXPIRE_NOW)
+  revalidateTag('developers', EXPIRE_NOW)
+  revalidateTag('agents', EXPIRE_NOW)
 
   // Clear page cache for all routes
   revalidatePath('/', 'layout')

@@ -29,6 +29,7 @@ export default function ArticleGallery({ images }: ArticleGalleryProps) {
           src={images[current].url}
           alt={images[current].caption || ''}
           className={s.image}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
           style={{ objectFit: 'cover' }}
         />
         <div className={s.controls}>

@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getStrapiImageUrl } from '@/lib/utils'
@@ -7,8 +8,6 @@ import Container from '@/components/ui/Container'
 import AgentCard from './AgentCard'
 import AgentSearch from './AgentSearch'
 import s from './page.module.scss'
-
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Our Team — PentTest',
@@ -34,13 +33,21 @@ interface AgentsResponse {
   meta: { page: number; pageSize: number; total: number; pageCount: number }
 }
 
+const cachedGetAgents = unstable_cache(
+  async (params: { pageSize?: number; search?: string }): Promise<AgentsResponse> => {
+    try {
+      const { data } = await strapiClient.get<AgentsResponse>('/api/catalog/agents', { params })
+      return data
+    } catch {
+      return { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
+    }
+  },
+  ['catalog-agents'],
+  { revalidate: 300, tags: ['agents'] },
+)
+
 async function getAgents(params: { pageSize?: number; search?: string } = {}): Promise<AgentsResponse> {
-  try {
-    const { data } = await strapiClient.get<AgentsResponse>('/api/catalog/agents', { params })
-    return data
-  } catch {
-    return { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
-  }
+  return cachedGetAgents(params)
 }
 
 function HomeIcon() {

@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import strapiClient from '@/lib/axios'
 
 export interface CatalogDeveloperImageItem {
@@ -25,17 +26,26 @@ export interface CatalogDevelopersResponse {
 
 const EMPTY_DEVELOPERS: CatalogDevelopersResponse = { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
 
-export async function getDevelopers(
-  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
-): Promise<CatalogDevelopersResponse> {
+const _getDevelopers = async (
+  params: { locale?: string; page?: number; pageSize?: number; search?: string },
+): Promise<CatalogDevelopersResponse> => {
   try {
-    const { data } = await strapiClient.get<CatalogDevelopersResponse>('/api/catalog/developers', {
-      params,
-    })
+    const { data } = await strapiClient.get<CatalogDevelopersResponse>('/api/catalog/developers', { params })
     return data
   } catch {
     return EMPTY_DEVELOPERS
   }
+}
+
+const cachedGetDevelopers = unstable_cache(_getDevelopers, ['catalog-developers'], {
+  revalidate: 300,
+  tags: ['developers'],
+})
+
+export async function getDevelopers(
+  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
+): Promise<CatalogDevelopersResponse> {
+  return cachedGetDevelopers(params)
 }
 
 export async function getDeveloperSlugs(): Promise<{ slug: string }[]> {

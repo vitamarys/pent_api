@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check } from "lucide-react";
 import PhoneInput, { type Country } from 'react-phone-number-input/min';
+import { useCountry } from '@/hooks/useCountry';
 import 'react-phone-number-input/style.css';
 import Container from "@/components/ui/Container";
 import { submitLead } from '@/api/leads';
@@ -69,16 +70,7 @@ export default function ProjectForm({
       ? { ...agent, image: agent.image || DEFAULT_AGENT.image }
       : DEFAULT_AGENT
 
-  const [defaultCountry, setDefaultCountry] = useState<Country>('AE');
-
-  useEffect(() => {
-    fetch('https://api.country.is/')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data?.country) setDefaultCountry(data.country as Country);
-      })
-      .catch(() => {/* fallback to AE */});
-  }, []);
+  const defaultCountry = useCountry();
 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 

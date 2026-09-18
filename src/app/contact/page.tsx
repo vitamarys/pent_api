@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 const ContactHero = dynamic(() => import('@/components/sections/ContactHero'))
@@ -14,8 +15,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <ContactHero />
-      <ContactMap />
+      <Suspense fallback={<div style={{ minHeight: '80vh' }} />}>
+        <ContactHero />
+      </Suspense>
+      <Suspense fallback={<div style={{ minHeight: '500px' }} />}>
+        <ContactMap />
+      </Suspense>
     </main>
   )
 }

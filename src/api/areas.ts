@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import strapiClient from '@/lib/axios'
 
 export interface CatalogAreaItem {
@@ -17,17 +18,26 @@ export interface CatalogAreasResponse {
 
 const EMPTY_AREAS: CatalogAreasResponse = { data: [], meta: { page: 1, pageSize: 0, total: 0, pageCount: 0 } }
 
-export async function getAreas(
-  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
-): Promise<CatalogAreasResponse> {
+const _getAreas = async (
+  params: { locale?: string; page?: number; pageSize?: number; search?: string },
+): Promise<CatalogAreasResponse> => {
   try {
-    const { data } = await strapiClient.get<CatalogAreasResponse>('/api/catalog/areas', {
-      params,
-    })
+    const { data } = await strapiClient.get<CatalogAreasResponse>('/api/catalog/areas', { params })
     return data
   } catch {
     return EMPTY_AREAS
   }
+}
+
+const cachedGetAreas = unstable_cache(_getAreas, ['catalog-areas'], {
+  revalidate: 300,
+  tags: ['areas'],
+})
+
+export async function getAreas(
+  params: { locale?: string; page?: number; pageSize?: number; search?: string } = {},
+): Promise<CatalogAreasResponse> {
+  return cachedGetAreas(params)
 }
 
 export async function getAreaSlugs(): Promise<{ slug: string }[]> {

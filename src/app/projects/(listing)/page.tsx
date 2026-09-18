@@ -14,8 +14,6 @@ import ProjectFilters from '../ProjectFilters'
 import ProjectToolbar from '../ProjectToolbar'
 import s from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata: Metadata = {
   title: 'Off-plan Projects in Dubai',
   description: 'Browse off-plan projects in Dubai. Find apartments, villas, and penthouses from the best developers.',

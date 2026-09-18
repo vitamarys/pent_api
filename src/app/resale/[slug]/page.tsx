@@ -20,6 +20,7 @@ import ProjectTeam from '@/components/sections/ProjectTeam'
 import ProjectAwards from '@/components/sections/ProjectAwards'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectAccordion from '@/components/sections/ProjectAccordion'
+import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 const ProjectForm = dynamic(() => import('@/components/sections/ProjectForm'))
 import ProjectQr from '@/components/sections/ProjectQr'
@@ -475,26 +476,27 @@ function renderBlock(
       }
       const form = b.contactFormData
       return (
-        <ProjectForm
-          key={index}
-          sectionTitle={form?.title}
-          description={form?.description}
-          submitLabel={form?.buttonText}
-          consentLabel={form?.agreeText}
-          privacyNote={form?.policyText}
-          agent={
-            form?.agentName
-              ? {
-                  name: form.agentName,
-                  role: form.agentPosition ?? '',
-                  image: form.agentImage?.url ?? '',
-                }
-              : undefined
-          }
-          entity="73687"
-          pageBitrixId={page.leadBitrixId ?? undefined}
-          agentLeadId={property?.agent?.leadId ?? undefined}
-        />
+        <Suspense key={index} fallback={null}>
+          <ProjectForm
+            sectionTitle={form?.title}
+            description={form?.description}
+            submitLabel={form?.buttonText}
+            consentLabel={form?.agreeText}
+            privacyNote={form?.policyText}
+            agent={
+              form?.agentName
+                ? {
+                    name: form.agentName,
+                    role: form.agentPosition ?? '',
+                    image: form.agentImage?.url ?? '',
+                  }
+                : undefined
+            }
+            entity="73687"
+            pageBitrixId={page.leadBitrixId ?? undefined}
+            agentLeadId={property?.agent?.leadId ?? undefined}
+          />
+        </Suspense>
       )
     }
 

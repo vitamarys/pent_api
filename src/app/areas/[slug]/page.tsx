@@ -4,6 +4,7 @@ import { getPageBySlug } from '@/api/pages'
 import { getAreaSlugs } from '@/api/areas'
 import type { PenthousePage, PenthouseBlock } from '@/types/penthouse-api'
 
+import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import AreaHighlights from '@/components/sections/AreaHighlights'
 import HeroArea from '@/components/sections/HeroArea'
@@ -195,19 +196,20 @@ function renderBlock(block: PenthouseBlock, index: number, page: PenthousePage, 
       }
       const form = b.contactFormData
       return (
-        <ProjectForm
-          key={index}
-          sectionTitle={form?.title ?? undefined}
-          description={form?.description ?? undefined}
-          submitLabel={form?.buttonText ?? undefined}
-          consentLabel={form?.agreeText ?? undefined}
-          privacyNote={form?.policyText ?? undefined}
-          agent={form?.agentName ? {
-            name: form.agentName,
-            role: form.agentPosition ?? '',
-            image: form.agentImage?.url ?? '',
-          } : undefined}
-        />
+        <Suspense key={index} fallback={null}>
+          <ProjectForm
+            sectionTitle={form?.title ?? undefined}
+            description={form?.description ?? undefined}
+            submitLabel={form?.buttonText ?? undefined}
+            consentLabel={form?.agreeText ?? undefined}
+            privacyNote={form?.policyText ?? undefined}
+            agent={form?.agentName ? {
+              name: form.agentName,
+              role: form.agentPosition ?? '',
+              image: form.agentImage?.url ?? '',
+            } : undefined}
+          />
+        </Suspense>
       )
     }
 

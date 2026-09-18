@@ -4,6 +4,7 @@ import { getPageBySlug } from '@/api/pages'
 import { getDeveloperSlugs } from '@/api/developers'
 import type { PenthouseBlock } from '@/types/penthouse-api'
 
+import { Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import AnotherContent from '@/components/sections/AnotherContent'
 import AboutArea from '@/components/sections/AboutArea'
@@ -131,19 +132,20 @@ function renderBlock(block: PenthouseBlock, index: number, entityId?: number, de
       }
       const form = b.contactFormData
       return (
-        <ProjectForm
-          key={index}
-          sectionTitle={form?.title ?? undefined}
-          description={form?.description ?? undefined}
-          submitLabel={form?.buttonText ?? undefined}
-          consentLabel={form?.agreeText ?? undefined}
-          privacyNote={form?.policyText ?? undefined}
-          agent={form?.agentName ? {
-            name: form.agentName,
-            role: form.agentPosition ?? '',
-            image: form.agentImage?.url ?? '',
-          } : undefined}
-        />
+        <Suspense key={index} fallback={null}>
+          <ProjectForm
+            sectionTitle={form?.title ?? undefined}
+            description={form?.description ?? undefined}
+            submitLabel={form?.buttonText ?? undefined}
+            consentLabel={form?.agreeText ?? undefined}
+            privacyNote={form?.policyText ?? undefined}
+            agent={form?.agentName ? {
+              name: form.agentName,
+              role: form.agentPosition ?? '',
+              image: form.agentImage?.url ?? '',
+            } : undefined}
+          />
+        </Suspense>
       )
     }
 
