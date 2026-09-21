@@ -1,4 +1,4 @@
-@use '@/styles/tokens' as t;
+@use "@/styles/tokens" as t;
 
 .section {
   background: t.$brand-second-base;
@@ -33,12 +33,14 @@
   color: t.$brand-main-strong;
   white-space: nowrap;
   flex-shrink: 0;
+  width: fit-content;
 }
 
 .description {
   @include t.text-body-m;
   color: t.$black-fade-4;
   line-height: 1.4;
+  max-width: 580px;
 }
 
 .qrWrap {

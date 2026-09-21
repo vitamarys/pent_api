@@ -185,6 +185,22 @@
   height: 412px;
 }
 
+// ── Modal animations ──────────────────────────────────────────
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 // ── Modal ─────────────────────────────────────────────────────
 .modalOverlay {
   position: fixed;
@@ -196,6 +212,7 @@
   align-items: center;
   justify-content: center;
   padding: 32px;
+  animation: overlayIn 0.25s ease both;
 
   @include t.tablet {
     padding: 0 16px;
@@ -217,6 +234,7 @@
   padding: 16px 24px 24px;
   position: relative;
   overflow: hidden;
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   @include t.tablet {
     flex: 1;
@@ -228,6 +246,7 @@
     width: 100%;
     max-width: 100%;
     flex: none;
+    animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
 

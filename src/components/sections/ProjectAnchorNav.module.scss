@@ -10,7 +10,7 @@ $header-height: 65px;
   right: 0;
   z-index: 99;
   padding-top: $header-height; // transparent gap = header height
-  pointer-events: none;        // let header clicks through the padding
+  pointer-events: none; // let header clicks through the padding
   transition: transform 0.3s ease;
 
   @include t.tablet {
@@ -26,8 +26,8 @@ $header-height: 65px;
 // ── Full-width bar ────────────────────────────────────────
 .bar {
   background: t.$black-fade-4;
+  --webkit-backdrop-filter: blur(32.5px);
   backdrop-filter: blur(32.5px);
-  -webkit-backdrop-filter: blur(32.5px);
   pointer-events: auto;
 }
 
