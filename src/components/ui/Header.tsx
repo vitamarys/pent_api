@@ -8,7 +8,6 @@ import s from './Header.module.scss'
 import { useSettingsStore, CURRENCIES, METRICS, type Currency, type Metric } from '@/store/settings'
 import strapiClient from '@/lib/axios'
 
-const DARK_HEADER_PATHS = ['/', '/areas', '/resale', '/projects', '/agents', '/about-us', '/favorites', '/contact', '/developers']
 
 const NAV_LINKS = [
   
@@ -381,8 +380,7 @@ export default function Header() {
     setSearchLoading(false)
   }
 
-  const forceDark = DARK_HEADER_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))
-  const dark = forceDark || (mounted && scrolled) || menuOpen || searchOpen || popupOpen
+  const dark = true
 
   const showDropdown = searchOpen && !popupOpen && searchQuery.length >= 2
 
@@ -391,7 +389,7 @@ export default function Header() {
       {/* ══════════════════════════════════════════════════════
           HEADER
       ══════════════════════════════════════════════════════ */}
-      <header className={`${s.header} ${dark ? s.scrolled : s.transparent} ${mounted && headerHidden && !menuOpen && !searchOpen && !popupOpen ? s.hidden : ''}`}>
+      <header className={`${s.header} ${s.scrolled} ${mounted && headerHidden && !menuOpen && !searchOpen && !popupOpen ? s.hidden : ''}`}>
         <div className={s.inner}>
 
           {/* Normal content */}
