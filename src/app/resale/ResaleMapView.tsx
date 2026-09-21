@@ -4,7 +4,11 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
+import { useSettingsStore } from '@/store/settings'
 import s from './ResaleMapView.module.scss'
+
+// AED → currency rates (same as useDisplayFormat)
+const RATES: Record<string, number> = { USD: 0.2723, EUR: 0.2506 }
 
 export interface MapProperty {
   id:         string
@@ -57,20 +61,35 @@ const MAP_STYLE: google.maps.MapTypeStyle[] = [
 
 // ── SVG icon builders ──────────────────────────────────────────────────────────
 function makePriceIcon(label: string, active: boolean) {
-  const bg = active ? '#C19962' : 'rgba(31,31,31,0.7)'
-  const fontSize = 16
-  const paddingH = 16
+  const bg        = active ? '#1F1F1F' : '#ffffff'
+  const textColor = active ? '#ffffff' : '#1F1F1F'
+  const fontSize  = 16
+  const paddingH  = 12   // 8px outer + 4px inner (per side, per Figma)
   const charWidth = 9.5
-  const width = Math.ceil(label.length * charWidth) + paddingH * 2
-  const height = 34
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-    <rect width="${width}" height="${height}" fill="${bg}"/>
-    <text x="${width / 2}" y="${height / 2}" font-family="-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif" font-size="${fontSize}" font-weight="400" fill="white" text-anchor="middle" dominant-baseline="middle">${label}</text>
+  const pillW  = Math.ceil(label.length * charWidth) + paddingH * 2
+  const pillH  = 32
+  const tailW  = 12
+  const tailH  = 7
+  const totalH = pillH + tailH
+  const tailX  = Math.floor(pillW / 2) - tailW / 2
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${pillW}" height="${totalH}">
+    <defs>
+      <filter id="sh" x="-30%" y="-30%" width="160%" height="200%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.18"/>
+      </filter>
+    </defs>
+    <g filter="url(#sh)">
+      <rect width="${pillW}" height="${pillH}" fill="${bg}"/>
+      <path d="M${tailX} ${pillH}H${tailX + tailW}L${tailX + tailW / 2} ${totalH}Z" fill="${bg}"/>
+    </g>
+    <text x="${pillW / 2}" y="${pillH / 2}" font-family="-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif" font-size="${fontSize}" font-weight="400" fill="${textColor}" text-anchor="middle" dominant-baseline="middle">${label}</text>
   </svg>`
+
   return {
     url: `data:image/svg+xml,${encodeURIComponent(svg)}`,
-    scaledSize: new google.maps.Size(width, height),
-    anchor: new google.maps.Point(Math.floor(width / 2), height),
+    scaledSize: new google.maps.Size(pillW, totalH),
+    anchor: new google.maps.Point(Math.floor(pillW / 2), totalH),
   }
 }
 
@@ -83,11 +102,11 @@ function makeClusterSVG(count: number): string {
   return `data:image/svg+xml,${encodeURIComponent(svg)}`
 }
 
-function formatMarkerPrice(price: number): string {
-  const val = price >= 1_000_000
-    ? `${(price / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
-    : `${Math.round(price / 1000)}K`
-  return `from AED ${val}`
+function formatMarkerPrice(priceAED: number, currency: string, rate: number): string {
+  const val = priceAED * rate
+  if (val >= 1_000_000) return `${currency} ${+(val / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+  if (val >= 1_000)     return `${currency} ${+(val / 1_000).toFixed(1).replace(/\.0$/, '')}K`
+  return `${currency} ${Math.round(val).toLocaleString('en-US')}`
 }
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
@@ -115,6 +134,10 @@ function IconBed() {
 
 // ── Popup card ─────────────────────────────────────────────────────────────────
 function PopupCard({ prop, onClose }: { prop: MapProperty; onClose: () => void }) {
+  const currency = useSettingsStore(s => s.currency)
+  const rate = currency === 'AED' ? 1 : (RATES[currency] ?? 1)
+  const convertedPrice = prop.price != null ? Math.round(prop.price * rate) : null
+
   return (
     <div className={s.popup}>
       {/* Close button — outside card, to the right on desktop */}
@@ -149,9 +172,9 @@ function PopupCard({ prop, onClose }: { prop: MapProperty; onClose: () => void }
               <span className={s.popupSpec}><IconBed />{prop.bedrooms}</span>
             )}
           </div>
-          {prop.price != null && (
+          {convertedPrice != null && (
             <p className={s.popupPrice}>
-              {Math.round(prop.price).toLocaleString('en-US')} <span className={s.popupPriceCurrency}>AED</span>
+              {convertedPrice.toLocaleString('en-US')} <span className={s.popupPriceCurrency}>{currency}</span>
             </p>
           )}
         </div>
@@ -170,10 +193,17 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
   const activePropRef = useRef<MapProperty | null>(null)
   const [activeProperty, setActiveProperty] = useState<MapProperty | null>(null)
 
+  const currency = useSettingsStore(s => s.currency)
+  const rate = currency === 'AED' ? 1 : (RATES[currency] ?? 1)
+  // ref so that callbacks (closePopup, marker listeners) always read latest values
+  const fmtRef = useRef({ currency, rate })
+  fmtRef.current = { currency, rate }
+
   const closePopup = useCallback(() => {
     if (activeMarkerRef.current && activePropRef.current) {
+      const { currency, rate } = fmtRef.current
       const label = activePropRef.current.price != null
-        ? formatMarkerPrice(activePropRef.current.price) : '—'
+        ? formatMarkerPrice(activePropRef.current.price, currency, rate) : '—'
       activeMarkerRef.current.setIcon(makePriceIcon(label, false))
     }
     activeMarkerRef.current = null
@@ -212,7 +242,8 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
     }
 
     const gmMarkers: google.maps.Marker[] = withCoords.map(prop => {
-      const label = prop.price != null ? formatMarkerPrice(prop.price) : '—'
+      const { currency, rate } = fmtRef.current
+      const label = prop.price != null ? formatMarkerPrice(prop.price, currency, rate) : '—'
 
       const marker = new google.maps.Marker({
         position: { lat: prop.lat!, lng: prop.lng! },
@@ -223,8 +254,9 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
       marker.addListener('click', () => {
         if (activePropRef.current?.id === prop.id) { closePopup(); return }
         if (activeMarkerRef.current && activePropRef.current) {
+          const { currency, rate } = fmtRef.current
           const prevLabel = activePropRef.current.price != null
-            ? formatMarkerPrice(activePropRef.current.price) : '—'
+            ? formatMarkerPrice(activePropRef.current.price, currency, rate) : '—'
           activeMarkerRef.current.setIcon(makePriceIcon(prevLabel, false))
         }
         marker.setIcon(makePriceIcon(label, true))
@@ -279,13 +311,13 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Update markers when properties change (skip initial render)
+  // Update markers when properties or currency change (skip initial render)
   const isFirstRender = useRef(true)
   useEffect(() => {
     if (isFirstRender.current) { isFirstRender.current = false; return }
     if (!mapRef.current) return
     buildMarkers(mapRef.current, properties)
-  }, [properties, buildMarkers])
+  }, [properties, currency, buildMarkers])
 
   return (
     <div className={s.mapWrap}>
