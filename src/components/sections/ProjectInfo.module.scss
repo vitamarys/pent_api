@@ -13,12 +13,13 @@
 
 // ── Two-column row ──────────────────────────────────────────
 .row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 540px 1fr;
   gap: t.$gap-small;
-  align-items: stretch;
+  min-height: 520px;
 
   @include t.tablet {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -34,7 +35,6 @@
   gap: 60px;
 
   @include t.tablet {
-    order: 1;
     width: 100%;
     gap: 100px;
   }
@@ -49,6 +49,7 @@
   display: flex;
   flex-direction: column;
   gap: t.$gap-small;
+  flex: 1;
 }
 
 .title {
@@ -241,21 +242,20 @@
 
 // ── Right column ─────────────────────────────────────────────
 .rightCol {
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: t.$gap-small;
 
   @include t.tablet {
-    order: 0;
+    order: -1;
   }
 }
 
 // ── Main image ───────────────────────────────────────────────
 .mainImageWrap {
   flex: 1;
-  min-height: 300px;
+  min-height: 0;
   position: relative;
   overflow: hidden;
   display: block;
@@ -263,7 +263,6 @@
   @include t.tablet {
     flex: none;
     height: 365px;
-    min-height: unset;
   }
   @include t.mobile {
     height: 300px;

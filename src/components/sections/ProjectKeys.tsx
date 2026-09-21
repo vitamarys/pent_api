@@ -19,7 +19,7 @@ export default function ProjectKeys({
     <section className={s.section}>
       <Container>
         <h2 className={s.sectionTitle} data-anim="heading" suppressHydrationWarning>{sectionTitle}</h2>
-        <div className={s.cards} data-anim-stagger="">
+        <div className={s.cards} data-anim-stagger="" suppressHydrationWarning>
           {points.map((point, i) => (
             <div key={i} className={s.card} data-anim="stagger" suppressHydrationWarning>
               <div className={s.cardHeader}>
