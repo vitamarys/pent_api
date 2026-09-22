@@ -18,6 +18,8 @@ import ProjectMap from '@/components/sections/ProjectMap'
 import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectServices from '@/components/sections/ProjectServices'
 import SecondAreas from '@/components/sections/SecondAreas'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 import WorkProgress from '@/components/sections/WorkProgress'
 
 export const revalidate = 300
@@ -352,6 +354,10 @@ export default async function AreaPage({ params }: Props) {
   return (
     <main>
       {visibleBlocks.flatMap((block, index) => {
+        if (block.__component === 'block.reviews') {
+          return [<Container key={`reviews-${index}`}><ElfsightReviews /></Container>]
+        }
+
         let el
         try {
           el = renderBlock(block, index, page, entityId)

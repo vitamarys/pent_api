@@ -14,6 +14,8 @@ import ProjectBanner from '@/components/sections/ProjectBanner'
 import ProjectOfMonth, { type ProjectOfMonthItem } from '@/components/sections/ProjectOfMonth'
 import Areas, { type AreaItem } from '@/components/sections/Areas'
 import ConsultationBlock from '@/components/ui/ConsultationBlock'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
+import Container from '@/components/ui/Container'
 import { getProjects } from '@/api/listings'
 import { getArticles } from '@/api/articles'
 import { getPageBySlug } from '@/api/pages'
@@ -429,6 +431,9 @@ export default async function HomePage() {
   return (
     <main>
       {visibleBlocks.map((block, i) => {
+        if (block.__component === 'block.reviews') {
+          return <Container key={`reviews-${i}`}><ElfsightReviews /></Container>
+        }
         const node = renderBlock(block)
         if (!node) return null
         return <div key={`${block.__component}-${i}`}>{node}</div>

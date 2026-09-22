@@ -15,6 +15,8 @@ import SecondaryAmenities from '@/components/sections/SecondaryAmenities'
 import SecondaryReviews from '@/components/sections/SecondaryReviews'
 import SecondarySimilar from '@/components/sections/SecondarySimilar'
 import ProjectBanner from '@/components/sections/ProjectBanner'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 import ProjectMap from '@/components/sections/ProjectMap'
 import ProjectTeam from '@/components/sections/ProjectTeam'
 import ProjectAwards from '@/components/sections/ProjectAwards'
@@ -643,6 +645,9 @@ export default async function ResalePage({ params }: Props) {
         </div>
       </div>
       {outerBlocks.map((block, index) => {
+        if (block.__component === 'block.reviews') {
+          return <Container key={`reviews-${index}`}><ElfsightReviews /></Container>
+        }
         try {
           return renderBlock(block, innerBlocks.length + index, property, page)
         } catch (err) {

@@ -8,6 +8,8 @@ import MarketingSupport from '@/components/sections/MarketingSupport'
 import ProjectAwards, { type Award } from '@/components/sections/ProjectAwards'
 import WorkProgress, { type WorkStep } from '@/components/sections/WorkProgress'
 import ConsultationBlock from '@/components/ui/ConsultationBlock'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 import HomeFAQ from '@/components/sections/HomeFAQ'
 import { getPageBySlug } from '@/api/pages'
 import { getStrapiImageUrl } from '@/lib/utils'
@@ -240,6 +242,9 @@ export default async function SellPage() {
   return (
     <main>
       {visibleBlocks.map((block, i) => {
+        if (block.__component === 'block.reviews') {
+          return <Container key={`${block.__component}-${i}`}><ElfsightReviews /></Container>
+        }
         const node = renderBlock(block)
         if (!node) return null
         return <div key={`${block.__component}-${i}`}>{node}</div>

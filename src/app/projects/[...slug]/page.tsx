@@ -24,6 +24,8 @@ import ConsultationBlock from '@/components/ui/ConsultationBlock'
 import ProjectQr from '@/components/sections/ProjectQr'
 import ProjectMap from '@/components/sections/ProjectMap'
 import ProjectAnchorNav, { type AnchorNavItem } from '@/components/sections/ProjectAnchorNav'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 
 export const revalidate = 300
 export const dynamicParams = true
@@ -671,8 +673,18 @@ export default async function ProjectsPage({ params }: Props) {
             const anchor = BLOCK_ANCHORS[block.__component]
             const content = renderBlock(block, index, page, entityId)
             if (!content) return null
-            if (!anchor) return content
-            return <div key={index} id={anchor.id}>{content}</div>
+            const wrapped = anchor
+              ? <div key={index} id={anchor.id}>{content}</div>
+              : content
+            if (block.__component === 'block.working-process') {
+              return (
+                <div key={index}>
+                  <Container><ElfsightReviews /></Container>
+                  {wrapped}
+                </div>
+              )
+            }
+            return wrapped
           } catch (err) {
             console.error(`Failed to render ${block.__component}`, err)
             return null

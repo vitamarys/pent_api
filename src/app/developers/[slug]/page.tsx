@@ -15,6 +15,8 @@ const ProjectForm = dynamic(() => import('@/components/sections/ProjectForm'))
 import ProjectQr from '@/components/sections/ProjectQr'
 import WorkProgress from '@/components/sections/WorkProgress'
 import ProjectServices from '@/components/sections/ProjectServices'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 
 export const revalidate = 300
 export const dynamicParams = true
@@ -268,6 +270,9 @@ export default async function DeveloperPage({ params }: Props) {
         />
       )}
       {visibleBlocks.map((block, index) => {
+        if (block.__component === 'block.reviews') {
+          return <Container key={`reviews-${index}`}><ElfsightReviews /></Container>
+        }
         try {
           return renderBlock(block, index, entityId, dev?.name, page.leadBitrixId ?? undefined)
         } catch (err) {

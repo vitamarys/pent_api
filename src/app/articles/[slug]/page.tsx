@@ -12,6 +12,8 @@ import ArticleHero from '@/components/sections/ArticleHero'
 import ArticleBody from '@/components/sections/ArticleBody'
 import ArticlesSlider, { type ArticleCardItem } from '@/components/sections/ArticlesSlider'
 import ProjectBanner from '@/components/sections/ProjectBanner'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 
 export const revalidate = 300
 export const dynamicParams = true
@@ -181,12 +183,15 @@ export default async function ArticlePage({ params }: Props) {
   )
 
   const renderedBlocks = await Promise.all(
-    visibleBlocks.map((block, i) =>
-      renderBlock(block, i).catch((err) => {
+    visibleBlocks.map((block, i) => {
+      if (block.__component === 'block.reviews') {
+        return Promise.resolve(<Container key={`reviews-${i}`}><ElfsightReviews /></Container>)
+      }
+      return renderBlock(block, i).catch((err) => {
         console.error(`Failed to render ${block.__component}`, err)
         return null
-      }),
-    ),
+      })
+    }),
   )
 
   return (

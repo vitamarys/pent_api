@@ -13,6 +13,8 @@ import ProjectBanner from '@/components/sections/ProjectBanner'
 import ProjectServices from '@/components/sections/ProjectServices'
 import AnotherContent from '@/components/sections/AnotherContent'
 import ConsultationBlock from '@/components/ui/ConsultationBlock'
+import Container from '@/components/ui/Container'
+import ElfsightReviews from '@/components/ui/ElfsightReviews'
 
 export const revalidate = 300
 
@@ -278,7 +280,18 @@ export default async function AboutPage() {
 
   return (
     <main>
-      {page.blocks.map((block, i) => renderBlock(block, i))}
+      {page.blocks.map((block, i) => {
+        const node = renderBlock(block, i)
+        if (!node) return null
+        return (
+          <div key={i}>
+            {node}
+            {block.__component === 'block.reviews' && (
+              <Container><ElfsightReviews /></Container>
+            )}
+          </div>
+        )
+      })}
     </main>
   )
 }

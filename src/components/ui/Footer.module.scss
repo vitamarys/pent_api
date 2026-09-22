@@ -12,7 +12,9 @@
   flex-direction: column;
   gap: 120px;
 
-  @include t.mobile { gap: 80px; }
+  @include t.mobile {
+    gap: 80px;
+  }
 }
 
 // ── Top block ──────────────────────────────────────────────
@@ -21,8 +23,12 @@
   flex-direction: column;
   gap: 80px;
 
-  @include t.tablet { gap: 48px; }
-  @include t.mobile { gap: 40px; }
+  @include t.tablet {
+    gap: 48px;
+  }
+  @include t.mobile {
+    gap: 40px;
+  }
 }
 
 // ── Logo ───────────────────────────────────────────────────
@@ -36,8 +42,12 @@
   width: 643px;
   height: auto;
 
-  @include t.tablet { width: 400px; }
-  @include t.mobile { width: 260px; }
+  @include t.tablet {
+    width: 400px;
+  }
+  @include t.mobile {
+    width: 260px;
+  }
 }
 
 // ── Body (social | nav) ────────────────────────────────────
@@ -65,7 +75,10 @@
   flex-direction: column;
 
   // Mobile: appears AFTER navSection
-  @include t.mobile { order: 2; width: 100%; }
+  @include t.mobile {
+    order: 2;
+    width: 100%;
+  }
 
   // Tablet: 3-column grid (social links in row 1, address in col-1 row-2)
   @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
@@ -95,7 +108,9 @@
     border-bottom: 1px solid t.$white-fade-2;
   }
 
-  &:hover { opacity: 0.7; }
+  &:hover {
+    opacity: 0.7;
+  }
 
   // Tablet: each item is in its own grid cell → all get border-bottom
   @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
@@ -113,7 +128,9 @@
   color: t.$white-solid;
   margin-top: 80px;
 
-  @include t.mobile { margin-top: 40px; }
+  @include t.mobile {
+    margin-top: 40px;
+  }
 
   // Tablet: address auto-placed in grid col-1 row-2
   @media (min-width: #{t.$bp-mobile + 1px}) and (max-width: #{t.$bp-tablet}) {
@@ -132,8 +149,15 @@
   flex-direction: column;
   gap: 80px;
 
-  @include t.tablet { width: 100%; gap: 48px; }
-  @include t.mobile { order: 1; width: 100%; gap: 40px; }
+  @include t.tablet {
+    width: 100%;
+    gap: 48px;
+  }
+  @include t.mobile {
+    order: 1;
+    width: 100%;
+    gap: 40px;
+  }
 }
 
 // Desktop + Tablet: 3-column nav grid
@@ -142,7 +166,9 @@
   grid-template-columns: repeat(3, 1fr);
   column-gap: t.$gap-small;
 
-  @include t.mobile { display: none; }
+  @include t.mobile {
+    display: none;
+  }
 }
 
 .navCol {
@@ -173,8 +199,12 @@
   border-top: 1px solid t.$white-fade-2;
   transition: opacity 0.15s;
 
-  &:last-child { border-bottom: 1px solid t.$white-fade-2; }
-  &:hover { opacity: 0.7; }
+  &:last-child {
+    border-bottom: 1px solid t.$white-fade-2;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 // ── Newsletter ─────────────────────────────────────────────
@@ -255,7 +285,9 @@
   color: t.$white-solid;
   caret-color: t.$white-solid;
 
-  &::placeholder { color: t.$white-solid; }
+  &::placeholder {
+    color: t.$white-solid;
+  }
 }
 
 .newsletterBtn {
@@ -271,7 +303,9 @@
   padding: 0;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 // ── Bottom bar ─────────────────────────────────────────────
@@ -316,7 +350,9 @@
   white-space: nowrap;
   transition: opacity 0.15s;
 
-  &:hover { opacity: 0.7; }
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .copyright {
