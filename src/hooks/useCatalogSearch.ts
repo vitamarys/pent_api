@@ -27,7 +27,7 @@ export function useCatalogOptions(activeTab: 'off-plan' | 'secondary') {
         : await getProperty({ currency })
 
       const propertyTypeOptions = (res.propertyTypeResult?.data ?? []).map(t => ({
-        id: t.id as number,
+        id: Number(t.id),
         label: t.label,
       }))
 

@@ -22,6 +22,7 @@ function formatPrice(val: number) {
 export interface FilterOption {
   id: number | string
   label: string
+  disabled?: boolean
 }
 
 interface ProjectFiltersProps {
@@ -208,15 +209,17 @@ function FilterDropdown({ label, count, isActive, searchable, children }: {
 }
 
 // ── Tag pill (modal) ──────────────────────────────────────────
-function Tag({ label, active, onToggle }: {
+function Tag({ label, active, disabled, onToggle }: {
   label: string
   active: boolean
+  disabled?: boolean
   onToggle: () => void
 }) {
   return (
     <button
-      className={`${s.tag} ${active ? s.tagActive : ''}`}
-      onClick={onToggle}
+      className={`${s.tag} ${active ? s.tagActive : ''} ${disabled && !active ? s.tagDisabled : ''}`}
+      onClick={disabled && !active ? undefined : onToggle}
+      disabled={disabled && !active}
     >
       <span>{label}</span>
       {active && <X size={14} strokeWidth={1.5} />}
@@ -322,8 +325,8 @@ export default function ProjectFilters({
     return () => { document.body.style.overflow = '' }
   }, [isModalOpen])
 
-  // ── push URL ──────────────────────────────────────────────────
-  const push = useCallback((override: {
+  // ── push URL — preserves ALL existing params (view, sort…), only mutates filters ──
+  function buildUrl(override: {
     location?: number[]
     types?: number[]
     beds?: string[]
@@ -331,41 +334,45 @@ export default function ProjectFilters({
     handover?: string[]
     developer?: number | null
     details?: string[]
-  }) => {
-    const location = override.location ?? selectedLocation
-    const types    = override.types    ?? selectedTypes
-    const beds     = override.beds     ?? selectedBedrooms
-    const priceVal = override.price    ?? price
-    const handover = override.handover ?? selectedHandover
+  }): string {
+    const location  = override.location  ?? selectedLocation
+    const types     = override.types     ?? selectedTypes
+    const beds      = override.beds      ?? selectedBedrooms
+    const priceVal  = override.price     ?? price
+    const handover  = override.handover  ?? selectedHandover
     const developer = 'developer' in override ? override.developer : selectedDeveloper
-    const details  = override.details  ?? selectedDetails
+    const details   = override.details   ?? selectedDetails
 
-    const p = new URLSearchParams()
-    const sort = searchParams.get('sort'); if (sort) p.set('sort', sort)
-    if (location.length > 0)   p.set('location', location.join(','))
-    if (types.length > 0)      p.set('propertyTypes', types.join(','))
-    if (beds.length > 0)       p.set('beds', beds.join(','))
+    const p = new URLSearchParams(window.location.search)
+    p.delete('page')
+
+    if (location.length > 0)  p.set('location', location.join(','))
+    else                       p.delete('location')
+    if (types.length > 0)     p.set('propertyTypes', types.join(','))
+    else                       p.delete('propertyTypes')
+    if (beds.length > 0)      p.set('beds', beds.join(','))
+    else                       p.delete('beds')
     if (priceVal[0] !== PRICE_MIN || priceVal[1] !== PRICE_MAX) p.set('price', `${priceVal[0]}-${priceVal[1]}`)
-    if (handover.length > 0)   p.set('handover', handover.join(','))
+    else                       p.delete('price')
+    if (handover.length > 0)  p.set('handover', handover.join(','))
+    else                       p.delete('handover')
     if (developer)             p.set('developers', String(developer))
-    if (details.length > 0)    p.set('details', details.join(','))
-    router.push(p.toString() ? `/projects?${p.toString()}` : '/projects')
-  }, [selectedLocation, selectedTypes, selectedBedrooms, price, selectedHandover, selectedDeveloper, selectedDetails, router, searchParams])
+    else                       p.delete('developers')
+    if (details.length > 0)   p.set('details', details.join(','))
+    else                       p.delete('details')
+
+    return p.toString() ? `/projects?${p.toString()}` : '/projects'
+  }
+
+  function push(override: Parameters<typeof buildUrl>[0]) {
+    router.push(buildUrl(override))
+  }
 
   // ── modal apply / clear ───────────────────────────────────────
-  const applyFilters = useCallback(() => {
-    const p = new URLSearchParams()
-    const sort = searchParams.get('sort'); if (sort) p.set('sort', sort)
-    if (selectedLocation.length > 0)   p.set('location', selectedLocation.join(','))
-    if (selectedTypes.length > 0)      p.set('propertyTypes', selectedTypes.join(','))
-    if (selectedBedrooms.length > 0)   p.set('beds', selectedBedrooms.join(','))
-    if (price[0] !== PRICE_MIN || price[1] !== PRICE_MAX) p.set('price', `${price[0]}-${price[1]}`)
-    if (selectedHandover.length > 0)   p.set('handover', selectedHandover.join(','))
-    if (selectedDeveloper)             p.set('developers', String(selectedDeveloper))
-    if (selectedDetails.length > 0)    p.set('details', selectedDetails.join(','))
-    router.push(p.toString() ? `/projects?${p.toString()}` : '/projects')
+  function applyFilters() {
+    router.push(buildUrl({}))
     setIsModalOpen(false)
-  }, [selectedLocation, selectedTypes, selectedBedrooms, price, selectedHandover, selectedDeveloper, selectedDetails, router, searchParams])
+  }
 
   const clearFilters = useCallback(() => {
     setSelectedLocation([])
@@ -377,14 +384,20 @@ export default function ProjectFilters({
     setPrice([PRICE_MIN, PRICE_MAX])
   }, [])
 
-  const clearAndApply = useCallback(() => {
+  function clearAndApply() {
     clearFilters()
-    const sort = searchParams.get('sort')
-    const p = new URLSearchParams()
-    if (sort) p.set('sort', sort)
+    const p = new URLSearchParams(window.location.search)
+    p.delete('page')
+    p.delete('location')
+    p.delete('propertyTypes')
+    p.delete('beds')
+    p.delete('price')
+    p.delete('handover')
+    p.delete('developers')
+    p.delete('details')
     router.push(p.toString() ? `/projects?${p.toString()}` : '/projects')
     setIsModalOpen(false)
-  }, [clearFilters, router, searchParams])
+  }
 
   const hasActiveTags =
     selectedLocation.length > 0 ||
@@ -409,7 +422,7 @@ export default function ProjectFilters({
           {selectedLocation.length > 0 && (
             <div className={s.dropdownSelectedTags}>
               {selectedLocation.map(id => {
-                const label = areaOptions.find(o => o.id === id)?.label ?? String(id)
+                const label = areaOptions.find(o => Number(o.id) === id)?.label ?? String(id)
                 return (
                   <button key={id} className={s.dropdownSelectedTag} onClick={() => {
                     const next = selectedLocation.filter(t => t !== id)
@@ -434,22 +447,27 @@ export default function ProjectFilters({
               <span className={s.dropdownEmptySubtitle}>Try a different search term</span>
             </div>
           ) : (
-            filteredAreaOptions.map(opt => (
-              <button
-                key={opt.id}
-                className={`${s.dropdownOption} ${selectedLocation.includes(opt.id as number) ? s.dropdownOptionActive : ''}`}
-                onClick={() => {
-                  const next = selectedLocation.includes(opt.id as number)
-                    ? selectedLocation.filter(t => t !== opt.id)
-                    : [...selectedLocation, opt.id as number]
-                  setSelectedLocation(next)
-                  push({ location: next })
-                }}
-              >
-                <span>{opt.label}</span>
-                {selectedLocation.includes(opt.id as number) && <X size={14} strokeWidth={1.5} />}
-              </button>
-            ))
+            filteredAreaOptions.map(opt => {
+              const isActive = selectedLocation.includes(opt.id as number)
+              const isDisabled = !!opt.disabled && !isActive
+              return (
+                <button
+                  key={opt.id}
+                  className={`${s.dropdownOption} ${isActive ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                  disabled={isDisabled}
+                  onClick={() => {
+                    const next = isActive
+                      ? selectedLocation.filter(t => t !== opt.id)
+                      : [...selectedLocation, opt.id as number]
+                    setSelectedLocation(next)
+                    push({ location: next })
+                  }}
+                >
+                  <span>{opt.label}</span>
+                  {isActive && <X size={14} strokeWidth={1.5} />}
+                </button>
+              )
+            })
           )}
         </FilterDropdown>
 
@@ -459,22 +477,27 @@ export default function ProjectFilters({
           count={selectedTypes.length}
           isActive={selectedTypes.length > 0}
         >
-          {typeOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedTypes.includes(opt.id as number) ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedTypes.includes(opt.id as number)
-                  ? selectedTypes.filter(t => t !== opt.id)
-                  : [...selectedTypes, opt.id as number]
-                setSelectedTypes(next)
-                push({ types: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedTypes.includes(opt.id as number) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {typeOptions.map(opt => {
+            const isActive = selectedTypes.includes(opt.id as number)
+            const isDisabled = !!opt.disabled && !isActive
+            return (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${isActive ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                disabled={isDisabled}
+                onClick={() => {
+                  const next = isActive
+                    ? selectedTypes.filter(t => t !== opt.id)
+                    : [...selectedTypes, opt.id as number]
+                  setSelectedTypes(next)
+                  push({ types: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {isActive && <X size={14} strokeWidth={1.5} />}
+              </button>
+            )
+          })}
         </FilterDropdown>
 
         {/* Bedroom */}
@@ -483,22 +506,27 @@ export default function ProjectFilters({
           count={selectedBedrooms.length}
           isActive={selectedBedrooms.length > 0}
         >
-          {bedroomOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedBedrooms.includes(opt.id as string) ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedBedrooms.includes(opt.id as string)
-                  ? selectedBedrooms.filter(b => b !== opt.id)
-                  : [...selectedBedrooms, opt.id as string]
-                setSelectedBedrooms(next)
-                push({ beds: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedBedrooms.includes(opt.id as string) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {bedroomOptions.map(opt => {
+            const isActive = selectedBedrooms.includes(opt.id as string)
+            const isDisabled = !!opt.disabled && !isActive
+            return (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${isActive ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                disabled={isDisabled}
+                onClick={() => {
+                  const next = isActive
+                    ? selectedBedrooms.filter(b => b !== opt.id)
+                    : [...selectedBedrooms, opt.id as string]
+                  setSelectedBedrooms(next)
+                  push({ beds: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {isActive && <X size={14} strokeWidth={1.5} />}
+              </button>
+            )
+          })}
         </FilterDropdown>
 
         {/* Price range */}
@@ -516,22 +544,27 @@ export default function ProjectFilters({
           count={selectedHandover.length}
           isActive={selectedHandover.length > 0}
         >
-          {handoverOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedHandover.includes(opt.id as string) ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedHandover.includes(opt.id as string)
-                  ? selectedHandover.filter(h => h !== opt.id)
-                  : [...selectedHandover, opt.id as string]
-                setSelectedHandover(next)
-                push({ handover: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedHandover.includes(opt.id as string) && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {handoverOptions.map(opt => {
+            const isActive = selectedHandover.includes(opt.id as string)
+            const isDisabled = !!opt.disabled && !isActive
+            return (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${isActive ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                disabled={isDisabled}
+                onClick={() => {
+                  const next = isActive
+                    ? selectedHandover.filter(h => h !== opt.id)
+                    : [...selectedHandover, opt.id as string]
+                  setSelectedHandover(next)
+                  push({ handover: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {isActive && <X size={14} strokeWidth={1.5} />}
+              </button>
+            )
+          })}
         </FilterDropdown>
 
         {/* Developer */}
@@ -540,20 +573,25 @@ export default function ProjectFilters({
           count={selectedDeveloper ? 1 : 0}
           isActive={selectedDeveloper !== null}
         >
-          {developerOptions.map(opt => (
-            <button
-              key={opt.id}
-              className={`${s.dropdownOption} ${selectedDeveloper === opt.id ? s.dropdownOptionActive : ''}`}
-              onClick={() => {
-                const next = selectedDeveloper === opt.id ? null : opt.id as number
-                setSelectedDeveloper(next)
-                push({ developer: next })
-              }}
-            >
-              <span>{opt.label}</span>
-              {selectedDeveloper === opt.id && <X size={14} strokeWidth={1.5} />}
-            </button>
-          ))}
+          {developerOptions.map(opt => {
+            const isActive = selectedDeveloper === opt.id
+            const isDisabled = !!opt.disabled && !isActive
+            return (
+              <button
+                key={opt.id}
+                className={`${s.dropdownOption} ${isActive ? s.dropdownOptionActive : ''} ${isDisabled ? s.dropdownOptionDisabled : ''}`}
+                disabled={isDisabled}
+                onClick={() => {
+                  const next = isActive ? null : opt.id as number
+                  setSelectedDeveloper(next)
+                  push({ developer: next })
+                }}
+              >
+                <span>{opt.label}</span>
+                {isActive && <X size={14} strokeWidth={1.5} />}
+              </button>
+            )
+          })}
         </FilterDropdown>
 
         {/* Additional details — тимчасово приховано */}
@@ -596,7 +634,7 @@ export default function ProjectFilters({
       {hasActiveTags && (
         <div className={s.activeTags}>
           {selectedLocation.map(id => {
-            const label = areaOptions.find(o => o.id === id)?.label ?? String(id)
+            const label = areaOptions.find(o => Number(o.id) === id)?.label ?? String(id)
             return (
               <button key={id} className={s.activeTag} onClick={() => {
                 const next = selectedLocation.filter(t => t !== id)
@@ -608,7 +646,7 @@ export default function ProjectFilters({
             )
           })}
           {selectedTypes.map(id => {
-            const label = typeOptions.find(o => o.id === id)?.label ?? String(id)
+            const label = typeOptions.find(o => Number(o.id) === id)?.label ?? String(id)
             return (
               <button key={id} className={s.activeTag} onClick={() => {
                 const next = selectedTypes.filter(t => t !== id)
@@ -686,6 +724,7 @@ export default function ProjectFilters({
                       key={opt.id}
                       label={opt.label}
                       active={selectedLocation.includes(opt.id as number)}
+                      disabled={opt.disabled}
                       onToggle={() => setSelectedLocation(p =>
                         p.includes(opt.id as number) ? p.filter(t => t !== opt.id) : [...p, opt.id as number]
                       )}
@@ -703,6 +742,7 @@ export default function ProjectFilters({
                       key={opt.id}
                       label={opt.label}
                       active={selectedTypes.includes(opt.id as number)}
+                      disabled={opt.disabled}
                       onToggle={() => setSelectedTypes(p =>
                         p.includes(opt.id as number) ? p.filter(t => t !== opt.id) : [...p, opt.id as number]
                       )}
@@ -720,6 +760,7 @@ export default function ProjectFilters({
                       key={opt.id}
                       label={opt.label}
                       active={selectedBedrooms.includes(opt.id as string)}
+                      disabled={opt.disabled}
                       onToggle={() => setSelectedBedrooms(p =>
                         p.includes(opt.id as string) ? p.filter(b => b !== opt.id) : [...p, opt.id as string]
                       )}
@@ -743,6 +784,7 @@ export default function ProjectFilters({
                       key={opt.id}
                       label={opt.label}
                       active={selectedHandover.includes(opt.id as string)}
+                      disabled={opt.disabled}
                       onToggle={() => setSelectedHandover(p =>
                         p.includes(opt.id as string) ? p.filter(h => h !== opt.id) : [...p, opt.id as string]
                       )}
@@ -760,6 +802,7 @@ export default function ProjectFilters({
                       key={opt.id}
                       label={opt.label}
                       active={selectedDeveloper === opt.id}
+                      disabled={opt.disabled}
                       onToggle={() => setSelectedDeveloper(p => p === opt.id ? null : opt.id as number)}
                     />
                   ))}

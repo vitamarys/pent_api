@@ -3,8 +3,10 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { useSettingsStore } from '@/store/settings'
+import strapiClient from '@/lib/axios'
 import s from './ResaleMapView.module.scss'
 
 // AED → currency rates (same as useDisplayFormat)
@@ -183,8 +185,52 @@ function PopupCard({ prop, onClose }: { prop: MapProperty; onClose: () => void }
   )
 }
 
+// ── Transform raw API items → MapProperty ─────────────────────────────────────
+function transformResaleItem(item: Record<string, unknown>): MapProperty {
+  const rawUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
+  const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
+  const images = ((item.images ?? []) as Array<{ url: string }>).map(img => img.url)
+  return {
+    id:        String(item.id),
+    slug,
+    title:     (item.propertyTitle as string | null) ?? (item.title as string | null) ?? '',
+    price:     (item.price as number | null) ?? undefined,
+    area:      (item.unitBuiltupArea as number | null) ?? undefined,
+    bedrooms:  (item.bedrooms as string | null) ?? undefined,
+    bathrooms: (item.noOfBathroom as number | null) ?? undefined,
+    unitType:  ((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined,
+    location:  [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined,
+    image:     images[0] ?? undefined,
+    lat:       parseFloat(item.latitude as string) || undefined,
+    lng:       parseFloat(item.longitude as string) || undefined,
+  }
+}
+
+function transformProjectItem(item: Record<string, unknown>): MapProperty {
+  const pageUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
+  const slug = pageUrl.replace(/^\/(off-plan|projects)\//, '').replace(/\/$/, '') || String(item.id)
+  const previewImage = item.previewImage as { url?: string } | null
+  const image = previewImage?.url ?? undefined
+  const coords = item.coordinates as { lat?: number; lng?: number } | null
+  const area = item.area as { title?: string } | null
+  const types = item.projectTypes as Array<{ name?: string }> | null
+  return {
+    id:       String(item.id),
+    slug,
+    title:    (item.title as string | null) ?? '',
+    price:    (item.minPrice as number | null) ?? undefined,
+    location: area?.title ?? undefined,
+    unitType: types?.[0]?.name ?? undefined,
+    image,
+    lat:      coords?.lat ?? undefined,
+    lng:      coords?.lng ?? undefined,
+    basePath: '/projects',
+  }
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
-export default function ResaleMapView({ properties }: { properties: MapProperty[] }) {
+// apiPath: which catalog endpoint to self-fetch (default = resale)
+export default function ResaleMapView({ apiPath = '/api/catalog/property' }: { apiPath?: string } = {}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<google.maps.Map | null>(null)
   const clustererRef = useRef<MarkerClusterer | null>(null)
@@ -192,6 +238,67 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
   const activeMarkerRef = useRef<google.maps.Marker | null>(null)
   const activePropRef = useRef<MapProperty | null>(null)
   const [activeProperty, setActiveProperty] = useState<MapProperty | null>(null)
+  const [allProperties, setAllProperties] = useState<MapProperty[]>([])
+  const [mapReady, setMapReady] = useState(false)
+
+  const isProjects = apiPath.includes('projects')
+  const transformFn = isProjects ? transformProjectItem : transformResaleItem
+
+  const searchParams = useSearchParams()
+
+  // Build flat filter params from URL search params (same format as buildListingsParams)
+  function buildFilterParams(): Record<string, string> {
+    const p: Record<string, string> = {}
+    const beds = searchParams.get('beds')
+    const price = searchParams.get('price')
+    const propertyTypes = searchParams.get('propertyTypes')
+    const status = searchParams.get('status')
+    const furnishing = searchParams.get('furnishing')
+    const search = searchParams.get('search')
+    // Projects-specific filters
+    const location = searchParams.get('location')
+    const handover = searchParams.get('handover')
+    const developers = searchParams.get('developers')
+    if (beds)          p.beds = beds
+    if (price)         p.price = price
+    if (propertyTypes) p.propertyTypes = propertyTypes
+    if (status)        p.completion = status
+    if (furnishing)    p.furnished = furnishing
+    if (search)        p.search = search
+    if (location)      p.areas = location
+    if (handover)      p.handover = handover
+    if (developers)    p.developers = developers
+    return p
+  }
+
+  // Re-fetch when filters change (URL search params)
+  const filterKey = searchParams.toString()
+
+  useEffect(() => {
+    const PAGE = 100
+    const filterParams = buildFilterParams()
+
+    async function fetchAll() {
+      const first = await strapiClient.get(apiPath, { params: { page: 1, pageSize: PAGE, ...filterParams } })
+      const firstData = (first.data?.result?.data ?? []) as Array<Record<string, unknown>>
+      const pageCount: number = first.data?.result?.meta?.pageCount ?? 1
+
+      if (pageCount <= 1) return firstData
+
+      const rest = await Promise.all(
+        Array.from({ length: pageCount - 1 }, (_, i) =>
+          strapiClient.get(apiPath, { params: { page: i + 2, pageSize: PAGE, ...filterParams } })
+            .then(r => (r.data?.result?.data ?? []) as Array<Record<string, unknown>>)
+        )
+      )
+      return [...firstData, ...rest.flat()]
+    }
+
+    fetchAll()
+      .then(data => setAllProperties(data.map(transformFn)))
+      .catch(err => console.error('[ResaleMapView] fetch error:', err))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterKey])
 
   const currency = useSettingsStore(s => s.currency)
   const rate = currency === 'AED' ? 1 : (RATES[currency] ?? 1)
@@ -272,7 +379,7 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
     clustererRef.current = new MarkerClusterer({ map, markers: gmMarkers, renderer: clusterRenderer })
   }, [closePopup])
 
-  // Initialize map once
+  // Initialize map once (center on Dubai by default)
   useEffect(() => {
     const token = process.env.NEXT_PUBLIC_GOOGLE_MAPS_TOKEN
     if (!token || !containerRef.current) return
@@ -282,13 +389,8 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
     loadGoogleMaps(token).then(() => {
       if (destroyed || !containerRef.current) return
 
-      const withCoords = properties.filter(p => p.lat && p.lng)
-      const center = withCoords.length > 0
-        ? { lat: withCoords[0].lat!, lng: withCoords[0].lng! }
-        : { lat: 25.2048, lng: 55.2708 }
-
       const map = new google.maps.Map(containerRef.current!, {
-        center,
+        center: { lat: 25.2048, lng: 55.2708 },
         zoom: 11,
         styles: MAP_STYLE,
         disableDefaultUI: true,
@@ -297,7 +399,7 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
 
       mapRef.current = map
       map.addListener('click', () => closePopup())
-      buildMarkers(map, properties)
+      setMapReady(true)
     })
 
     return () => {
@@ -311,13 +413,11 @@ export default function ResaleMapView({ properties }: { properties: MapProperty[
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Update markers when properties or currency change (skip initial render)
-  const isFirstRender = useRef(true)
+  // Build markers when map is ready AND allProperties arrive (or currency changes)
   useEffect(() => {
-    if (isFirstRender.current) { isFirstRender.current = false; return }
-    if (!mapRef.current) return
-    buildMarkers(mapRef.current, properties)
-  }, [properties, currency, buildMarkers])
+    if (!mapReady || !mapRef.current || allProperties.length === 0) return
+    buildMarkers(mapRef.current, allProperties)
+  }, [mapReady, allProperties, currency, buildMarkers])
 
   return (
     <div className={s.mapWrap}>

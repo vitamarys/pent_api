@@ -305,9 +305,12 @@ function highlightMatch(text: string, query: string) {
 }
 
 // ── Main component ────────────────────────────────────────────
-export default function ResaleFilters() {
+export default function ResaleFilters({ view = 'card' }: { view?: string }) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  // ref so that push/buildParams always read the latest view (avoids stale closure in useCallback)
+  const viewRef = useRef(view)
+  viewRef.current = view
 
   // init from URL
   const [selectedTypes,    setSelectedTypes]    = useState<number[]>(() =>
@@ -396,53 +399,52 @@ export default function ResaleFilters() {
     }
   }, [mobileSearchOpen])
 
-  // ── navigate with explicit values (avoids stale closure) ─────
-  const push = useCallback((override: {
+  // ── navigate: preserves ALL existing URL params, only mutates filters ──
+  function buildUrl(override: {
     types?: number[]
     beds?: string[]
     price?: [number, number]
     status?: string | null
     furnishing?: string | null
     searchItems?: { id: number; label: string; type: 'name' | 'area' }[]
-  }) => {
-    const types      = override.types       ?? selectedTypes
-    const beds       = override.beds        ?? selectedBedrooms
-    const priceVal   = override.price       ?? price
-    const status     = 'status'      in override ? override.status      : selectedStatus
-    const furnishing = 'furnishing'  in override ? override.furnishing  : selectedFurnishing
+  }): string {
+    const types       = override.types       ?? selectedTypes
+    const beds        = override.beds        ?? selectedBedrooms
+    const priceVal    = override.price       ?? price
+    const status      = 'status'     in override ? override.status      : selectedStatus
+    const furnishing  = 'furnishing' in override ? override.furnishing  : selectedFurnishing
     const searchItems = override.searchItems ?? selectedSearch
-    const p = new URLSearchParams()
-    const view = searchParams.get('view'); if (view) p.set('view', view)
-    const sort = searchParams.get('sort'); if (sort) p.set('sort', sort)
+
+    // Start from the CURRENT browser URL — preserves view, sort, and anything else
+    const p = new URLSearchParams(window.location.search)
+    p.delete('page')
+
+    // Set or delete each filter param
     if (types.length > 0)       p.set('propertyTypes', types.join(','))
+    else                        p.delete('propertyTypes')
     if (beds.length > 0)        p.set('beds', beds.join(','))
+    else                        p.delete('beds')
     if (priceVal[0] !== PRICE_MIN || priceVal[1] !== PRICE_MAX) p.set('price', `${priceVal[0]}-${priceVal[1]}`)
+    else                        p.delete('price')
     if (status)                 p.set('status', status)
+    else                        p.delete('status')
     if (furnishing)             p.set('furnishing', furnishing)
+    else                        p.delete('furnishing')
     if (searchItems.length > 0) p.set('search', searchItems.map(i => i.label).join(','))
-    const url = p.toString() ? `/resale?${p.toString()}` : '/resale'
-    router.push(url)
-  }, [selectedTypes, selectedBedrooms, price, selectedStatus, selectedFurnishing, selectedSearch, router])
+    else                        p.delete('search')
+
+    return p.toString() ? `/resale?${p.toString()}` : '/resale'
+  }
+
+  function push(override: Parameters<typeof buildUrl>[0]) {
+    router.push(buildUrl(override))
+  }
 
   // ── modal helpers ─────────────────────────────────────────────
-  const buildParams = useCallback(() => {
-    const p = new URLSearchParams()
-    const view = searchParams.get('view'); if (view) p.set('view', view)
-    const sort = searchParams.get('sort'); if (sort) p.set('sort', sort)
-    if (selectedTypes.length > 0)    p.set('propertyTypes', selectedTypes.join(','))
-    if (selectedBedrooms.length > 0) p.set('beds', selectedBedrooms.join(','))
-    if (price[0] !== PRICE_MIN || price[1] !== PRICE_MAX) p.set('price', `${price[0]}-${price[1]}`)
-    if (selectedStatus)              p.set('status', selectedStatus)
-    if (selectedFurnishing)          p.set('furnishing', selectedFurnishing)
-    if (selectedSearch.length > 0) p.set('search', selectedSearch.map(i => i.label).join(','))
-    return p
-  }, [selectedTypes, selectedBedrooms, price, selectedStatus, selectedFurnishing, selectedSearch, searchParams])
-
-  const applyFilters = useCallback(() => {
-    const qs = buildParams().toString()
-    router.push(qs ? `/resale?${qs}` : '/resale')
+  function applyFilters() {
+    router.push(buildUrl({}))
     setIsModalOpen(false)
-  }, [buildParams, router])
+  }
 
   const clearFilters = useCallback(() => {
     setSelectedTypes([])
@@ -454,16 +456,20 @@ export default function ResaleFilters() {
     setSearchDraft('')
   }, [])
 
-  const clearAndApply = useCallback(() => {
+  function clearAndApply() {
     clearFilters()
-    const view = searchParams.get('view')
-    const sort = searchParams.get('sort')
-    const p = new URLSearchParams()
-    if (view) p.set('view', view)
-    if (sort) p.set('sort', sort)
+    // Keep view and sort, drop all filter params
+    const p = new URLSearchParams(window.location.search)
+    p.delete('page')
+    p.delete('propertyTypes')
+    p.delete('beds')
+    p.delete('price')
+    p.delete('status')
+    p.delete('furnishing')
+    p.delete('search')
     router.push(p.toString() ? `/resale?${p.toString()}` : '/resale')
     setIsModalOpen(false)
-  }, [clearFilters, router, searchParams])
+  }
 
   return (
     <>

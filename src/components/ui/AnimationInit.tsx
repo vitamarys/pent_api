@@ -85,6 +85,9 @@ export default function AnimationInit() {
       cancelAnimationFrame(raf)
       io.disconnect()
       mo.disconnect()
+      // Remove is-in-view so the next render starts with a clean DOM
+      document.querySelectorAll<Element>('[data-anim].is-in-view, [data-anim-stagger].is-in-view')
+        .forEach(el => el.classList.remove('is-in-view'))
     }
   }, [pathname])
 

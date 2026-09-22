@@ -1,4 +1,5 @@
 import type React from 'react'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getProperty } from '@/api/listings'
@@ -9,7 +10,7 @@ import ResalePagination from './ResalePagination'
 import ResaleFilters from './ResaleFilters'
 import ResaleToolbar from './ResaleToolbar'
 import ResaleMapView from './ResaleMapView'
-import type { MapProperty } from './ResaleMapView'
+
 import s from './page.module.scss'
 
 export const metadata: Metadata = {
@@ -67,29 +68,6 @@ export default async function ResalePage({
 
   const totalPages = Math.ceil(total / PAGE_SIZE)
 
-  // Build map properties array
-  const mapProperties: MapProperty[] = properties.map((item) => {
-    const rawUrl = (item.pageUrl as { url?: string } | null)?.url ?? ''
-    const slug = rawUrl.replace(/^\/resale\//, '').replace(/\/$/, '') || String(item.id)
-    const images = ((item.images ?? []) as Array<{ url: string }>).map((img) => img.url)
-    const lat = parseFloat(item.latitude as string) || undefined
-    const lng = parseFloat(item.longitude as string) || undefined
-    return {
-      id: String(item.id),
-      slug,
-      title: (item.propertyTitle as string | null) ?? (item.title as string | null) ?? '',
-      price: (item.price as number | null) ?? undefined,
-      area: (item.unitBuiltupArea as number | null) ?? undefined,
-      bedrooms: (item.bedrooms as string | null) ?? undefined,
-      bathrooms: (item.noOfBathroom as number | null) ?? undefined,
-      unitType: ((item.propertyType as { name?: string } | null)?.name) ?? (item.unitType as string | null) ?? undefined,
-      location: [item.subCommunity, item.community].filter(Boolean).join(', ') || undefined,
-      image: images[0] ?? undefined,
-      lat,
-      lng,
-    }
-  })
-
 
   return (
     <main>
@@ -108,24 +86,23 @@ export default async function ResalePage({
             <div className={s.titleRow}>
               <h1 className={s.title}>Secondary Properties for sale  {total > 0 && <span className={s.titleCount}>{total}</span>}</h1>
             </div>
-            <ResaleFilters />
+            <ResaleFilters view={view} />
           </div>
         </Container>
       </section>
 
       {/* ── Listing ── */}
       <section className={s.listing}>
-        {/* TODO: map view temporarily hidden */}
-        {false && view === 'map' ? (
-          <>
-            <Container>
-              <ResaleToolbar view={view} sort={sort} />
-            </Container>
-            <ResaleMapView properties={mapProperties} />
-          </>
+        <Container>
+          <ResaleToolbar view={view} sort={sort} />
+        </Container>
+
+        {view === 'map' ? (
+          <Suspense>
+            <ResaleMapView />
+          </Suspense>
         ) : (
           <Container>
-            <ResaleToolbar view={view} sort={sort} />
             {properties.length === 0 ? (
               <p className={s.empty}>No properties found.</p>
             ) : (

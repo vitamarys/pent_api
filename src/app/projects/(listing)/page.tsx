@@ -6,11 +6,10 @@ import Container from '@/components/ui/Container'
 import { getStrapiImageUrl } from '@/lib/utils'
 import type { PenthouseProjectFilters } from '@/types/penthouse-api'
 import ResaleMapView from '@/app/resale/ResaleMapView'
-import type { MapProperty } from '@/app/resale/ResaleMapView'
 import ResaleBanner from '@/app/resale/ResaleBanner'
 import ProjectCard from '../ProjectCard'
 import ProjectPagination from '../ProjectPagination'
-import ProjectFilters from '../ProjectFilters'
+import ProjectFilters, { type FilterOption } from '../ProjectFilters'
 import ProjectToolbar from '../ProjectToolbar'
 import s from './page.module.scss'
 
@@ -92,52 +91,79 @@ export default async function ProjectsPage({
 
   let projects: import('@/types/penthouse-api').OffPlanProjectCard[] = []
   let total = 0
-  let areaOptions: { id: number; label: string }[] = []
-  let typeOptions: { id: number; label: string }[] = []
-  let bedroomOptions: { id: string; label: string }[] = []
-  let developerOptions: { id: number; label: string }[] = []
-  let handoverOptions: { id: string; label: string }[] = []
-  let categoryOptions: { id: string; label: string }[] = []
+  let areaOptions: FilterOption[] = []
+  let typeOptions: FilterOption[] = []
+  let bedroomOptions: FilterOption[] = []
+  let developerOptions: FilterOption[] = []
+  let handoverOptions: FilterOption[] = []
+  let categoryOptions: FilterOption[] = []
 
   try {
     const validSort = ['price_asc', 'price_desc', 'handover_asc', 'handover_desc'].includes(sort)
       ? (sort as 'price_asc' | 'price_desc' | 'handover_asc' | 'handover_desc')
       : undefined
-    const res = await getProjects({ page: currentPage, pageSize: PAGE_SIZE, filters, sort: validSort })
+
+    const hasFilters = Object.keys(filters).length > 0
+
+    // Run main query, type-options query (excludes propertyTypes filter so
+    // the dropdown always shows the full list), and an unfiltered query to
+    // get the complete set of facet options (used to show disabled state).
+    const { propertyTypes: _pt, ...typeOptionsFilters } = filters
+    const [res, typeRes, allOptsRes] = await Promise.all([
+      getProjects({ page: currentPage, pageSize: PAGE_SIZE, filters, sort: validSort }),
+      filters.propertyTypes?.length
+        ? getProjects({ pageSize: 1, filters: typeOptionsFilters })
+        : Promise.resolve(null),
+      hasFilters
+        ? getProjects({ pageSize: 1, filters: {} })
+        : Promise.resolve(null),
+    ])
+
     projects = res.result?.data ?? []
     total = res.result?.meta?.total ?? projects.length
-    areaOptions = (res.areaResult?.data ?? []).map(t => ({ id: t.id, label: t.label }))
-    typeOptions = (res.propertyTypeResult?.data ?? []).map(t => ({ id: t.id, label: t.label }))
-    bedroomOptions = (res.bedsResult?.data ?? []).map(t => ({ id: String(t.id), label: t.label }))
-    developerOptions = (res.developerResult?.data ?? []).map(t => ({ id: t.id, label: t.label }))
-    handoverOptions = (res.handoverResult?.data ?? []).map(t => ({ id: t.label, label: t.label }))
+
+    // Available IDs from filtered results (used to mark disabled state)
+    const availAreaIds   = new Set((res.areaResult?.data ?? []).map(o => Number(o.id)))
+    const availTypeIds   = new Set(((typeRes ?? res).propertyTypeResult?.data ?? []).map(o => Number(o.id)))
+    const availBedIds    = new Set((res.bedsResult?.data ?? []).map(o => String(o.id)))
+    const availDevIds    = new Set((res.developerResult?.data ?? []).map(o => Number(o.id)))
+    const availHandover  = new Set((res.handoverResult?.data ?? []).map(o => String(o.label)))
+
+    // Use full (unfiltered) options when available; fall back to filtered results
+    const base = allOptsRes ?? res
+    const baseType = allOptsRes ?? (typeRes ?? res)
+
+    areaOptions = (base.areaResult?.data ?? []).map(t => ({
+      id: Number(t.id),
+      label: t.label,
+      disabled: !availAreaIds.has(Number(t.id)) && !(filters.areas?.includes(Number(t.id))),
+    }))
+    typeOptions = (baseType.propertyTypeResult?.data ?? []).map(t => ({
+      id: Number(t.id),
+      label: t.label,
+      disabled: !availTypeIds.has(Number(t.id)) && !(filters.propertyTypes?.includes(Number(t.id))),
+    }))
+    bedroomOptions = (base.bedsResult?.data ?? []).map(t => ({
+      id: String(t.id),
+      label: t.label,
+      disabled: !availBedIds.has(String(t.id)) && !(filters.beds?.includes(String(t.id))),
+    }))
+    developerOptions = (base.developerResult?.data ?? []).map(t => ({
+      id: Number(t.id),
+      label: t.label,
+      disabled: !availDevIds.has(Number(t.id)) && !(filters.developers?.includes(Number(t.id))),
+    }))
+    handoverOptions = (base.handoverResult?.data ?? []).map(t => ({
+      id: t.label,
+      label: t.label,
+      disabled: !availHandover.has(String(t.label)) && !(filters.handover?.includes(String(t.label))),
+    }))
     categoryOptions = (res.categoryResult?.data ?? []).map(t => ({ id: t.label, label: t.label }))
   } catch {
     // show empty state on error
   }
 
   const totalPages = Math.ceil(total / PAGE_SIZE)
-
-  // Build map properties
-  const mapProperties: MapProperty[] = projects.map(project => {
-    const slug =
-      project.pageUrl?.url
-        ?.replace(/^\/(off-plan|projects)\//, '')
-        .replace(/\/$/, '') ?? String(project.id)
-    const image = project.previewImage ? getStrapiImageUrl(project.previewImage.url) : undefined
-    return {
-      id: String(project.id),
-      slug,
-      title: project.title ?? '',
-      price: project.minPrice ?? undefined,
-      location: project.area?.title,
-      unitType: project.projectTypes?.[0]?.name,
-      image,
-      lat: project.coordinates?.lat,
-      lng: project.coordinates?.lng,
-      basePath: '/projects',
-    }
-  })
 
   return (
     <main>
@@ -175,7 +201,7 @@ export default async function ProjectsPage({
             <Container>
               <ProjectToolbar view={view} sort={sort} />
             </Container>
-            <ResaleMapView properties={mapProperties} />
+            <ResaleMapView apiPath="/api/catalog/projects" />
           </>
         ) : (
           <Container>

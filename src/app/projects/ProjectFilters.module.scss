@@ -296,6 +296,12 @@
   background: t.$brand-second-base;
 }
 
+.dropdownOptionDisabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
 // ── Inline price slider (desktop bar) ────────────────────────
 
 .inlinePriceBox {
@@ -654,6 +660,12 @@
 .tagActive {
   border-color: transparent;
   background: t.$brand-second-base;
+}
+
+.tagDisabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
 }
 
 // ── Price box (modal) ─────────────────────────────────────────

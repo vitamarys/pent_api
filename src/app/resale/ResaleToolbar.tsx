@@ -39,26 +39,24 @@ export default function ResaleToolbar({ view, sort }: { view: string; sort: stri
 
   return (
     <div className={s.toolbar}>
-      {/* TODO: view tabs temporarily hidden */}
-      {false && (
-        <div className={s.tabs}>
-          <button
-            className={`${s.tab} ${view !== 'map' ? s.tabActive : ''}`}
-            onClick={() => updateParam('view', null)}
-          >
-            Card
-          </button>
-          <button
-            className={`${s.tab} ${view === 'map' ? s.tabActive : ''}`}
-            onClick={() => updateParam('view', 'map')}
-          >
-            Map
-          </button>
-        </div>
-      )}
+      {/* View tabs */}
+      <div className={s.tabs}>
+        <button
+          className={`${s.tab} ${view !== 'map' ? s.tabActive : ''}`}
+          onClick={() => updateParam('view', null)}
+        >
+          Cards
+        </button>
+        <button
+          className={`${s.tab} ${view === 'map' ? s.tabActive : ''}`}
+          onClick={() => updateParam('view', 'map')}
+        >
+          Map
+        </button>
+      </div>
 
-      {/* Sort dropdown */}
-      <div className={s.sortWrap} ref={sortRef}>
+      {/* Sort dropdown — hidden on map view */}
+      {view !== 'map' && <div className={s.sortWrap} ref={sortRef}>
         <button
           className={`${s.sortBtn} ${sortOpen ? s.sortBtnOpen : ''} ${sort ? s.sortBtnActive : ''}`}
           onClick={() => setSortOpen(v => !v)}
@@ -86,7 +84,7 @@ export default function ResaleToolbar({ view, sort }: { view: string; sort: stri
             ))}
           </div>
         )}
-      </div>
+      </div>}
     </div>
   )
 }

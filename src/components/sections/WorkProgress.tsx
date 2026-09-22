@@ -59,7 +59,7 @@ export default function WorkProgress({
           </div>
 
           {previewImage && (
-            <div className={s.video} data-anim="image">
+            <div className={s.video} data-anim="image" suppressHydrationWarning>
               <Image src={previewImage} alt={sectionTitle} fill className={s.videoImg} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px" />
               {videoUrl && (
                 <button className={s.playBtn} onClick={() => setModalOpen(true)}>
