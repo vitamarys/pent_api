@@ -1,5 +1,4 @@
 import type React from 'react'
-import { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getProperty } from '@/api/listings'
@@ -9,7 +8,6 @@ import ResaleBanner from './ResaleBanner'
 import ResalePagination from './ResalePagination'
 import ResaleFilters from './ResaleFilters'
 import ResaleToolbar from './ResaleToolbar'
-import ResaleMapView from './ResaleMapView'
 
 import s from './page.module.scss'
 
@@ -97,12 +95,7 @@ export default async function ResalePage({
           <ResaleToolbar view={view} sort={sort} />
         </Container>
 
-        {view === 'map' ? (
-          <Suspense>
-            <ResaleMapView />
-          </Suspense>
-        ) : (
-          <Container>
+        <Container>
             {properties.length === 0 ? (
               <p className={s.empty}>No properties found.</p>
             ) : (
@@ -149,7 +142,6 @@ export default async function ResalePage({
               </>
             )}
           </Container>
-        )}
       </section>
     </main>
   )

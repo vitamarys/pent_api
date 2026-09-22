@@ -42,16 +42,10 @@ export default function ResaleToolbar({ view, sort }: { view: string; sort: stri
       {/* View tabs */}
       <div className={s.tabs}>
         <button
-          className={`${s.tab} ${view !== 'map' ? s.tabActive : ''}`}
+          className={`${s.tab} ${s.tabActive}`}
           onClick={() => updateParam('view', null)}
         >
           Cards
-        </button>
-        <button
-          className={`${s.tab} ${view === 'map' ? s.tabActive : ''}`}
-          onClick={() => updateParam('view', 'map')}
-        >
-          Map
         </button>
       </div>
 
