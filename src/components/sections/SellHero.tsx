@@ -62,6 +62,7 @@ export default function SellHero({
         style={bgImage ? { backgroundImage: `url(${bgImage})` } : undefined}
       >
         <div className={s.overlay} />
+        <div className={s.bottomOverlay} />
 
         <Container className={s.containerFull}>
           {breadcrumbs.length > 0 && (

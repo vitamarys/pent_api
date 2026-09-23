@@ -61,6 +61,7 @@ export default function HeroProject({
               aria-hidden
             />
           )}
+          <div className={s.bottomOverlay} />
         </div>
 
         {/* Image area — controls height per breakpoint */}

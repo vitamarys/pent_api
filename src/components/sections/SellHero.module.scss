@@ -49,6 +49,17 @@
   pointer-events: none;
 }
 
+.bottomOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(180deg, rgba(9, 24, 48, 0.50) 0%, rgba(9, 24, 48, 0.00) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 // ── Breadcrumbs outer (tablet/mobile only) ────────────────────
 .breadcrumbsOuter {
   display: none;

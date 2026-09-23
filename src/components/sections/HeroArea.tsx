@@ -40,6 +40,7 @@ export default function HeroArea({
 
         {/* Top gradient overlay */}
         <div className={s.gradient} />
+        <div className={s.bottomOverlay} />
 
         {/* Content */}
         <div className={s.content}>

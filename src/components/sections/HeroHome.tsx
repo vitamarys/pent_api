@@ -315,6 +315,7 @@ export default function HeroHome({
           />
         )}
         <div className={s.overlay} />
+        <div className={s.bottomOverlay} />
 
         <Container className={s.containerFull}>
           <div className={s.content}>

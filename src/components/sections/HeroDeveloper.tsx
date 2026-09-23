@@ -56,6 +56,7 @@ export default function HeroDeveloper({
         {bgImage && <Image src={bgImage} alt="" fill className={s.bgImg} sizes="100vw" priority />}
         <div className={s.overlayTop} />
         <div className={s.gradient} />
+        <div className={s.bottomOverlay} />
         <Container>
           <nav className={s.breadcrumb}>
             <Link href="/"><Image src="/icons/icon-home-w.svg" alt="Home" width={24} height={24} /></Link>
